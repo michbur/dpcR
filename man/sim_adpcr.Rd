@@ -94,8 +94,8 @@ object.size(adpcr_big)
 object.size(adpcr_small)
 
 # Mini version of Dube et al. 2008 experiment, full requires replic <- 70000
-# The number of replicates was reduced by a factor of 10 to lower the computation time.
-replic <- 7000
+# The number of replicates was reduced by a factor of 100 to lower the computation time.
+replic <- 700
 dube <- sim_adpcr(400, 765, times = replic, dube = TRUE, 
 pos_sums = TRUE, n_panels = replic)
 mean(dube) # 311.5616
@@ -108,9 +108,9 @@ lines(bp, dnorm(min(dube):max(dube), mean = 311.5, sd = 13.59)*replic,
       col = "green", lwd = 3)
 
 # exact Dube's method is a bit slower than other one, but more accurate
-system.time(dub <- sim_adpcr(m = 400, n = 765, times = 1000, n_panels = 1000, 
+system.time(dub <- sim_adpcr(m = 400, n = 765, times = 500, n_panels = 500, 
   pos_sums = TRUE))
-system.time(mul <- sim_adpcr(m = 400, n = 765, times = 1000, n_panels = 1000, 
+system.time(mul <- sim_adpcr(m = 400, n = 765, times = 500, n_panels = 500, 
   pos_sums = FALSE))
 }
 \keyword{datagen}

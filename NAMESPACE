@@ -2,6 +2,7 @@ importFrom(e1071, skewness, kurtosis)
 importFrom(dgof, ks.test, cvm.test)
 importFrom(pracma, findpeaks)
 importFrom(qpcR, efficiency, pcrfit)
+importFrom(binom, binom.confint)
 importFrom(shiny, runApp)
 
 exportClasses(
