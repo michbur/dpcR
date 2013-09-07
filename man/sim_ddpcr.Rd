@@ -1,0 +1,90 @@
+\name{sim_ddpcr}
+\alias{sim_ddpcr}
+
+\title{
+Simulate Droplet Digital PCR
+}
+\description{
+A function that simulates results of a droplet digital PCR.
+}
+\usage{
+sim_ddpcr(m, n, times, n_exp = 1, dube = FALSE, pos_sums = FALSE, fluo = NULL)
+}
+
+\arguments{
+  \item{m}{
+the total number of template molecules added to the plate. Must be a positive integer.
+}
+  \item{n}{
+the number of chambers per plate. Must be a positive integer.
+}
+  \item{times}{
+number of repetitions (see Details).
+}
+  \item{n_exp}{
+   the number of experiments that are simulated by the function. Cannot have higher value than the 
+   \code{times} argument.
+}
+  \item{dube}{
+if \code{TRUE}, the function is strict implementation of digital PCR simulation (as in 
+    Dube et al., 2008). If \code{FALSE}, the function calculates only approximation of Dube's 
+    experiment. See Details and References.
+}
+  \item{pos_sums}{
+if \code{TRUE}, function returns only the total number of positive (containing at least one 
+    molecule) chamber per panel. If \code{FALSE}, the functions returns a vector of length equal to 
+    the number of chambers. Each element of the vector represents the number of template molecules 
+    in a given chamber. 
+}
+  \item{fluo}{if \code{NULL}, the function calculates number of molecules per well or total number
+  of positive droplets. If list of two, the first argument defines smoothness of the fluorescence
+  curve and second space between two consecutive measured droplets. Space must be Must be a vector 
+  containing positive integers of the length \code{n} or 1.
+}
+}
+\details{
+%%  here few words what is droplet PCR
+The functions contains two implementations of the array digital PCR simulation. First one was 
+described in Dube at. al (2008). This method is based on random distributing 
+\eqn{m \times times}{m * times} molecules between \eqn{n \times times}{n * times} chambers. 
+After this step, the required number of plates is created by the random sampling of chambers 
+without replacement. The above method is used, when the \code{dube} argument has value \code{TRUE}.
+
+The higher the value of the argument \code{times}, the simulation result is closer to
+theoretical calculations.
+}
+\value{
+If the \code{pos_sums} argument has value \code{FALSE}, the function returns matrix with \eqn{n} 
+rows and \eqn{n_panels} columns. Each column represents one plate. Type of such simulation
+would be \code{"nm"}.
+If the \code{pos_sums} argument has value \code{TRUE}, the function return matrix with one row and 
+\eqn{n_panels} columns. Each column contains the total number of positive chambers in each plate 
+and type of simulation would be set as \code{"tp"}.
+
+In each case the value is an object of the \code{\linkS4class{ddpcr}} class.
+}
+
+\author{
+Michal Burdukiewicz, Stefan Roediger.
+}
+\note{
+Although Dube's simulation of digital PCR was developed for array digital PCR, it's also viable for simulating droplet-based methods.
+}
+
+
+\seealso{
+\code{\link{sim_adpcr}}.
+}
+\examples{
+#simulate fluorescence data
+tmp_VIC <- sim_ddpcr(m = 7, n = 20, times = 5, fluo = list(0.1, 0))
+tmp_FAM <- sim_ddpcr(m = 15, n = 20, times = 5, fluo = list(0.1, 0))
+par(mfrow = c(2,1))
+plot(tmp_VIC, col = "green", type = "l")
+plot(tmp_FAM, col = "blue", type = "l")
+summary(tmp_FAM)
+
+summary(sim_ddpcr(m = 7, n = 20, times = 5, n_exp = 5))
+}
+\keyword{datagen}
+
