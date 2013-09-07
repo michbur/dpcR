@@ -72,17 +72,15 @@ dpcr_density(k = 25, n = 55, average = TRUE, methods = "wilson", conf.level = -0
 par(mfrow = c(1,1))
 dpcr_density(k = 25, n = 55, average = FALSE, methods = "wilson", conf.level = 0.95)
 
-# Example of an artificial chamber dPCR experiment using the reps384 data set from
-# qpcR. The function cpD2limiter is used to calculate the cpD2 value and converts 
-# all values between a defined range to 1 and the remaining to 0.
-cpD2limiter <- function(data = data, cyc = 1, fluo.range = c(NA), 
-                        Cq.range = c(NA, NA)) {
+# Example of an artificial chamber dPCR experiment using the reps384 data set from qpcR.
+# The function cpD2limiter is used to calculate the cpD2 value and converts all values between a
+# defined range to 1 and the remaining to 0.
+cpD2limiter <- function(data = data, cyc = 1, fluo.range = c(NA), Cq.range = c(NA, NA)) {
   cpD2 <- vector()
   cpD2.res <- vector()
   pb <- txtProgressBar(min = 1, max = length(fluo.range), initial = 0, style = 3)
   for (i in fluo.range) {
-    cpD2.tmp <- efficiency(pcrfit(data = data, cyc = cyc, fluo = i, 
-      model = l5), plot = FALSE)$cpD2
+    cpD2.tmp <- efficiency(pcrfit(data = data, cyc = cyc, fluo = i, model = l5), plot = FALSE)$cpD2
     cpD2 <- c(cpD2, cpD2.tmp)
     if (Cq.range[1] <= cpD2.tmp && cpD2.tmp <= Cq.range[2]) {cpD2.res.tmp <- 1} 
   else(cpD2.res.tmp <- 0)
@@ -95,24 +93,25 @@ cpD2limiter <- function(data = data, cyc = 1, fluo.range = c(NA),
   return(out)
   }
 
-# Cq.range defines a range to convert cpD2 values into positive (1) 
-# and negative (0) chambers.
-# The dataset reps384 is used as sample.
-# results.dPCR contains a column with the cpD2 values and a column with converted values.
-Cq.range <- c(18.1, 18.3)
-results.dPCR <- cpD2limiter(data = reps384, cyc = 1, fluo.range = c(2:ncol(reps384)),
-                              Cq.range = Cq.range)
-  
-# Get the number of positive reactions k.tmp and the total number of reactions n.tmp. 
-k.tmp <- sum(results.dPCR[,2]) # 191
-n.tmp <- nrow(results.dPCR) # 379
+# Cq.range defines a range to convert cpD2 values into positive (1) and negative (0) chambers.
+# The dataset reps384 is used as sample. Thereof, only the first 20 column are analyzed. The 
+# example can be extended to test all columns by setting fluo.range = c(2:380)
+# results.dPCR contains a column with the cpD2 values and a column with the converted values.
+Cq.range <- c(18.1, 18.2)
 
-# Generate an amplification plot from the reps384 data set along with the density  
-# of the number ofpositive molecules or the average number of molecules per partition.
+results.dPCR <- cpD2limiter(data = reps384, cyc = 1, fluo.range = c(2:21), 
+							Cq.range = Cq.range)
+
+# Get the number of positive reactions k.tmp and the total number of reactions n.tmp. 
+k.tmp <- sum(results.dPCR[,2]) # 2
+n.tmp <- nrow(results.dPCR) # 20
+
+# Generate an amplification plot from the reps384 data set along with the density of the number of 
+# positive molecules or the average number of molecules per partition.
 par(mfrow = c(1,2))
 plot(NA, NA, xlim = c(1,45), ylim = c(0, 11000), xlab = "Cycle", ylab = "Fluo")
  rect(Cq.range[1], 0, Cq.range[2], 11000, col = "cyan")
- for (i in 2:ncol(reps384)) {
+ for (i in 2:21) {
    lines(reps384[,1], reps384[, i] - mean(reps384[1:15, i]))
    }
 dpcr_density(k = k.tmp, n = n.tmp)
