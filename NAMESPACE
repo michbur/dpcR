@@ -4,6 +4,7 @@ importFrom(pracma, findpeaks)
 importFrom(qpcR, efficiency, pcrfit)
 importFrom(binom, binom.confint)
 importFrom(shiny, runApp)
+import("methods")
 
 exportClasses(
     "ddpcr",
