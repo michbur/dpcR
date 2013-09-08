@@ -99,6 +99,7 @@ cpD2limiter <- function(data = data, cyc = 1, fluo.range = c(NA),
 # and negative (0) chambers.
 # The dataset reps384 is used as sample.
 # results.dPCR contains a column with the cpD2 values and a column with converted values.
+\dontrun{
 Cq.range <- c(18.1, 18.3)
 results.dPCR <- cpD2limiter(data = reps384, cyc = 1, fluo.range = c(2:ncol(reps384)),
                               Cq.range = Cq.range)
@@ -116,7 +117,7 @@ plot(NA, NA, xlim = c(1,45), ylim = c(0, 11000), xlab = "Cycle", ylab = "Fluo")
    lines(reps384[,1], reps384[, i] - mean(reps384[1:15, i]))
    }
 dpcr_density(k = k.tmp, n = n.tmp)
-
+}
 }
 
 \keyword{ dplot }
