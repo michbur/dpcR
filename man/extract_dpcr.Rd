@@ -1,7 +1,7 @@
 \name{extract_dpcr}
 \alias{extract_dpcr}
 \title{
-Extract digital PCR experiment
+Extract Digital PCR Experiment
 }
 \description{
 Extract panel(s) or experiment(s) from a matrix while preserving all other attributes.

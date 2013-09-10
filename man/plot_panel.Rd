@@ -2,7 +2,7 @@
 \alias{plot_panel}
 
 \title{
-Plot panel
+Plot Panel
 }
 \description{
   The \code{plot_panel} function takes objects of the class  \code{\linkS4class{adpcr}} to enable 

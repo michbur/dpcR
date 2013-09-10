@@ -2,7 +2,7 @@
 \alias{dpcr_density_gui}
 
 \title{
-Digital PCR density Graphical User Interface
+Digital PCR Density Graphical User Interface
 }
 \description{
 Launches graphical user interface that allows calculating density of positive partitions distribution.

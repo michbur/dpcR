@@ -3,7 +3,7 @@
 \alias{dpcR}
 \docType{package}
 \title{
-Digital PCR analysis
+Digital PCR Analysis
 
 }
 \description{
@@ -29,7 +29,7 @@ concepts and data interpretation.
 \tabular{ll}{
 Package: \tab dpcR\cr
 Type: \tab Package\cr
-Version: \tab 0.1.0\cr
+Version: \tab 0.1.1\cr
 Date: \tab 2013-09-07\cr
 License: \tab GPL2 \cr
 }

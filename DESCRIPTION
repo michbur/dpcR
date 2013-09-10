@@ -1,7 +1,7 @@
 Package: dpcR
 Type: Package
 Title: Digital PCR Analysis
-Version: 0.1.0
+Version: 0.1.1
 Date: 2013-09-07
 Author: Michal Burdukiewicz, Stefan Roediger
 Maintainer: Michal Burdukiewicz <michalburdukiewicz@gmail.com>

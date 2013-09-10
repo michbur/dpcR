@@ -20,13 +20,35 @@ t.int <- function (x, warn = 0) {
   abs(as.integer(x))
 }
 
+# GENERICS ---------------------------------------------
+setGeneric("summary")
+setGeneric("show")
+
+moments <- function (input) {
+  stop("Wrong class of 'input'", call. = TRUE, domain = NA)
+}
+
+setGeneric("moments")
+
+
+# OTHER METHODS ---------------------------------------------
+setMethod("moments", signature(input = "numeric"), function(input) {
+  if (length(input) == 2) {
+    #input contains only positive partitions and total number of partitions
+    moms(fl(input[1]/input[2]))
+  } else {
+    #input contains only lambda
+    moms(input)
+  }  
+})
+
 
 # CLASS AND METHODS - droplet ---------------------------------------------
 
 setClass("ddpcr", contains = "matrix", representation(.Data = "matrix", n = "integer", 
                                                       threshold = "numeric", 
                                                       type = "character"))
-setGeneric("summary")
+
 setMethod("summary", signature(object = "ddpcr"), function(object, print = TRUE) {
   data <- slot(object, ".Data")
   col_dat <-ncol(data)
@@ -46,6 +68,22 @@ setMethod("show", signature(object = "ddpcr"), function(object) {
   print(slot(object, ".Data"))
   cat(paste0("\nType: '", slot(object, "type"), "'"))     
 })
+
+setMethod("moments", signature(input = "ddpcr"), function(input) {
+  data <- slot(input, ".Data")
+  col_dat <-ncol(data)
+  type <- slot(input, "type")
+  n <- slot(input, "n")
+  
+  if (type %in% c("nm", "tp")) 
+    k <- colSums(data > 0)
+  
+  if (type %in% c("fluo")) 
+    k <- apply(data, 2, function(x) get_k_n(x, slot(input, "threshold")))
+    
+  vapply(k, function(x) moms(fl(x/n)), rep(0, 4))
+})
+
 
 # SIMULATONS - droplet ---------------------------------------------
 
@@ -185,6 +223,17 @@ setMethod("show", signature(object = "adpcr"), function(object) {
   cat(paste0("\nType: '", slot(object, "type"), "'"))     
 })
 
+setMethod("moments", signature(input = "adpcr"), function(input) {
+  data <- slot(input, ".Data")
+  col_dat <-ncol(data)
+  type <- slot(input, "type")
+  n <- slot(input, "n")
+  
+  if (type %in% c("nm", "tp")) 
+    k <- colSums(data > 0)
+  
+  vapply(k, function(x) moms(fl(x/n)), rep(0, 4))
+})
 
 
 # SIMULATIONS - array ---------------------------------------------
@@ -408,6 +457,13 @@ print_summary <- function(k, col_dat, type, n, print) {
   }
   list(list(k = k, n = n), summary = sums)
   
+}
+
+#first four moments of distribution
+moms <- function(input) {
+  res <- c(input, input, input^(-0.5), 1/input)
+  names(res) <- c("mean", "var", "skewness", "kurtosis")
+  res
 }
 
 # GENERAL USE - droplet, array ------------------------------

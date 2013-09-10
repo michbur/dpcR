@@ -97,7 +97,7 @@ object.size(adpcr_small)
 # The number of replicates was reduced by a factor of 100 to lower the computation time.
 replic <- 700
 dube <- sim_adpcr(400, 765, times = replic, dube = TRUE, 
-pos_sums = TRUE, n_panels = replic)
+    pos_sums = TRUE, n_panels = replic)
 mean(dube) # 311.5616
 sd(dube) # 13.64159
 

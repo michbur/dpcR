@@ -12,6 +12,7 @@ exportClasses(
 )
 
 exportMethods(
+  "moments",
   "summary",
   "show")
 

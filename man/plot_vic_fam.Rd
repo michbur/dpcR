@@ -1,7 +1,7 @@
 \name{plot_vic_fam}
 \alias{plot_vic_fam}
 \title{
-Amplitude Plot VIC and FAM channels of a droplet digital PCR experiment
+Amplitude Plot VIC and FAM Channels of a Droplet Digital PCR Experiment
 }
 \description{
 This function generates an amplitude plot of two fluorescence channels as found in droplet digital

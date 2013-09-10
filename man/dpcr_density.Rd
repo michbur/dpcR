@@ -2,7 +2,7 @@
 \alias{dpcr_density}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Calculate density of digital PCR
+Calculate Density of Digital PCR
 }
 \description{
 A function which calculates and plots the density of the number of positive molecules or the average 
