@@ -23,4 +23,5 @@ export(
   "extract_dpcr",
   "plot_panel",
   "dpcr_density",
-  "dpcr_density_gui")
+  "dpcr_density_gui",
+  "compare_dens")

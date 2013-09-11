@@ -626,3 +626,43 @@ dpcr_density <- function(k, n, average = FALSE, methods = "wilson",
 dpcr_density_gui <- function()
   runApp(system.file("dpcr_density_gui", package = "dpcR"))
 
+
+compare_dens <- function(input, moments = TRUE, ...) {  
+  #moments() checks class and so on
+  
+  if (ncol(input) > 1)
+    stop("Input must contain only one panel.", call. = TRUE, domain = NA)    
+  
+  all_moms <- moments(input)
+  lambda <- all_moms[1]
+  
+  xup <- max(input)
+  data <- table(factor(input, levels = 0L:xup))
+  bars <- calc_bars(data)
+  theor <- dpois(0L:xup, lambda)*length(input)
+  ytop <- ifelse(max(theor) >= max(data), max(theor), max(data))
+  
+  plot(NA, NA, xlim = c(-0.5, xup + 0.5), ylim = c(-0, ytop), 
+       xlab = "Number of molecules", ylab = "Counts", ...)
+  
+  apply(bars, 1, function(x) 
+    rect(x[1], x[2], x[3], x[4]))
+  #   axis(4, at = theor, labels = 0L:xup, tck = 1, lty = "dotted", 
+  #        col.ticks = "darkgrey")
+  #   mtext("Theoretical counts", side = 4, line = 2) 
+  sapply(0L:xup, function(x) 
+    lines(c(x, x), c(0, theor[x + 1]), lty = "dotted", col = "darkgrey", lwd = 2))
+  
+  if (moments) {
+    labels <- rownames(all_moms)
+    all_moms <- cbind(matrix(c(mean(input), var(input), skewness(input), kurtosis(input)), ncol = 1), 
+                      all_moms)
+    sapply(1L:4, function(i) {
+      text(0.85*xup, (98 - 5*i)/100*ytop, paste0(labels[i], ":"), pos = 2)
+      text(0.89*xup, (98 - 5*i)/100*ytop, round(all_moms[i, 2], 4))
+      text(0.98*xup, (98 - 5*i)/100*ytop, round(all_moms[i, 1], 4))
+    })
+    text(0.89*xup, 0.99*ytop, "Empirical", pos = 1)
+    text(0.98*xup, 0.99*ytop, "Theoretical", pos = 1)
+  }
+}
