@@ -2,7 +2,7 @@
 \alias{compare_dens}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Plot comparing densities
+Plot and Compare Densities
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
@@ -13,13 +13,13 @@ compare_dens(input, moments = TRUE, ...)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{input}{
-%%     ~~Describe \code{input} here~~
+object of class \code{\linkS4class{adpcr}}  or \code{\linkS4class{ddpcr}} containing only one panel.
 }
   \item{moments}{
-%%     ~~Describe \code{moments} here~~
+logical, if \code{TRUE}, both theoretical and epirical moments are printed on the plot.
 }
   \item{\dots}{
-%%     ~~Describe \code{\dots} here~~
+other arguments passed to the \code{plot} function.
 }
 }
 \details{
@@ -48,8 +48,8 @@ compare_dens(input, moments = TRUE, ...)
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-adpcr_big <- sim_adpcr(m = 10, n = 40, times = 1000, pos_sums = FALSE, n_panels = 1000)
-compare_dens(extract_dpcr(adpcr_big, 1), TRUE)
+adpcr_big <- sim_adpcr(m = 35, n = 40, times = 50, pos_sums = FALSE, n_panels = 1)
+compare_dens(adpcr_big, TRUE)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

@@ -24,7 +24,7 @@ t.int <- function (x, warn = 0) {
 setGeneric("summary")
 setGeneric("show")
 
-moments <- function (input) {
+moments <- function (input, ...) {
   stop("Wrong class of 'input'", call. = TRUE, domain = NA)
 }
 
@@ -34,11 +34,12 @@ setGeneric("moments")
 # OTHER METHODS ---------------------------------------------
 setMethod("moments", signature(input = "numeric"), function(input) {
   if (length(input) == 2) {
-    #input contains only positive partitions and total number of partitions
+    #input contains only number of positive partitions and total number of partitions
     moms(fl(input[1]/input[2]))
   } else {
-    #input contains only lambda
-    moms(input)
+    res <- cbind(moms(fl(sum(input > 0)/length(input))), empir_moms(input))
+    colnames(res) <- c("Theoretical", "Empirical")
+    res
   }  
 })
 
@@ -71,17 +72,29 @@ setMethod("show", signature(object = "ddpcr"), function(object) {
 
 setMethod("moments", signature(input = "ddpcr"), function(input) {
   data <- slot(input, ".Data")
-  col_dat <-ncol(data)
+  col_dat <- ncol(data)
   type <- slot(input, "type")
   n <- slot(input, "n")
   
-  if (type %in% c("nm", "tp")) 
-    k <- colSums(data > 0)
-  
-  if (type %in% c("fluo")) 
-    k <- apply(data, 2, function(x) get_k_n(x, slot(input, "threshold")))
-    
-  vapply(k, function(x) moms(fl(x/n)), rep(0, 4))
+  switch(type,
+         tp = {
+           k <- data
+           vapply(k, function(x) moments(fl(x/n)), rep(0, 4))
+         },
+         nm = {
+           n_cols <- ncol(data)
+           res <- do.call(cbind, lapply(1L:n_cols, function(i) 
+             moments(data[ , i])))
+           ids <- sort(rep(1:n_cols, 2))
+           nms <- colnames(res)
+           colnames(res) <- unlist(lapply(1L:(n_cols*2), function(i) 
+             paste0(nms[i], ".", ids[i])))
+           res
+         },
+         fluo = {
+           k <- apply(data, 2, function(x) get_k_n(x, slot(input, "threshold")))
+           vapply(k, function(x) moments(fl(x/n)), rep(0, 4))
+         })  
 })
 
 
@@ -99,7 +112,7 @@ sim_ddpcr <- function(m, n, times, n_exp = 1, dube = FALSE, pos_sums = FALSE,
     res <- apply(res, 2, function(x) sim_ddpcr_fluo(x, n, fluo[[1]], fluo[[2]]))
   }
   #simplify
-  type = ifelse(pos_sums, "tnm", "nm")
+  type = ifelse(pos_sums, "tp", "nm")
   if (!is.null(fluo))
     type <- "fluo"
   create_ddpcr(res, n, threshold = 0.5, type = type)
@@ -229,10 +242,22 @@ setMethod("moments", signature(input = "adpcr"), function(input) {
   type <- slot(input, "type")
   n <- slot(input, "n")
   
-  if (type %in% c("nm", "tp")) 
-    k <- colSums(data > 0)
   
-  vapply(k, function(x) moms(fl(x/n)), rep(0, 4))
+  switch(type,
+         tp = {
+           k <- data
+           vapply(k, function(x) moments(fl(x/n)), rep(0, 4))
+         },
+         nm = {
+           n_cols <- ncol(data)
+           res <- do.call(cbind, lapply(1L:n_cols, function(i) 
+             moments(data[ , i])))
+           ids <- sort(rep(1:n_cols, 2))
+           nms <- colnames(res)
+           colnames(res) <- unlist(lapply(1L:(n_cols*2), function(i) 
+             paste0(nms[i], ".", ids[i])))
+           res
+         })  
 })
 
 
@@ -243,7 +268,7 @@ setMethod("moments", signature(input = "adpcr"), function(input) {
 sim_adpcr <- function(m, n, times, n_panels = 1, dube = FALSE, pos_sums = FALSE) {
   n <- t.int(n)
   res <- sim_dpcr(m, n, times, dube, pos_sums, n_panels)
-  create_adpcr(res, n, 0L:max(res), type = ifelse(pos_sums, "tnm", "nm"))
+  create_adpcr(res, n, 0L:max(res), type = ifelse(pos_sums, "tp", "nm"))
 }
 
 
@@ -270,8 +295,8 @@ create_adpcr <- function(data, n, breaks = NULL, type, models = NULL) {
 plot_panel <- function(input, nx, ny, col = "red", legend = TRUE, 
                        half = "none", ...) {  
   if (class(input) == "adpcr") {
-    if (!(slot(input, "type") %in% c("nm", "tnm", "ct")))
-      stop("Input must contain data of type 'nm', 'tnm' or 'ct'.", 
+    if (!(slot(input, "type") %in% c("nm", "tp", "ct")))
+      stop("Input must contain data of type 'nm', 'tp' or 'ct'.", 
            call. = TRUE, domain = NA) 
     if (ncol(input) > 1)
       stop("Input must contain only one panel.", call. = TRUE, domain = NA)    
@@ -460,8 +485,14 @@ print_summary <- function(k, col_dat, type, n, print) {
 }
 
 #first four moments of distribution
-moms <- function(input) {
-  res <- c(input, input, input^(-0.5), 1/input)
+moms <- function(lambda) {
+  res <- c(lambda, lambda, lambda^(-0.5), 1/lambda)
+  names(res) <- c("mean", "var", "skewness", "kurtosis")
+  res
+}
+
+empir_moms <- function(input) {
+  res <- c(mean(input), var(input), skewness(input), kurtosis(input))
   names(res) <- c("mean", "var", "skewness", "kurtosis")
   res
 }
@@ -634,7 +665,7 @@ compare_dens <- function(input, moments = TRUE, ...) {
     stop("Input must contain only one panel.", call. = TRUE, domain = NA)    
   
   all_moms <- moments(input)
-  lambda <- all_moms[1]
+  lambda <- all_moms[1,1]
   
   xup <- max(input)
   data <- table(factor(input, levels = 0L:xup))
@@ -655,14 +686,12 @@ compare_dens <- function(input, moments = TRUE, ...) {
   
   if (moments) {
     labels <- rownames(all_moms)
-    all_moms <- cbind(matrix(c(mean(input), var(input), skewness(input), kurtosis(input)), ncol = 1), 
-                      all_moms)
     sapply(1L:4, function(i) {
       text(0.85*xup, (98 - 5*i)/100*ytop, paste0(labels[i], ":"), pos = 2)
       text(0.89*xup, (98 - 5*i)/100*ytop, round(all_moms[i, 2], 4))
       text(0.98*xup, (98 - 5*i)/100*ytop, round(all_moms[i, 1], 4))
     })
-    text(0.89*xup, 0.99*ytop, "Empirical", pos = 1)
-    text(0.98*xup, 0.99*ytop, "Theoretical", pos = 1)
+    text(0.89*xup, 0.99*ytop, "Theoretical", pos = 1)
+    text(0.98*xup, 0.99*ytop, "Empirical", pos = 1)
   }
 }

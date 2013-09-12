@@ -23,7 +23,15 @@ a single numeric object (lambda) or a two element vector (first element is treat
 }
 }
 \value{
-A named vector of four elements (mean, variance, skewness and kurtosis). In case of \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} containing results from more than one experiment, a n*4 matrix, where n is the number of experiments.
+A named vector of four elements (mean, variance, skewness and kurtosis). 
+
+In case of \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} containing total number of
+positive molecules, a n-by-4 matrix, where n is the number of experiments. 
+
+In case of \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} containing number of molecules
+per partition, a n*2-by-4 matrix, where n is the number of experiments. In this case empirical
+moments are calculated directly from a distribution of the data. Theoretical moments from a 
+Poisson distribution with \eqn{\lambda}{lambda} parameter taken from the data.
 }
 
 \author{
@@ -49,9 +57,13 @@ moments(2)
 #moments for 100 positive partitions and 765 total partitions
 moments(c(100, 765))
 
-#calculate moments for array digital PCR
-adpcr <- sim_adpcr(m = 10, n = 40, times = 50, pos_sums = FALSE, n_panels = 50)
-moments(adpcr)
+#calculate moments for array digital PCR, total number of positive partitions 
+ddpcr1 <- sim_ddpcr(m = 10, n = 40, times = 50, pos_sums = TRUE, n_exp = 5)
+moments(ddpcr1)
+
+#calculate moments for array digital PCR, detailed number of molecules in each partition 
+ddpcr2 <- sim_ddpcr(m = 10, n = 40, times = 50, pos_sums = FALSE, n_exp = 5)
+moments(ddpcr2)
 }
 
 \keyword{ ~kwd1 }
