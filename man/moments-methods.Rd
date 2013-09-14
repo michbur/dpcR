@@ -9,7 +9,7 @@
 Calculate Moments of Poisson Distribution
 }
 \description{
-The function allows user to quickly calculate moments of Poisson distribution. The calculations
+The function allows user to quickly calculate moments of Poisson distributions. The calculations
 are based on values of positive and total partitions or theoretical lambda value.
 }
 \usage{
@@ -19,7 +19,9 @@ are based on values of positive and total partitions or theoretical lambda value
 }
 \arguments{
   \item{input}{
-a single numeric object (lambda) or a two element vector (first element is treated as the number of positive partitions and the second as the number of total partitions) or an object of classes \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}.
+a single numeric object (lambda) or a two element vector (first element is treated as the number
+of positive partitions and the second as the number of total partitions) or an object of classes
+\code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}.
 }
 }
 \value{
@@ -51,20 +53,23 @@ Kurtosis: \eqn{\frac{1}{\lambda}}{lambda^(-1)}.
 }
 
 \examples{
-#moments for lambda = 2
+# moments for lambda = 2
 moments(2)
 
-#moments for 100 positive partitions and 765 total partitions
+# moments for 100 positive partitions of 765 total partitions
 moments(c(100, 765))
 
-#calculate moments for array digital PCR, total number of positive partitions 
+# calculate moments for an array digital PCR, total number of positive partitions 
 ddpcr1 <- sim_ddpcr(m = 10, n = 40, times = 50, pos_sums = TRUE, n_exp = 5)
 moments(ddpcr1)
 
-#calculate moments for array digital PCR, detailed number of molecules in each partition 
+# calculate moments for an array digital PCR, detailed number of molecules in each partition 
 ddpcr2 <- sim_ddpcr(m = 10, n = 40, times = 50, pos_sums = FALSE, n_exp = 5)
 moments(ddpcr2)
 }
 
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ moments }
+\keyword{ Mean }
+\keyword{ Variance }
+\keyword{ Skewness }
+\keyword{ Kurtosis }
