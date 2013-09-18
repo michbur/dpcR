@@ -24,4 +24,6 @@ export(
   "plot_panel",
   "dpcr_density",
   "dpcr_density_gui",
-  "compare_dens")
+  "compare_dens",
+  "analyze_qpcR",
+  "fit_adpcr")

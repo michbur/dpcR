@@ -79,7 +79,7 @@ setMethod("moments", signature(input = "ddpcr"), function(input) {
   switch(type,
          tp = {
            k <- data
-           vapply(k, function(x) moments(fl(x/n)), rep(0, 4))
+           vapply(k, function(x) moments(fl(x/n)), rep(0, 8))
          },
          nm = {
            n_cols <- ncol(data)
@@ -373,7 +373,7 @@ calc_breaks <- function(vals, breaks = "Sturges", threshold = NULL) {
   br
 }
 
-# simulations - droplet, array ------------------------------
+# SIMULATIONS - droplet, array ------------------------------
 #summary workhorse + plot, should be not called directly by user
 
 #dube's simulation
@@ -515,6 +515,133 @@ extract_dpcr <- function(input, id) {
   result
 }
 
+
+
+
+# analysis <- qpcRanalyzer(fits, arrs[[1]][[1]]@fluo[[1]])
+
+
+#qpcRanalyzer(tmp_fits[[1]], arrs[[1]][[1]]@fluo[[1]], cyc = 1, "Cy0", takeoff = TRUE)
+
+# zeros <- cbind(reps384, matrix(rnorm(45*300, 5), ncol = 300))
+# sreps <- cbind(reps384, matrix(rnorm(45*100, 5), ncol = 100))
+# 
+# plot(zeros[, 1], zeros[, 2], ylim = c(0, 20000), cex = 0)
+# sapply(2L:ncol(zeros), function(i) lines(zeros[, 1], zeros[, i]))
+# 
+# tmp_res <- qpcRanalyzer(zeros, sort(rep(10^(1L:7), 12)), log = TRUE)
+
+# out <- qpcRanalyzer(guescini1, sort(rep(10^(1L:7), 12)), log = TRUE)
+# LinReg <- lm(out[, 2] ~ out[, 1])
+# summary.plot <- summary(LinReg)
+# plot(out[, 1], out[, 2])
+# 
+# EFF <- 3.32/((10^(-1/summary.plot[["coefficients"]][2])) - 1) * 100
+# 
+# abline(LinReg, col = 2)
+# 
+# text(4, 25, paste(summary.plot[["coefficients"]][1], 
+#                   summary.plot[["coefficients"]][2],
+#                   summary.plot[["r.squared"]],
+#                   EFF, sep = "\n"))
+
+
+
+
+#Stefan's validation method
+valid_amp <- function(x) {
+  tres <- t.test(head(x), tail(x), alternative="less")$p.value < 0.01
+  sigres <- mean(tail(x)) > mean(x[5:15]) + 3*sd(x[5:15])
+  as.logical(tres * sigres)
+}
+
+fit_adpcr <- function(pcr_data, cyc = 1, fluo = NULL, model = l5, norm = FALSE, 
+                      iter_tr = 50){
+  if (class(pcr_data) == "list") {
+    lapply(pcr_data, function (i) fit_single_adpcr(i, cyc, fluo, model, norm, iter_tr))
+  } else {
+    fit_single_adpcr(pcr_data, cyc, fluo, model, norm, iter_tr)
+  }
+}
+
+#not for users
+fit_single_adpcr <- function(pcr_data, cyc, fluo, model, norm, iter_tr) {
+  if (is.null(fluo)) {
+    all_fluos <- (1L:ncol(pcr_data))[-cyc]
+  } else {
+    all_fluos <- fluo
+  }
+  anal_fluo <- all_fluos[vapply(all_fluos, function(x) 
+    valid_amp(pcr_data[[x]]), TRUE)]
+  
+  #only validated columns are fitted
+  all_fits <- modlist(pcr_data, cyc, anal_fluo, model = model, norm = norm, 
+                      verbose=FALSE, remove = "KOD")
+  
+  #temporary solution, should change nls.lm.control instead
+  good_fits_ind <- vapply(all_fits, function(x) 
+    x[["convInfo"]][["finIter"]], 0) < iter_tr
+  
+  good_fits <- all_fits[(1L:length(all_fits))[good_fits_ind]]
+  class(good_fits) <- c("modlist", "pcrfit")
+  names(good_fits) <- vapply(good_fits, function(x) x[["names"]], "a")
+  good_fits
+}
+
+
+# x <- "C:/Users/Mihau/Documents/digital_pcr/20100831_raw_AC.csv" 
+# arrs <- read_openArray(x, threshold = 1)
+
+#fits <- fit_adpcr(arrs[[1]][[1]]@fluo[[1]], fluo = 2:10)
+#fits <- fit_adpcr(arrs[[1]][[1]]@fluo[[1]], iter_tr = 40, norm = FALSE)
+#extremely time consuming, currently do not work for the second data frame 
+#(probably because there were only two measurement, need investigation)
+
+
+# x <- arrs[[1]][[1]]@fluo[[1]]
+# plot(NA, NA, xlim = c(0, 40), ylim = c(min(x[-1]) - median(as.matrix(x[1:10])), max(x[-1])))
+# apply(x[-1], 2, function(i) lines(x[[1]], i - median(as.matrix(x[1:10]))))
+# plot(apply(x[-1], 2, min))
+
+#analysis <- qpcRanalyzer(fits, arrs[[1]][[1]]@fluo[[1]])
+
+safe_efficiency <- function(fit, type) {
+  res <- try(efficiency(fit, type = type, plot = FALSE)[c(type, "eff", "fluo")], 
+             silent = TRUE)
+  if (class(res) == "try-error") {
+    res <- rep(NaN, length(c(type, "eff", "fluo"))) 
+  } else {
+    if (length(res[["eff"]]) > 1)
+      res$eff <- NaN
+  }
+  unlist(res)
+}
+
+analyze_qpcR <- function(fit_list, pcr_data, cyc = 1, type = "Cy0",  takeoff = FALSE) {
+  if (class(pcr_data) == "adpcr") {
+    if (dyes == "all") 
+      dyes <- 1L:length(pcr_data@fluos)
+    pcr_data <- slot(pcr_data, "fluo")[[dye]]
+  }
+  
+  part_res <- t(vapply(fit_list, function(fit) 
+    safe_efficiency(fit, type), c(0, 0, 0)))
+  if (takeoff) {
+    part_res <- cbind(part_res, t(vapply(fit_list, function(fit) 
+      unlist(takeoff(fit)[c("top", "f.top")]), c(0, 0))))
+  }
+  
+  deltaF <- vapply(2:ncol(pcr_data), function(x)  
+    quantile(tail(pcr_data[, x]), 0.85) - quantile(head(pcr_data[, x]), 0.25), 0)
+  
+  res <- matrix(NaN, nrow = ncol(pcr_data) - 1, ncol = ncol(part_res))
+  rownames(res) <- colnames(pcr_data)[-cyc]
+  res[rownames(part_res), ] <- part_res
+  
+  res <- cbind(res, deltaF)
+  colnames(res) <- c(colnames(part_res), "deltaF")
+  res
+}
 
 # COMPARE DISTRIBUTION ------------------------------
 

@@ -9,8 +9,8 @@
 Calculate Moments of Poisson Distribution
 }
 \description{
-The function allows user to quickly calculate moments of Poisson distributions. The calculations
-are based on values of positive and total partitions or theoretical lambda value.
+The function allows user to quickly calculate moments of a Poisson distributions. The calculations
+are based on values of positive and total partitions or the theoretical lambda value.
 }
 \usage{
 \S4method{moments}{adpcr}(input)
@@ -20,14 +20,14 @@ are based on values of positive and total partitions or theoretical lambda value
 \arguments{
   \item{input}{
 a single numeric object (lambda) or a two element vector (first element is treated as the number
-of positive partitions and the second as the number of total partitions) or an object of classes
+of positive partitions and the second as the number of total partitions) or an object of class
 \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}.
 }
 }
 \value{
 A named vector of four elements (mean, variance, skewness and kurtosis). 
 
-In case of \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} containing total number of
+In case of \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} object containing total number of
 positive molecules, a n-by-4 matrix, where n is the number of experiments. 
 
 In case of \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} containing number of molecules
