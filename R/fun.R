@@ -588,23 +588,6 @@ fit_single_adpcr <- function(pcr_data, cyc, fluo, model, norm, iter_tr) {
   good_fits
 }
 
-
-# x <- "C:/Users/Mihau/Documents/digital_pcr/20100831_raw_AC.csv" 
-# arrs <- read_openArray(x, threshold = 1)
-
-#fits <- fit_adpcr(arrs[[1]][[1]]@fluo[[1]], fluo = 2:10)
-#fits <- fit_adpcr(arrs[[1]][[1]]@fluo[[1]], iter_tr = 40, norm = FALSE)
-#extremely time consuming, currently do not work for the second data frame 
-#(probably because there were only two measurement, need investigation)
-
-
-# x <- arrs[[1]][[1]]@fluo[[1]]
-# plot(NA, NA, xlim = c(0, 40), ylim = c(min(x[-1]) - median(as.matrix(x[1:10])), max(x[-1])))
-# apply(x[-1], 2, function(i) lines(x[[1]], i - median(as.matrix(x[1:10]))))
-# plot(apply(x[-1], 2, min))
-
-#analysis <- qpcRanalyzer(fits, arrs[[1]][[1]]@fluo[[1]])
-
 safe_efficiency <- function(fit, type) {
   res <- try(efficiency(fit, type = type, plot = FALSE)[c(type, "eff", "fluo")], 
              silent = TRUE)
@@ -642,6 +625,7 @@ analyze_qpcR <- function(fit_list, pcr_data, cyc = 1, type = "Cy0",  takeoff = F
   colnames(res) <- c(colnames(part_res), "deltaF")
   res
 }
+
 
 # COMPARE DISTRIBUTION ------------------------------
 
