@@ -601,12 +601,10 @@ safe_efficiency <- function(fit, type) {
 }
 
 analyze_qpcR <- function(fit_list, pcr_data, cyc = 1, type = "Cy0",  takeoff = FALSE) {
-  if (class(pcr_data) == "adpcr") {
-    if (dyes == "all") 
-      dyes <- 1L:length(pcr_data@fluos)
-    pcr_data <- slot(pcr_data, "fluo")[[dye]]
-  }
-  
+  if (class(pcr_data) == "adpcr") 
+    if (slot(pcr_data, "type") != "fluo")
+      stop("'pcr_data' must contain fluorescence data.", call. = TRUE, domain = NA)
+   
   part_res <- t(vapply(fit_list, function(fit) 
     safe_efficiency(fit, type), c(0, 0, 0)))
   if (takeoff) {
@@ -787,13 +785,17 @@ compare_dens <- function(input, moments = TRUE, ...) {
   plot(NA, NA, xlim = c(-0.5, xup + 0.5), ylim = c(-0, ytop), 
        xlab = "Number of molecules", ylab = "Counts", ...)
   
+  rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], 
+       col = adjustcolor("grey", alpha.f = 0.30))
+  axis(2, tck = 1, col.ticks = "white", labels = FALSE)
+  
   apply(bars, 1, function(x) 
     rect(x[1], x[2], x[3], x[4]))
   #   axis(4, at = theor, labels = 0L:xup, tck = 1, lty = "dotted", 
   #        col.ticks = "darkgrey")
   #   mtext("Theoretical counts", side = 4, line = 2) 
   sapply(0L:xup, function(x) 
-    lines(c(x, x), c(0, theor[x + 1]), lty = "dotted", col = "darkgrey", lwd = 2))
+    lines(c(x, x), c(0, theor[x + 1]), lty = "dotted", col = "grey12", lwd = 2))
   
   if (moments) {
     labels <- rownames(all_moms)
