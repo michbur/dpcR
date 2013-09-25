@@ -23,9 +23,12 @@ plot_panel(input, nx, ny, col = "red", legend = TRUE, half = "none", ...)
   \item{...}{Arguments to be passed to \code{plot} function.}
 }
 \details{
-Currently only objects containing only one column of data (one panel) can be plotted (see Examples 
+Currently only objects containing just one column of data (one panel) can be plotted (see Examples 
 how easily plot multipanel objects). Moreover the object must contain fluorescence intensities or 
 exact number of molecules or the positive hits derived from the Cq values for each well.
+The Cq values can be obtained by custom made functions (see example in 
+\code{\link{ dpcr_density }})) or the yet to implement "qpcr_analyser function from the dpcR 
+package.
 
 If the \code{col} argument has length one, a color is assigned for each interval of the input, with
 the brightest colors for the lowest values.
