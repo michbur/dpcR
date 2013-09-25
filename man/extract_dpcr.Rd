@@ -41,3 +41,5 @@ single_fluo <- extract_dpcr(fluos, 5)
 
 }
 \keyword{ manip }
+\keyword{ extract }
+\keyword{ panel }
