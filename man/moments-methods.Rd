@@ -69,7 +69,7 @@ moments(ddpcr2)
 }
 
 \keyword{ moments }
-\keyword{ Mean }
-\keyword{ Variance }
-\keyword{ Skewness }
-\keyword{ Kurtosis }
+\keyword{ mean }
+\keyword{ variance }
+\keyword{ skewness }
+\keyword{ kurtosis }
