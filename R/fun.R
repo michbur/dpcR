@@ -202,14 +202,6 @@ plot_vic_fam <- function(vic, fam) {
   plot_vf_circ(common, y_points, radius, common_cols)
 }
 
-
-# example
-# sp <- sample(0:5, 30, replace = TRUE)
-# vic <- sim_ddpcr(20, 30, space = sp)
-# fam <- sim_ddpcr(10, 30, space = sp)
-# plot_vic_fam(vic, fam)
-
-
 # CLASS AND METHODS - array ---------------------------------------------
 
 setClass("adpcr", contains = "matrix", representation(.Data = "matrix",
@@ -260,7 +252,6 @@ setMethod("moments", signature(input = "adpcr"), function(input) {
          })  
 })
 
-
 # SIMULATIONS - array ---------------------------------------------
 
 #exact copy of dube simulation
@@ -270,9 +261,6 @@ sim_adpcr <- function(m, n, times, n_panels = 1, dube = FALSE, pos_sums = FALSE)
   res <- sim_dpcr(m, n, times, dube, pos_sums, n_panels)
   create_adpcr(res, n, 0L:max(res), type = ifelse(pos_sums, "tp", "nm"))
 }
-
-
-
 
 #OTHER FUNCTIONS - array ------------------------------------------
 
@@ -290,7 +278,6 @@ create_adpcr <- function(data, n, breaks = NULL, type, models = NULL) {
     slot(result, "models") <- models
   result
 }
-
 
 plot_panel <- function(input, nx, ny, col = "red", legend = TRUE, 
                        half = "none", ...) {  
@@ -357,7 +344,6 @@ plot_panel <- function(input, nx, ny, col = "red", legend = TRUE,
     do.call(rect, args[[i]]))
   invisible(args)
 }
-
 
 #function for all cases when we need breaks calculated
 calc_breaks <- function(vals, breaks = "Sturges", threshold = NULL) {
@@ -600,10 +586,20 @@ safe_efficiency <- function(fit, type) {
   unlist(res)
 }
 
-analyze_qpcR <- function(fit_list, pcr_data, cyc = 1, type = "Cy0",  takeoff = FALSE) {
-  if (class(pcr_data) == "adpcr") 
-    if (slot(pcr_data, "type") != "fluo")
-      stop("'pcr_data' must contain fluorescence data.", call. = TRUE, domain = NA)
+calc_deltaF <- function(pcr_data, cyc, fluo) {
+  if (is.null(fluo)) {
+    all_fluos <- (1L:ncol(pcr_data))[-cyc]
+  } else {
+    all_fluos <- fluo
+  }
+  vapply(all_fluos, function(x)  
+    quantile(tail(pcr_data[, x]), 0.85) - quantile(head(pcr_data[, x]), 0.25), 0)
+}
+
+analyze_qpcR <- function(fit_list, deltaF, cyc = 1, type = "Cy0",  takeoff = FALSE) {
+#   if (class(pcr_data) == "adpcr") 
+#     if (slot(pcr_data, "type") != "fluo")
+#       stop("'pcr_data' must contain fluorescence data.", call. = TRUE, domain = NA)
    
   part_res <- t(vapply(fit_list, function(fit) 
     safe_efficiency(fit, type), c(0, 0, 0)))
@@ -612,16 +608,26 @@ analyze_qpcR <- function(fit_list, pcr_data, cyc = 1, type = "Cy0",  takeoff = F
       unlist(takeoff(fit)[c("top", "f.top")]), c(0, 0))))
   }
   
-  deltaF <- vapply(2:ncol(pcr_data), function(x)  
-    quantile(tail(pcr_data[, x]), 0.85) - quantile(head(pcr_data[, x]), 0.25), 0)
-  
-  res <- matrix(NaN, nrow = ncol(pcr_data) - 1, ncol = ncol(part_res))
-  rownames(res) <- colnames(pcr_data)[-cyc]
+  res <- matrix(NaN, nrow = length(fit_list), ncol = ncol(part_res))
+  rownames(res) <- names(fit_list)
   res[rownames(part_res), ] <- part_res
   
   res <- cbind(res, deltaF)
   colnames(res) <- c(colnames(part_res), "deltaF")
   res
+}
+
+qpcr_analyser <- function(pcr_data, cyc = 1, fluo = NULL, model = l5, norm = FALSE, iter_tr = 50, type = "Cy0",
+                 takeoff = FALSE, add_fits = FALSE) {
+  all_fits <- fit_adpcr(pcr_data, cyc = 1, fluo = NULL, model = l5, norm = FALSE, 
+                        iter_tr = 50)
+  res <- analyze_qpcR(all_fits, calc_deltaF(reps, cyc, fluo), cyc = 1, type = "Cy0",  takeoff = FALSE)
+  if (add_fits) {
+    list(fits = all_fits, coefs = res)
+  }
+  else {
+    res
+  }
 }
 
 
