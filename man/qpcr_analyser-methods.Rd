@@ -9,11 +9,17 @@
 qPCR Analyser
 }
 \description{
-Calculate statistics based on fluorescence. 
+Calculate statistics based on fluorescence. The function can be used to analyze amplification 
+curve data from quantitative real-time PCR experiments. The analysis includes the fitting of the 
+amplification curve by a non-linear function and the the calculation of a quantification point 
+(often referred to as Cp (crossing-point), Cq or Ct) based on a user defined method. The function 
+can be used to analyze data from chamber based dPCR machines.
 }
 \usage{
-\S4method{qpcr_analyser}{data.frame}(input, cyc = 1, fluo = NULL, model = l5, norm = FALSE, iter_tr = 50, type = "Cy0", takeoff = FALSE)
-\S4method{qpcr_analyser}{adpcr}(input, cyc = 1, fluo = NULL, model = l5, norm = FALSE, iter_tr = 50, type = "Cy0", takeoff = FALSE)
+\S4method{qpcr_analyser}{data.frame}(input, cyc = 1, fluo = NULL, model = l5, norm = FALSE, 
+				     iter_tr = 50, type = "Cy0", takeoff = FALSE)
+\S4method{qpcr_analyser}{adpcr}(input, cyc = 1, fluo = NULL, model = l5, norm = FALSE, 
+				     iter_tr = 50, type = "Cy0", takeoff = FALSE)
 \S4method{qpcr_analyser}{modlist}(input, type = "Cy0", takeoff = FALSE)
 
 }
@@ -23,25 +29,29 @@ a dataframe containing the qPCR data or a result of function \code{modlist} or a
  \code{\linkS4class{adpcr}}.
 }
   \item{cyc}{
-the column containing the cycle data. Defaults to first column.
+	    the column containing the cycle data. Defaults to first column.
 }
   \item{fluo}{
-the column(s) (runs) to be analyzed. If NULL, all runs will be considered.
+	      the column(s) (runs) to be analyzed. If NULL, all runs will be considered. 
+	      Use fluo = 2 to chose the second column for example.
 }
   \item{model}{
-the model to be used for all runs.
+    is the model to be used for the analysis for all runs. Defaults to 'l5' 
+      (see \code{\link{pcrfit}}).
 }
   \item{norm}{
-logical. Should the raw data be normalized within [0, 1] before model fitting?
+logical. Indicates if the raw data should be normalized within [0, 1] before model fitting.
 }
   \item{iter_tr}{
-%%     ~~Describe \code{iter_tr} here~~
+      \code{iter_tr} number of iteration to fit the curve.
 }
   \item{type}{
-the method of efficiency estimation. See \link[qpcR]{efficiency}.
+		is the method for the crossing point/threshold cycle estimation and efficiency 
+		estimation (\link[qpcR]{efficiency}). Defaults to 'Cy0' (\code{\link{Cy0}}).
 }
   \item{takeoff}{
-logical; if \code{TRUE} calculated takeoff values are added to the result.
+logical; if \code{TRUE} calculates the first significant cycle of the exponential region 
+		     (takeoff point). See \code{\link{takeoff}} for details.
 }
 }
 \details{
@@ -74,6 +84,9 @@ preliminary data inspection (see Example section) and as input for other R funct
   chain reaction analysis}.
   Bioinformatics 24 (13),
   2008.
+
+  Andrej-Nikolai Spiess (2013). qpcR: Modelling and analysis of real-time PCR data.\cr
+  \url{http://CRAN.R-project.org/package=qpcR}\cr
 }
 \author{
 Stefan Roediger, Andrej-Nikolai Spiess, Michal Burdukiewicz.
@@ -83,9 +96,24 @@ Stefan Roediger, Andrej-Nikolai Spiess, Michal Burdukiewicz.
 \link[qpcR]{modlist}.
 }
 \examples{
+# Take data of guescini1 data set from the qpcR R package.
+# Use the first column containing the cylces and the second column for sample F1.1.
+qpcr_analyser(guescini1, cyc = 1, fluo = 2)
 
+# Use similar setting as before but set takeoff to true for an estimation of
+# the first significant cycle of the exponential region.
+qpcr_analyser(guescini1, cyc = 1, fluo = 2, takeoff = TRUE)
+
+# Use similar setting as before but use qpcr_analyser in a loop to calculate the results for the
+# first four columns containing the fluorescence in guescini1
+for (i in 2:5) {
+		print(qpcr_analyser(guescini1, cyc = 1, fluo = i, takeoff = TRUE))
+}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ qPCR }
+\keyword{ Cy0 }
+\keyword{ real-time }
+\keyword{ amplification }
+\keyword{ quantification }
