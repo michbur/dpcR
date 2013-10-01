@@ -1,13 +1,3 @@
-# functions accessible to user:
-# summary
-# sim_ddpcr
-# plot_vic_fam
-# sim_adpcr 
-# plot_panel
-# plot_summary 
-# compare_distr
-# compare_dens
-# moments
 
 # Test if x is a positive integer value
 # warn defines the warning level
@@ -28,7 +18,13 @@ moments <- function (input, ...) {
   stop("Wrong class of 'input'", call. = TRUE, domain = NA)
 }
 
+qpcr_analyser <- function (input, cyc = 1, fluo = NULL, model = l5, norm = FALSE, iter_tr = 50, 
+                           type = "Cy0", takeoff = FALSE) {
+  stop("Wrong class of 'input'", call. = TRUE, domain = NA)
+}
+
 setGeneric("moments")
+setGeneric("qpcr_analyser")
 
 
 # OTHER METHODS ---------------------------------------------
@@ -41,6 +37,34 @@ setMethod("moments", signature(input = "numeric"), function(input) {
     colnames(res) <- c("Theoretical", "Empirical")
     res
   }  
+})
+
+setMethod("qpcr_analyser", signature(input = "data.frame"), function(input, cyc = 1, fluo = NULL, 
+                                                                     model = l5, 
+                                                                     norm = FALSE, iter_tr = 50, 
+                                                                     type = "Cy0", takeoff = FALSE) {
+  all_fits <- fit_adpcr(input, cyc, fluo, model, norm, iter_tr)
+  res <- analyze_qpcR(all_fits, type, takeoff)
+  res <- cbind(res, deltaF = calc_deltaF(input, cyc, fluo))
+  res
+})
+
+setMethod("qpcr_analyser", signature(input = "adpcr"), function(input, cyc = 1, fluo = NULL, 
+                                                                model = l5, 
+                                                                norm = FALSE, iter_tr = 50, 
+                                                                type = "Cy0", takeoff = FALSE) {
+  if (slot(input, "type") != "fluo")
+    stop("'input' must contain fluorescence data.", call. = TRUE, domain = NA)
+  input <- slot(input, ".Data")
+  all_fits <- fit_adpcr(input, cyc, fluo, model, norm, iter_tr)
+  res <- analyze_qpcR(all_fits, type, takeoff)
+  res <- cbind(res, deltaF = calc_deltaF(input, cyc, fluo))
+  res
+})
+
+setMethod("qpcr_analyser", signature(input = "modlist"), function(input, type = "Cy0", takeoff = FALSE) {
+  res <- analyze_qpcR(input, type, takeoff)
+  res
 })
 
 
@@ -596,38 +620,15 @@ calc_deltaF <- function(pcr_data, cyc, fluo) {
     quantile(tail(pcr_data[, x]), 0.85) - quantile(head(pcr_data[, x]), 0.25), 0)
 }
 
-analyze_qpcR <- function(fit_list, deltaF, cyc = 1, type = "Cy0",  takeoff = FALSE) {
-#   if (class(pcr_data) == "adpcr") 
-#     if (slot(pcr_data, "type") != "fluo")
-#       stop("'pcr_data' must contain fluorescence data.", call. = TRUE, domain = NA)
-   
-  part_res <- t(vapply(fit_list, function(fit) 
+analyze_qpcR <- function(fit_list, type = "Cy0",  takeoff = FALSE) {
+  res <- t(vapply(fit_list, function(fit) 
     safe_efficiency(fit, type), c(0, 0, 0)))
   if (takeoff) {
-    part_res <- cbind(part_res, t(vapply(fit_list, function(fit) 
+    res <- cbind(res, t(vapply(fit_list, function(fit) 
       unlist(takeoff(fit)[c("top", "f.top")]), c(0, 0))))
   }
   
-  res <- matrix(NaN, nrow = length(fit_list), ncol = ncol(part_res))
-  rownames(res) <- names(fit_list)
-  res[rownames(part_res), ] <- part_res
-  
-  res <- cbind(res, deltaF)
-  colnames(res) <- c(colnames(part_res), "deltaF")
   res
-}
-
-qpcr_analyser <- function(pcr_data, cyc = 1, fluo = NULL, model = l5, norm = FALSE, iter_tr = 50, type = "Cy0",
-                 takeoff = FALSE, add_fits = FALSE) {
-  all_fits <- fit_adpcr(pcr_data, cyc = 1, fluo = NULL, model = l5, norm = FALSE, 
-                        iter_tr = 50)
-  res <- analyze_qpcR(all_fits, calc_deltaF(reps, cyc, fluo), cyc = 1, type = "Cy0",  takeoff = FALSE)
-  if (add_fits) {
-    list(fits = all_fits, coefs = res)
-  }
-  else {
-    res
-  }
 }
 
 
