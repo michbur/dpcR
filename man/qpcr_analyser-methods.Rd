@@ -97,7 +97,8 @@ Stefan Roediger, Andrej-Nikolai Spiess, Michal Burdukiewicz.
 }
 \examples{
 # Take data of guescini1 data set from the qpcR R package.
-# Use the first column containing the cylces and the second column for sample F1.1.
+# Use the first column containing the cycles and the second column for sample F1.1.
+data(guescini1)
 qpcr_analyser(guescini1, cyc = 1, fluo = 2)
 
 # Use similar setting as before but set takeoff to true for an estimation of
@@ -106,12 +107,12 @@ qpcr_analyser(guescini1, cyc = 1, fluo = 2, takeoff = TRUE)
 
 # Use similar setting as before but use qpcr_analyser in a loop to calculate the results for the
 # first four columns containing the fluorescence in guescini1
-for (i in 2:5) {
-		print(qpcr_analyser(guescini1, cyc = 1, fluo = i, takeoff = TRUE))
+print(qpcr_analyser(guescini1, cyc = 1, fluo = 2:5, takeoff = TRUE))
+
+# Run qpcr_analyser on the list of models (finer control on fitting model process)
+models <- modlist(guescini1)
+qpcr_analyser(models)
 }
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
 \keyword{ qPCR }
 \keyword{ Cy0 }
 \keyword{ real-time }
