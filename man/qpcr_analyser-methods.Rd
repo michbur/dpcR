@@ -72,11 +72,7 @@ preliminary data inspection (see Example section) and as input for other R funct
 \code{dpcR} package (e.g., \link{plot_panel}).
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+A matrix where each column represents crossing point, efficiency, the raw fluorescence value at the point defined by type and difference between minimum and maximum of observed fluorescence. if takeoff parameter is \code{TRUE}, additional two column represents start and the end of the fluorescence growth.
 }
 \references{
   Ritz C, Spiess An-N,
