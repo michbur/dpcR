@@ -8,6 +8,6 @@ Maintainer: Michal Burdukiewicz <michalburdukiewicz@gmail.com>
 Description: Analysis, visualisation and simulation of digital PCR experiments.
 License: GPL-2
 Depends: R (>= 3.0.0), methods, qpcR
-Imports: binom, e1071, dgof, pracma, shiny
+Imports: binom, e1071, dgof, pracma, signal, shiny
 Collate: 'fun.R'
 Packaged: 2013-09-07 11:08:48 UTC; Mihau

@@ -10,6 +10,9 @@ t.int <- function (x, warn = 0) {
   abs(as.integer(x))
 }
 
+# OTHER CLASSES ---------------------------------------------
+setOldClass("modlist")
+
 # GENERICS ---------------------------------------------
 setGeneric("summary")
 setGeneric("show")
@@ -49,18 +52,6 @@ setMethod("qpcr_analyser", signature(input = "data.frame"), function(input, cyc 
   res
 })
 
-setMethod("qpcr_analyser", signature(input = "adpcr"), function(input, cyc = 1, fluo = NULL, 
-                                                                model = l5, 
-                                                                norm = FALSE, iter_tr = 50, 
-                                                                type = "Cy0", takeoff = FALSE) {
-  if (slot(input, "type") != "fluo")
-    stop("'input' must contain fluorescence data.", call. = TRUE, domain = NA)
-  input <- slot(input, ".Data")
-  all_fits <- fit_adpcr(input, cyc, fluo, model, norm, iter_tr)
-  res <- analyze_qpcR(all_fits, type, takeoff)
-  res <- cbind(res, deltaF = calc_deltaF(input, cyc, fluo))
-  res
-})
 
 setMethod("qpcr_analyser", signature(input = "modlist"), function(input, type = "Cy0", takeoff = FALSE) {
   res <- analyze_qpcR(input, type, takeoff)
@@ -274,6 +265,19 @@ setMethod("moments", signature(input = "adpcr"), function(input) {
              paste0(nms[i], ".", ids[i])))
            res
          })  
+})
+
+setMethod("qpcr_analyser", signature(input = "adpcr"), function(input, cyc = 1, fluo = NULL, 
+                                                                model = l5, 
+                                                                norm = FALSE, iter_tr = 50, 
+                                                                type = "Cy0", takeoff = FALSE) {
+  if (slot(input, "type") != "fluo")
+    stop("'input' must contain fluorescence data.", call. = TRUE, domain = NA)
+  input <- slot(input, ".Data")
+  all_fits <- fit_adpcr(input, cyc, fluo, model, norm, iter_tr)
+  res <- analyze_qpcR(all_fits, type, takeoff)
+  res <- cbind(res, deltaF = calc_deltaF(input, cyc, fluo))
+  res
 })
 
 # SIMULATIONS - array ---------------------------------------------
@@ -815,3 +819,90 @@ compare_dens <- function(input, moments = TRUE, ...) {
     text(0.98*xup, 0.99*ytop, "Empirical", pos = 1)
   }
 }
+
+# AUC test -----------------------------
+
+AUCtest <- function(x = x, y = y, threshold = 0.05, cut = 0.05, savgol = TRUE, norm = FALSE,
+                   filter.q = c(0.7, 0.8)) {
+  # Initial checking of input values
+  if (is.null(x)) 
+    stop("Enter 'x' value.", call. = TRUE, domain = NA)
+  if (is.null(y)) 
+    stop("Enter 'y' value.", call. = TRUE, domain = NA)
+  if (length(x) != length(y)) 
+    stop("'x' and 'y' differ in length.", call. = TRUE, domain = NA)
+  
+  # Get the raw data and assign them to a data frame containing the abscissa values (e.g., 
+  # time, count, ...) and the corresponding peak value (e.g., fluorescence)
+  # Preprocessing:
+  # Set values below a "cut" value to 0
+  y[which(y < quantile(y, cut))] <- 0
+  
+  # Normalise data based on the quantiles
+  qval <- 0.05
+  if (norm) y <- (y - quantile(y, qval)) / (quantile(y, 1 - qval) - quantile(y, qval))
+  
+  # Smooth the data by Splines or Savitzky-Golay Smoothing (default)
+  if (savgol == TRUE) {
+    data <- data.frame(x, sgolayfilt(y))
+  } else (
+    data <- cbind(x, smooth.spline(x,y)$yin)
+  )
+  
+  # find *ALL* peaks of the input data based on findpeaks of the pracma package
+  tmp.peaks <-  findpeaks(data[, 2])
+  
+  # Try to find out where "findpeaks" detected noise (no real peak but just a small spike), 
+  # "negative peaks (no amplification, just primer dimer...)" and "positive peaks (true 
+  # amplification)" based in the peak height.
+  # filter.q is the quantile value of the noise and the quantile value of the negative peaks
+  peak.quntiles <- quantile(tmp.peaks[, 1], filter.q)
+  
+  no.peak <- tmp.peaks[, 1] <= peak.quntiles[1]
+  neg.peak <- tmp.peaks[, 1] > peak.quntiles[1] & tmp.peaks[, 1] <= peak.quntiles[2]
+  pos.peak <- tmp.peaks[, 1] > peak.quntiles[2]
+  # test.res is checked later which element of the data is TRUE
+  test.res <- data.frame(no.peak, neg.peak, pos.peak)
+  
+  # create an empty matrix with the results of the area under the curve calculation
+  # the column number of the matrix might grow depending addition of further elements
+  res.peaks <- matrix(data = NA, nrow = nrow(tmp.peaks), ncol = 8)
+  colnames(res.peaks) <- c("Peak number", "State", "Position", "AUC", "Width", "Height", 
+                           "Index", "Resolution")
+  for(i in 1L:nrow(tmp.peaks)) {
+    # select range of single peak
+    x.tmp <- data[tmp.peaks[i, 3]:tmp.peaks[i, 4], 1]
+    y.tmp <- data[tmp.peaks[i, 3]:tmp.peaks[i, 4], 2]
+    
+    # Determine the resolution of the data
+    delta <- function(x) {
+      delta <- vector()
+      for (i in 1:(length(x) - 1)){
+        tmp <- abs(x[i] - x[i + 1])
+        delta <- c(delta,tmp)
+      }
+      delta.mean 	<- mean(delta)
+      delta.mean
+    }
+    # predicted peaks areas
+    sp <- smooth.spline(x, y)
+    psp <- function(x = x.tmp) {
+      psp.tmp <- predict(sp, x)
+      psp <- psp.tmp$y
+    }
+    # Estimate the AUC by integration. NOTE: Needs improvements because the integration will 
+    # fail badly if peak overlap considerably!
+    try(integrate.tmp <- integrate(psp, lower = min(x.tmp), upper = max(x.tmp))$value)
+    res.peaks[i, 1] <- i	# Just the peak number
+    res.peaks[i, 2]	<- which(test.res[i,] == TRUE) # test if peak is really there, neg or pos
+    res.peaks[i, 3] <- tmp.peaks[i, 2] # Position of the peak maximum
+    res.peaks[i, 4] <- integrate.tmp # Crude estimation of the AUC
+    res.peaks[i, 5] <- max(x.tmp) - min(x.tmp) # crude estimation of the peak width^
+    res.peaks[i, 6] <- tmp.peaks[i, 1] # height of the peak depending on time ...
+    res.peaks[i, 7] <- data[tmp.peaks[i,2],1] # position of the peak depending on the time ...
+    res.peaks[i, 8] <- delta(x.tmp) # time resolution of the peaks
+  }
+  return(list(res = res.peaks, data = data)) # List containing the table with all values
+  # and the smoothed data
+}
+
