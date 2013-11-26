@@ -840,7 +840,8 @@ AUCtest <- function(x = x, y = y, threshold = 0.05, cut = 0.05, savgol = TRUE, n
   
   # Normalise data based on the quantiles
   qval <- 0.05
-  if (norm) y <- (y - quantile(y, qval)) / (quantile(y, 1 - qval) - quantile(y, qval))
+  if (norm) 
+    y <- (y - quantile(y, qval)) / (quantile(y, 1 - qval) - quantile(y, qval))
   
   # Smooth the data by Splines or Savitzky-Golay Smoothing (default)
   if (savgol == TRUE) {
@@ -856,11 +857,11 @@ AUCtest <- function(x = x, y = y, threshold = 0.05, cut = 0.05, savgol = TRUE, n
   # "negative peaks (no amplification, just primer dimer...)" and "positive peaks (true 
   # amplification)" based in the peak height.
   # filter.q is the quantile value of the noise and the quantile value of the negative peaks
-  peak.quntiles <- quantile(tmp.peaks[, 1], filter.q)
+  peak_quantiles <- quantile(tmp.peaks[, 1], filter.q)
   
-  no.peak <- tmp.peaks[, 1] <= peak.quntiles[1]
-  neg.peak <- tmp.peaks[, 1] > peak.quntiles[1] & tmp.peaks[, 1] <= peak.quntiles[2]
-  pos.peak <- tmp.peaks[, 1] > peak.quntiles[2]
+  no.peak <- tmp.peaks[, 1] <= peak_quantiles[1]
+  neg.peak <- tmp.peaks[, 1] > peak_quantiles[1] & tmp.peaks[, 1] <= peak_quantiles[2]
+  pos.peak <- tmp.peaks[, 1] > peak_quantiles[2]
   # test.res is checked later which element of the data is TRUE
   test.res <- data.frame(no.peak, neg.peak, pos.peak)
   
