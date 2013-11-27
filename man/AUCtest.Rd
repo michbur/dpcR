@@ -31,7 +31,7 @@ logical value. If \code{TRUE}, Savitzky-Golay smoothing filter is used.
 logical value. If \code{TRUE}, data is normalised.
 }
   \item{filter.q}{
-a vector of two numeric values. First element represents the quantile of the noise and second one is quantile of the negative peaks.
+a vector of two numeric values. The first element represents the quantile of the noise and the second one is the quantile of the negative peaks.
 }
 }
 \details{

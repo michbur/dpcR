@@ -836,7 +836,7 @@ AUCtest <- function(x = x, y = y, threshold = 0.05, cut = 0.05, savgol = TRUE, n
   # time, count, ...) and the corresponding peak value (e.g., fluorescence)
   # Preprocessing:
   # Set values below a "cut" value to 0
-  y[which(y < quantile(y, cut))] <- 0
+  y[y < quantile(y, cut)] <- 0
   
   # Normalise data based on the quantiles
   qval <- 0.05
@@ -851,29 +851,34 @@ AUCtest <- function(x = x, y = y, threshold = 0.05, cut = 0.05, savgol = TRUE, n
   )
   
   # find *ALL* peaks of the input data based on findpeaks of the pracma package
-  tmp.peaks <-  findpeaks(data[, 2])
+  supposed_peaks <-  findpeaks(data[, 2])
   
   # Try to find out where "findpeaks" detected noise (no real peak but just a small spike), 
   # "negative peaks (no amplification, just primer dimer...)" and "positive peaks (true 
   # amplification)" based in the peak height.
   # filter.q is the quantile value of the noise and the quantile value of the negative peaks
-  peak_quantiles <- quantile(tmp.peaks[, 1], filter.q)
+  peak_quantiles <- c(min(supposed_peaks), 
+                      quantile(supposed_peaks[, 1], filter.q), 
+                      max(supposed_peaks))
+  test.res <- cut(supposed_peaks, peak_quantiles)
+  levels(test.res) <- c("noise", "negative", "positive")
   
-  no.peak <- tmp.peaks[, 1] <= peak_quantiles[1]
-  neg.peak <- tmp.peaks[, 1] > peak_quantiles[1] & tmp.peaks[, 1] <= peak_quantiles[2]
-  pos.peak <- tmp.peaks[, 1] > peak_quantiles[2]
+  cut(supposed_peaks, c(0, peak_quantiles, max(supposed_peaks)))
+  no.peak <- supposed_peaks[, 1] <= peak_quantiles[1]
+  neg.peak <- supposed_peaks[, 1] > peak_quantiles[1] & supposed_peaks[, 1] <= peak_quantiles[2]
+  pos.peak <- supposed_peaks[, 1] > peak_quantiles[2]
   # test.res is checked later which element of the data is TRUE
   test.res <- data.frame(no.peak, neg.peak, pos.peak)
   
   # create an empty matrix with the results of the area under the curve calculation
   # the column number of the matrix might grow depending addition of further elements
-  res.peaks <- matrix(data = NA, nrow = nrow(tmp.peaks), ncol = 8)
+  res.peaks <- matrix(data = NA, nrow = nrow(supposed_peaks), ncol = 8)
   colnames(res.peaks) <- c("Peak number", "State", "Position", "AUC", "Width", "Height", 
                            "Index", "Resolution")
-  for(i in 1L:nrow(tmp.peaks)) {
+  for(i in 1L:nrow(supposed_peaks)) {
     # select range of single peak
-    x.tmp <- data[tmp.peaks[i, 3]:tmp.peaks[i, 4], 1]
-    y.tmp <- data[tmp.peaks[i, 3]:tmp.peaks[i, 4], 2]
+    x.tmp <- data[supposed_peaks[i, 3]:supposed_peaks[i, 4], 1]
+    y.tmp <- data[supposed_peaks[i, 3]:supposed_peaks[i, 4], 2]
     
     # Determine the resolution of the data
     delta <- function(x) {
@@ -895,12 +900,12 @@ AUCtest <- function(x = x, y = y, threshold = 0.05, cut = 0.05, savgol = TRUE, n
     # fail badly if peak overlap considerably!
     try(integrate.tmp <- integrate(psp, lower = min(x.tmp), upper = max(x.tmp))$value)
     res.peaks[i, 1] <- i	# Just the peak number
-    res.peaks[i, 2]	<- which(test.res[i,] == TRUE) # test if peak is really there, neg or pos
-    res.peaks[i, 3] <- tmp.peaks[i, 2] # Position of the peak maximum
+    res.peaks[i, 2]	<- as.character(test.res[i]) # test if peak is really there, neg or pos
+    res.peaks[i, 3] <- supposed_peaks[i, 2] # Position of the peak maximum
     res.peaks[i, 4] <- integrate.tmp # Crude estimation of the AUC
     res.peaks[i, 5] <- max(x.tmp) - min(x.tmp) # crude estimation of the peak width^
-    res.peaks[i, 6] <- tmp.peaks[i, 1] # height of the peak depending on time ...
-    res.peaks[i, 7] <- data[tmp.peaks[i,2],1] # position of the peak depending on the time ...
+    res.peaks[i, 6] <- supposed_peaks[i, 1] # height of the peak depending on time ...
+    res.peaks[i, 7] <- data[supposed_peaks[i,2],1] # position of the peak depending on the time ...
     res.peaks[i, 8] <- delta(x.tmp) # time resolution of the peaks
   }
   return(list(res = res.peaks, data = data)) # List containing the table with all values
