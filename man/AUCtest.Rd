@@ -22,7 +22,8 @@ AUCtest(x = x, y = y, threshold = 0.05, cut = 0.05, savgol = TRUE, norm = FALSE,
 %%     ~~Describe \code{threshold} here~~
 }
   \item{cut}{
-a numeric value between 0 and 1. All data between 0 and \code{cut} quantile would be considered noise in the further analysis.
+a numeric value between 0 and 1. All data between 0 and \code{cut} quantile would be considered 
+noise in the further analysis.
 }
   \item{savgol}{
 logical value. If \code{TRUE}, Savitzky-Golay smoothing filter is used.
@@ -31,7 +32,8 @@ logical value. If \code{TRUE}, Savitzky-Golay smoothing filter is used.
 logical value. If \code{TRUE}, data is normalised.
 }
   \item{filter.q}{
-a vector of two numeric values. The first element represents the quantile of the noise and the second one is the quantile of the negative peaks.
+a vector of two numeric values. The first element represents the quantile of the noise and the 
+second one is the quantile of the negative peaks.
 }
 }
 \details{

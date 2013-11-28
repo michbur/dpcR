@@ -860,55 +860,45 @@ AUCtest <- function(x = x, y = y, threshold = 0.05, cut = 0.05, savgol = TRUE, n
   peak_quantiles <- c(min(supposed_peaks), 
                       quantile(supposed_peaks[, 1], filter.q), 
                       max(supposed_peaks))
-  test.res <- cut(supposed_peaks, peak_quantiles)
-  levels(test.res) <- c("noise", "negative", "positive")
-  
-  cut(supposed_peaks, c(0, peak_quantiles, max(supposed_peaks)))
-  no.peak <- supposed_peaks[, 1] <= peak_quantiles[1]
-  neg.peak <- supposed_peaks[, 1] > peak_quantiles[1] & supposed_peaks[, 1] <= peak_quantiles[2]
-  pos.peak <- supposed_peaks[, 1] > peak_quantiles[2]
-  # test.res is checked later which element of the data is TRUE
-  test.res <- data.frame(no.peak, neg.peak, pos.peak)
+ 
+  # test_res is checked later which element of the data is TRUE
+  test_res <- cut(supposed_peaks[,1], peak_quantiles, include.lowest = TRUE)
+  levels(test_res) <- c("noise", "negative", "positive")
   
   # create an empty matrix with the results of the area under the curve calculation
   # the column number of the matrix might grow depending addition of further elements
-  res.peaks <- matrix(data = NA, nrow = nrow(supposed_peaks), ncol = 8)
-  colnames(res.peaks) <- c("Peak number", "State", "Position", "AUC", "Width", "Height", 
-                           "Index", "Resolution")
-  for(i in 1L:nrow(supposed_peaks)) {
+  all_peaks <- data.frame(do.call("rbind", lapply(1L:nrow(supposed_peaks), function(i) {
     # select range of single peak
-    x.tmp <- data[supposed_peaks[i, 3]:supposed_peaks[i, 4], 1]
-    y.tmp <- data[supposed_peaks[i, 3]:supposed_peaks[i, 4], 2]
-    
-    # Determine the resolution of the data
-    delta <- function(x) {
-      delta <- vector()
-      for (i in 1:(length(x) - 1)){
-        tmp <- abs(x[i] - x[i + 1])
-        delta <- c(delta,tmp)
-      }
-      delta.mean 	<- mean(delta)
-      delta.mean
-    }
+    xy <- data[supposed_peaks[i, 3]:supposed_peaks[i, 4], 1:2]
+
     # predicted peaks areas
     sp <- smooth.spline(x, y)
-    psp <- function(x = x.tmp) {
+    psp <- function(x = xy[, 1]) {
       psp.tmp <- predict(sp, x)
       psp <- psp.tmp$y
     }
+    
+    peak <- c()
+    
     # Estimate the AUC by integration. NOTE: Needs improvements because the integration will 
     # fail badly if peak overlap considerably!
-    try(integrate.tmp <- integrate(psp, lower = min(x.tmp), upper = max(x.tmp))$value)
-    res.peaks[i, 1] <- i	# Just the peak number
-    res.peaks[i, 2]	<- as.character(test.res[i]) # test if peak is really there, neg or pos
-    res.peaks[i, 3] <- supposed_peaks[i, 2] # Position of the peak maximum
-    res.peaks[i, 4] <- integrate.tmp # Crude estimation of the AUC
-    res.peaks[i, 5] <- max(x.tmp) - min(x.tmp) # crude estimation of the peak width^
-    res.peaks[i, 6] <- supposed_peaks[i, 1] # height of the peak depending on time ...
-    res.peaks[i, 7] <- data[supposed_peaks[i,2],1] # position of the peak depending on the time ...
-    res.peaks[i, 8] <- delta(x.tmp) # time resolution of the peaks
-  }
-  return(list(res = res.peaks, data = data)) # List containing the table with all values
+    try(integrate.tmp <- integrate(psp, lower = min(xy[, 1]), upper = max(xy[, 1]))$value)
+    peak[1] <- supposed_peaks[i, 2] # Position of the peak maximum
+    #could use quadinf{pracma} or adaptIntegrate{cubature} instead of integrate, need further investigation
+    peak[2] <- integrate.tmp # Crude estimation of the AUC
+    peak[3] <- max(xy[, 1]) - min(xy[, 1]) # crude estimation of the peak width
+    peak[4] <- supposed_peaks[i, 1] # height of the peak depending on time ...
+    peak[5] <- data[supposed_peaks[i,2],1] # position of the peak depending on the time ...
+    # Determine the resolution of the data
+    peak[6] <- mean(vapply(2L:nrow(xy), function(i) abs(xy[i, 1] - xy[i - 1, 1]), 0))  # time resolution of the peaks
+    peak
+    })))
+  
+  all_peaks <- cbind(1L:nrow(supposed_peaks), test_res, all_peaks)
+  colnames(all_peaks) <- c("Peak number", "State", "Position", "AUC", "Width", "Height", 
+                           "Index", "Resolution")
+        
+  list(res = all_peaks, data = data) # List containing the table with all values
   # and the smoothed data
 }
 
