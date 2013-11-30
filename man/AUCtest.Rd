@@ -40,11 +40,12 @@ second one is the quantile of the negative peaks.
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+A list of length 2. The first element is a data frame containing: peak number, peak group (noise, 
+negative, positive), position of the peak maximum, area under the peak, peak width, peak height, 
+position of the peak and time resultion.
+
+The second element contains smoothed data.
+
 }
 \references{
 %% ~put references to the literature/web site here ~
