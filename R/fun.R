@@ -873,19 +873,20 @@ AUCtest <- function(x = x, y = y, threshold = 0.05, cut = 0.05, savgol = TRUE, n
 
     # predicted peaks areas
     sp <- smooth.spline(x, y)
+    # should psp be declared inside function?
     psp <- function(x = xy[, 1]) {
       psp.tmp <- predict(sp, x)
       psp <- psp.tmp$y
     }
     
-    peak <- c()
+    peak <- rep(0, 6)
     
     # Estimate the AUC by integration. NOTE: Needs improvements because the integration will 
     # fail badly if peak overlap considerably!
-    try(integrate.tmp <- integrate(psp, lower = min(xy[, 1]), upper = max(xy[, 1]))$value)
+    try(integrate_tmp <- integrate(psp, lower = min(xy[, 1]), upper = max(xy[, 1]))$value)
     peak[1] <- supposed_peaks[i, 2] # Position of the peak maximum
     #could use quadinf{pracma} or adaptIntegrate{cubature} instead of integrate, need further investigation
-    peak[2] <- integrate.tmp # Crude estimation of the AUC
+    peak[2] <- ifelse(class(integrate_tmp) == "try-error", NA, integrate_tmp) # Crude estimation of the AUC
     peak[3] <- max(xy[, 1]) - min(xy[, 1]) # crude estimation of the peak width
     peak[4] <- supposed_peaks[i, 1] # height of the peak depending on time ...
     peak[5] <- data[supposed_peaks[i,2],1] # position of the peak depending on the time ...

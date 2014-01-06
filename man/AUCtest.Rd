@@ -1,6 +1,5 @@
 \name{AUCtest}
 \alias{AUCtest}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 AUCtest
 }
@@ -10,13 +9,13 @@ AUCtest
 \usage{
 AUCtest(x = x, y = y, threshold = 0.05, cut = 0.05, savgol = TRUE, norm = FALSE, filter.q = c(0.7, 0.8))
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
   \item{x}{
 %%     ~~Describe \code{x} here~~
 }
   \item{y}{
-%%     ~~Describe \code{y} here~~
+a vector of flurescence value.
 }
   \item{threshold}{
 %%     ~~Describe \code{threshold} here~~
@@ -63,6 +62,31 @@ Stefan Roediger, Michal Burdukiewicz.
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
+
+data(many_peaks)
+par(mfrow = c(3,1))
+plot(many_peaks, type = "l", main = "Noisy raw data")
+abline(h = 0.01, col = "red")
+
+tmp.out <- AUCtest(many_peaks[,1], many_peaks[,2], threshold = 0.01, cut = 0.1, savgol = TRUE)
+plot(tmp.out[["data"]], type = "l", main = "Only smooted")
+abline(h = 0.01, col = "red")
+abline(v = many_peaks[tmp.out[["res"]][,3], 1])
+
+tmp.out <- AUCtest(many_peaks[,1], many_peaks[,2], threshold = 0.01, cut = 0.1, savgol = TRUE, 
+                  norm = TRUE)
+plot(tmp.out[["data"]], type = "l", main = "Smoothed and preaks detected")
+abline(v = many_peaks[tmp.out[["res"]][,3], 1])
+for(i in 1:nrow(tmp.out$res)) {
+  if(tmp.out$res[i,2] == 1) {col = 1}
+  if(tmp.out$res[i,2] == 2) {col = 2}
+  if(tmp.out$res[i,2] == 3) {col = 3}
+  points(tmp.out$res[i,7], tmp.out$res[i,6], col = col, pch = 19)
+}
+
+positive <- sum(tmp.out$res[,2] == 3)
+negative <- sum(tmp.out$res[,2] == 2)
+total <- positive + negative
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
