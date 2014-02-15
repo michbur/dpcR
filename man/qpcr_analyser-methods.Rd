@@ -11,7 +11,7 @@ qPCR Analyser
 \description{
 Calculate statistics based on fluorescence. The function can be used to analyze amplification 
 curve data from quantitative real-time PCR experiments. The analysis includes the fitting of the 
-amplification curve by a non-linear function and the the calculation of a quantification point 
+amplification curve by a non-linear function and the calculation of a quantification point 
 (often referred to as Cp (crossing-point), Cq or Ct) based on a user defined method. The function 
 can be used to analyze data from chamber based dPCR machines.
 }
@@ -60,11 +60,11 @@ conventional quantitative real-time PCR (qPCR) experiments and is adapted for th
 This function calls instances of the the \code{qpcR} package to calculate the
 quantification points (cpD1, cpD2, Cy0 (default), TOP (optional)), the amplification efficiency,
 fluorescence at the quantification point (Cq), the absolute change of fluorescence and the take-off
-point (TOP). Most of the central functionality of the \code{qpcR} package is accesable. The user 
+point (TOP). Most of the central functionality of the \code{qpcR} package is accessible. The user 
 can assign concentrations to the samples. One column contains binary converted (pos (1) and neg 
 (0)) results for the amplification reaction based on a user defined criteria (Cq-range, 
 fluorescence cut-off, ...). \code{qpcr_analyser} tries to detect cases where an amplification did 
-not take place of was not possible to analyse. By default \code{qpcr_analyser} analyses uses the 
+not take place of was impossible to analyze. By default \code{qpcr_analyser} analyses uses the 
 Cy0 as described in Guescini et al. (2008) for estimation of the quantification point since method
 is considered to be better suited for many probe systems. By default a 5-parameter model is used 
 to fit the amplification curves. As such \code{qpcr_analyser} is a functions which serves for 
@@ -72,7 +72,9 @@ preliminary data inspection (see Example section) and as input for other R funct
 \code{dpcR} package (e.g., \link{plot_panel}).
 }
 \value{
-A matrix where each column represents crossing point, efficiency, the raw fluorescence value at the point defined by type and difference between minimum and maximum of observed fluorescence. if takeoff parameter is \code{TRUE}, additional two column represents start and the end of the fluorescence growth.
+A matrix where each column represents crossing point, efficiency, the raw fluorescence value at the 
+point defined by type and difference between minimum and maximum of observed fluorescence. If takeoff 
+parameter is \code{TRUE}, additional two column represents start and the end of the fluorescence growth.
 }
 \references{
   Ritz C, Spiess An-N,
