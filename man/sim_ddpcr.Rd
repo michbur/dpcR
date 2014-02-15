@@ -38,13 +38,13 @@ if \code{TRUE}, function returns only the total number of positive (containing a
 }
   \item{fluo}{if \code{NULL}, the function calculates number of molecules per well or total number
   of positive droplets. If list of two, the first argument defines smoothness of the fluorescence
-  curve and second space between two consecutive measured droplets. Space must be Must be a vector 
+  curve and second space between two consecutive measured droplets. Space must be a vector 
   containing positive integers of the length \code{n} or 1.
 }
 }
 \details{
 %%  here few words what is droplet PCR
-The functions contains two implementations of the array digital PCR simulation. First one was 
+The function contains two implementations of the array digital PCR simulation. First one was 
 described in Dube at. al (2008). This method is based on random distributing 
 \eqn{m \times times}{m * times} molecules between \eqn{n \times times}{n * times} chambers. 
 After this step, the required number of plates is created by the random sampling of chambers 
@@ -68,7 +68,8 @@ In each case the value is an object of the \code{\linkS4class{ddpcr}} class.
 Michal Burdukiewicz, Stefan Roediger.
 }
 \note{
-Although Dube's simulation of digital PCR was developed for array digital PCR, it's also viable for simulating droplet-based methods.
+Although Dube's simulation of digital PCR was developed for array digital PCR, it's also viable for 
+simulating droplet-based methods.
 }
 
 
