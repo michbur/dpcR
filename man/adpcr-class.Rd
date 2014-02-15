@@ -19,7 +19,7 @@ represented by one row), a cycle threshold of each well \code{"ct"} or fluoresce
     \item{\code{.Data}:}{\code{"matrix"} containing data from array. See Description.}
     \item{\code{n}:}{Object of class \code{"integer"} number of partitions.}
     \item{\code{breaks}:}{\code{"numeric"} numeric vector giving the number of intervals into
-    which \code{.Data} should be cutted.}
+    which \code{.Data} should be cut.}
     \item{\code{type}:}{Object of class \code{"character"} defining type of data. Could be 
     \code{"nm"} (number of molecules per partition), \code{"tp"} (total number of positive wells 
     in panel), \code{"fluo"} (fluorescence) or \code{"ct"} (threshold cycle).}
@@ -37,7 +37,7 @@ Michal Burdukiewicz.
 }
 
 \seealso{
-Ploting and managment:
+Ploting and management:
 \code{\link{extract_dpcr}}, \code{\link{plot_panel}}. 
 
 Simulation:
