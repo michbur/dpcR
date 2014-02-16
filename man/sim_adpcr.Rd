@@ -44,7 +44,7 @@ certain threshold are treated as negative. From differences between amplificatio
 chambers it is possible to calculate both total number of template molecules as well as their 
 approximate number in a single chamber.
 
-The functions contains two implementations of the array digital PCR simulation. First one was 
+The function contains two implementations of the array digital PCR simulation. First one was 
 described in Dube at. al (2008). This method is based on random distributing 
 \eqn{m \times times}{m * times} molecules between \eqn{n \times times}{n * times} chambers. 
 After this step, the required number of plates is created by the random sampling of chambers 
@@ -107,7 +107,7 @@ bp <- barplot(table(factor(dube, levels = min(dube):max(dube))),
 lines(bp, dnorm(min(dube):max(dube), mean = 311.5, sd = 13.59)*replic, 
       col = "green", lwd = 3)
 
-# exact Dube's method is a bit slower than other one, but more accurate
+# Exact Dube's method is a bit slower than other one, but more accurate
 system.time(dub <- sim_adpcr(m = 400, n = 765, times = 500, n_panels = 500, 
   pos_sums = TRUE))
 system.time(mul <- sim_adpcr(m = 400, n = 765, times = 500, n_panels = 500, 
