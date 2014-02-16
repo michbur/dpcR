@@ -2,10 +2,11 @@
 \alias{many_peaks}
 \docType{data}
 \title{
-Artifical data set with many peaks
+Artificial data set with many peaks
 }
 \description{
-A set of data from an artificial droplet flow experiment. It contains various kind of peaks - positive peaks, negative peaks and peak-like noise.
+A set of data from an artificial droplet flow experiment. It contains various kinds of peaks - 
+positive peaks, negative peaks and peak-like noise.
 }
 \usage{data(many_peaks)}
 \format{
