@@ -15,7 +15,7 @@ AUCtest(x = x, y = y, threshold = 0.05, cut = 0.05, savgol = TRUE, norm = FALSE,
 %%     ~~Describe \code{x} here~~
 }
   \item{y}{
-a vector of flurescence value.
+a vector of fluorescence value.
 }
   \item{threshold}{
 %%     ~~Describe \code{threshold} here~~
@@ -41,7 +41,7 @@ second one is the quantile of the negative peaks.
 \value{
 A list of length 2. The first element is a data frame containing: peak number, peak group (noise, 
 negative, positive), position of the peak maximum, area under the peak, peak width, peak height, 
-position of the peak and time resultion.
+position of the peak and time resolution.
 
 The second element contains smoothed data.
 
