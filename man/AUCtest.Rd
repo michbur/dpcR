@@ -4,10 +4,11 @@
 AUCtest
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Detect, separate and count positive peaks, negative peaks and peak-like noise. In addtion, function calculates area of the peaks.
 }
 \usage{
-AUCtest(x = x, y = y, threshold = 0.05, cut = 0.05, savgol = TRUE, norm = FALSE, filter.q = c(0.7, 0.8))
+AUCtest(x = x, y = y, threshold = 0.05, noise_cut = 0.05, savgol = TRUE, norm = FALSE, 
+filter.q = c(0.7, 0.8))
 }
 
 \arguments{
@@ -20,8 +21,8 @@ a vector of fluorescence value.
   \item{threshold}{
 %%     ~~Describe \code{threshold} here~~
 }
-  \item{cut}{
-a numeric value between 0 and 1. All data between 0 and \code{cut} quantile would be considered 
+  \item{noise_cut}{
+a numeric value between 0 and 1. All data between 0 and \code{noise_cut} quantile would be considered 
 noise in the further analysis.
 }
   \item{savgol}{
@@ -36,7 +37,7 @@ second one is the quantile of the negative peaks.
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+The localization of peaks is determined by the \code{\link[pracma]{findpeaks}} function.
 }
 \value{
 A list of length 2. The first element is a data frame containing: peak number, peak group (noise, 
@@ -68,28 +69,26 @@ par(mfrow = c(3,1))
 plot(many_peaks, type = "l", main = "Noisy raw data")
 abline(h = 0.01, col = "red")
 
-tmp.out <- AUCtest(many_peaks[,1], many_peaks[,2], threshold = 0.01, cut = 0.1, savgol = TRUE)
-plot(tmp.out[["data"]], type = "l", main = "Only smooted")
+tmp.out <- AUCtest(many_peaks[, 1], many_peaks[, 2], threshold = 0.01, noise_cut = 0.1, savgol = TRUE)
+plot(tmp.out[["data"]], type = "l", main = "Only smoothed")
 abline(h = 0.01, col = "red")
-abline(v = many_peaks[tmp.out[["res"]][,3], 1])
+abline(v = many_peaks[tmp.out[["peaks"]][, 3], 1], lty = "dashed")
 
-tmp.out <- AUCtest(many_peaks[,1], many_peaks[,2], threshold = 0.01, cut = 0.1, savgol = TRUE, 
+tmp.out <- AUCtest(many_peaks[, 1], many_peaks[, 2], threshold = 0.01, noise_cut = 0.1, savgol = TRUE, 
                   norm = TRUE)
 plot(tmp.out[["data"]], type = "l", main = "Smoothed and preaks detected")
-abline(v = many_peaks[tmp.out[["res"]][,3], 1])
-for(i in 1:nrow(tmp.out$res)) {
-  if(tmp.out$res[i,2] == 1) {col = 1}
-  if(tmp.out$res[i,2] == 2) {col = 2}
-  if(tmp.out$res[i,2] == 3) {col = 3}
-  points(tmp.out$res[i,7], tmp.out$res[i,6], col = col, pch = 19)
+abline(v = many_peaks[tmp.out[["peaks"]][, 3], 1])
+for(i in 1:nrow(tmp.out$peaks)) {
+  if(tmp.out$peaks[i,2] == 1) {col = 1}
+  if(tmp.out$peaks[i,2] == 2) {col = 2}
+  if(tmp.out$peaks[i,2] == 3) {col = 3}
+  points(tmp.out$peaks[i, 7], tmp.out$peaks[i,6], col = col, pch = 19)
 }
 
-positive <- sum(tmp.out$res[,2] == 3)
-negative <- sum(tmp.out$res[,2] == 2)
+positive <- sum(tmp.out$peaks[, 2] == 3)
+negative <- sum(tmp.out$peaks[, 2] == 2)
 total <- positive + negative
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{smooth}
+

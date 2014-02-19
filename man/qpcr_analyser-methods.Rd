@@ -25,7 +25,8 @@ can be used to analyze data from chamber based dPCR machines.
 }
 \arguments{
   \item{input}{
-a dataframe containing the qPCR data or a result of function \code{modlist} or an object of the class 
+a dataframe containing the qPCR data or a result of function \code{\link[qpcR]{modlist}} or an 
+object of the class 
  \code{\linkS4class{adpcr}}.
 }
   \item{cyc}{
@@ -37,7 +38,7 @@ a dataframe containing the qPCR data or a result of function \code{modlist} or a
 }
   \item{model}{
     is the model to be used for the analysis for all runs. Defaults to 'l5' 
-      (see \code{\link{pcrfit}}).
+      (see \code{\link[qpcR]{pcrfit}}).
 }
   \item{norm}{
 logical. Indicates if the raw data should be normalized within [0, 1] before model fitting.
@@ -47,11 +48,11 @@ logical. Indicates if the raw data should be normalized within [0, 1] before mod
 }
   \item{type}{
 		is the method for the crossing point/threshold cycle estimation and efficiency 
-		estimation (\link[qpcR]{efficiency}). Defaults to 'Cy0' (\code{\link{Cy0}}).
+		estimation (\link[qpcR]{efficiency}). Defaults to 'Cy0' (\code{\link[qpcR]{Cy0}}).
 }
   \item{takeoff}{
 logical; if \code{TRUE} calculates the first significant cycle of the exponential region 
-		     (takeoff point). See \code{\link{takeoff}} for details.
+		     (takeoff point). See \code{\link[qpcR]{takeoff}} for details.
 }
 }
 \details{

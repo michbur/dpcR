@@ -18,6 +18,7 @@ exportMethods(
   "show")
 
 export(
+  "AUCtest",
   "sim_ddpcr",
   "plot_vic_fam",
   "sim_adpcr",

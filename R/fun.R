@@ -227,14 +227,18 @@ setClass("adpcr", contains = "matrix", representation(.Data = "matrix",
 
 setMethod("summary", signature(object = "adpcr"), function(object, print = TRUE) {
   data <- slot(object, ".Data")
-  col_dat <-ncol(data)
+  
+  col_dat <- ncol(data)
   type <- slot(object, "type")
   n <- slot(object, "n")
   
-  if (type %in% c("nm", "tp")) 
+  if (type %in% c("nm", "tp")) {
     k <- colSums(data > 0)
-    
-  invisible(print_summary(k, col_dat, type, n, print))
+    invisible(print_summary(k, col_dat, type, n, print))
+  }
+  
+  if (type %in% c("fluo", "ct")) 
+    print(paste0("Summary not currently implemented for data type ", type, "."))
 })
 
 #special method declared to hide slots other than .Data
@@ -822,7 +826,7 @@ compare_dens <- function(input, moments = TRUE, ...) {
 
 # AUC test -----------------------------
 
-AUCtest <- function(x = x, y = y, threshold = 0.05, cut = 0.05, savgol = TRUE, norm = FALSE,
+AUCtest <- function(x = x, y = y, threshold = 0.05, noise_cut = 0.05, savgol = TRUE, norm = FALSE,
                    filter.q = c(0.7, 0.8)) {
   # Initial checking of input values
   if (is.null(x)) 
@@ -835,8 +839,8 @@ AUCtest <- function(x = x, y = y, threshold = 0.05, cut = 0.05, savgol = TRUE, n
   # Get the raw data and assign them to a data frame containing the abscissa values (e.g., 
   # time, count, ...) and the corresponding peak value (e.g., fluorescence)
   # Preprocessing:
-  # Set values below a "cut" value to 0
-  y[y < quantile(y, cut)] <- 0
+  # Set values below a "noise_cut" value to 0
+  y[y < quantile(y, noise_cut)] <- 0
   
   # Normalise data based on the quantiles
   qval <- 0.05
@@ -862,7 +866,7 @@ AUCtest <- function(x = x, y = y, threshold = 0.05, cut = 0.05, savgol = TRUE, n
                       max(supposed_peaks))
  
   # test_res is checked later which element of the data is TRUE
-  test_res <- cut(supposed_peaks[,1], peak_quantiles, include.lowest = TRUE)
+  test_res <- cut(supposed_peaks[, 1], peak_quantiles, include.lowest = TRUE)
   levels(test_res) <- c("noise", "negative", "positive")
   
   # create an empty matrix with the results of the area under the curve calculation
@@ -899,7 +903,7 @@ AUCtest <- function(x = x, y = y, threshold = 0.05, cut = 0.05, savgol = TRUE, n
   colnames(all_peaks) <- c("Peak number", "State", "Position", "AUC", "Width", "Height", 
                            "Index", "Resolution")
         
-  list(res = all_peaks, data = data) # List containing the table with all values
+  list(peaks = all_peaks, data = data) # List containing the table with all values
   # and the smoothed data
 }
 
