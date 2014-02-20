@@ -4,7 +4,8 @@
 AUCtest
 }
 \description{
-Detect, separate and count positive peaks, negative peaks and peak-like noise. In addtion, function calculates area of the peaks.
+Detect, separate and count positive peaks, negative peaks and peak-like noise. In addition, 
+function calculates area of the peaks.
 }
 \usage{
 AUCtest(x = x, y = y, threshold = 0.05, noise_cut = 0.05, savgol = TRUE, norm = FALSE, 
@@ -13,17 +14,17 @@ filter.q = c(0.7, 0.8))
 
 \arguments{
   \item{x}{
-%%     ~~Describe \code{x} here~~
+a vector containing the abscissa values (e.g., time, position)
 }
   \item{y}{
 a vector of fluorescence value.
 }
   \item{threshold}{
-%%     ~~Describe \code{threshold} here~~
+a value which defines the peak heights not to consider as peak.
 }
   \item{noise_cut}{
-a numeric value between 0 and 1. All data between 0 and \code{noise_cut} quantile would be considered 
-noise in the further analysis.
+a numeric value between 0 and 1. All data between 0 and \code{noise_cut} quantile would be 
+considered noise in the further analysis.
 }
   \item{savgol}{
 logical value. If \code{TRUE}, Savitzky-Golay smoothing filter is used.
@@ -48,7 +49,9 @@ The second element contains smoothed data.
 
 }
 \references{
-%% ~put references to the literature/web site here ~
+Savitzky, A., Golay, M.J.E., 1964. Smoothing and Differentiation of Data by Simplified Least 
+Squares Procedures. Anal. Chem. 36, 1627–1639.
+
 }
 \author{
 Stefan Roediger, Michal Burdukiewicz.
@@ -69,20 +72,21 @@ par(mfrow = c(3,1))
 plot(many_peaks, type = "l", main = "Noisy raw data")
 abline(h = 0.01, col = "red")
 
-tmp.out <- AUCtest(many_peaks[, 1], many_peaks[, 2], threshold = 0.01, noise_cut = 0.1, savgol = TRUE)
+tmp.out <- AUCtest(many_peaks[, 1], many_peaks[, 2], threshold = 0.01, noise_cut = 0.1, 
+                    savgol = TRUE)
 plot(tmp.out[["data"]], type = "l", main = "Only smoothed")
 abline(h = 0.01, col = "red")
 abline(v = many_peaks[tmp.out[["peaks"]][, 3], 1], lty = "dashed")
 
-tmp.out <- AUCtest(many_peaks[, 1], many_peaks[, 2], threshold = 0.01, noise_cut = 0.1, savgol = TRUE, 
-                  norm = TRUE)
-plot(tmp.out[["data"]], type = "l", main = "Smoothed and preaks detected")
+tmp.out <- AUCtest(many_peaks[, 1], many_peaks[, 2], threshold = 0.01, noise_cut = 0.1, 
+                    savgol = TRUE, norm = TRUE)
+plot(tmp.out[["data"]], type = "l", main = "Smoothed and peaks detected")
 abline(v = many_peaks[tmp.out[["peaks"]][, 3], 1])
 for(i in 1:nrow(tmp.out$peaks)) {
-  if(tmp.out$peaks[i,2] == 1) {col = 1}
-  if(tmp.out$peaks[i,2] == 2) {col = 2}
-  if(tmp.out$peaks[i,2] == 3) {col = 3}
-  points(tmp.out$peaks[i, 7], tmp.out$peaks[i,6], col = col, pch = 19)
+  if(tmp.out$peaks[i, 2] == 1) {col = 1}
+  if(tmp.out$peaks[i, 2] == 2) {col = 2}
+  if(tmp.out$peaks[i, 2] == 3) {col = 3}
+  points(tmp.out$peaks[i, 7], tmp.out$peaks[i, 6], col = col, pch = 19)
 }
 
 positive <- sum(tmp.out$peaks[, 2] == 3)
@@ -91,4 +95,7 @@ total <- positive + negative
 
 }
 \keyword{smooth}
+\keyword{peak}
+\keyword{AUC}
+\keyword{noise}
 
