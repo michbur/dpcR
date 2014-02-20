@@ -1,4 +1,3 @@
-
 # Test if x is a positive integer value
 # warn defines the warning level
 t.int <- function (x, warn = 0) {
@@ -875,11 +874,10 @@ AUCtest <- function(x = x, y = y, threshold = 0.05, noise_cut = 0.05, savgol = T
     # select range of single peak
     xy <- data[supposed_peaks[i, 3]:supposed_peaks[i, 4], 1:2]
 
-    # predicted peaks areas
-    sp <- smooth.spline(x, y)
-    # should psp be declared inside function?
-    psp <- function(x = xy[, 1]) {
-      psp.tmp <- predict(sp, x)
+     # psp	predicted smoothed peaks
+     psp <- function(data = xy) {
+      sp <- smooth.spline(data[, 1], data[, 2])
+      psp.tmp <- predict(sp, data[, 1])
       psp <- psp.tmp$y
     }
     
