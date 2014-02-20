@@ -825,8 +825,17 @@ compare_dens <- function(input, moments = TRUE, ...) {
 
 # AUC test -----------------------------
 
-AUCtest <- function(x = x, y = y, threshold = 0.05, noise_cut = 0.05, savgol = TRUE, norm = FALSE,
-                   filter.q = c(0.7, 0.8)) {
+test_peaks <- function (x, ...) {
+  stop("Wrong class of 'x'", call. = TRUE, domain = NA)
+}
+
+setGeneric("test_peaks")
+
+
+setMethod("test_peaks", signature(x = "numeric"), function(x, y, threshold = 0.05, 
+                                                                 noise_cut = 0.05, savgol = TRUE, 
+                                                                 norm = FALSE,
+                                                                 filter.q = c(0.7, 0.8)) {
   # Initial checking of input values
   if (is.null(x)) 
     stop("Enter 'x' value.", call. = TRUE, domain = NA)
@@ -834,6 +843,29 @@ AUCtest <- function(x = x, y = y, threshold = 0.05, noise_cut = 0.05, savgol = T
     stop("Enter 'y' value.", call. = TRUE, domain = NA)
   if (length(x) != length(y)) 
     stop("'x' and 'y' differ in length.", call. = TRUE, domain = NA)
+  AUCtest(x = x, y = y, threshold = threshold, noise_cut = noise_cut, savgol = savgol, 
+          norm = norm, filter.q = filter.q)
+  
+})
+
+setMethod("test_peaks", signature(x = "adpcr"), function(x, threshold = 0.05, 
+                                                           noise_cut = 0.05, savgol = TRUE, 
+                                                           norm = FALSE,
+                                                           filter.q = c(0.7, 0.8)) {
+  # Initial checking of input values
+  if (slot(x, "type") != "fluo") 
+    stop("'adpcr' object must have type 'fluo'.", call. = TRUE, domain = NA)
+  x_vals <- slot(x, ".Data")[[1]]
+  y_vals <- slot(x, ".Data")[[2]]
+  AUCtest(x = x_vals, y = y_vals, threshold = threshold, noise_cut = noise_cut, savgol = savgol, 
+          norm = norm, filter.q = filter.q)
+  
+})
+
+
+
+AUCtest <- function(x = x, y = y, threshold = 0.05, noise_cut = 0.05, savgol = TRUE, norm = FALSE,
+                   filter.q = c(0.7, 0.8)) {
   
   # Get the raw data and assign them to a data frame containing the abscissa values (e.g., 
   # time, count, ...) and the corresponding peak value (e.g., fluorescence)
@@ -874,12 +906,20 @@ AUCtest <- function(x = x, y = y, threshold = 0.05, noise_cut = 0.05, savgol = T
     # select range of single peak
     xy <- data[supposed_peaks[i, 3]:supposed_peaks[i, 4], 1:2]
 
-     # psp	predicted smoothed peaks
-     psp <- function(data = xy) {
-      sp <- smooth.spline(data[, 1], data[, 2])
-      psp.tmp <- predict(sp, data[, 1])
+    
+    sp <- smooth.spline(x, y)
+    # should psp be declared inside function?
+    psp <- function(x = xy[, 1]) {
+      psp.tmp <- predict(sp, x)
       psp <- psp.tmp$y
     }
+    
+    #currently not working
+#     psp <- function(data = xy) {
+#       sp <- smooth.spline(data[, 1], data[, 2])
+#       psp.tmp <- predict(sp, data[, 1])
+#       psp <- psp.tmp$y
+#     }
     
     peak <- rep(0, 6)
     

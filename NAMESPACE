@@ -14,11 +14,11 @@ exportClasses(
 
 exportMethods(
   "moments",
+  "test_peaks",
   "summary",
   "show")
 
 export(
-  "AUCtest",
   "sim_ddpcr",
   "plot_vic_fam",
   "sim_adpcr",

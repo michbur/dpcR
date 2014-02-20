@@ -1,20 +1,29 @@
-\name{AUCtest}
-\alias{AUCtest}
+\name{test_peaks-methods}
+\docType{methods}
+\alias{test_peaks-methods}
+\alias{test_peaks,adpcr-method}
+\alias{test_peaks,numeric-method}
+\alias{moments}
+\name{test_peaks}
+\alias{test_peaks}
 \title{
-AUCtest
+Peak Test
 }
 \description{
 Detect, separate and count positive peaks, negative peaks and peak-like noise. In addition, 
 function calculates area of the peaks.
 }
 \usage{
-AUCtest(x = x, y = y, threshold = 0.05, noise_cut = 0.05, savgol = TRUE, norm = FALSE, 
-filter.q = c(0.7, 0.8))
+\S4method{test_peaks}{numeric}(x, y, threshold = 0.05, noise_cut = 0.05, savgol = TRUE, 
+norm = FALSE, filter.q = c(0.7, 0.8))
+\S4method{test_peaks}{adpcr}(x, threshold = 0.05, noise_cut = 0.05, savgol = TRUE, 
+norm = FALSE, filter.q = c(0.7, 0.8))
 }
 
 \arguments{
   \item{x}{
-a vector containing the abscissa values (e.g., time, position)
+a vector containing the abscissa values (e.g., time, position) OR an object of class 
+\code{\linkS4class{adpcr}}.
 }
   \item{y}{
 a vector of fluorescence value.
@@ -72,13 +81,13 @@ par(mfrow = c(3,1))
 plot(many_peaks, type = "l", main = "Noisy raw data")
 abline(h = 0.01, col = "red")
 
-tmp.out <- AUCtest(many_peaks[, 1], many_peaks[, 2], threshold = 0.01, noise_cut = 0.1, 
+tmp.out <- test_peaks(many_peaks[, 1], many_peaks[, 2], threshold = 0.01, noise_cut = 0.1, 
                     savgol = TRUE)
 plot(tmp.out[["data"]], type = "l", main = "Only smoothed")
 abline(h = 0.01, col = "red")
 abline(v = many_peaks[tmp.out[["peaks"]][, 3], 1], lty = "dashed")
 
-tmp.out <- AUCtest(many_peaks[, 1], many_peaks[, 2], threshold = 0.01, noise_cut = 0.1, 
+tmp.out <- test_peaks(many_peaks[, 1], many_peaks[, 2], threshold = 0.01, noise_cut = 0.1, 
                     savgol = TRUE, norm = TRUE)
 plot(tmp.out[["data"]], type = "l", main = "Smoothed and peaks detected")
 abline(v = many_peaks[tmp.out[["peaks"]][, 3], 1])
@@ -98,4 +107,3 @@ total <- positive + negative
 \keyword{peak}
 \keyword{AUC}
 \keyword{noise}
-
