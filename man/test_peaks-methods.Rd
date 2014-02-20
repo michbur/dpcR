@@ -3,8 +3,6 @@
 \alias{test_peaks-methods}
 \alias{test_peaks,adpcr-method}
 \alias{test_peaks,numeric-method}
-\alias{moments}
-\name{test_peaks}
 \alias{test_peaks}
 \title{
 Peak Test
@@ -59,17 +57,12 @@ The second element contains smoothed data.
 }
 \references{
 Savitzky, A., Golay, M.J.E., 1964. Smoothing and Differentiation of Data by Simplified Least 
-Squares Procedures. Anal. Chem. 36, 1627–1639.
+Squares Procedures. Anal. Chem. 36, 1627-1639.
 
 }
 \author{
 Stefan Roediger, Michal Burdukiewicz.
 }
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
@@ -90,7 +83,7 @@ abline(v = many_peaks[tmp.out[["peaks"]][, 3], 1], lty = "dashed")
 tmp.out <- test_peaks(many_peaks[, 1], many_peaks[, 2], threshold = 0.01, noise_cut = 0.1, 
                     savgol = TRUE, norm = TRUE)
 plot(tmp.out[["data"]], type = "l", main = "Smoothed and peaks detected")
-abline(v = many_peaks[tmp.out[["peaks"]][, 3], 1])
+abline(v = many_peaks[tmp.out[["peaks"]][, 3], 1], lty = "dashed")
 for(i in 1:nrow(tmp.out$peaks)) {
   if(tmp.out$peaks[i, 2] == 1) {col = 1}
   if(tmp.out$peaks[i, 2] == 2) {col = 2}
