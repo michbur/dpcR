@@ -19,6 +19,7 @@ exportMethods(
   "show")
 
 export(
+  "create_dpcr",
   "sim_ddpcr",
   "plot_vic_fam",
   "sim_adpcr",

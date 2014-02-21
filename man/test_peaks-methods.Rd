@@ -45,7 +45,8 @@ second one is the quantile of the negative peaks.
 }
 }
 \details{
-The localization of peaks is determined by the \code{\link[pracma]{findpeaks}} function.
+The localization of peaks is determined by the \code{\link[pracma]{findpeaks}} function. 
+The area under the peak is calculated by integration of approximating spline.
 }
 \value{
 A list of length 2. The first element is a data frame containing: peak number, peak group (noise, 

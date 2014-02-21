@@ -16,7 +16,7 @@ represented by one row) or fluorescence \code{"fluo"}.
   \describe{
     \item{\code{.Data}:}{\code{"matrix"} containing data from all droplets. See Description.}
     \item{\code{n}:}{\code{"integer"} representing number of partitions.}
-    \item{\code{threshold}:}{sing \code{"numeric"} value giving the threshold above which droplet is counted as positive.}
+    \item{\code{threshold}:}{ \code{"numeric"} value giving the threshold above which droplet is counted as positive.}
     \item{\code{type}:}{Object of class \code{"character"} defining type of data. Could be
     \code{"nm"} (Number of molecules per partition), \code{"tp"} (number of positive droplets) or 
     \code{"fluo"} (fluorescence).}   
