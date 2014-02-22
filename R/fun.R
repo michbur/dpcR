@@ -627,24 +627,31 @@ empir_moms <- function(input) {
 # GENERAL USE - droplet, array ------------------------------
 
 #create adpr and ddpcr objects
-create_dpcr <- function(data, n, threshold = NULL, type, adpcr = TRUE) {
-  result <- new("ddpcr")
-  slot(result, ".Data") <- data
+create_dpcr <- function(data, n, threshold = NULL, breaks = NULL, type, adpcr = TRUE) {
+  if (adpcr != TRUE && adpcr == FALSE)
+    stop("'adpcr' argument must have TRUE or FALSE value.", call. = TRUE, domain = NA)
+  
+  if (type == "ct" && adpcr == FALSE)
+    stop("'ct' type is not implemented for 'ddpcr' objects.", call. = TRUE, domain = NA)
+  
   if (!(is.integer(n))) {
     warning("'n' converted to integer.")
     n <- as.integer(n)
   }
-  slot(result, "n") <- n
-  if (adpcr) {
-    if (type %in% c("nm", "tnm", "ct", "fluo"))
-      slot(result, "type") <- type
-  } else {
-    if (type %in% c("nm", "tnm", "fluo"))
-      slot(result, "type") <- type
+
+  if (is.vector(data))
+    data <- as.matrix(data)
+  if (!(is.matrix(data))) {
+    warning("'data' converted to matrix.")
+    data <- as.matrix(data)
   }
-  if (length(slot(result, "type")) == 0)
-    stop("Invalid type chosen.", call. = TRUE, domain = NA)
-  slot(result, "threshold") <- threshold
+  
+  if (adpcr) {
+    create_adpcr(data, n, breaks, type, adpcr)
+  } else {
+    create_ddpcr(data, n, threshold, type, adpcr)
+  }
+  
   result
 }
 

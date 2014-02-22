@@ -18,7 +18,7 @@ represented by one row), a cycle threshold of each well \code{"ct"} or fluoresce
   \describe{
     \item{\code{.Data}:}{\code{"matrix"} containing data from array. See Description.}
     \item{\code{n}:}{Object of class \code{"integer"} equal to the number of partitions.}
-    \item{\code{breaks}:}{\code{"numeric"} numeric vector giving the number of intervals into
+    \item{\code{breaks}:}{\code{"numeric"}  vector giving the number of intervals into
     which \code{.Data} should be cut.}
     \item{\code{type}:}{Object of class \code{"character"} defining type of data. Could be 
     \code{"nm"} (number of molecules per partition), \code{"tp"} (total number of positive wells 

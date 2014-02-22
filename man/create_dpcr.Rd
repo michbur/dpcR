@@ -5,21 +5,26 @@
 Create dpcR object
 }
 \description{
-Create dpcR object.
+Quick creation of \code{\linkS4class{adpcr}} and\code{\linkS4class{ddpcr}} objects.
 }
 \usage{
-create_dpcr(data, n, threshold = NULL, type, adpcr = TRUE)
+create_dpcr(data, n, threshold = NULL, breaks = NULL, type, adpcr = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{data}{
-  a vector or matrix of data from dpcr experiments.
+  a \code{"numeric"} vector or matrix of data from dPCR experiments.
 }
   \item{n}{
   \code{"integer"} equal to number of partitions.
 }
   \item{threshold}{
   \code{"numeric"} value giving the threshold above which droplet is counted as positive.
+  Ignored if \code{adpcr} is \code{TRUE}.
+}
+  \item{breaks}{
+  \code{"numeric"} vector giving the number of intervals into which \code{data} should be cut.
+  Ignored if \code{adpcr} is \code{FALSE}.
 }
   \item{type}{
   Object of class \code{"character"} defining type of data. Could be 
@@ -32,23 +37,22 @@ create_dpcr(data, n, threshold = NULL, type, adpcr = TRUE)
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+This function assists in creation of objects used by other functions of the package. Its 
+in build capabilities include checking the correctness of arguments.
+
+A warning is prompted whenever any of arguments is converted to other type.
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+An \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} object.
 }
 \references{
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+Michal Burdukiewicz, Stefan Roediger.
 }
 \note{
-%%  ~~further notes~~
+It is still possible (although not recomended) to create \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} objects manually by \code{\link{new}} function.
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
