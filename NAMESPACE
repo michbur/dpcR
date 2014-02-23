@@ -19,6 +19,8 @@ exportMethods(
   "show")
 
 export(
+  "qPCR2pp",
+  "Cy0limiter",
   "create_dpcr",
   "sim_ddpcr",
   "plot_vic_fam",

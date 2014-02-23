@@ -628,7 +628,7 @@ empir_moms <- function(input) {
 
 #create adpr and ddpcr objects
 create_dpcr <- function(data, n, threshold = NULL, breaks = NULL, type, adpcr = TRUE) {
-  if (adpcr != TRUE && adpcr == FALSE)
+  if (adpcr != TRUE && adpcr != FALSE)
     stop("'adpcr' argument must have TRUE or FALSE value.", call. = TRUE, domain = NA)
   
   if (type == "ct" && adpcr == FALSE)
@@ -647,12 +647,10 @@ create_dpcr <- function(data, n, threshold = NULL, breaks = NULL, type, adpcr = 
   }
   
   if (adpcr) {
-    create_adpcr(data, n, breaks, type, adpcr)
+    create_adpcr(data, n, breaks, type)
   } else {
-    create_ddpcr(data, n, threshold, type, adpcr)
+    create_ddpcr(data, n, threshold, type)
   }
-  
-  result
 }
 
 
@@ -963,7 +961,77 @@ compare_dens <- function(input, moments = TRUE, ...) {
   }
 }
 
+# Poisson process integration ----------------------------------
 
+qPCR2pp <- function(cycles, process, NuEvents = 1, delta = 1, mincyc = 1, maxcyc = 45, rug = TRUE, 
+                    plot = TRUE){
+  # Rearrange the imput
+  # NOTE: should use an object from qpcr_analyzer if it turns out to be a useful
+  # function
+  res.qPCR <- data.frame(cycles, process)
+  colnames(res.qPCR) <- c("Cycles", "result")
+  res.qPCR <- res.qPCR[order (res.qPCR[["Cycles"]]),]
+  res.qPCR <- cbind(res.qPCR, cumsum(res.qPCR[,2]))
+  colnames(res.qPCR) <- c("Cycles", "result")
+  
+  # do not know if this is correct, WIP
+  # cycle.time should give the "average time" between the occurence of a 
+  # positive reaction and another positive reaction
+  dens.tmp <- dpcr_density(sum(res.qPCR[, 2]), nrow(res.qPCR), plot = FALSE)
+  cycle.time <- exp(1/dens.tmp$k)
+  # Determine probaility how often a events occur according to Poisson process 
+  # with a certia rate per time frame (interval).
+  # NuEvents is "number of expected events" within a time frame (interval)
+  # dens.tmp$k gives the rate of the process according to dpcr_density()
+  # delta is the difference "time (cycles) points" e.g., Cycle 18 and 25
+  # mu is the expected number of events in defined interval (but this is somewhat
+  # stupid since the intervals are discrete ... and so on)
+  # cyc.occ gives the occurence in an interval
+  mu <- dens.tmp$k * delta
+  fact.NuEvents <- factorial(NuEvents)
+  if (fact.NuEvents != "Inf") {
+    cyc.occ <- (exp(-mu) * mu^NuEvents)/fact.NuEvents
+  } else cyc.occ <- "to large"
+  # END WIP
+  # Plot the calculated qPCR data as Poisson processes
+  if (plot) plot(res.qPCR[,1], res.qPCR[,3], xlim = c(mincyc, maxcyc), 
+                 ylim = c(0, nrow(res.qPCR)), xlab = "Cycle", 
+                 ylab = "lambda (cycle)", type = "S", lwd = 1.5)
+  abline(h = nrow(res.qPCR) * 0.5, col = "grey")
+  legend(mincyc,nrow(res.qPCR), c(paste0("Chambers", dens.tmp$n, sep = " "),
+                                  paste0("Events", dens.tmp$k, sep = " "),
+                                  paste0("mu", mu, sep = " "), 
+                                  paste0("CT", cycle.time, sep = " "),
+                                  paste0("CO", cyc.occ, sep = " ")))
+  # Add rug to the the plot the illustrate the density of events
+  if (rug) 
+    rug(res.qPCR[,1])
+  list(out = res.qPCR, mu = mu, CT = cycle.time, CO = cyc.occ)
+}
+
+
+# Example of an artificial chamber dPCR experiment using the test data set from
+# qpcR. The function Cy0limiter is used to calculate the Cy0 value and converts 
+# all values between a defined range to 1 and the remaining to 0.
+Cy0limiter <- function(data = data, cyc = 1, fluo.range = c(NA), 
+                       Cq.range = c(NA, NA), model = l5) {
+  Cy0 <- vector()
+  Cy0.res <- vector()
+  pb <- txtProgressBar(min = 1, max = length(fluo.range), initial = 0, 
+                       style = 3)
+  for (i in fluo.range) {
+    Cy0.tmp <- efficiency(pcrfit(data = data, cyc = cyc, fluo = i, 
+                                 model = model), type = "Cy0", plot = FALSE)$Cy0
+    Cy0 <- c(Cy0, Cy0.tmp)
+    if (Cq.range[1] <= Cy0.tmp && Cy0.tmp <= Cq.range[2]) {
+      Cy0.res.tmp <- 1} 
+    else(Cy0.res.tmp <- 0)
+    Cy0.res <- c(Cy0.res, Cy0.res.tmp)
+    setTxtProgressBar(pb, i)
+  }
+  close(pb)
+  data.frame(Cy0 = Cy0, result = Cy0.res)
+}
 
 
 

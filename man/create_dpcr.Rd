@@ -1,6 +1,6 @@
 \name{create_dpcr}
 \alias{create_dpcr}
-%- Also NEED an '\alias' for EACH other topic documented here.
+
 \title{
 Create dpcR object
 }
@@ -10,10 +10,11 @@ Quick creation of \code{\linkS4class{adpcr}} and\code{\linkS4class{ddpcr}} objec
 \usage{
 create_dpcr(data, n, threshold = NULL, breaks = NULL, type, adpcr = TRUE)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
   \item{data}{
   a \code{"numeric"} vector or matrix of data from dPCR experiments.
+  Data frames will be converted to matrices.
 }
   \item{n}{
   \code{"integer"} equal to number of partitions.
@@ -55,15 +56,22 @@ Michal Burdukiewicz, Stefan Roediger.
 It is still possible (although not recomended) to create \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} objects manually by \code{\link{new}} function.
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-sample_run <- sample(0:500, 200, replace = TRUE)
-sample_ddpcr_object <- create_dpcr(matrix(sample_run), n = 765L, 
-threshold = 250, type = "nm", adpcr = FALSE)
+#droplet digital PCR example
+sample_runs <- matrix(rpois(60, lambda = 1.5), ncol = 2)
+ddpcr1 <- create_dpcr(sample_runs[,1], n = 30L, 
+threshold = 1, type = "nm", adpcr = FALSE)
+ddpcr2 <- create_dpcr(sample_runs[,2], n = 30L, 
+threshold = 1, type = "nm", adpcr = FALSE)
+plot_vic_fam(ddpcr1, ddpcr2)
+
+#array digital PCR example
+sample_adpcr <- create_dpcr(rpois(765, lambda = 0.8), n = 765L, type = "nm", adpcr = TRUE)
+plot_panel(sample_adpcr, 45, 17)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
