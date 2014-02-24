@@ -176,7 +176,7 @@ plot_vf_circ <- function(x, y, radius, bg) {
           bg = bg, fg = "black", inches = FALSE, add = TRUE)
 }
 
-plot_vic_fam <- function(vic, fam) {
+plot_vic_fam <- function(vic, fam, col_vic = "green", col_fam = "blue") {
   if (class(vic) == "ddpcr" && class(fam) == "ddpcr") { 
     if (ncol(vic) > 1 && ncol(fam) > 1)
       stop("Both 'vic' and 'fam' must contain only one panel.", call. = TRUE, domain = NA)    
@@ -193,27 +193,51 @@ plot_vic_fam <- function(vic, fam) {
   
   y_max_lim <- ifelse(max(vic) > max(fam), max(vic), max(fam))
   y_min_lim <- ifelse(min(vic) > min(fam), min(vic), min(fam))
+  
+  #center of the circle
   y_points <- -y_max_lim * 0.06
-  plot(vic, col = "green", type = "l", lwd = 2, ylim = c(y_points, y_max_lim), 
+  
+  #end of the 'tick'
+  y_points2 <- y_points * 0.3
+  plot(vic, col = col_vic, type = "l", lwd = 2, ylim = c(y_points, y_max_lim), 
        axes = FALSE, xlab = "", ylab = "Number of molecules")
   axis(2)
-  lines(fam, col = "blue", lty = "dashed")
+  lines(fam, col = col_fam, lty = "dashed")
   abline(h = 0)
-  circ <- findpeaks(vic, threshold = y_min_lim)
-  radius <- min(rowMeans(circ[, 3:4]) - circ[, 3])*0.9
+
+  #translate color to rgb
+  col_vic <- col2rgb(col_vic)/255
+  col_fam <- col2rgb(col_fam)/255
   
   vic_pos <- findpeaks(vic, threshold = vic_thr)[, 1:2]
   fam_pos <- findpeaks(fam, threshold = fam_thr)[, 1:2]
-  common <- fam_pos[sapply(fam_pos[, 2], function(x) 
-    x %in% vic_pos[,2]), 2]
-  fracs <- sapply(common, function(x) 
-    c(vic[x]/(vic[x] + fam[x]), (vic[x] + fam[x])/2))
-  common_cols <- rgb(0, fracs[1, ], 1 - fracs[1, ], alpha = fracs[2, ]/y_max_lim)
+  circ <- unique(c(vic_pos[, 2], fam_pos[, 2]))
   
-  plot_vf_circ(circ[, 2], y_points, radius, "white")
-  plot_vf_circ(vic_pos[, 2], y_points, radius, rgb(0, 1, 0, vic_pos[, 1]/y_max_lim))
-  plot_vf_circ(fam_pos[, 2], y_points, radius, rgb(0, 0, 1, fam_pos[, 1]/y_max_lim))
-  plot_vf_circ(common, y_points, radius, common_cols)
+  radius <- 0.4
+  
+  for (i in circ)
+    lines(c(i, i), c(0, y_points2))
+  
+  plot_vf_circ(circ, y_points, radius, "white") 
+  plot_vf_circ(vic_pos[, 2], y_points, radius, 
+               rgb(col_vic[1, 1],
+                   col_vic[2, 1], 
+                   col_vic[3, 1], 
+                   vic_pos[, 1]/y_max_lim))
+  plot_vf_circ(fam_pos[, 2], y_points, radius, 
+               rgb(col_fam[1, 1],
+                   col_fam[2, 1], 
+                   col_fam[3, 1], 
+                   fam_pos[, 1]/y_max_lim))
+  
+  #peaks common for both channels
+  common <- fam_pos[fam_pos[, 2] %in% vic_pos[, 2], 2]
+  if (length(common) != 0) {
+    fracs <- sapply(common, function(x) 
+      c(vic[x]/(vic[x] + fam[x]), (vic[x] + fam[x])/2))
+    common_cols <- rgb(0, fracs[1, ], 1 - fracs[1, ], alpha = fracs[2, ]/y_max_lim)
+    plot_vf_circ(common, y_points, radius, common_cols)
+  }
 }
 
 # CLASS AND METHODS - array ---------------------------------------------
