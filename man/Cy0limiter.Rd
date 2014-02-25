@@ -8,24 +8,26 @@ Cy0 Limiter
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-Cy0limiter(data = data, cyc = 1, fluo.range = c(NA), Cq.range = c(NA, NA), model = l5)
+Cy0limiter(data = data, cyc = 1, fluo = NULL, Cq.range = c(NA, NA), model = l5)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{data}{
-%%     ~~Describe \code{data} here~~
+a dataframe containing the qPCR data.
 }
   \item{cyc}{
-%%     ~~Describe \code{cyc} here~~
+the column containing the cycle data. Defaults to first column.
 }
-  \item{fluo.range}{
-%%     ~~Describe \code{fluo.range} here~~
+  \item{fluo}{
+        the column(s) (runs) to be analyzed. If NULL, all runs will be considered. 
+	      Use fluo = 2 to chose the second column for example.
 }
   \item{Cq.range}{
 %%     ~~Describe \code{Cq.range} here~~
 }
   \item{model}{
-%%     ~~Describe \code{model} here~~
+    is the model to be used for the analysis for all runs. Defaults to 'l5' 
+      (see \code{\link[qpcR]{pcrfit}}).
 }
 }
 \details{
@@ -54,32 +56,15 @@ Cy0limiter(data = data, cyc = 1, fluo.range = c(NA), Cq.range = c(NA, NA), model
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+library(qpcR)
+test <- cbind(reps[1:45, ], reps2[1:45 ,2:ncol(reps2)], reps3[1:45 ,2:ncol(reps3)])
+# results.dPCR contains a column with the Cy0 values and a column with converted values.
 
-## The function is currently defined as
-function (data = data, cyc = 1, fluo.range = c(NA), Cq.range = c(NA, 
-    NA), model = l5) 
-{
-    Cy0 <- vector()
-    Cy0.res <- vector()
-    pb <- txtProgressBar(min = 1, max = length(fluo.range), initial = 0, 
-        style = 3)
-    for (i in fluo.range) {
-        Cy0.tmp <- efficiency(pcrfit(data = data, cyc = cyc, 
-            fluo = i, model = model), type = "Cy0", plot = FALSE)$Cy0
-        Cy0 <- c(Cy0, Cy0.tmp)
-        if (Cq.range[1] <= Cy0.tmp && Cy0.tmp <= Cq.range[2]) {
-            Cy0.res.tmp <- 1
-        }
-        else (Cy0.res.tmp <- 0)
-        Cy0.res <- c(Cy0.res, Cy0.res.tmp)
-        setTxtProgressBar(pb, i)
-    }
-    close(pb)
-    data.frame(Cy0 = Cy0, result = Cy0.res)
-  }
+par(mfrow = c(2,2))
+Cq.range <- c(20, 30)
+results.dPCR <- Cy0limiter(data = test, cyc = 1, fluo = NULL,
+                           Cq.range = Cq.range, model = l5)
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

@@ -1037,23 +1037,22 @@ qPCR2pp <- function(cycles, process, NuEvents = 1, delta = 1, mincyc = 1, maxcyc
 # Example of an artificial chamber dPCR experiment using the test data set from
 # qpcR. The function Cy0limiter is used to calculate the Cy0 value and converts 
 # all values between a defined range to 1 and the remaining to 0.
-Cy0limiter <- function(data = data, cyc = 1, fluo.range = c(NA), 
+Cy0limiter <- function(data = data, cyc = 1, fluo = NULL, 
                        Cq.range = c(NA, NA), model = l5) {
+  if (is.null(fluo))
+    fluo <- (1L:ncol(data))[-cyc]
+    
   Cy0 <- vector()
   Cy0.res <- vector()
-  pb <- txtProgressBar(min = 1, max = length(fluo.range), initial = 0, 
+  pb <- txtProgressBar(min = 1, max = length(fluo), initial = 0, 
                        style = 3)
-  for (i in fluo.range) {
+  for (i in fluo) {
     Cy0.tmp <- efficiency(pcrfit(data = data, cyc = cyc, fluo = i, 
                                  model = model), type = "Cy0", plot = FALSE)$Cy0
     Cy0 <- c(Cy0, Cy0.tmp)
-    if (Cq.range[1] <= Cy0.tmp && Cy0.tmp <= Cq.range[2]) {
-      Cy0.res.tmp <- 1} 
-    else(Cy0.res.tmp <- 0)
-    Cy0.res <- c(Cy0.res, Cy0.res.tmp)
+    Cy0.res <- c(Cy0.res, ifelse(Cq.range[1] <= Cy0.tmp && Cy0.tmp <= Cq.range[2], 1, 0))
     setTxtProgressBar(pb, i)
   }
-  close(pb)
   data.frame(Cy0 = Cy0, result = Cy0.res)
 }
 

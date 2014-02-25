@@ -21,7 +21,7 @@ Amplitudes of the VIC channel - object of class \code{\linkS4class{ddpcr}}.
   \item{col_vic}{
     Color of the VIC channel.
 }
-  \item{col_vic}{
+  \item{col_fam}{
     Color of the FAM channel.
 }
 }
@@ -30,16 +30,16 @@ Droplet digital PCR experiments consist of three steps (droplet generation, clon
 droplet amplitude analysis). Typically 20000 nano-sized droplets are analyzed and separated into 
 amplification-positive and amplification-negative droplets. An example of such system is the 
 Bio-Rad QX100 and QX200 (Pinheiro et al. 2012). Such systems have applications in the detection of
-rare DNA target copies, the determination of copy number variations (CNV), detection of mutation, or
-expression analysis of genes or miRNA. Each droplet is analyzed individually using a virtual 
-two-color detection system. The channels are treated separately but finally aligned (e.g., FAM and 
-VIC or FAM and HEX).
+rare DNA target copies, the determination of copy number variations (CNV), detection of mutation,
+or expression analysis of genes or miRNA. Each droplet is analyzed individually using a virtual 
+two-color detection system. The channels are treated separately but finally aligned (e.g., FAM 
+and VIC or FAM and HEX).
 }
 
 \references{
   Pinheiro, L.B., Coleman, V.A., Hindson, C.M., Herrmann, J., Hindson, B.J., Bhat, S., and 
-  Emslie, K.R. (2012). \emph{Evaluation of a droplet digital polymerase chain reaction format for DNA 
-			    copy number quantification}. Anal. Chem. 84, 1003 -- 1011.
+  Emslie, K.R. (2012). \emph{Evaluation of a droplet digital polymerase chain reaction format for
+  DNA copy number quantification}. Anal. Chem. 84, 1003 - 1011.
   
 }
 \author{
