@@ -5,7 +5,9 @@
 Cy0 Limiter
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+The function \code{Cy0limiter} calculates the Cq values of a qPCR experiment within a defined range
+of cycles. The function can be used to extract Cq values of a chamber based qPCR for conversion
+into a dPCR experiment. All Cq values are obtained by Cy0 method (Guescini et al. (2008)).
 }
 \usage{
 Cy0limiter(data = data, cyc = 1, fluo = NULL, Cq.range = c(NA, NA), model = l5)
@@ -23,7 +25,7 @@ the column containing the cycle data. Defaults to first column.
 	      Use fluo = 2 to chose the second column for example.
 }
   \item{Cq.range}{
-%%     ~~Describe \code{Cq.range} here~~
+    is a user defined range of cycles to be used for the determination of the Cq values.
 }
   \item{model}{
     is the model to be used for the analysis for all runs. Defaults to 'l5' 
@@ -41,10 +43,12 @@ the column containing the cycle data. Defaults to first column.
 %% ...
 }
 \references{
-%% ~put references to the literature/web site here ~
+Guescini M, Sisti D, Rocchi MB, Stocchi L & Stocchi V (2008) \emph{A new real-time PCR method to 
+overcome significant quantitative inaccuracy due to slight amplification inhibition}. BMC 
+Bioinformatics, 9: 326.
 }
 \author{
-%%  ~~who you are~~
+Michal Burdukiewicz, Stefan Roediger.
 }
 \note{
 %%  ~~further notes~~
@@ -68,5 +72,6 @@ results.dPCR <- Cy0limiter(data = test, cyc = 1, fluo = NULL,
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ Cy0 }
+\keyword{ qPCR }
+\keyword{ dPCR }
