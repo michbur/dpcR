@@ -5,7 +5,8 @@
 qPCR to Poisson Process
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+dPCR can be described by Poisson statistics. The function qPCR2pp takes a step furter and 
+interpretates the dPCR as a Poisson process if it is analyzed as a "time" based process.
 }
 \usage{
 qPCR2pp(cycles, process, NuEvents = 1, delta = 1, mincyc = 1, maxcyc = 45, rug = TRUE, plot = TRUE)
@@ -13,37 +14,53 @@ qPCR2pp(cycles, process, NuEvents = 1, delta = 1, mincyc = 1, maxcyc = 45, rug =
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{cycles}{
-%%     ~~Describe \code{cycles} here~~
+the column containing the cycle data. Defaults to first column.
 }
   \item{process}{
 %%     ~~Describe \code{process} here~~
 }
   \item{NuEvents}{
-%%     ~~Describe \code{NuEvents} here~~
+  NuEvents is "number of expected events" within a time frame (interval)
 }
   \item{delta}{
-%%     ~~Describe \code{delta} here~~
+ is the difference "time (cycles) points" e.g., Cycle 18 and 25
 }
   \item{mincyc}{
-%%     ~~Describe \code{mincyc} here~~
+  is the first cycle to start the analysis from.
 }
   \item{maxcyc}{
-%%     ~~Describe \code{maxcyc} here~~
+   the the last cycle for the analysis of the Poisson process.
 }
   \item{rug}{
-%%     ~~Describe \code{rug} here~~
+  Adds a rug representation of the data to the plot.
 }
   \item{plot}{
-%%     ~~Describe \code{plot} here~~
+  If \code{TRUE}, plot Poisson process.
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+PCR data derived from a qPCR experiment can be seen as a series of events over time. We define 
+t_i as the time between the first (i - 1)^st and the i^th event. Therefore, the time S_n
+is the sum of all t_i 1 to n. This is the time to the n^th event. S(t) is the number of events 
+in [0, t]. This can be seen as a Poisson proces. The Poisson statistics is the central theorem to 
+random processes in digital PCR. The function \code{qPCR2pp} is used to model random point events 
+in time units (PCR cycles), such as the increase of signa durin a qPCR reaction in a single 
+compartment. A poisson process can be used to modle times at which an event occurs in a "system". 
+The qPCR2pp (quantitative Real-Time PCR to Poisson process) function transforms the qPCR 
+amplification curve data to quantification points (Cq) which are visualized as Poisson process. 
+This functions helps to spot differences between replicate runs of digital PCR experiments. In 
+ideal scenarios the qPCR2pp plots are highly similar. This tool might help to spot differences 
+between experiments (e.g., inhibition of amplification reactions, influence of the chip arrays). 
+The qPCR is an odd duck here because the amplification of conventional qPCRs takes place in 
+discrete steps (cylces. 1, 2 ... 45) but the specific Cq values are calculated with continous 
+outcomes (Cq 18.2, 25.7, ...). Other amplification methods such as isothermal amplifications are
+time based and thus better suited for Poisson process.
 }
 \value{
 %%  ~Describe the value returned
 %%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
+  \item{cycle.time }{is the "average time" between the occurence of a positive reaction and 
+		     another positive reaction}
 %%  \item{comp2 }{Description of 'comp2'}
 %% ...
 }
@@ -51,7 +68,7 @@ qPCR2pp(cycles, process, NuEvents = 1, delta = 1, mincyc = 1, maxcyc = 45, rug =
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+Michal Burdukiewicz, Stefan Roediger.
 }
 \note{
 %%  ~~further notes~~
@@ -101,5 +118,5 @@ function (cycles, process, NuEvents = 1, delta = 1, mincyc = 1,
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ Poisson }
+\keyword{ Process }
