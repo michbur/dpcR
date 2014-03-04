@@ -307,6 +307,35 @@ setMethod("qpcr_analyser", signature(input = "adpcr"), function(input, cyc = 1, 
   res
 })
 
+setGeneric("quadrat.test")
+
+setMethod("quadrat.test", signature(X = "adpcr"), function(X, nx_a, ny_a, nx = 5, ny = 5, 
+                                                               alternative = c("two.sided", "regular", "clustered"), 
+                                                               method = c("Chisq", "MonteCarlo"), 
+                                                               conditional = TRUE,
+                                                               ..., nsim = 1999) {
+  
+  fluo_data <- slot(X, ".Data")
+  
+  #apply in case we have more than 1 
+  apply(fluo_data, 2, function(fluo_col) { 
+    
+  data_points <- matrix(NA, nrow = length(fluo_col), ncol = 3)
+  i = 1
+  for (x in 1L:nx_a) {
+    for (y in ny_a:1L) {
+      data_points[i, ] <- c(x, y, fluo_col[i])
+      i <- i + 1
+    }
+  }
+  
+  data_points <- data_points[data_points[, 3] > 0, ]
+  data_ppp <- ppp(data_points[, 1], data_points[, 2], 
+                  c(1, nx_a), c(1, ny_a), marks = data_points[, 3])
+  quadrat.test(data_ppp, nx, ny, alternative, method, conditional, ..., nsim = 1999)
+  })
+})
+
 # SIMULATIONS - array ---------------------------------------------
 
 #exact copy of dube simulation

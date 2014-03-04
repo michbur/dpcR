@@ -5,6 +5,7 @@ importFrom(qpcR, efficiency, pcrfit, modlist)
 importFrom(binom, binom.confint)
 importFrom(shiny, runApp)
 importFrom(signal, sgolayfilt)
+importFrom(spatstat, ppp, quadrat.test)
 import("methods")
 
 exportClasses(
@@ -16,7 +17,8 @@ exportMethods(
   "moments",
   "test_peaks",
   "summary",
-  "show")
+  "show",
+  "quadrat.test")
 
 export(
   "qPCR2pp",
