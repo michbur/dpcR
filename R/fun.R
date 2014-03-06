@@ -310,30 +310,13 @@ setMethod("qpcr_analyser", signature(input = "adpcr"), function(input, cyc = 1, 
 setGeneric("quadrat.test")
 
 setMethod("quadrat.test", signature(X = "adpcr"), function(X, nx_a, ny_a, nx = 5, ny = 5, 
-                                                               alternative = c("two.sided", "regular", "clustered"), 
-                                                               method = c("Chisq", "MonteCarlo"), 
-                                                               conditional = TRUE,
-                                                               ..., nsim = 1999) {
-  
-  fluo_data <- slot(X, ".Data")
-  
-  #apply in case we have more than 1 
-  apply(fluo_data, 2, function(fluo_col) { 
-    
-  data_points <- matrix(NA, nrow = length(fluo_col), ncol = 3)
-  i = 1
-  for (x in 1L:nx_a) {
-    for (y in ny_a:1L) {
-      data_points[i, ] <- c(x, y, fluo_col[i])
-      i <- i + 1
-    }
-  }
-  
-  data_points <- data_points[data_points[, 3] > 0, ]
-  data_ppp <- ppp(data_points[, 1], data_points[, 2], 
-                  c(1, nx_a), c(1, ny_a), marks = data_points[, 3])
-  quadrat.test(data_ppp, nx, ny, alternative, method, conditional, ..., nsim = 1999)
-  })
+                                                           alternative = c("two.sided", "regular", "clustered"), 
+                                                           method = c("Chisq", "MonteCarlo"), 
+                                                           conditional = TRUE,
+                                                           ..., nsim = 1999) {
+  ppp_data <- adpcr_to_ppp(X, nx_a, ny_a)
+  lapply(ppp_data, function(single_panel)
+    quadrat.test(single_panel, nx, ny, alternative, method, conditional, ..., nsim = 1999))
 })
 
 # SIMULATIONS - array ---------------------------------------------
@@ -363,7 +346,7 @@ create_adpcr <- function(data, n, breaks = NULL, type, models = NULL) {
   result
 }
 
-plot_panel <- function(input, nx, ny, col = "red", legend = TRUE, 
+plot_panel <- function(input, nx_a, ny_a, col = "red", legend = TRUE, 
                        half = "none", ...) {  
   if (class(input) == "adpcr") {
     if (!(slot(input, "type") %in% c("nm", "tp", "ct")))
@@ -377,17 +360,17 @@ plot_panel <- function(input, nx, ny, col = "red", legend = TRUE,
   } else {
     stop("Input must have the 'adpcr' class", call. = TRUE, domain = NA)
   }
-  if (length(input) != nx*ny)
+  if (length(input) != nx_a*ny_a)
     stop (paste0("Can not process with plot since the input 
                  legnth (", length(input) ,
-                 ") differs from the size of nx*ny (", nx*ny, ").
-                   \n Change nx*ny to have the same number of elements."))
+                 ") differs from the size of nx_a*ny_a (", nx_a*ny_a, ").
+                   \n Change nx_a*ny_a to have the same number of elements."))
   
   #use breaks to split input 
   cutted_input <- cut(slot(input, ".Data"), breaks = slot(input, "breaks"), 
                       include.lowest = TRUE, right = FALSE)
   
-  plot(NA, NA, xlim = c(1, nx), ylim = c(1, ny), axes = FALSE, xlab = "", 
+  plot(NA, NA, xlim = c(1, nx_a), ylim = c(1, ny_a), axes = FALSE, xlab = "", 
        ylab = "", ...)
   half <- tolower(half)
   half_val <- switch(half,
@@ -395,8 +378,8 @@ plot_panel <- function(input, nx, ny, col = "red", legend = TRUE,
                      left = c(0.25, 0),
                      right = c(0, 0.25))
   
-  coords <- unlist(lapply(1L:nx, function(x) 
-    lapply(ny:1L, function(y) 
+  coords <- unlist(lapply(1L:nx_a, function(x) 
+    lapply(ny_a:1L, function(y) 
       c(xleft = x - half_val[1], ybottom = y - 0.25, xright = x + half_val[2], 
         ytop = y + 0.25))), recursive = FALSE)
   cols <- cutted_input
@@ -413,8 +396,8 @@ plot_panel <- function(input, nx, ny, col = "red", legend = TRUE,
     levels(cols) <- col
   }
   if (legend)
-    legend(x = -0.085 * nx, 
-           y = ny/1.6, 
+    legend(x = -0.085 * nx_a, 
+           y = ny_a/1.6, 
            legend = levels(cutted_input),
            fill = levels(cols), 
            bty = "n", 
@@ -551,6 +534,36 @@ AUCtest <- function(x = x, y = y, threshold = 0.05, noise_cut = 0.05, savgol = T
   
   list(peaks = all_peaks, data = data) # List containing the table with all values
   # and the smoothed data
+}
+
+adpcr_to_ppp <- function(input, nx_a, ny_a) {
+  if (class(input) != "adpcr")
+    stop("Input must have 'adpcr' class", call. = TRUE, domain = NA)
+  
+  array_data <- slot(input, ".Data")
+  nrow_array <- nrow(array_data)
+  
+  if (nrow_array != nx_a*ny_a)
+    stop (paste0("Can not process with conversion since the input 
+                 legnth (", length(input) ,
+                 ") differs from the size of nx_a*ny_a (", nx_a*ny_a, ").
+                   \n Change nx_a*ny_a to have the same number of elements."))  
+  
+  #apply in case input contains more than 1 array
+  apply(array_data, 2, function(array_col) { 
+    data_points <- matrix(NA, nrow = nrow_array, ncol = 3)
+    i = 1
+    for (x in 1L:nx_a) {
+      for (y in ny_a:1L) {
+        data_points[i, ] <- c(x, y, array_col[i])
+        i <- i + 1
+      }
+    }
+    
+    data_points <- data_points[data_points[, 3] > 0, ]
+    data_ppp <- ppp(data_points[, 1], data_points[, 2], 
+                    c(1, nx_a), c(1, ny_a), marks = data_points[, 3])
+  })
 }
 
 # SIMULATIONS - droplet, array ------------------------------

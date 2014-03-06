@@ -10,12 +10,12 @@ Plot Panel
   Array (R) IFCs (integrated fluidic circuits) of the BioMark (R) and EP1 (R)).
 }
 \usage{
-plot_panel(input, nx, ny, col = "red", legend = TRUE, half = "none", ...)
+plot_panel(input, nx_a, ny_a, col = "red", legend = TRUE, half = "none", ...)
 }
 \arguments{
   \item{input}{object of the \code{\linkS4class{adpcr}} class. See Details.}
-  \item{nx}{Number of columns in a plate.}
-  \item{ny}{Number of rows in a plate.}
+  \item{nx_a}{Number of columns in a plate.}
+  \item{ny_a}{Number of rows in a plate.}
   \item{col}{A single color or vector of colors for each level of input.}
   \item{legend}{If \code{TRUE}, a built-in legend is added to the plot.}
   \item{half}{If \code{left} or \code{right}, every well is represented only by the adequate half
@@ -48,20 +48,20 @@ Michal Burdukiewicz, Stefan Roediger.
 ttest <- sim_adpcr(m = 400, n = 765, times = 20, pos_sums = FALSE, 
                    n_panels = 1)
 # Plot the dPCR experiment results with default settings
-plot_panel(ttest, nx = 45, ny = 17)
+plot_panel(ttest, nx_a = 45, ny_a = 17)
 
 # Apply a binary color code with blue as positive
 ttest@breaks <- c(0, 2, 4)
-plot_panel(ttest, nx = 45, ny = 17, col = "blue")
+plot_panel(ttest, nx_a = 45, ny_a = 17, col = "blue")
 
 # Apply a two color code for number of copies per compartment
-plot_panel(ttest, nx = 45, ny = 17, col = c("blue", "red"))
+plot_panel(ttest, nx_a = 45, ny_a = 17, col = c("blue", "red"))
 
 # supply customized breaks and compare
 par(mfcol = c(2, 1))
-plot_panel(ttest, nx = 45, ny = 17)
+plot_panel(ttest, nx_a = 45, ny_a = 17)
 slot(ttest, "breaks") <- c(0, 1, 2, (max(slot(ttest, "breaks")) + 1))
-plot_panel(ttest, nx = 45, ny = 17)
+plot_panel(ttest, nx_a = 45, ny_a = 17)
 par(mfcol = c(1, 1))
 
 # plot few panels
@@ -69,15 +69,15 @@ ttest2 <- sim_adpcr(m = 400, n = 765, times = 40, pos_sums = FALSE,
                     n_panels = 4)
 par(mfcol = c(2, 2))
 four_panels <- lapply(1:ncol(ttest2), function(i) 
-       plot_panel(extract_dpcr(ttest2, i), nx = 45, ny = 17, legend = FALSE, 
+       plot_panel(extract_dpcr(ttest2, i), nx_a = 45, ny_a = 17, legend = FALSE, 
          main = paste("Panel", LETTERS[i], sep = " ")))
 par(mfcol = c(1, 1))
 
 # two different channels 
-plot_panel(extract_dpcr(ttest2, 1), nx = 45, ny = 17, legend = FALSE, 
+plot_panel(extract_dpcr(ttest2, 1), nx_a = 45, ny_a = 17, legend = FALSE, 
            half = "left")
 par(new = TRUE)
-plot_panel(extract_dpcr(ttest2, 2), nx = 45, ny = 17, col = "blue", 
+plot_panel(extract_dpcr(ttest2, 2), nx_a = 45, ny_a = 17, col = "blue", 
            legend = FALSE, half = "right")
 
 # plot two panels with every well as only the half of the rectangle
@@ -85,7 +85,7 @@ ttest3 <- sim_adpcr(m = 400, n = 765, times = 40, pos_sums = FALSE,
                     n_panels = 2)
 par(mfcol = c(1, 2))
 two_panels <- lapply(1:ncol(ttest3), function(i) 
-       plot_panel(extract_dpcr(ttest3, i), nx = 45, ny = 17, legend = FALSE, 
+       plot_panel(extract_dpcr(ttest3, i), nx_a = 45, ny_a = 17, legend = FALSE, 
          main = paste("Panel", LETTERS[i], sep = " ")))
 par(mfcol = c(1, 1))
 }
