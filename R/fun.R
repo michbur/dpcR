@@ -307,17 +307,14 @@ setMethod("qpcr_analyser", signature(input = "adpcr"), function(input, cyc = 1, 
   res
 })
 
-setGeneric("quadrat.test")
 
-setMethod("quadrat.test", signature(X = "adpcr"), function(X, nx_a, ny_a, nx = 5, ny = 5, 
-                                                           alternative = c("two.sided", "regular", "clustered"), 
-                                                           method = c("Chisq", "MonteCarlo"), 
-                                                           conditional = TRUE,
-                                                           ..., nsim = 1999) {
+
+plate_test <- function(X, nx_a, ny_a, nx = 5, ny = 5, alternative = c("two.sided", "regular", "clustered"), 
+                       method = c("Chisq", "MonteCarlo"), conditional = TRUE, nsim = 1999) {
   ppp_data <- adpcr_to_ppp(X, nx_a, ny_a)
   lapply(ppp_data, function(single_panel)
-    quadrat.test(single_panel, nx, ny, alternative, method, conditional, ..., nsim = 1999))
-})
+    quadrat.test(single_panel, nx, ny, alternative, method, conditional, nsim = 1999))
+}
 
 # SIMULATIONS - array ---------------------------------------------
 

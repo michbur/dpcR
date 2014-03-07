@@ -17,8 +17,7 @@ exportMethods(
   "moments",
   "test_peaks",
   "summary",
-  "show",
-  "quadrat.test")
+  "show")
 
 export(
   "qPCR2pp",
@@ -33,4 +32,5 @@ export(
   "dpcr_density_gui",
   "compare_dens",
   "qpcr_analyser",
-  "adpcr_to_ppp")
+  "adpcr_to_ppp",
+  "plate_test")

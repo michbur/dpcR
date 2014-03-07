@@ -9,7 +9,8 @@ dPCR can be described by Poisson statistics. The function qPCR2pp takes a step f
 interpretates the dPCR as a Poisson process if it is analyzed as a "time" based process.
 }
 \usage{
-qPCR2pp(cycles, process, NuEvents = 1, delta = 1, mincyc = 1, maxcyc = 45, rug = TRUE, plot = TRUE)
+qPCR2pp(cycles, process, NuEvents = 1, delta = 1, mincyc = 1, maxcyc = 45, rug = TRUE, 
+        plot = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
