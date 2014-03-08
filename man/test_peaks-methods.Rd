@@ -65,9 +65,6 @@ Squares Procedures. Anal. Chem. 36, 1627-1639.
 Stefan Roediger, Michal Burdukiewicz.
 }
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 
 data(many_peaks)
