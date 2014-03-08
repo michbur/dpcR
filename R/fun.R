@@ -309,7 +309,7 @@ setMethod("qpcr_analyser", signature(input = "adpcr"), function(input, cyc = 1, 
 
 
 
-plate_test <- function(X, nx_a, ny_a, nx = 5, ny = 5, alternative = c("two.sided", "regular", "clustered"), 
+test_panel <- function(X, nx_a, ny_a, nx = 5, ny = 5, alternative = c("two.sided", "regular", "clustered"), 
                        method = c("Chisq", "MonteCarlo"), conditional = TRUE, nsim = 1999) {
   ppp_data <- adpcr_to_ppp(X, nx_a, ny_a)
   lapply(ppp_data, function(single_panel)
@@ -838,6 +838,17 @@ analyze_qpcR <- function(fit_list, type = "Cy0",  takeoff = FALSE) {
   
   res
 }
+
+#general function to test dpcr objects
+#k - positive droplets/chambers
+#total number of droplets/chambers
+#diffrent principle than dube/bhat method. Calculate confidence interval for k, not for m
+test_dpcr <- function(k, n) {
+  #theoretical values
+  theor <- round(fl(unlist(binom.confint(k, n, methods = "wilson", conf.level = 0.95)[, 4:6]))*n, 0)
+  sim_dpcr(theor[1], n, times = 1000, dube = TRUE, pos_sums = TRUE, n_panels = 1000)
+}
+  
 
 
 # COMPARE DISTRIBUTION ------------------------------

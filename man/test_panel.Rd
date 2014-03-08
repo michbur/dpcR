@@ -1,17 +1,18 @@
-\name{plate_test}
-\alias{plate_test}
+\name{test_panel}
+\alias{test_panel}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Dispersion Test for Spatial Point Pattern in Array dPCR Based on Quadrat Counts
 }
 \description{
-The function \code{plate_test} is a convenient wrapper around \code{\link[spatstat]{quadrat.test}} 
+The function \code{test_panel} is a convenient wrapper around \code{\link[spatstat]{quadrat.test}} 
 function. Under optimal conditions, the point pattern of dPCR events (e.g., positive droplet & 
-negative droplets). This function can be used to analyze if the pattern on a planar chip is random. 
+negative droplets). This function can be used to analyze if the pattern on a planar chip is 
+random. 
 Arrays with non-random patterns should be checked for integrity.
 }
 \usage{
-plate_test(X, nx_a, ny_a, nx = 5, ny = 5, 
+test_panel(X, nx_a, ny_a, nx = 5, ny = 5, 
            alternative = c("two.sided", "regular", "clustered"),
            method = c("Chisq", "MonteCarlo"), conditional = TRUE, nsim = 1999)
 }
@@ -49,7 +50,7 @@ The number of simulated samples to generate when method="MonteCarlo".
 }
 \details{
 This function quick-to-use version of \code{\link[spatstat]{quadrat.test}} function. It works 
-directly on the objects of \code{\linkS4class{adpcr}}. \code{plate_test} performs a test of
+directly on the objects of \code{\linkS4class{adpcr}}. \code{test_panel} performs a test of
 Complete Spatial Randomness for each plate.
 }
 \value{
@@ -73,12 +74,12 @@ A similar result can be achived by using \code{\link{adpcr_to_ppp}} and
 \examples{
 many_panels <- sim_adpcr(m = 400, n = 765, times = 1000, pos_sums = FALSE, 
                    n_panels = 5)
-plate_test(many_panels, nx_a = 45, ny_a = 17)
+test_panel(many_panels, nx_a = 45, ny_a = 17)
 
 #test only one plate
-plate_test(extract_dpcr(many_panels, 3), nx_a = 45, ny_a = 17)
+test_panel(extract_dpcr(many_panels, 3), nx_a = 45, ny_a = 17)
 
-#do plate_test manually
+#do test_panel manually
 require(spatstat)
 ppp_data <- adpcr_to_ppp(many_panels, nx_a = 45, ny_a = 17)
 lapply(ppp_data, function(single_panel) quadrat.test(single_panel))

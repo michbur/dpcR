@@ -33,4 +33,5 @@ export(
   "compare_dens",
   "qpcr_analyser",
   "adpcr_to_ppp",
-  "plate_test")
+  "test_panel",
+  "test_dpcr")
