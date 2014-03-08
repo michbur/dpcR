@@ -46,20 +46,15 @@ A warning is prompted whenever any of arguments is converted to other type.
 \value{
 An \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} object.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
 Michal Burdukiewicz, Stefan Roediger.
 }
 \note{
-It is still possible (although not recomended) to create \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} objects manually by \code{\link{new}} function.
+It is still possible (although not recomended) to create \code{\linkS4class{adpcr}} or 
+\code{\linkS4class{ddpcr}} objects manually by \code{\link{new}} function.
 }
 
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 #droplet digital PCR example
 sample_runs <- matrix(rpois(60, lambda = 1.5), ncol = 2)
@@ -75,5 +70,5 @@ plot_panel(sample_adpcr, 45, 17)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ ddPCR }
+\keyword{ adPCR }
