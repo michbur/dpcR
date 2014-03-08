@@ -2,10 +2,13 @@
 \alias{plate_test}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Dispersion Test for Spatial Point Pattern in array dPCR Based on Quadrat Counts
+Dispersion Test for Spatial Point Pattern in Array dPCR Based on Quadrat Counts
 }
 \description{
-A convinient wrapper around \code{\link[spatstat]{quadrat.test}} function.
+The function \code{plate_test} is a convenient wrapper around \code{\link[spatstat]{quadrat.test}} 
+function. Under optimal conditions, the point pattern of dPCR events (e.g., positive droplet & 
+negative droplets). This function can be used to analyze if the pattern on a planar chip is random. 
+Arrays with non-random patterns should be checked for integrity.
 }
 \usage{
 plate_test(X, nx_a, ny_a, nx = 5, ny = 5, 
@@ -83,5 +86,8 @@ lapply(ppp_data, function(single_panel) quadrat.test(single_panel))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ pattern }
+\keyword{ quadrat }
+\keyword{ spatial}
+\keyword{ dPCR }
+
