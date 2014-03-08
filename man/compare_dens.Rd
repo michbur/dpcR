@@ -20,9 +20,7 @@ logical, if \code{TRUE}, both theoretical and empirical moments are printed on t
 other arguments passed to the \code{plot} function.
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+
 \author{
 Michal Burdukiewcz.
 }
