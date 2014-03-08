@@ -32,9 +32,7 @@ object.
 A list containing objects with class \code{\link[spatstat]{ppp.object}} with the length equal to
 the number of plates (minimum 1).
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
 Michal Burdukiewcz, Stefan Roediger.
 }
