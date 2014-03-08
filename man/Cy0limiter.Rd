@@ -33,15 +33,15 @@ the column containing the cycle data. Defaults to first column.
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+The \code{Cq.range} for this function an be defined be the user. The default is to take all 
+amplification curves into consideration. However, under certain circumstances it is recommended to
+define a range. For example if amplifications are positive in early cycle numbers (less than 10).
+The calculation of the Cy0 value (equivalent of Cq) is based on a five-parameter function. From
+experience this functions leads to good fitting and avoids overfitting of critical data sets. 
+However, the user is recommended to test for the optimal fitting function himself (see 
+\code{\link[qpcR]{mselect}} for details).
 }
-\value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
+
 \references{
 Guescini M, Sisti D, Rocchi MB, Stocchi L & Stocchi V (2008) \emph{A new real-time PCR method to 
 overcome significant quantitative inaccuracy due to slight amplification inhibition}. BMC 
@@ -50,15 +50,7 @@ Bioinformatics, 9: 326.
 \author{
 Michal Burdukiewicz, Stefan Roediger.
 }
-\note{
-%%  ~~further notes~~
-}
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 library(qpcR)
 test <- cbind(reps[1:45, ], reps2[1:45 ,2:ncol(reps2)], reps3[1:45 ,2:ncol(reps3)])
