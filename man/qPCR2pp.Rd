@@ -44,17 +44,21 @@ PCR data derived from a qPCR experiment can be seen as a series of events over t
 t_i as the time between the first (i - 1)^st and the i^th event. Therefore, the time S_n
 is the sum of all t_i 1 to n. This is the time to the n^th event. S(t) is the number of events 
 in [0, t]. This can be seen as a Poisson proces. The Poisson statistics is the central theorem to 
-random processes in digital PCR. The function \code{qPCR2pp} is used to model random point events 
-in time units (PCR cycles), such as the increase of signa durin a qPCR reaction in a single 
-compartment. A poisson process can be used to modle times at which an event occurs in a "system". 
+random processes in digital PCR. 
+
+The function \code{qPCR2pp} is used to model random point events 
+in time units (PCR cycles), such as the increase of signal during a qPCR reaction in a single 
+compartment. A Poisson process can be used to modle times at which an event occurs in a "system". 
 The qPCR2pp (quantitative Real-Time PCR to Poisson process) function transforms the qPCR 
 amplification curve data to quantification points (Cq) which are visualized as Poisson process. 
 This functions helps to spot differences between replicate runs of digital PCR experiments. In 
-ideal scenarios the qPCR2pp plots are highly similar. This tool might help to spot differences 
+ideal scenarios the qPCR2pp plots are highly similar. 
+
+This tool might help to spot differences 
 between experiments (e.g., inhibition of amplification reactions, influence of the chip arrays). 
-The qPCR is an odd duck here because the amplification of conventional qPCRs takes place in 
-discrete steps (cylces. 1, 2 ... 45) but the specific Cq values are calculated with continous 
-outcomes (Cq 18.2, 25.7, ...). Other amplification methods such as isothermal amplifications are
+The qPCR is very unique because the amplification of conventional qPCRs takes place in 
+discrete steps (cycles: 1, 2 ... 45), but the specific Cq values are calculated with continous 
+outcomes (Cq: 18.2, 25.7, ...). Other amplification methods such as isothermal amplifications are
 time based and thus better suited for Poisson process.
 }
 \value{

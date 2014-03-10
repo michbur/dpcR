@@ -1039,20 +1039,20 @@ compare_dens <- function(input, moments = TRUE, ...) {
 
 qPCR2pp <- function(cycles, process, NuEvents = 1, delta = 1, mincyc = 1, maxcyc = 45, rug = TRUE, 
                     plot = TRUE){
-  # Rearrange the imput
-  # NOTE: should use an object from qpcr_analyzer if it turns out to be a useful
+  # Rearrange the input
+  # NOTE: should use an object from analyze_qpcR if it turns out to be a useful
   # function
   res.qPCR <- data.frame(cycles, process)
   colnames(res.qPCR) <- c("Cycles", "result")
   res.qPCR <- res.qPCR[order (res.qPCR[["Cycles"]]),]
-  res.qPCR <- cbind(res.qPCR, cumsum(res.qPCR[,2]))
+  res.qPCR <- cbind(res.qPCR, cumsum(res.qPCR[, 2]))
   colnames(res.qPCR) <- c("Cycles", "result")
   
   # do not know if this is correct, WIP
   # cycle.time should give the "average time" between the occurence of a 
   # positive reaction and another positive reaction
   dens.tmp <- dpcr_density(sum(res.qPCR[, 2]), nrow(res.qPCR), plot = FALSE)
-  cycle.time <- exp(1/dens.tmp$k)
+  cycle.time <- exp(1/dens.tmp[["k"]])
   # Determine probaility how often a events occur according to Poisson process 
   # with a certia rate per time frame (interval).
   # NuEvents is "number of expected events" within a time frame (interval)
@@ -1061,26 +1061,27 @@ qPCR2pp <- function(cycles, process, NuEvents = 1, delta = 1, mincyc = 1, maxcyc
   # mu is the expected number of events in defined interval (but this is somewhat
   # stupid since the intervals are discrete ... and so on)
   # cyc.occ gives the occurence in an interval
-  mu <- dens.tmp$k * delta
+  mu <- dens.tmp[["k"]] * delta
   fact.NuEvents <- factorial(NuEvents)
   if (fact.NuEvents != "Inf") {
     cyc.occ <- (exp(-mu) * mu^NuEvents)/fact.NuEvents
-  } else cyc.occ <- "to large"
+  } else cyc.occ <- "too large"
   # END WIP
   # Plot the calculated qPCR data as Poisson processes
   if (plot) plot(res.qPCR[,1], res.qPCR[,3], xlim = c(mincyc, maxcyc), 
                  ylim = c(0, nrow(res.qPCR)), xlab = "Cycle", 
                  ylab = "lambda (cycle)", type = "S", lwd = 1.5)
   abline(h = nrow(res.qPCR) * 0.5, col = "grey")
-  legend(mincyc,nrow(res.qPCR), c(paste0("Chambers", dens.tmp$n, sep = " "),
-                                  paste0("Events", dens.tmp$k, sep = " "),
-                                  paste0("mu", mu, sep = " "), 
-                                  paste0("CT", cycle.time, sep = " "),
-                                  paste0("CO", cyc.occ, sep = " ")))
+  legend(mincyc,nrow(res.qPCR), c(paste0("Chambers: ", dens.tmp[["n"]]),
+                                  paste0("Events: ", dens.tmp[["k"]]),
+                                  paste0("mu: ", mu), 
+                                  paste0("CT: ", cycle.time),
+                                  paste0("CO: ", cyc.occ)))
   # Add rug to the the plot the illustrate the density of events
   if (rug) 
-    rug(res.qPCR[,1])
-  list(out = res.qPCR, mu = mu, CT = cycle.time, CO = cyc.occ)
+    rug(res.qPCR[, 1])
+  list(out = res.qPCR, mu = mu, CT = cycle.time, CO = cyc.occ, chambers = dens.tmp[["n"]],
+       events = dens.tmp[["k"]])
 }
 
 
@@ -1088,22 +1089,23 @@ qPCR2pp <- function(cycles, process, NuEvents = 1, delta = 1, mincyc = 1, maxcyc
 # qpcR. The function Cy0limiter is used to calculate the Cy0 value and converts 
 # all values between a defined range to 1 and the remaining to 0.
 Cy0limiter <- function(data = data, cyc = 1, fluo = NULL, 
-                       Cq.range = c(NA, NA), model = l5) {
+                       Cq_range = c(1, max(data[cyc])), model = l5) {
+  if (Cq_range[1] > Cq_range[2]) {
+    warning("First value of Cq_range is greater than second. Cq_range reversed.")    
+    Cq_range <- rev(Cq_range)
+  }
+    
   if (is.null(fluo))
     fluo <- (1L:ncol(data))[-cyc]
     
-  Cy0 <- vector()
-  Cy0.res <- vector()
-  pb <- txtProgressBar(min = 1, max = length(fluo), initial = 0, 
-                       style = 3)
-  for (i in fluo) {
-    Cy0.tmp <- efficiency(pcrfit(data = data, cyc = cyc, fluo = i, 
-                                 model = model), type = "Cy0", plot = FALSE)$Cy0
-    Cy0 <- c(Cy0, Cy0.tmp)
-    Cy0.res <- c(Cy0.res, ifelse(Cq.range[1] <= Cy0.tmp && Cy0.tmp <= Cq.range[2], 1, 0))
-    setTxtProgressBar(pb, i)
-  }
-  data.frame(Cy0 = Cy0, result = Cy0.res)
+  Cy0 <- vapply(fluo, function(fluo_col)
+    efficiency(pcrfit(data = data, cyc = cyc, fluo = fluo_col, 
+                      model = model), type = "Cy0", plot = FALSE)[["Cy0"]], 0)
+  
+  Cy0.res <- vapply(Cy0, function(Cy0_i) 
+    Cq_range[1] <= Cy0_i & Cy0_i <= Cq_range[2], TRUE)
+  
+  data.frame(Cy0 = Cy0, in.range = Cy0.res)
 }
 
 
