@@ -1098,9 +1098,13 @@ Cy0limiter <- function(data = data, cyc = 1, fluo = NULL,
   if (is.null(fluo))
     fluo <- (1L:ncol(data))[-cyc]
     
-  Cy0 <- vapply(fluo, function(fluo_col)
+  pb <- txtProgressBar(min = 1, max = length(fluo), initial = 0, style = 3)
+  
+  Cy0 <- vapply(fluo, function(fluo_col) {
     efficiency(pcrfit(data = data, cyc = cyc, fluo = fluo_col, 
-                      model = model), type = "Cy0", plot = FALSE)[["Cy0"]], 0)
+                      model = model), type = "Cy0", plot = FALSE)[["Cy0"]]
+    setTxtProgressBar(pb, fluo_col)
+  }, 0)
   
   Cy0.res <- vapply(Cy0, function(Cy0_i) 
     Cq_range[1] <= Cy0_i & Cy0_i <= Cq_range[2], TRUE)
