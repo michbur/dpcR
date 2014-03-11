@@ -65,8 +65,8 @@ test <- cbind(reps[1:45, ], reps2[1:45 ,2:ncol(reps2)], reps3[1:45 ,2:ncol(reps3
 Cq.range <- c(20, 30)
 ranged <- Cy0limiter(data = test, cyc = 1, fluo = NULL,
                            Cq_range = Cq.range, model = l5)
-no_range <- Cy0limiter(data = test, cyc = 1, fluo = NULL, 
-                           model = l5)
+# same as above, but without Cq.range
+no_range <- Cy0limiter(data = test, cyc = 1, fluo = NULL, model = l5)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

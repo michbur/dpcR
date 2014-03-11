@@ -1035,23 +1035,29 @@ compare_dens <- function(input, moments = TRUE, ...) {
   }
 }
 
-# Poisson process integration ----------------------------------
+# POISSON PROCESS INTEGRATION ----------------------------------
 
-qPCR2pp <- function(cycles, process, NuEvents = 1, delta = 1, mincyc = 1, maxcyc = 45, rug = TRUE, 
-                    plot = TRUE){
-  # Rearrange the input
-  # NOTE: should use an object from analyze_qpcR if it turns out to be a useful
-  # function
-  res.qPCR <- data.frame(cycles, process)
-  colnames(res.qPCR) <- c("Cycles", "result")
-  res.qPCR <- res.qPCR[order (res.qPCR[["Cycles"]]),]
-  res.qPCR <- cbind(res.qPCR, cumsum(res.qPCR[, 2]))
-  colnames(res.qPCR) <- c("Cycles", "result")
+qPCR2pp <- function(cycles, process, data = NULL, NuEvents = 1, delta = 1, mincyc = 1, maxcyc = 45, 
+                    rug = TRUE, plot = TRUE) {
+  
+  if (!is.null(data)) {
+    res_qPCR <- data
+  } else {
+    # Rearrange the input
+    # NOTE: should use an object from analyze_qpcR if it turns out to be a useful
+    # function
+    res_qPCR <- data.frame(cycles, process)
+  }
+  
+  
+  res_qPCR <- res_qPCR[order(res_qPCR[[1]]), ]
+  res_qPCR <- cbind(res_qPCR, cumsum(res_qPCR[, 2]))
+  colnames(res_qPCR) <- c("Cycles", "result", "lambda") 
   
   # do not know if this is correct, WIP
   # cycle.time should give the "average time" between the occurence of a 
   # positive reaction and another positive reaction
-  dens.tmp <- dpcr_density(sum(res.qPCR[, 2]), nrow(res.qPCR), plot = FALSE)
+  dens.tmp <- dpcr_density(sum(res_qPCR[, 2]), nrow(res_qPCR), plot = FALSE)
   cycle.time <- exp(1/dens.tmp[["k"]])
   # Determine probaility how often a events occur according to Poisson process 
   # with a certia rate per time frame (interval).
@@ -1068,19 +1074,22 @@ qPCR2pp <- function(cycles, process, NuEvents = 1, delta = 1, mincyc = 1, maxcyc
   } else cyc.occ <- "too large"
   # END WIP
   # Plot the calculated qPCR data as Poisson processes
-  if (plot) plot(res.qPCR[,1], res.qPCR[,3], xlim = c(mincyc, maxcyc), 
-                 ylim = c(0, nrow(res.qPCR)), xlab = "Cycle", 
-                 ylab = "lambda (cycle)", type = "S", lwd = 1.5)
-  abline(h = nrow(res.qPCR) * 0.5, col = "grey")
-  legend(mincyc,nrow(res.qPCR), c(paste0("Chambers: ", dens.tmp[["n"]]),
-                                  paste0("Events: ", dens.tmp[["k"]]),
-                                  paste0("mu: ", mu), 
-                                  paste0("CT: ", cycle.time),
-                                  paste0("CO: ", cyc.occ)))
-  # Add rug to the the plot the illustrate the density of events
-  if (rug) 
-    rug(res.qPCR[, 1])
-  list(out = res.qPCR, mu = mu, CT = cycle.time, CO = cyc.occ, chambers = dens.tmp[["n"]],
+  if (plot) {
+    plot(res_qPCR[,1], res_qPCR[,3], xlim = c(mincyc, maxcyc), 
+         ylim = c(0, nrow(res_qPCR)), xlab = "Cycle", 
+         ylab = expression(paste(lambda,
+                                 " (cycles)")), type = "S", lwd = 1.5)
+    abline(h = nrow(res_qPCR) * 0.5, col = "grey")
+    legend(mincyc,nrow(res_qPCR), c(paste0("Chambers: ", dens.tmp[["n"]]),
+                                    paste0("Events: ", dens.tmp[["k"]]),
+                                    paste0("mu: ", mu), 
+                                    paste0("CT: ", round(cycle.time, 6)),
+                                    paste0("CO: ", round(cyc.occ, 6))))
+    # Add rug to the the plot the illustrate the density of events
+    if (rug) 
+      rug(res_qPCR[, 1])}
+  
+  list(out = res_qPCR, mu = mu, CT = cycle.time, CO = cyc.occ, chambers = dens.tmp[["n"]],
        events = dens.tmp[["k"]])
 }
 
@@ -1088,25 +1097,25 @@ qPCR2pp <- function(cycles, process, NuEvents = 1, delta = 1, mincyc = 1, maxcyc
 # Example of an artificial chamber dPCR experiment using the test data set from
 # qpcR. The function Cy0limiter is used to calculate the Cy0 value and converts 
 # all values between a defined range to 1 and the remaining to 0.
-Cy0limiter <- function(data = data, cyc = 1, fluo = NULL, 
+Cy0limiter <- function(data = data, cyc = 1, fluo = NULL,
                        Cq_range = c(1, max(data[cyc])), model = l5) {
   if (Cq_range[1] > Cq_range[2]) {
-    warning("First value of Cq_range is greater than second. Cq_range reversed.")    
+    warning("First value of Cq_range is greater than second. Cq_range reversed.")
     Cq_range <- rev(Cq_range)
   }
-    
+  
   if (is.null(fluo))
     fluo <- (1L:ncol(data))[-cyc]
-    
+  
   pb <- txtProgressBar(min = 1, max = length(fluo), initial = 0, style = 3)
   
   Cy0 <- vapply(fluo, function(fluo_col) {
-    efficiency(pcrfit(data = data, cyc = cyc, fluo = fluo_col, 
+    efficiency(pcrfit(data = data, cyc = cyc, fluo = fluo_col,
                       model = model), type = "Cy0", plot = FALSE)[["Cy0"]]
     setTxtProgressBar(pb, fluo_col)
   }, 0)
   
-  Cy0.res <- vapply(Cy0, function(Cy0_i) 
+  Cy0.res <- vapply(Cy0, function(Cy0_i)
     Cq_range[1] <= Cy0_i & Cy0_i <= Cq_range[2], TRUE)
   
   data.frame(Cy0 = Cy0, in.range = Cy0.res)

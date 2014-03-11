@@ -33,7 +33,7 @@ the column containing the cycle data. Defaults to first column.
    the the last cycle for the analysis of the Poisson process.
 }
   \item{rug}{
-  Adds a rug representation of the data to the plot.
+  Adds a rug representation of the data to the plot. Applies only when \code{plot} is \code{TRUE}.
 }
   \item{plot}{
   If \code{TRUE}, plot Poisson process.
@@ -41,10 +41,12 @@ the column containing the cycle data. Defaults to first column.
 }
 \details{
 PCR data derived from a qPCR experiment can be seen as a series of events over time. We define 
-t_i as the time between the first (i - 1)^st and the i^th event. Therefore, the time S_n
-is the sum of all t_i 1 to n. This is the time to the n^th event. S(t) is the number of events 
-in [0, t]. This can be seen as a Poisson proces. The Poisson statistics is the central theorem to 
-random processes in digital PCR. 
+t_i as the time between the first (i - 1)^st and the i^th event. Therefore, the time 
+\eqn{S_n}{S_n}
+is the sum of all \eqn{t_i}{t_i} from \eqn{i = 1}{i = 1} to \eqn{i = n}{i = n}. This is the time
+to the n^th event. \eqn{S(t)}{S(t)} is the number of events 
+in \eqn{[0, t]}{[0, t]}. This can be seen as a Poisson proces. The Poisson statistics is the 
+central theorem to random processes in digital PCR. 
 
 The function \code{qPCR2pp} is used to model random point events 
 in time units (PCR cycles), such as the increase of signal during a qPCR reaction in a single 
@@ -64,14 +66,20 @@ time based and thus better suited for Poisson process.
 \value{
 %%  ~Describe the value returned
 %%  If it is a LIST, use
-  \item{cycle.time }{is the "average time" between the occurence of a positive reaction and 
-		     another positive reaction}
+  \item{out}{data frame with three columns containing: number of cycles, amplification curves
+             TODO}
+  \item{mu}{TODO}
+  \item{CT}{is the "average time" between the occurence of a positive reaction and 
+		        another positive reaction.}
+  \item{C0}{TODO}
+  \item{chambers}{number of chambers}
+  \item{events}{number of events (positive chambers taken to further analysis)}
 %%  \item{comp2 }{Description of 'comp2'}
 %% ...
 }
 
 \author{
-Michal Burdukiewicz, Stefan Roediger.
+Stefan Roediger, Michal Burdukiewicz.
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
