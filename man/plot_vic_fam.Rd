@@ -9,7 +9,7 @@ PCR.
 
 }
 \usage{
-plot_vic_fam(vic, fam, col_vic = "green", col_fam = "blue")
+plot_vic_fam(vic, fam, col_vic = "green", col_fam = "blue", circle = TRUE)
 }
 \arguments{
   \item{vic}{
@@ -23,6 +23,9 @@ Amplitudes of the VIC channel - object of class \code{\linkS4class{ddpcr}}.
 }
   \item{col_fam}{
     Color of the FAM channel.
+}
+  \item{circle}{
+    If TRUE circles are drawn, if FALSE not. If "numeric", specifies the radius of circles.
 }
 }
 \details{
@@ -59,8 +62,11 @@ fluos2 <- sim_ddpcr(m = 16, n = 30, times = 100, pos_sums = FALSE, n_exp = 1,
 # Plot the amplitudes of both fluorescence channel in an aligned fashion
 plot_vic_fam(fam = fluos1, vic = fluos2)
 
-# Same as above but diffrent colors
+# Same as above but different colors
 plot_vic_fam(fam = fluos1, vic = fluos2, col_vic = "red", col_fam = "yellow")
+
+# Same as above without circles
+plot_vic_fam(fam = fluos1, vic = fluos2, col_vic = "red", col_fam = "yellow", circle = FALSE)
 
 # Generate two channels in one object and plot them
 fluos_both <- sim_ddpcr(m = 16, n = 30, times = 100, pos_sums = FALSE, n_exp = 2, 
