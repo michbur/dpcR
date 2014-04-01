@@ -267,13 +267,14 @@ setMethod("summary", signature(object = "adpcr"), function(object, print = TRUE)
   type <- slot(object, "type")
   n <- slot(object, "n")
   
+  if (type %in% c("fluo", "ct")) 
+    stop(paste0("Summary not currently implemented for data type ", type, "."), call. = TRUE, domain = NA)
+  
   if (type %in% c("nm", "tp")) {
     k <- colSums(data > 0)
-    invisible(print_summary(k, col_dat, type, n, print))
   }
-  
-  if (type %in% c("fluo", "ct")) 
-    print(paste0("Summary not currently implemented for data type ", type, "."))
+
+  invisible(print_summary(k, col_dat, type, n, print))
 })
 
 #special method declared to hide slots other than .Data
@@ -682,7 +683,7 @@ print_summary <- function(k, col_dat, type, n, print) {
     if (col_dat > 20)
       cat(col_dat*2 - 20, "rows ommited.")
   }
-  list(list(k = k, n = n), summary = sums)
+  list(partitions = list(k = k, n = n), summary = sums)
   
 }
 

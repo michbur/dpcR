@@ -9,8 +9,8 @@ dPCR can be described by Poisson statistics. The function qPCR2pp takes a step f
 interpretates the dPCR as a Poisson process if it is analyzed as a "time" based process.
 }
 \usage{
-qPCR2pp(cycles, process, NuEvents = 1, delta = 1, mincyc = 1, maxcyc = 45, rug = TRUE, 
-        plot = TRUE)
+qPCR2pp(cycles, process, data = NULL, NuEvents = 1, delta = 1, mincyc = 1, maxcyc = 45, 
+        rug = TRUE, plot = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -21,10 +21,10 @@ the column containing the cycle data. Defaults to first column.
 %%     ~~Describe \code{process} here~~
 }
   \item{NuEvents}{
-  NuEvents is "number of expected events" within a time frame (interval)
+  NuEvents is "number of expected events" within a time frame (interval).
 }
   \item{delta}{
- is the difference "time (cycles) points" e.g., Cycle 18 and 25
+ is the difference "time (cycles) points" e.g., Cycle 18 and 25.
 }
   \item{mincyc}{
   is the first cycle to start the analysis from.

@@ -10,7 +10,7 @@ of cycles. The function can be used to extract Cq values of a chamber based qPCR
 into a dPCR experiment. All Cq values are obtained by Cy0 method (Guescini et al. (2008)).
 }
 \usage{
-Cy0limiter(data = data, cyc = 1, fluo = NULL, Cq_range = c(NA, NA), model = l5)
+Cy0limiter(data = data, cyc = 1, fluo = NULL, Cq_range = c(1, max(data[cyc])), model = l5)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
