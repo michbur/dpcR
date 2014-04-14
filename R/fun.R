@@ -41,10 +41,14 @@ setMethod("moments", signature(input = "numeric"), function(input) {
   }  
 })
 
-setMethod("qpcr_analyser", signature(input = "data.frame"), function(input, cyc = 1, fluo = NULL, 
+setMethod("qpcr_analyser", signature(input = "data.frame"), function(input, 
+                                                                     cyc = 1, 
+                                                                     fluo = NULL, 
                                                                      model = l5, 
-                                                                     norm = FALSE, iter_tr = 50, 
-                                                                     type = "Cy0", takeoff = FALSE) {
+                                                                     norm = FALSE, 
+                                                                     iter_tr = 50, 
+                                                                     type = "Cy0", 
+                                                                     takeoff = FALSE) {
   all_fits <- fit_adpcr(input, cyc, fluo, model, norm, iter_tr)
   res <- analyze_qpcR(all_fits, type, takeoff)
   res <- cbind(res, deltaF = calc_deltaF(input, cyc, fluo))
@@ -1048,7 +1052,7 @@ compare_dens <- function(input, moments = TRUE, ...) {
   }
 }
 
-# POISSON PROCESS INTEGRATION ----------------------------------
+# POISSON PROCESS INTEGRATION AND TESTS ----------------------------------
 
 qPCR2pp <- function(cycles, process, data = NULL, NuEvents = 1, delta = 1, mincyc = 1, maxcyc = 45, 
                     rug = TRUE, plot = TRUE) {
@@ -1134,5 +1138,17 @@ Cy0limiter <- function(data = data, cyc = 1, fluo = NULL,
   data.frame(Cy0 = Cy0, in.range = Cy0.res)
 }
 
-
+c_test <- function(x, y ,c) {
+  n_x <- length(x)
+  n_y <- length(y)
+  k_x <- sum(x)
+  k_y <- sum(y)
+  k <- k_x + k_y
+  
+  p_con <- n_x/n_y * c/(1 + n_x/n_y * c)
+  
+  p_val <- sum(sapply(c(k_x, k_y), function(i) 
+    choose(k,i) * p_con^i * (1 - p_con)^(k - i)))
+  p_val
+}
 
