@@ -5,25 +5,25 @@
 C-test
 }
 \description{
-The conditional test
+The conditional test for comparing two Poisson means.
 }
 \usage{
-c_test(x, y, z)
+c_test(x, y, c)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-%%     ~~Describe \code{x} here~~
+a (non-empty) numeric vector of data values.
 }
   \item{y}{
-%%     ~~Describe \code{x} here~~
+an (non-empty) numeric vector of data values.
 }
   \item{c}{
-%%     ~~Describe \code{x} here~~
+a specific number.
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+Normally C-test is used to compare the proportion between
 }
 \value{
 %%  ~Describe the value returned
@@ -33,7 +33,11 @@ c_test(x, y, z)
 %% ...
 }
 \references{
-%% ~put references to the literature/web site here ~
+  Przyborowski J, Wilenski H.
+  \emph{homogeneity of results in testing samples from poisson series: with an application to
+  testing clover seed for dodder}
+  Biometrika 31 (3-4), 
+  1940.
 }
 \author{
 %%  ~~who you are~~
