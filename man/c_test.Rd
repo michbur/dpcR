@@ -23,7 +23,11 @@ a specific number.
 }
 }
 \details{
-Normally C-test is used to compare the proportion between
+Normally C-test is used to compare the proportion between two samples. The 
+conditional method (C-test) was proposed by Przyborowski and Wilenski 
+(1940) to to test the Poisson mean. The test can be used to evaluate if two 
+dPCR runs (e.g., replicates) with different number of total events are 
+identical.
 }
 \value{
 %%  ~Describe the value returned
@@ -40,17 +44,18 @@ Normally C-test is used to compare the proportion between
   1940.
 }
 \author{
-%%  ~~who you are~~
+Michal Burdukiewicz, Stefan Roediger
 }
 \note{
-%%  ~~further notes~~
+This test is not related to Cochran's C test (R function 
+\code{\link[outliers]{cochran.test}}) for one-sided upper limit variance 
+outlier test by William G. Cochran.
 }
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+See also \code{\link[stats]{poisson.test}} and \code{\link[rateratio.test]{rateratio.test}}.
 }
+
 \examples{
 x1 <- rpois(100, 1.5)
 x2 <- rpois(100, 1.49)
@@ -59,7 +64,7 @@ c_test(x1, x2, 1)
 x2 <- rpois(100, 3.5)
 c_test(x1, x2, 1)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+
+\keyword{ compare }
+\keyword{ mean }
+\keyword{ poisson }
