@@ -18,7 +18,9 @@ qPCR2pp(cycles, process, data = NULL, NuEvents = 1, delta = 1, mincyc = 1, maxcy
 the column containing the cycle data. Defaults to first column.
 }
   \item{process}{
-%%     ~~Describe \code{process} here~~
+the column containing fluorescence values.
+}  \item{data}{
+  a dataframe containing the qPCR data.
 }
   \item{NuEvents}{
   NuEvents is "number of expected events" within a time frame (interval).

@@ -6,6 +6,7 @@ importFrom(binom, binom.confint)
 importFrom(shiny, runApp)
 importFrom(signal, sgolayfilt)
 importFrom(spatstat, ppp, quadrat.test)
+importFrom(chipPCR, AmpSim)
 import("methods")
 
 exportClasses(
@@ -34,4 +35,4 @@ export(
   "qpcr_analyser",
   "adpcr_to_ppp",
   "test_panel",
-  "test_dpcr")
+  "c_test")

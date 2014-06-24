@@ -38,7 +38,7 @@ identical.
 }
 \references{
   Przyborowski J, Wilenski H.
-  \emph{homogeneity of results in testing samples from poisson series: with an application to
+  \emph{Homogeneity of results in testing samples from poisson series: with an application to
   testing clover seed for dodder}
   Biometrika 31 (3-4), 
   1940.
@@ -57,11 +57,11 @@ See also \code{\link[stats]{poisson.test}} and \code{\link[rateratio.test]{rater
 }
 
 \examples{
-x1 <- rpois(100, 1.5)
-x2 <- rpois(100, 1.49)
-c_test(x1, x2, 1)
+x1 <- rpois(10, 5.5)
+x2 <- rpois(10, 5.5)
+c_test(x1, x2, 5.5)
 
-x2 <- rpois(100, 3.5)
+x2 <- rpois(10, 3.5)
 c_test(x1, x2, 1)
 }
 
