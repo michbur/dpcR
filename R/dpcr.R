@@ -1,6 +1,5 @@
 # SUMMARY - droplet, array ------------------------------
 #summary workhorse + plot, should be not called directly by user
-
 fl <- function(p)
   -log(1 - p)
 
@@ -90,9 +89,10 @@ create_dpcr <- function(data, n, threshold = NULL, breaks = NULL, type, adpcr = 
 }
 
 
+#extract single panel from dpcr object
 extract_dpcr <- function(input, id) {
   if (!(class(input) %in% c("adpcr", "ddpcr")))
-    stop("Input must have 'adpcr' or 'ddpcr' class", call. = TRUE, domain = NA)
+    stop("Input must have 'adpcr' or 'ddpcr' class", call. = TRUE)
   selected <- input[, id]
   
   #because when id is single negative value, usually the
@@ -105,3 +105,70 @@ extract_dpcr <- function(input, id) {
   slot(result, ".Data") <- selected
   result
 }
+
+#a wrapper around rateratio.test
+test_ratio <- function(dpcr1, dpcr2, 
+                       alternative = c("two.sided", "less", "greater"), 
+                       conf.level = 0.95) {
+  if (length(dpcr1) != 2) {
+    n_x <- length(dpcr1)
+    k_x <- sum(dpcr1 > 0)
+  } else {
+    n_x <- dpcr1[2]
+    k_x <- dpcr1[1]
+  }
+  if (length(dpcr2) != 2) {
+    n_y <- length(dpcr2)
+    k_y <- sum(dpcr2 > 0)
+  } else {
+    n_y <- dpcr2[2]
+    k_y <- dpcr2[1]
+  }
+  
+  test_res <- rateratio.test(c(k_x, k_y), c(n_x, n_y), RR = 1, alternative = alternative, 
+                             conf.level = conf.level)
+  test_res[["data.name"]] <- paste0("dPCR 1: positive partitions: ", k_x, "; total partitions: ",
+                                    n_x, ".\n       dPCR 2: positive partitions: ", k_y, 
+                                    "; total partitions: ", n_y, ".")
+  test_res[["estimate"]] <- c(calc_lambda(k_x, n_x)[1,2], calc_lambda(k_y, n_y)[1,2],
+                              test_res[["estimate"]][1])
+  test_res[["null.value"]] <- NULL
+  names(test_res[["estimate"]]) <- c("Lambda1", "Lambda2", "Lambda1/Lambda2")
+  test_res
+}
+
+setMethod("test_ratio", 
+          signature(dpcr1 = "adpcr", dpcr2 = "adpcr"), 
+          function(dpcr1, dpcr2, alternative = c("two.sided", "less", "greater"), 
+                   conf.level = 0.95) {
+            if(ncol(dpcr1) != 1 || ncol(dpcr2) != 1)
+              stop("Both 'dpcr1' and 'dpcr2' must contain only one experiment.", 
+                   call. = TRUE)
+            if(!all(c(slot(dpcr1, "type"), slot(dpcr2, "type")) %in% c("nm", "tp")))
+              stop("Both 'dpcr1' and 'dpcr2' must have type 'nm' or 'tp'", 
+                   call. = TRUE)
+            n_x <- slot(dpcr1, "n")
+            n_y <- slot(dpcr2, "n")
+            k_x <- ifelse(slot(dpcr1, "type") == "nm", sum(dpcr1 > 0), dpcr1[1])
+            k_y <- ifelse(slot(dpcr2, "type") == "nm", sum(dpcr2 > 0), dpcr2[1])
+            test_ratio(c(k_x, n_x), c(k_y, n_y), alternative = alternative, 
+                       conf.level = conf.level)  
+          })
+
+setMethod("test_ratio", 
+          signature(dpcr1 = "ddpcr", dpcr2 = "ddpcr"), 
+          function(dpcr1, dpcr2, alternative = c("two.sided", "less", "greater"), 
+                   conf.level = 0.95) {
+            if(ncol(dpcr1) != 1 || ncol(dpcr2) != 1)
+              stop("Both 'dpcr1' and 'dpcr2' must contain only one experiment.", 
+                   call. = TRUE)
+            if(!all(c(slot(dpcr1, "type"), slot(dpcr2, "type")) %in% c("nm", "tp")))
+              stop("Both 'dpcr1' and 'dpcr2' must have type 'nm' or 'tp'", 
+                   call. = TRUE)
+            n_x <- slot(dpcr1, "n")
+            n_y <- slot(dpcr2, "n")
+            k_x <- ifelse(slot(dpcr1, "type") == "nm", sum(dpcr1 > 0), dpcr1[1])
+            k_y <- ifelse(slot(dpcr2, "type") == "nm", sum(dpcr2 > 0), dpcr2[1])
+            test_ratio(c(k_x, n_x), c(k_y, n_y), alternative = alternative, 
+                       conf.level = conf.level)  
+          })

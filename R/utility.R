@@ -447,16 +447,5 @@ Cy0limiter <- function(data = data, cyc = 1, fluo = NULL,
   data.frame(Cy0 = Cy0, in.range = Cy0.res)
 }
 
-c_test <- function(x, y ,c) {
-  n_x <- length(x)
-  n_y <- length(y)
-  k_x <- sum(x)
-  k_y <- sum(y)
-  k <- k_x + k_y
-  
-  p_con <- n_x/n_y * c/(1 + n_x/n_y * c)
-  
-  p_val <- sum(sapply(c(k_x, k_y), function(i) 
-    choose(k,i) * p_con^i * (1 - p_con)^(k - i)))
-  p_val
-}
+
+
