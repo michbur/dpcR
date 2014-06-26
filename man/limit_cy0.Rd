@@ -1,16 +1,16 @@
-\name{Cy0limiter}
-\alias{Cy0limiter}
+\name{limit_cy0}
+\alias{limit_cy0}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Cy0 Limiter
+Limit Cy0 values
 }
 \description{
-The function \code{Cy0limiter} calculates the Cq values of a qPCR experiment within a defined range
+The function \code{limit_cy0} calculates the Cq values of a qPCR experiment within a defined range
 of cycles. The function can be used to extract Cq values of a chamber based qPCR for conversion
 into a dPCR experiment. All Cq values are obtained by Cy0 method (Guescini et al. (2008)).
 }
 \usage{
-Cy0limiter(data = data, cyc = 1, fluo = NULL, Cq_range = c(1, max(data[cyc])), model = l5)
+limit_cy0(data = data, cyc = 1, fluo = NULL, Cq_range = c(1, max(data[cyc])), model = l5)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -63,10 +63,10 @@ test <- cbind(reps[1:45, ], reps2[1:45 ,2:ncol(reps2)], reps3[1:45 ,2:ncol(reps3
 
 # results.dPCR contains a column with the Cy0 values and a column with converted values.
 Cq.range <- c(20, 30)
-ranged <- Cy0limiter(data = test, cyc = 1, fluo = NULL,
+ranged <- limit_cy0(data = test, cyc = 1, fluo = NULL,
                            Cq_range = Cq.range, model = l5)
 # same as above, but without Cq.range
-no_range <- Cy0limiter(data = test, cyc = 1, fluo = NULL, model = l5)
+no_range <- limit_cy0(data = test, cyc = 1, fluo = NULL, model = l5)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

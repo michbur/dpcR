@@ -17,14 +17,15 @@ exportClasses(
 
 exportMethods(
   "moments",
-  "test_peaks",
+  "plot",
   "summary",
   "show",
+  "test_peaks",
   "test_ratio")
 
 export(
-  "qPCR2pp",
-  "Cy0limiter",
+  "qpcr2pp",
+  "limit_cy0",
   "create_dpcr",
   "sim_ddpcr",
   "plot_vic_fam",
@@ -36,5 +37,4 @@ export(
   "compare_dens",
   "qpcr_analyser",
   "adpcr_to_ppp",
-  "test_panel",
-  "test_ratio")
+  "test_panel")

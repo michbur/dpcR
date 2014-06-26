@@ -1,5 +1,5 @@
-\name{qPCR2pp}
-\alias{qPCR2pp}
+\name{qpcr2pp}
+\alias{qpcr2pp}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 qPCR to Poisson Process
@@ -9,8 +9,7 @@ dPCR can be described by Poisson statistics. The function qPCR2pp takes a step f
 interpretates the dPCR as a Poisson process if it is analyzed as a "time" based process.
 }
 \usage{
-qPCR2pp(cycles, process, data = NULL, NuEvents = 1, delta = 1, mincyc = 1, maxcyc = 45, 
-        rug = TRUE, plot = TRUE)
+qpcr2pp(cycles, process, data = NULL, NuEvents = 1, delta = 1)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -27,18 +26,6 @@ the column containing fluorescence values.
 }
   \item{delta}{
  is the difference "time (cycles) points" e.g., Cycle 18 and 25.
-}
-  \item{mincyc}{
-  is the first cycle to start the analysis from.
-}
-  \item{maxcyc}{
-   the the last cycle for the analysis of the Poisson process.
-}
-  \item{rug}{
-  Adds a rug representation of the data to the plot. Applies only when \code{plot} is \code{TRUE}.
-}
-  \item{plot}{
-  If \code{TRUE}, plot Poisson process.
 }
 }
 \details{
@@ -66,18 +53,7 @@ outcomes (Cq: 18.2, 25.7, ...). Other amplification methods such as isothermal a
 time based and thus better suited for Poisson process.
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-  \item{out}{data frame with three columns containing: number of cycles, amplification curves
-             TODO}
-  \item{mu}{TODO}
-  \item{CT}{is the "average time" between the occurence of a positive reaction and 
-		        another positive reaction.}
-  \item{C0}{TODO}
-  \item{chambers}{number of chambers}
-  \item{events}{number of events (positive chambers taken to further analysis)}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+An object of \code{\linkS4class{qpcrpp}} class.
 }
 
 \author{
@@ -87,41 +63,15 @@ Stefan Roediger, Michal Burdukiewicz.
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (cycles, process, NuEvents = 1, delta = 1, mincyc = 1, 
-    maxcyc = 45, rug = TRUE, plot = TRUE) 
-{
-    res.qPCR <- data.frame(cycles, process)
-    colnames(res.qPCR) <- c("Cycles", "result")
-    res.qPCR <- res.qPCR[order(res.qPCR[["Cycles"]]), ]
-    res.qPCR <- cbind(res.qPCR, cumsum(res.qPCR[, 2]))
-    colnames(res.qPCR) <- c("Cycles", "result")
-    dens.tmp <- dpcr_density(sum(res.qPCR[, 2]), nrow(res.qPCR), 
-        plot = FALSE)
-    cycle.time <- exp(1/dens.tmp$k)
-    mu <- dens.tmp$k * delta
-    fact.NuEvents <- factorial(NuEvents)
-    if (fact.NuEvents != "Inf") {
-        cyc.occ <- (exp(-mu) * mu^NuEvents)/fact.NuEvents
-    }
-    else cyc.occ <- "to large"
-    if (plot) 
-        plot(res.qPCR[, 1], res.qPCR[, 3], xlim = c(mincyc, maxcyc), 
-            ylim = c(0, nrow(res.qPCR)), xlab = "Cycle", ylab = "lambda (cycle)", 
-            type = "S", lwd = 1.5)
-    abline(h = nrow(res.qPCR) * 0.5, col = "grey")
-    legend(mincyc, nrow(res.qPCR), c(paste0("Chambers", dens.tmp$n, 
-        sep = " "), paste0("Events", dens.tmp$k, sep = " "), 
-        paste0("mu", mu, sep = " "), paste0("CT", cycle.time, 
-            sep = " "), paste0("CO", cyc.occ, sep = " ")))
-    if (rug) 
-        rug(res.qPCR[, 1])
-    list(out = res.qPCR, mu = mu, CT = cycle.time, CO = cyc.occ)
-  }
+test <- cbind(reps[1:45, ], reps2[1:45 ,2:ncol(reps2)], reps3[1:45 ,2:ncol(reps3)])
+
+# results.dPCR contains a column with the Cy0 values and a column with converted values.
+Cq.range <- c(20, 30)
+ranged <- limit_cy0(data = test, cyc = 1, fluo = NULL,
+                     Cq_range = Cq.range, model = l5)
+                     
+qpcr2pp(ranged[,1], ranged[,2], delta = 5)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

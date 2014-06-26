@@ -3,6 +3,9 @@
 \alias{test_ratio,numeric}
 \alias{test_ratio,adpcr}
 \alias{test_ratio,ddpcr}
+\alias{test_ratio,numeric-method}
+\alias{test_ratio,adpcr-method}
+\alias{test_ratio,ddpcr-method}
 \alias{test_ratio,numeric,numeric-method}
 \alias{test_ratio,adpcr,adpcr-method}
 \alias{test_ratio,ddpcr,ddpcr-method}
@@ -14,11 +17,11 @@ The test for comparing ratio of two Poisson means:
 \eqn{r = \frac{\lambda_1}{\lambda_2}}{r = \lambda_1/\lambda_2}.
 }
 \usage{
-\S4method{test_ratio}{numeric, numeric}(dpcr1, dpcr2, alternative = c("two.sided", "less", "greater"),
-                                        conf.level = 0.95)
-\S4method{test_ratio}{adpcr, adpcr}(dpcr1, dpcr2, alternative = c("two.sided", "less", "greater"),
+\S4method{test_ratio}{numeric,numeric}(dpcr1, dpcr2, alternative = c("two.sided", "less", 
+                                        "greater"),conf.level = 0.95)
+\S4method{test_ratio}{adpcr,adpcr}(dpcr1, dpcr2, alternative = c("two.sided", "less", "greater"),
                                     conf.level = 0.95)
-\S4method{test_ratio}{ddpcr, ddpcr}(dpcr1, dpcr2, alternative = c("two.sided", "less", "greater"),
+\S4method{test_ratio}{ddpcr,ddpcr}(dpcr1, dpcr2, alternative = c("two.sided", "less", "greater"),
                                     conf.level = 0.95)
 }
 \arguments{
@@ -42,7 +45,8 @@ Objects \code{dpcr1} and \code{dpcr2} can be:
 \enumerate{
     \item numeric vectors of length 2. The first element is assumed to be number of positive
     partitions and the second one to be the total number of partitions.
-    \item numeric vectors of length greater than 2. The length of vector is assumed to represent total
+    \item numeric vectors of length greater than 2. The length of vector is assumed to 
+    represent total
     number of partitions. Every element of the vector with value bigger than 0 is assumed to be
     a positive partitions.
     \item \code{\linkS4class{adpcr}} objects with type \code{tp} (total number of positive wells 
@@ -67,7 +71,7 @@ custom input and output tailored specifically for digital PCR experiments.
 }
 \references{
   Fay M.P.
-  \emph{Two-sided exact tests and matching conﬁdence intervals for discrete data}
+  \emph{Two-sided exact tests and matching confidence intervals for discrete data}
   R Journal 2 (1), 
   2010.
 }

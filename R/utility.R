@@ -362,9 +362,14 @@ compare_dens <- function(input, moments = TRUE, ...) {
 }
 
 # POISSON PROCESS INTEGRATION AND TESTS ----------------------------------
+setClass("qpcrpp", contains = "matrix", representation(.Data = "matrix", mu = "numeric", 
+                                                       CO = "numeric",
+                                                       CT = "numeric", 
+                                                       partitions = "integer",
+                                                       events = "integer"))
 
-qPCR2pp <- function(cycles, process, data = NULL, NuEvents = 1, delta = 1, mincyc = 1, maxcyc = 45, 
-                    rug = TRUE, plot = TRUE) {
+
+qpcr2pp <- function(cycles, process, data = NULL, NuEvents = 1, delta = 1) {
   
   if (!is.null(data)) {
     res_qPCR <- data
@@ -374,7 +379,6 @@ qPCR2pp <- function(cycles, process, data = NULL, NuEvents = 1, delta = 1, mincy
     # function
     res_qPCR <- data.frame(cycles, process)
   }
-  
   
   res_qPCR <- res_qPCR[order(res_qPCR[[1]]), ]
   res_qPCR <- cbind(res_qPCR, cumsum(res_qPCR[, 2]))
@@ -399,31 +403,51 @@ qPCR2pp <- function(cycles, process, data = NULL, NuEvents = 1, delta = 1, mincy
     cyc.occ <- (exp(-mu) * mu^NuEvents)/fact.NuEvents
   } else cyc.occ <- "too large"
   # END WIP
-  # Plot the calculated qPCR data as Poisson processes
-  if (plot) {
-    plot(res_qPCR[,1], res_qPCR[,3], xlim = c(mincyc, maxcyc), 
-         ylim = c(0, nrow(res_qPCR)), xlab = "Cycle", 
-         ylab = expression(paste(lambda,
-                                 " (cycles)")), type = "S", lwd = 1.5)
-    abline(h = nrow(res_qPCR) * 0.5, col = "grey")
-    legend(mincyc,nrow(res_qPCR), c(paste0("Chambers: ", dens.tmp[["n"]]),
-                                    paste0("Events: ", dens.tmp[["k"]]),
-                                    paste0("mu: ", mu), 
-                                    paste0("CT: ", round(cycle.time, 6)),
-                                    paste0("CO: ", round(cyc.occ, 6))))
-    # Add rug to the the plot the illustrate the density of events
-    if (rug) 
-      rug(res_qPCR[, 1])}
-  
-  list(out = res_qPCR, mu = mu, CT = cycle.time, CO = cyc.occ, chambers = dens.tmp[["n"]],
-       events = dens.tmp[["k"]])
+
+  new("qpcrpp", .Data = data.matrix(res_qPCR), mu = mu, CT = cycle.time, CO = cyc.occ, 
+      partitions = dens.tmp[["n"]], events = dens.tmp[["k"]])
 }
 
 
+setMethod("plot", signature(x = "qpcrpp"), function(x, mincyc = 1, maxcyc = 45, rug = TRUE) {
+  # Plot the calculated qPCR data as Poisson processes
+  res_qPCR <- slot(x, ".Data")
+  plot(res_qPCR[,1], res_qPCR[,3], xlim = c(mincyc, maxcyc), 
+       ylim = c(0, nrow(res_qPCR)), xlab = "Cycle", 
+       ylab = expression(paste(lambda,
+                               " (cycles)")), type = "S", lwd = 1.5)
+  abline(h = nrow(res_qPCR) * 0.5, col = "grey")
+  legend(mincyc,nrow(res_qPCR), c(paste0("Partitions: ", slot(x, "partitions")),
+                                  paste0("Events: ", slot(x, "events")),
+                                  paste0("mu: ", slot(x, "mu")), 
+                                  paste0("CT: ", slot(x, "CT")),
+                                  paste0("CO: ", slot(x, "CO"))))
+  # Add rug to the the plot the illustrate the density of events
+  if (rug) 
+    rug(res_qPCR[, 1])
+})
+
+
+
+setMethod("show", signature(object = "qpcrpp"), function(object) {
+  print(slot(object, ".Data"))    
+})
+
+
+setMethod("summary", signature(object = "qpcrpp"), function(object, print = TRUE) {
+  cat("\nmu: ", slot(object, "mu"), "\n")
+  cat("C0: ", format(slot(object, "CO")), "\n")
+  cat("Cycle time: ", format(slot(object, "CT")), "\n")
+  cat("Number of partitions: ", slot(object, "partitions"), "\n")
+  cat("Number of events: ", slot(object, "events"), "\n")
+  cat("\n")
+})
+
+
 # Example of an artificial chamber dPCR experiment using the test data set from
-# qpcR. The function Cy0limiter is used to calculate the Cy0 value and converts 
+# qpcR. The function limit_cy0 is used to calculate the Cy0 value and converts 
 # all values between a defined range to 1 and the remaining to 0.
-Cy0limiter <- function(data = data, cyc = 1, fluo = NULL,
+limit_cy0 <- function(data = data, cyc = 1, fluo = NULL,
                        Cq_range = c(1, max(data[cyc])), model = l5) {
   if (Cq_range[1] > Cq_range[2]) {
     warning("First value of Cq_range is greater than second. Cq_range reversed.")
