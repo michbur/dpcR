@@ -1,0 +1,14 @@
+Changes from Version 0.1.1 to 0.1.2 [June 2014] 
+
+Functions
+* added create_adpcr() 
+* added qpcr2pp()
+* added test_panel() - testing randomness of distribution template on adPCR plate
+* added test_peaks() - quick way to classify signal from ddPCR
+* added test_ratio() - test significance of differences between two dPCR experiments
+
+Objects
+* added qpcrpp object
+
+Data
+* added many_peaks data set

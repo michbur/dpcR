@@ -47,6 +47,9 @@ A warning is prompted whenever any of arguments is converted to other type.
 An \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} object.
 }
 
+\note{
+Currently only end point measurements are supported.
+}
 \author{
 Michal Burdukiewicz, Stefan Roediger.
 }
