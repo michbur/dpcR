@@ -70,7 +70,7 @@ setMethod("qpcr_analyser", signature(input = "adpcr"), function(input, cyc = 1, 
 
 test_panel <- function(X, nx_a, ny_a, nx = 5, ny = 5, alternative = c("two.sided", "regular", "clustered"), 
                        method = c("Chisq", "MonteCarlo"), conditional = TRUE, nsim = 1999) {
-  ppp_data <- adpcr_to_ppp(X, nx_a, ny_a)
+  ppp_data <- adpcr2ppp(X, nx_a, ny_a)
   lapply(ppp_data, function(single_panel)
     quadrat.test(single_panel, nx, ny, alternative, method, conditional, nsim = 1999))
 }
@@ -292,7 +292,7 @@ AUCtest <- function(x = x, y = y, threshold = 0.05, noise_cut = 0.05, savgol = T
   # and the smoothed data
 }
 
-adpcr_to_ppp <- function(input, nx_a, ny_a) {
+adpcr2ppp <- function(input, nx_a, ny_a) {
   if (class(input) != "adpcr")
     stop("Input must have 'adpcr' class", call. = TRUE, domain = NA)
   

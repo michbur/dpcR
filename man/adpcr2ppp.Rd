@@ -1,5 +1,5 @@
-\name{adpcr_to_ppp}
-\alias{adpcr_to_ppp}
+\name{adpcr2ppp}
+\alias{adpcr2ppp}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Convert adpcr to ppp 
@@ -9,7 +9,7 @@ Quick conversion of \code{\linkS4class{adpcr}} object to the list of
 \code{\link[spatstat]{ppp.object}}s.
 }
 \usage{
-adpcr_to_ppp(input, nx_a, ny_a)
+adpcr2ppp(input, nx_a, ny_a)
 }
 
 \arguments{
@@ -47,13 +47,13 @@ Michal Burdukiewcz, Stefan Roediger.
 many_panels <- sim_adpcr(m = 400, n = 765, times = 1000, pos_sums = FALSE, 
                    n_panels = 5)
 #convert all plates to ppp objects
-adpcr_to_ppp(many_panels, nx_a = 45, ny_a = 17)
+adpcr2ppp(many_panels, nx_a = 45, ny_a = 17)
 
 #convert all plates to ppp objects and get third plate
-third_plate <- adpcr_to_ppp(many_panels, nx_a = 45, ny_a = 17)[[3]]
+third_plate <- adpcr2ppp(many_panels, nx_a = 45, ny_a = 17)[[3]]
 
 #convert only third plate to ppp object
-third_plate2 <- adpcr_to_ppp(extract_dpcr(many_panels, 3), nx_a = 45, ny_a = 17)
+third_plate2 <- adpcr2ppp(extract_dpcr(many_panels, 3), nx_a = 45, ny_a = 17)
 
 #check the class of a new object
 class(third_plate2)

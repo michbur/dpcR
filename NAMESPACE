@@ -36,5 +36,5 @@ export(
   "dpcr_density_gui",
   "compare_dens",
   "qpcr_analyser",
-  "adpcr_to_ppp",
+  "adpcr2ppp",
   "test_panel")

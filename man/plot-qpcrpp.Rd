@@ -6,7 +6,8 @@
 Plot \code{qpcrpp} objects
 }
 \description{
-
+A simple plot descibing relationship between the cycle number and the current value of Poisson 
+mean. 
 }
 \usage{
 \S4method{plot}{qpcrpp}(x, mincyc = 1, maxcyc = 45, rug = TRUE)
@@ -26,7 +27,9 @@ is a \code{\linkS4class{qpcrpp}} object.
   Adds a rug representation of the data to the plot.
 } 
 }
-
+\details{
+The \code{rug} parameter allows user to add density of the number of events to the plot. 
+}
 
 \author{
 Stefan Roediger, Michal Burdukiewicz
@@ -36,10 +39,10 @@ Stefan Roediger, Michal Burdukiewicz
 \code{\linkS4class{qpcrpp}}
 }
 \examples{
-Cq.range <- c(20, 30)
-ranged <- limit_cy0(data = test, cyc = 1, fluo = NULL,
-                     Cq_range = Cq.range, model = l5)
-                     
+
+test <- cbind(reps[1:45, ], reps2[1:45 ,2:ncol(reps2)], reps3[1:45 ,2:ncol(reps3)])
+ranged <- limit_cy0(data = test, cyc = 1, fluo = NULL, model = l5)
+        
 plot(qpcr2pp(ranged[,1], ranged[,2], delta = 5), rug = TRUE)
 }
 \keyword{hplot}

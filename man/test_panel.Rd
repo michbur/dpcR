@@ -63,7 +63,7 @@ http://www.spatstat.org/
 Adrian Baddeley, Rolf Turner, Michal Burdukiewcz, Stefan Roediger.
 }
 \note{
-A similar result can be achived by using \code{\link{adpcr_to_ppp}} and 
+A similar result can be achived by using \code{\link{adpcr2ppp}} and 
 \code{\link[spatstat]{quadrat.test}}. See Examples.
 }
 
@@ -81,7 +81,7 @@ test_panel(extract_dpcr(many_panels, 3), nx_a = 45, ny_a = 17)
 
 #do test_panel manually
 require(spatstat)
-ppp_data <- adpcr_to_ppp(many_panels, nx_a = 45, ny_a = 17)
+ppp_data <- adpcr2ppp(many_panels, nx_a = 45, ny_a = 17)
 lapply(ppp_data, function(single_panel) quadrat.test(single_panel))
 
 }
