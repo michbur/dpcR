@@ -1,40 +1,43 @@
-importFrom(e1071, skewness, kurtosis)
+importFrom(binom, binom.confint)
 importFrom(dgof, ks.test, cvm.test)
+importFrom(chipPCR, AmpSim)
+importFrom(e1071, skewness, kurtosis)
 importFrom(pracma, findpeaks)
 importFrom(qpcR, efficiency, pcrfit, modlist)
-importFrom(binom, binom.confint)
+importFrom(rateratio.test, rateratio.test)
 importFrom(shiny, runApp)
 importFrom(signal, sgolayfilt)
 importFrom(spatstat, ppp, quadrat.test)
-importFrom(rateratio.test, rateratio.test)
-importFrom(chipPCR, AmpSim)
+
 import("methods")
 
 exportClasses(
-    "ddpcr",
-    "adpcr"
+    "adpcr",
+    "ddpcr"
 )
 
 exportMethods(
   "moments",
   "plot",
-  "summary",
   "show",
+  "summary",
   "test_peaks",
-  "test_ratio")
+  "test_ratio"
+)
 
 export(
-  "qpcr2pp",
-  "limit_cy0",
+  "adpcr2ppp",
+  "compare_dens",
   "create_dpcr",
-  "sim_ddpcr",
-  "plot_vic_fam",
-  "sim_adpcr",
-  "extract_dpcr",
-  "plot_panel",
   "dpcr_density",
   "dpcr_density_gui",
-  "compare_dens",
+  "extract_dpcr",
+  "limit_cy0",
+  "plot_panel",
+  "plot_vic_fam",
+  "qpcr2pp",
   "qpcr_analyser",
-  "adpcr2ppp",
-  "test_panel")
+  "sim_adpcr",
+  "sim_ddpcr",
+  "test_panel"
+)
