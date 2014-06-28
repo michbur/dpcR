@@ -23,7 +23,7 @@ setMethod("summary", signature(object = "adpcr"), function(object, print = TRUE)
   invisible(print_summary(k, col_dat, type, n, print))
 })
 
-#special method declared to hide slots other than .Data
+# Special method declared to hide slots other than .Data
 setMethod("show", signature(object = "adpcr"), function(object) {
   print(slot(object, ".Data"))
   cat(paste0("\nType: '", slot(object, "type"), "'"))     
@@ -77,7 +77,7 @@ test_panel <- function(X, nx_a, ny_a, nx = 5, ny = 5, alternative = c("two.sided
 
 # SIMULATIONS - array ---------------------------------------------
 
-#exact copy of dube simulation
+# Exact copy of Dube simulation
 
 sim_adpcr <- function(m, n, times, n_panels = 1, dube = FALSE, pos_sums = FALSE) {
   n <- t.int(n)
@@ -85,7 +85,7 @@ sim_adpcr <- function(m, n, times, n_panels = 1, dube = FALSE, pos_sums = FALSE)
   create_adpcr(res, n, 0L:max(res), type = ifelse(pos_sums, "tp", "nm"))
 }
 
-#OTHER FUNCTIONS - array ------------------------------------------
+# OTHER FUNCTIONS - array ------------------------------------------
 
 create_adpcr <- function(data, n, breaks = NULL, type, models = NULL) {
   result <- new("adpcr")
@@ -122,7 +122,7 @@ plot_panel <- function(input, nx_a, ny_a, col = "red", legend = TRUE,
                  ") differs from the size of nx_a*ny_a (", nx_a*ny_a, ").
                  \n Change nx_a*ny_a to have the same number of elements."))
   
-  #use breaks to split input 
+  # Use breaks points to split input 
   cutted_input <- cut(slot(input, ".Data"), breaks = slot(input, "breaks"), 
                       include.lowest = TRUE, right = FALSE)
   
@@ -168,7 +168,7 @@ plot_panel <- function(input, nx_a, ny_a, col = "red", legend = TRUE,
   invisible(args)
   }
 
-#function for all cases when we need breaks calculated
+# Function for all cases when we need breaks calculated
 calc_breaks <- function(vals, breaks = "Sturges", threshold = NULL) {
   if (!is.vector(vals))
     vals <- as.vector(sapply(vals, function(x) as.vector(x)))
@@ -230,7 +230,7 @@ AUCtest <- function(x = x, y = y, threshold = 0.05, noise_cut = 0.05, savgol = T
   
   # Get the raw data and assign them to a data frame containing the abscissa values (e.g., 
   # time, count, ...) and the corresponding peak value (e.g., fluorescence)
-  # Preprocessing:
+  # Pre-processing:
   # Set values below a "noise_cut" value to 0
   y[y < quantile(y, noise_cut)] <- 0
   

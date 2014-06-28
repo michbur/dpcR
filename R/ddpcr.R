@@ -96,7 +96,7 @@ create_ddpcr <- function(data, n, threshold = NULL, type) {
   result
 }
 
-#helper function counting peaks, takes threshold
+# helper function counting peaks, takes threshold
 get_k_n <- function(x, threshold = 1) {
   #   if (is.null(threshold)) {
   #     x <- x[x != 0]
@@ -106,11 +106,11 @@ get_k_n <- function(x, threshold = 1) {
   pos <- nrow(peaks)
   if (is.null(pos))
     pos <- 0
-  #list(k = pos, n = nrow(findpeaks(x, threshold = min(x))), thr = threshold)
+  # list(k = pos, n = nrow(findpeaks(x, threshold = min(x))), thr = threshold)
   pos
 }
 
-#helper function plotting colorful circles below the vic/fam
+# helper function plotting colorful circles below the vic/fam
 plot_vf_circ <- function(x, y, radius, bg) {
   symbols(x = x, y = rep(y, length(x)), circles = rep(radius, length(x)), 
           bg = bg, fg = "black", inches = FALSE, add = TRUE)

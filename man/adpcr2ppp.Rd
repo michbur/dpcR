@@ -14,7 +14,8 @@ adpcr2ppp(input, nx_a, ny_a)
 
 \arguments{
   \item{input}{
-Object of the \code{\linkS4class{adpcr}} class containing data from one or more panels.
+Object of the \code{\linkS4class{adpcr}} class containing data from one or 
+more panels.
 }
   \item{nx_a}{
 Number of columns in a plate.
@@ -24,12 +25,15 @@ Number of rows in a plate.
 }
 }
 \details{
-Each plate is independently converted by \code{\link[spatstat]{ppp}} function. \code{marks}
-attached to each point represent values contained by the \code{\linkS4class{adpcr}} 
+Each plate is independently converted by \code{\link[spatstat]{ppp}} 
+function. \code{marks}
+attached to each point represent values contained by the 
+\code{\linkS4class{adpcr}} 
 object.
 }
 \value{
-A list containing objects with class \code{\link[spatstat]{ppp.object}} with the length equal to
+A list containing objects with class \code{\link[spatstat]{ppp.object}} 
+with the length equal to
 the number of plates (minimum 1).
 }
 
@@ -46,19 +50,22 @@ Michal Burdukiewcz, Stefan Roediger.
 \examples{
 many_panels <- sim_adpcr(m = 400, n = 765, times = 1000, pos_sums = FALSE, 
                    n_panels = 5)
-#convert all plates to ppp objects
+
+# Convert all plates to ppp objects
 adpcr2ppp(many_panels, nx_a = 45, ny_a = 17)
 
-#convert all plates to ppp objects and get third plate
+# Convert all plates to ppp objects and get third plate
 third_plate <- adpcr2ppp(many_panels, nx_a = 45, ny_a = 17)[[3]]
 
-#convert only third plate to ppp object
-third_plate2 <- adpcr2ppp(extract_dpcr(many_panels, 3), nx_a = 45, ny_a = 17)
+# Convert only third plate to ppp object
+third_plate2 <- adpcr2ppp(extract_dpcr(many_panels, 3), nx_a = 45, ny_a = 
+17)
 
-#check the class of a new object
+# Check the class of a new object
 class(third_plate2)
 
-#it's a list with the length 1. the third plate is a first element on this list
+# It's a list with the length 1. The third plate is a first element on this 
+list
 class(third_plate2[[1]])
 
 }
