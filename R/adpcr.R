@@ -26,7 +26,7 @@ setMethod("summary", signature(object = "adpcr"), function(object, print = TRUE)
 # Special method declared to hide slots other than .Data
 setMethod("show", signature(object = "adpcr"), function(object) {
   print(slot(object, ".Data"))
-  cat(paste0("\nType: '", slot(object, "type"), "'"))     
+  cat(paste0("\nType: '", slot(object, "type"), "'"))
 })
 
 setMethod("moments", signature(input = "adpcr"), function(input) {
@@ -47,7 +47,7 @@ setMethod("moments", signature(input = "adpcr"), function(input) {
              moments(data[ , i])))
            ids <- sort(rep(1:n_cols, 2))
            nms <- colnames(res)
-           colnames(res) <- unlist(lapply(1L:(n_cols*2), function(i) 
+           colnames(res) <- unlist(lapply(1L:(n_cols * 2), function(i) 
              paste0(nms[i], ".", ids[i])))
            res
          })  
@@ -116,11 +116,11 @@ plot_panel <- function(input, nx_a, ny_a, col = "red", legend = TRUE,
   } else {
     stop("Input must have the 'adpcr' class", call. = TRUE, domain = NA)
   }
-  if (length(input) != nx_a*ny_a)
+  if (length(input) != nx_a * ny_a)
     stop (paste0("Can not process with plot since the input 
                  legnth (", length(input) ,
-                 ") differs from the size of nx_a*ny_a (", nx_a*ny_a, ").
-                 \n Change nx_a*ny_a to have the same number of elements."))
+                 ") differs from the size of nx_a * ny_a (", nx_a * ny_a, ").
+                 \n Change nx_a * ny_a to have the same number of elements."))
   
   # Use breaks points to split input 
   cutted_input <- cut(slot(input, ".Data"), breaks = slot(input, "breaks"), 
@@ -299,11 +299,11 @@ adpcr2ppp <- function(input, nx_a, ny_a) {
   array_data <- slot(input, ".Data")
   nrow_array <- nrow(array_data)
   
-  if (nrow_array != nx_a*ny_a)
+  if (nrow_array != nx_a * ny_a)
     stop (paste0("Can not process with conversion since the input 
                  legnth (", length(input) ,
-                 ") differs from the size of nx_a*ny_a (", nx_a*ny_a, ").
-                 \n Change nx_a*ny_a to have the same number of elements."))  
+                 ") differs from the size of nx_a * ny_a (", nx_a * ny_a, ").
+                 \n Change nx_a * ny_a to have the same number of elements."))  
   
   #apply in case input contains more than 1 array
   apply(array_data, 2, function(array_col) { 

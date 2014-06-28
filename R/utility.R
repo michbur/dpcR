@@ -182,15 +182,15 @@ analyze_qpcR <- function(fit_list, type = "Cy0",  takeoff = FALSE) {
 #calculates coordinates of bars in our barcharts
 calc_bars <- function(x, w = 1, names = "counts") {
   if (class(x)[1] == "matrix") {
-    ytops <- x[,2]
-    xs <- x[,1] 
+    ytops <- x[ ,2]
+    xs <- x[ ,1] 
   } else {
     if (names == "counts") {
       ytops <- as.vector(x)
-      xs <- as.numeric(names(x))  
+      xs <- as.numeric(names(x))
     } else {
       ytops <- x
-      xs <- 1L:length(x) - 1   
+      xs <- 1L:length(x) - 1
     }
   }
   matrix(c(xs - 0.5*w, rep(0, length(ytops)), xs + 0.5*w, ytops), ncol = 4, byrow = F)
@@ -219,7 +219,7 @@ dpcr_calculator <- function(k, n, average = FALSE, log = FALSE) {
 #helper function returning y values of confidence intervals
 y_val_conf <- function(conf, data, side) {
   side_id <- ifelse(side == "left", 2, 3)
-  id <- which(sort(c(data[,1], conf[[side_id]])) == conf[[side_id]])
+  id <- which(sort(c(data[ ,1], conf[[side_id]])) == conf[[side_id]])
   if (id != 1 && id <= nrow(data)) {
     y_l <- data[id - 1, 2]
     y_r <- data[id, 2]
@@ -262,7 +262,7 @@ plot_distr <- function(data, add = FALSE,
                        bar_border = adjustcolor("azure3", alpha.f = 0.65), 
                        xlab = "", ylab = "", ...) {
   if (!add) {
-    plot(x = data[,1], y = data[,2], cex = 0, ylab = ylab, xlab = xlab, ...)
+    plot(x = data[ ,1], y = data[, 2], cex = 0, ylab = ylab, xlab = xlab, ...)
     rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], 
          col = adjustcolor("grey", alpha.f = 0.30))
     axis(1, tck = 1, col.ticks = "white", labels = FALSE)
@@ -270,11 +270,11 @@ plot_distr <- function(data, add = FALSE,
     if (length(data) < 80)
       axis(3, at = data[, 1], labels = ifelse(as.integer(data[, 1]) == data[, 1], 
                                               as.integer(data[, 1]), round(data[, 1], 2)), 
-           mgp = c(3, 0.35, 0), cex.axis = 0.85, tcl = -0.3, lwd.ticks=1.2)
+           mgp = c(3, 0.35, 0), cex.axis = 0.85, tcl = -0.3, lwd.ticks = 1.2)
     
   }
   x <- c(data[1, 1], data[, 1], data[nrow(data), 1])
-  y <- c(0, data[,2], 0)
+  y <- c(0, data[, 2], 0)
   polygon(x = x, y = y, col = distr_col, 
           border = NA)
   lines(x = x, y = y, col = distr_border, lwd = 2)
@@ -412,7 +412,7 @@ qpcr2pp <- function(cycles, process, data = NULL, NuEvents = 1, delta = 1) {
 setMethod("plot", signature(x = "qpcrpp"), function(x, mincyc = 1, maxcyc = 45, rug = TRUE) {
   # Plot the calculated qPCR data as Poisson processes
   res_qPCR <- slot(x, ".Data")
-  plot(res_qPCR[,1], res_qPCR[,3], xlim = c(mincyc, maxcyc), 
+  plot(res_qPCR[, 1], res_qPCR[,3], xlim = c(mincyc, maxcyc), 
        ylim = c(0, nrow(res_qPCR)), xlab = "Cycle", 
        ylab = expression(paste(lambda,
                                " (cycles)")), type = "S", lwd = 1.5)
