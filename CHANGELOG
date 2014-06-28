@@ -12,3 +12,12 @@ Objects
 
 Data
 * added many_peaks data set
+
+Documentation
+* Numerous updates and refinements
+
+Imports/Depends
+* Uses AmpSim from chipPCR
+* rateratio.test
+* spatstat
+* signal
