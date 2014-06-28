@@ -1,4 +1,11 @@
-Changes from Version 0.1.1 to 0.1.2 [June 2014] 
+Changes from Version 0.1.1 to 0.1.2 [June 2014]
+* New features
+  - qcr2pp, a function to convert conventional qPCR experiments into 
+    data for dPCR experiments
+  - Spatial resolution and tests of plates 
+
+General changes
+* split of fun.R into single *.R files
 
 Functions
 * added create_adpcr() 
