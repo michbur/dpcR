@@ -7,7 +7,7 @@ t.int <- function (x, warn = 0) {
                   Automatically tried to convert ", x, " to integer"))
   }
   abs(as.integer(x))
-  }
+}
 
 # OTHER CLASSES ---------------------------------------------
 setOldClass("modlist")
@@ -403,7 +403,7 @@ qpcr2pp <- function(cycles, process, data = NULL, NuEvents = 1, delta = 1) {
     cyc.occ <- (exp(-mu) * mu^NuEvents)/fact.NuEvents
   } else cyc.occ <- "too large"
   # END WIP
-
+  
   new("qpcrpp", .Data = data.matrix(res_qPCR), mu = mu, CT = cycle.time, CO = cyc.occ, 
       partitions = dens.tmp[["n"]], events = dens.tmp[["k"]])
 }
@@ -448,7 +448,7 @@ setMethod("summary", signature(object = "qpcrpp"), function(object, print = TRUE
 # qpcR. The function limit_cy0 is used to calculate the Cy0 value and converts 
 # all values between a defined range to 1 and the remaining to 0.
 limit_cy0 <- function(data = data, cyc = 1, fluo = NULL,
-                       Cq_range = c(1, max(data[cyc])), model = l5) {
+                      Cq_range = c(1, max(data[cyc])), model = l5, SDM = TRUE) {
   if (Cq_range[1] > Cq_range[2]) {
     warning("First value of Cq_range is greater than second. Cq_range reversed.")
     Cq_range <- rev(Cq_range)
@@ -459,11 +459,18 @@ limit_cy0 <- function(data = data, cyc = 1, fluo = NULL,
   
   pb <- txtProgressBar(min = 1, max = length(fluo), initial = 0, style = 3)
   
-  Cy0 <- vapply(fluo, function(fluo_col) {
-    efficiency(pcrfit(data = data, cyc = cyc, fluo = fluo_col,
-                      model = model), type = "Cy0", plot = FALSE)[["Cy0"]]
-    setTxtProgressBar(pb, fluo_col)
-  }, 0)
+  if (SDM) {
+    Cy0 <- vapply(fluo, function(fluo_col) {
+      summary(inder(x = data[, cyc], y = data[, fluo_col]), print = FALSE)["SDM"]
+      setTxtProgressBar(pb, fluo_col)
+    }, 0)
+  } else {
+    Cy0 <- vapply(fluo, function(fluo_col) {
+      efficiency(pcrfit(data = data, cyc = cyc, fluo = fluo_col,
+                        model = model), type = "Cy0", plot = FALSE)[["Cy0"]]
+      setTxtProgressBar(pb, fluo_col)
+    }, 0)
+  }
   
   Cy0.res <- vapply(Cy0, function(Cy0_i)
     Cq_range[1] <= Cy0_i & Cy0_i <= Cq_range[2], TRUE)

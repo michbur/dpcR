@@ -77,8 +77,6 @@ test_panel <- function(X, nx_a, ny_a, nx = 5, ny = 5, alternative = c("two.sided
 
 # SIMULATIONS - array ---------------------------------------------
 
-# Exact copy of Dube simulation
-
 sim_adpcr <- function(m, n, times, n_panels = 1, dube = FALSE, pos_sums = FALSE) {
   n <- t.int(n)
   res <- sim_dpcr(m, n, times, dube, pos_sums, n_panels)

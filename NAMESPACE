@@ -1,6 +1,6 @@
 importFrom(binom, binom.confint)
 importFrom(dgof, ks.test, cvm.test)
-importFrom(chipPCR, AmpSim)
+importFrom(chipPCR, inder)
 importFrom(e1071, skewness, kurtosis)
 importFrom(pracma, findpeaks)
 importFrom(qpcR, efficiency, pcrfit, modlist)

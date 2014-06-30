@@ -8,10 +8,11 @@ Limit Cy0 values
 The function \code{limit_cy0} calculates the Cq values of a qPCR experiment 
 within a defined range of cycles. The function can be used to extract Cq 
 values of a chamber based qPCR for conversion into a dPCR experiment. All 
-Cq values are obtained by Cy0 method (Guescini et al. (2008)). }
+Cq values are obtained by Second Derivative Maximum or by Cy0 method 
+(Guescini et al. (2008)). }
 \usage{
 limit_cy0(data = data, cyc = 1, fluo = NULL, 
-	  Cq_range = c(1, max(data[cyc])), model = l5)
+	  Cq_range = c(1, max(data[cyc])), model = l5, SDM = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -32,6 +33,10 @@ the Cq values.
   \item{model}{
     is the model to be used for the analysis for all runs. Defaults to 
 'l5' (see \code{\link[qpcR]{pcrfit}}).
+}
+  \item{SDM}{
+    if \code{TRUE}, Cq is approximated by the second derivative method. 
+    If \code{FALSE}, Cy0 method is used instead.
 }
 }
 \details{
@@ -57,6 +62,10 @@ value is in user-defined \code{Cq_range}.
 Guescini M, Sisti D, Rocchi MB, Stocchi L & Stocchi V (2008) \emph{A new 
 real-time PCR method to overcome significant quantitative inaccuracy due 
 to slight amplification inhibition}. BMC Bioinformatics, 9: 326.
+
+Ruijter JM, Pfaffl MW, Zhao S, et al. (2013) \emph{Evaluation of qPCR curve 
+analysis methods for reliable biomarker discovery: bias, resolution, 
+precision, and implications}. Methods, San Diego Calif 59:32--46.
 }
 \author{
 Michal Burdukiewicz, Stefan Roediger.

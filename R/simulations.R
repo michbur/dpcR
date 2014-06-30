@@ -10,6 +10,7 @@ sim_dpcr_dube <- function(m, n, times, pos_sums, n_panels) {
   for (i in distr_molec)
     counts[i] <- counts[i] + 1
   counts <- sample(counts) #is additional shuffle needed?
+  #extract panels and calculate the number of positive partion (if required)
   if (pos_sums == TRUE) {
     times_v <- 1L:n_panels
     gr_id2 <- times_v*n
@@ -25,6 +26,8 @@ sim_dpcr_dube <- function(m, n, times, pos_sums, n_panels) {
 }
 
 #our simple simulation
+#assumption: the number of molecules in each panel is determined by the normal distribution
+#with mean  equal to m
 sim_dpcr_multi <- function(m, n, times, pos_sums, n_panels) {
   total_m <- m*times
   ms <- rnorm(times, m, 0.05*m)
@@ -32,6 +35,7 @@ sim_dpcr_multi <- function(m, n, times, pos_sums, n_panels) {
   delta <- total_m - sum(ms)
   indices <- sample(1:times, abs(delta))
   ms[indices] <- ms[indices] + sign(delta)
+  #extract panels and calculate the number of positive partion (if required)
   if (pos_sums) {
     matrix(vapply(ms[1L:n_panels], function(x) 
       sum(table(factor(sample.int(n, x, replace = TRUE), levels = 1L:n)) > 0), 0), 

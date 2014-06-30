@@ -72,13 +72,13 @@ Stefan Roediger, Michal Burdukiewicz.
 test <- cbind(reps[1L:45, ], reps2[1L:45, 2L:ncol(reps2)], 
 	      reps3[1L:45, 2L:ncol(reps3)])
 
-# results.dPCR contains a column with the Cy0 values and a column with 
-# converted values.
+# before interpolation qPCR experiment must be converted into dPCR
 Cq.range <- c(20, 30)
 ranged <- limit_cy0(data = test, cyc = 1, fluo = NULL,
                      Cq_range = Cq.range, model = l5)
                      
 qpcr2pp(ranged[,1], ranged[,2], delta = 5)
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

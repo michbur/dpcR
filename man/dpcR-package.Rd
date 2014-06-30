@@ -19,7 +19,8 @@ customizable GUI creators for droplet digital PCRs and chamber-based digital PCR
 the package aim to include all statistical approaches published in peer-review literature and 
 additional selected sources of expertise currently available and to make them available to the 
 scientific community in an open and cross-platform environment. As such the dpcR packages has a 
-list of expressions/functions and may serve in future a reference to a unified nomenclature in dpcR. 
+list of expressions/functions and may serve in future a reference to a unified nomenclature in 
+dpcR. 
 The package is primarily targeted at researchers who which to use it with an existing technology or 
 during the development of novel digital PCR systems. In addition the dpcR package provides 
 interactive tools that can be used in classes or by individuals to better learn about digital PCR 
@@ -41,7 +42,13 @@ Michal Burdukiewicz, Stefan Roediger.
 Maintainer: Michal Burdukiewicz <michalburdukiewicz@gmail.com>
 }
 \references{
-Vogelstein, B. and K. W. Kinzler, \emph{Digital PCR}. PNAS, 1999. 96(16): p. 9236-9241.
+Huggett J, Foy CA, Benes V, Emslie K, Garson JA, Haynes R, Hellemans J, Kubista M, 
+Mueller RD,  Nolan T, Pfaffl MW, Shipley GL, Vandesompele J, Wittwer CT, Bustin SA
+\emph{The Digital MIQE Guidelines: Minimum Information for Publication of Quantitative Digital 
+PCR Experiments}
+Clinical Chemistry, 2013. 59(6): p.892-902.
+
+Vogelstein B, Kinzler KW, \emph{Digital PCR}. PNAS, 1999. 96(16): p. 9236-9241.
 %%MORE REFERENCES
 }
 \keyword{ package }
