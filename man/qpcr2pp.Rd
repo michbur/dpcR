@@ -74,7 +74,7 @@ test <- cbind(reps[1L:45, ], reps2[1L:45, 2L:ncol(reps2)],
 
 # before interpolation qPCR experiment must be converted into dPCR
 Cq.range <- c(20, 30)
-ranged <- limit_cy0(data = test, cyc = 1, fluo = NULL,
+ranged <- limit_cq(data = test, cyc = 1, fluo = NULL,
                      Cq_range = Cq.range, model = l5)
                      
 qpcr2pp(ranged[,1], ranged[,2], delta = 5)

@@ -1,17 +1,17 @@
-\name{limit_cy0}
-\alias{limit_cy0}
+\name{limit_cq}
+\alias{limit_cq}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Limit Cy0 values
 }
 \description{
-The function \code{limit_cy0} calculates the Cq values of a qPCR experiment 
+The function \code{limit_cq} calculates the Cq values of a qPCR experiment 
 within a defined range of cycles. The function can be used to extract Cq 
 values of a chamber based qPCR for conversion into a dPCR experiment. All 
 Cq values are obtained by Second Derivative Maximum or by Cy0 method 
 (Guescini et al. (2008)). }
 \usage{
-limit_cy0(data = data, cyc = 1, fluo = NULL, 
+limit_cq(data = data, cyc = 1, fluo = NULL, 
 	  Cq_range = c(1, max(data[cyc])), model = l5, SDM = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -44,7 +44,14 @@ The \code{Cq_range} for this function an be defined be the user. The
 default is to take all amplification curves into consideration. However, 
 under certain circumstances it is recommended to define a range. For 
 example if amplifications are positive in early cycle numbers (less than 
-10). The calculation of the Cy0 value (equivalent of Cq) is based on a 
+10). 
+
+Approximated second derivative is influenced both by how often interpolation
+takes place in each data interval and by the smoothing method used. The user is
+encouraged to seek optimal parameters for his data himself. See \code{\link[chipPCR]{inder}} 
+for details.
+
+The calculation of the Cy0 value (equivalent of Cq) is based on a 
 five-parameter function. From experience this functions leads to good 
 fitting and avoids overfitting of critical data sets. Regardless, the user 
 is recommended to test for the optimal fitting function himself (see 
@@ -70,7 +77,11 @@ precision, and implications}. Methods, San Diego Calif 59:32--46.
 \author{
 Michal Burdukiewicz, Stefan Roediger.
 }
+\seealso{
+SDM method: \code{\link[chipPCR]{inder}}, \code{\link[chipPCR]{summary.der}}.
 
+Cy0 method: \code{\link[qpcR]{mselect}}, \code{\link[qpcR]{efficiency}}.
+}
 \examples{
 library(qpcR)
 test <- cbind(reps[1L:45, ], reps2[1L:45, 2L:ncol(reps2)], reps3[1L:45, 
@@ -79,10 +90,10 @@ test <- cbind(reps[1L:45, ], reps2[1L:45, 2L:ncol(reps2)], reps3[1L:45,
 # results.dPCR contains a column with the Cy0 values and a column with 
 # converted values.
 Cq.range <- c(20, 30)
-ranged <- limit_cy0(data = test, cyc = 1, fluo = NULL,
+ranged <- limit_cq(data = test, cyc = 1, fluo = NULL,
                            Cq_range = Cq.range, model = l5)
 # Same as above, but without Cq.range
-no_range <- limit_cy0(data = test, cyc = 1, fluo = NULL, model = l5)
+no_range <- limit_cq(data = test, cyc = 1, fluo = NULL, model = l5)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

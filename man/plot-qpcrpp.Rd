@@ -44,7 +44,7 @@ Stefan Roediger, Michal Burdukiewicz
 
 test <- cbind(reps[1L:45, ], reps2[1L:45, 2L:ncol(reps2)], reps3[1L:45, 
 	      2L:ncol(reps3)])
-ranged <- limit_cy0(data = test, cyc = 1, fluo = NULL, model = l5)
+ranged <- limit_cq(data = test, cyc = 1, fluo = NULL, model = l5)
         
 plot(qpcr2pp(ranged[, 1], ranged[, 2], delta = 5), rug = TRUE)
 }

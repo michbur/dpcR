@@ -445,9 +445,9 @@ setMethod("summary", signature(object = "qpcrpp"), function(object, print = TRUE
 
 
 # Example of an artificial chamber dPCR experiment using the test data set from
-# qpcR. The function limit_cy0 is used to calculate the Cy0 value and converts 
+# qpcR. The function limit_cq is used to calculate the Cy0 value and converts 
 # all values between a defined range to 1 and the remaining to 0.
-limit_cy0 <- function(data = data, cyc = 1, fluo = NULL,
+limit_cq <- function(data = data, cyc = 1, fluo = NULL,
                       Cq_range = c(1, max(data[cyc])), model = l5, SDM = TRUE) {
   if (Cq_range[1] > Cq_range[2]) {
     warning("First value of Cq_range is greater than second. Cq_range reversed.")

@@ -32,7 +32,7 @@ export(
   "dpcr_density",
   "dpcr_density_gui",
   "extract_dpcr",
-  "limit_cy0",
+  "limit_cq",
   "plot_panel",
   "plot_vic_fam",
   "qpcr2pp",
