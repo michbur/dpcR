@@ -1,6 +1,6 @@
 importFrom(binom, binom.confint)
-importFrom(dgof, ks.test, cvm.test)
 importFrom(chipPCR, inder)
+importFrom(dgof, ks.test, cvm.test)
 importFrom(e1071, skewness, kurtosis)
 importFrom(pracma, findpeaks)
 importFrom(qpcR, efficiency, pcrfit, modlist)
@@ -27,6 +27,7 @@ exportMethods(
 
 export(
   "adpcr2ppp",
+  "bioamp",
   "compare_dens",
   "create_dpcr",
   "dpcr_density",

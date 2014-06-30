@@ -2,6 +2,7 @@ Package: dpcR
 Type: Package
 Title: Digital PCR Analysis
 Version: 0.1.2
+LazyData: true
 Date: 2013-09-07
 Author: Michal Burdukiewicz, Stefan Roediger
 Maintainer: Michal Burdukiewicz <michalburdukiewicz@gmail.com>
@@ -11,4 +12,4 @@ Depends: R (>= 3.0.0), methods, qpcR
 Imports: binom, chipPCR, e1071, dgof, pracma, rateratio.test, signal, shiny, spatstat
 Packaged: 2013-09-07 11:08:48 UTC; Mihau
 NeedsCompilation: no
-Collate: utility.R adpcr.R ddpcr.R dpcr.R simulations.R
+Collate: utility.R adpcr.R ddpcr.R dpcr.R simulations.R bioamp.R

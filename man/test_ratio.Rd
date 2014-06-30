@@ -1,4 +1,4 @@
-\name{test_ratio}
+﻿\name{test_ratio}
 \alias{test_ratio}
 \alias{test_ratio,numeric}
 \alias{test_ratio,adpcr}
@@ -26,11 +26,11 @@ The test for comparing ratio of two Poisson means:
 }
 \arguments{
   \item{dpcr1}{
-a (non-empty) numeric vector of data values of lenght 2 or more or an object of class 
+a (non-empty) numeric vector of data values of length 2 or more or an object of class 
 \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}. See Details.
 }
   \item{dpcr2}{
-a (non-empty) numeric vector of data values of lenght 2 or more or an object of class 
+a (non-empty) numeric vector of data values of length 2 or more or an object of class 
 \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}. See Details.
 }
   \item{alternative}{
@@ -84,20 +84,22 @@ See also \code{\link[stats]{poisson.test}}.
 }
 
 \examples{
-#input values are numeric vectors representing dpcr experiments
+# Input values are numeric vectors representing dPCR experiments
 x1 <- rpois(765, 1.1)
 x2 <- rpois(765, 1.1)
 test_ratio(x1, x2)
 
-#input values represent only numbr of positive partitions and total partitions
+# Input values represent only number of positive partitions and total 
+# partitions
 x3 <- sum(rpois(765, 1.1) > 0)
 x4 <- sum(rpois(765, 1.1) > 0)
 test_ratio(c(x3, 765), c(x4, 765))
 
-#it is possible to mix different types of input as long as they have the same class
+# It is possible to mix different types of input as long as they have 
+# the same class
 test_ratio(c(x3, 765), x1)
 
-#the same is true for adpcr and dpcr objects.
+# The same is true for adpcr and dpcr objects.
 x5 <- sim_adpcr(400, 1600, 100, pos_sums = TRUE, n_panels = 1)
 x6 <- sim_adpcr(400, 1600, 100, pos_sums = FALSE, n_panels = 1)
 test_ratio(x5, x6)
