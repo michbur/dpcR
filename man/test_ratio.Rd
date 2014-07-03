@@ -1,4 +1,4 @@
-﻿\name{test_ratio}
+\name{test_ratio}
 \alias{test_ratio}
 \alias{test_ratio,numeric}
 \alias{test_ratio,adpcr}
