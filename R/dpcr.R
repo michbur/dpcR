@@ -59,7 +59,7 @@ empir_moms <- function(input) {
   res
 }
 
-# GENERAL USE - droplet, array ------------------------------
+# DATA MANIPULATION - droplet, array ------------------------------
 
 #create adpr and ddpcr objects
 create_dpcr <- function(data, n, threshold = NULL, breaks = NULL, type, adpcr = TRUE) {
@@ -92,7 +92,7 @@ create_dpcr <- function(data, n, threshold = NULL, breaks = NULL, type, adpcr = 
 #extract single panel from dpcr object
 extract_dpcr <- function(input, id) {
   if (!(class(input) %in% c("adpcr", "ddpcr")))
-    stop("Input must have 'adpcr' or 'ddpcr' class", call. = TRUE)
+    stop("Input must have 'adpcr' or 'ddpcr' class.")
   selected <- input[, id]
   
   #because when id is single negative value, usually the
@@ -105,6 +105,64 @@ extract_dpcr <- function(input, id) {
   slot(result, ".Data") <- selected
   result
 }
+
+
+bind_dpcr <- function (input, ...) {
+  stop("Wrong class of 'input'.")
+}
+
+
+setMethod("bind_dpcr", 
+          signature(input = "adpcr"), 
+          function(input, ...) {
+            args <- c(list(input), Filter(Negate(is.null), list(...)))
+            all_types <- all(sapply(args, class) == "adpcr")
+            if (!all_types)
+              stop("All binded objects must have the same class.")
+            bigger_breaks <- which.max(lapply(args, function(single_arg) 
+              max(slot(single_arg, "breaks"))))
+            breaks <- slot(args[[bigger_breaks]], "breaks")
+            res <- cbind_dpcr(args)
+            create_adpcr(res[["binded_data"]], 
+                         res[["n"]], breaks, type = res[["type"]])
+          })
+
+#helper function for internal use only
+cbind_dpcr <- function(args) {
+  #check types
+  all_types <- sapply(args, function(single_arg) 
+    slot(single_arg, "type"))
+  if (length(unique(all_types)) > 1)
+    stop("Input objects must have the same type.")
+  type <- unique(all_types)
+
+  
+  #check partitions and add NA values if needed
+  all_partitions <- sapply(args, function(single_arg) 
+    max(slot(single_arg, "n")))
+  n <- max(all_partitions)
+  if (length(unique(all_partitions)) > 1) {
+    message("Different number of partitions. Shorter objects completed with NA values.")
+    rows_to_add <- n - all_partitions
+    for(i in 1L:length(args)) {
+      if (rows_to_add[i] > 0)
+      args[[i]] <- rbind(args[[i]], 
+                         matrix(rep(NA, ncol(args[[i]])*rows_to_add[i]), 
+                                nrow = rows_to_add[i]))
+    }
+  }
+  
+  binded_data <- do.call(cbind, args)
+  
+  col_names <- unlist(lapply(1L:length(args), function(i)
+    paste0(LETTERS[i], 1L:ncol(args[[i]]))))
+
+  colnames(binded_data) <- col_names
+  list(binded_data = binded_data, type = type, n = n)
+}
+
+
+# TESTS - droplet, array ------------------------------
 
 #a wrapper around rateratio.test
 test_ratio <- function(dpcr1, dpcr2, 
@@ -172,3 +230,16 @@ setMethod("test_ratio",
             test_ratio(c(k_x, n_x), c(k_y, n_y), alternative = alternative, 
                        conf.level = conf.level)  
           })
+
+
+#a wrapper around rateratio.test
+# test_experiments <- function(dpcr_experiments) {
+#   m_dat <- melt(dpcr_experiments)
+#   colnames(m_dat)[1L:2] <- c("partition", "experiment")
+#   m_dat[["experiment"]] <- factor(m_dat[["experiment"]])
+#   
+#   glm_fit <- glm(value ~ experiment, data = m_dat, family = quasipoisson)
+#   
+#   tuk <- glht(glm_fit, linfct = mcp(experiment = "Tukey"))
+#   cld(tuk)
+# }

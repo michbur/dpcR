@@ -17,14 +17,14 @@ setGeneric("summary")
 setGeneric("show")
 
 moments <- function (input, ...) {
-  stop("Wrong class of 'input'", call. = TRUE, domain = NA)
+  stop("Wrong class of 'input'")
 }
 setGeneric("moments")
 
 
 qpcr_analyser <- function (input, cyc = 1, fluo = NULL, model = l5, norm = FALSE, iter_tr = 50, 
                            type = "Cy0", takeoff = FALSE) {
-  stop("Wrong class of 'input'", call. = TRUE, domain = NA)
+  stop("Wrong class of 'input'")
 }
 setGeneric("qpcr_analyser")
 

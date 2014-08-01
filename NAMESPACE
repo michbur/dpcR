@@ -13,10 +13,12 @@ import("methods")
 
 exportClasses(
     "adpcr",
-    "ddpcr"
+    "ddpcr",
+    "rtadpcr"
 )
 
 exportMethods(
+  "bind_dpcr",
   "moments",
   "plot",
   "show",
