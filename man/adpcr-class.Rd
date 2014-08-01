@@ -3,14 +3,14 @@
 \alias{adpcr-class}
 \alias{adpcr}
 
-\title{Class \code{"adpcr"}}
+\title{Class \code{"adpcr"} - end-point array digital PCR experiments}
 \description{
-A class specifically designed to contain results from array digital PCR experiments. Data is
-represented as matrix, where each column describes different experiment. Type of data in all
-columns is specified in slot \code{"type"} and could be a number of molecules
-\code{"nm"}, a number of positive droplets \code{"tnm"} (in this case whole experiment is 
-represented by one row), a cycle threshold of each well \code{"ct"} or fluorescence values
-\code{"fluo"}.
+A class specifically designed to contain results from end-point array digital PCR 
+experiments. Data is represented as matrix, where each column describes different 
+experiment. Type of data in all columns is specified in slot \code{"type"} and could be 
+a number of molecules \code{"nm"}, a number of positive droplets \code{"tnm"} (in this 
+case whole experiment is represented by one row), a cycle threshold of each 
+well \code{"ct"} or fluorescence values \code{"fluo"}.
 
 }
 
@@ -32,6 +32,11 @@ represented by one row), a cycle threshold of each well \code{"ct"} or fluoresce
    }
 }
 
+\section{Note}{
+\code{"adpcr"} objects are suitable only for end-point digital PCR experiments, where
+data come from the measurement at the end of amplification reaction.
+}
+
 \author{
 Michal Burdukiewicz.
 }
@@ -42,6 +47,9 @@ Ploting and management:
 
 Simulation:
 \code{\link{sim_adpcr}}.
+
+Real time array digital PCR:
+\code{\linkS4class{rtadpcr}}.
 
 Droplet digital PCR:
 \code{\linkS4class{ddpcr}}.

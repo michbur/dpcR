@@ -13,4 +13,4 @@ Imports: binom, chipPCR, e1071, dgof, pracma, rateratio.test, signal, shiny, spa
 Packaged: 2014-06-30 11:00:00 UTC; Mihau
 NeedsCompilation: no
 Repository: CRAN
-Collate: utility.R adpcr.R ddpcr.R dpcr.R simulations.R bioamp.R
+Collate: utility.R adpcr.R ddpcr.R rtadpcr.R dpcr.R simulations.R bioamp.R
