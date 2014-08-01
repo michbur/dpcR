@@ -48,7 +48,7 @@ Ploting and management:
 Simulation:
 \code{\link{sim_adpcr}}.
 
-Real time array digital PCR:
+Real-time array digital PCR:
 \code{\linkS4class{rtadpcr}}.
 
 Droplet digital PCR:
@@ -60,4 +60,5 @@ one_rand_array <- extract_dpcr(rand_array, 1)
 plot_panel(one_rand_array, 40, 40)
 }
 \keyword{classes}
+\keyword{real-time}
 

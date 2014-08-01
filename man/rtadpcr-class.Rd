@@ -23,7 +23,7 @@ TO DO
 
 \section{Note}{
 \code{"rtadpcr"} objects are suitable only for real-time digital PCR experiments, where
-measurements are taken in real time during the amplification reaction.
+measurements are taken in real-time during the amplification reaction.
 }
 
 \author{
@@ -41,3 +41,4 @@ Droplet digital PCR:
 #none
 }
 \keyword{classes}
+\keyword{real-time}
