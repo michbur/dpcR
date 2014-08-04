@@ -2,15 +2,20 @@
 \alias{bind_dpcr}
 \alias{bind_dpcr,adpcr}
 \alias{bind_dpcr,adpcr-method}
+\alias{bind_dpcr,ddpcr}
+\alias{bind_dpcr,ddpcr-method}
 
 \title{
 Bind dpcr objects
 }
 \description{
-BLA
+A convinient wrapper around \code{\link[base]{cbind}} and \code{\link[base]{rbind}} 
+tailored specially for binding multiple objects containing results from digital PCR
+experiments.
 }
 \usage{
-\S4method{test_ratio}{adpcr}(input, ...)
+\S4method{bind_dpcr}{adpcr}(input, ...)
+\S4method{bind_dpcr}{ddpcr}(input, ...)
 }
 \arguments{
   \item{input}{
@@ -21,8 +26,7 @@ objects of class \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}. See D
 }
 }
 \details{
-\code{bind_dpcr} can bind (analogously to \code{\link[base]{cbind}}) two or more 
-\code{adpcr} or \code{ddpcr} objects, but without recycling. In case on unequal length,
+In case of \code{adpcr} or \code{ddpcr} objects, \code{bind_dpcr} can  works analogously to \code{\link[base]{cbind}}), but without recycling. In case on unequal length,
 shorter objects will be filled in with additional \code{NA} values. The original length 
 is always preserved in \code{n} slot.
 }
@@ -30,6 +34,12 @@ is always preserved in \code{n} slot.
 \value{
 An object of class \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}, 
 depending on the input.
+}
+
+\note{
+\code{bind_dpcr} automatically names binded experiments using format 
+code{x}.code{y}, where code{x} is number of object passed to function and
+code{y} is a number of experiment in a given object.
 }
 
 \author{
@@ -43,7 +53,12 @@ Michal Burdukiewicz
 \examples{
 bigger_array <- sim_adpcr(400, 765, 1000, pos_sums = FALSE, n_panels = 5)
 smaller_array <- sim_adpcr(100, 700, 1000, pos_sums = FALSE, n_panels = 3)
-res <- bind_dpcr(bigger_array, smaller_array)
+bound_arrays <- bind_dpcr(bigger_array, smaller_array)
+
+smaller_droplet <- sim_ddpcr(m = 7, n = 20, times = 5, n_exp = 2)
+bigger_droplet <- sim_ddpcr(m = 15, n = 25, times = 5, n_exp = 4)
+biggest_droplet <- sim_ddpcr(m = 15, n = 35, times = 5, n_exp = 1)
+bound_droplets <- bind_dpcr(smaller_droplet, bigger_droplet, biggest_droplet)
 }
 
 \keyword{ manip }

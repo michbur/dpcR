@@ -19,7 +19,7 @@ calc_lambda <- function(k, n) {
   res <- data.frame(method = c(rep("dube", length(p)), rep("bhat", length(p))), 
                     lambda = c(l,l), lambda.low = lower, lambda.up = upper, m = l*n,
                     m.low = lower*n, m.up = upper*n, 
-                    n = unlist(lapply(n, function(i) rep(i, 2))))
+                    n = rep(n, 2), row.names = 1L:(length(l)*2))
   res
 }
 
@@ -39,9 +39,9 @@ print_summary <- function(k, col_dat, type, n, print) {
     cat("\nNumber of positive partitions:", k_print, "\n")
     n_print <- ifelse(col_dat < 5, n, 
                       paste0(paste0(n[1:4], collapse = (", ")), ", ..."))
-    cat("Total number of partitions:   ", k_print, "\n")
+    cat("Total number of partitions:   ", n_print, "\n")
     cat("\n")
-    print.noquote(head(sums, 20L))
+    print(head(sums, 20L), row.names = FALSE)
     if (col_dat > 20)
       cat(col_dat*2 - 20, "rows ommited.")
   }
@@ -120,8 +120,8 @@ setMethod("bind_dpcr",
           signature(input = "adpcr"), 
           function(input, ...) {
             args <- c(list(input), Filter(Negate(is.null), list(...)))
-            all_types <- all(sapply(args, class) == "adpcr")
-            if (!all_types)
+            all_classes <- all(sapply(args, class) == "adpcr")
+            if (!all_classes)
               stop("All binded objects must have the same class.")
             bigger_breaks <- which.max(lapply(args, function(single_arg) 
               max(slot(single_arg, "breaks"))))
@@ -136,15 +136,18 @@ setMethod("bind_dpcr",
           signature(input = "ddpcr"), 
           function(input, ...) {
             args <- c(list(input), Filter(Negate(is.null), list(...)))
-            all_types <- all(sapply(args, class) == "ddpcr")
-            if (!all_types)
+            all_classes <- all(sapply(args, class) == "ddpcr")
+            if (!all_classes)
               stop("All binded objects must have the same class.")
+            if (slot(input, "type") == "fluo")
+              stop("Binding method for fluorescence result not implemented.")
+            
             bigger_thresholds <- which.max(lapply(args, function(single_arg) 
               max(slot(single_arg, "threshold"))))
-            breaks <- slot(args[[bigger_breaks]], "breaks")
+            thresholds <- slot(args[[bigger_thresholds]], "threshold")
             res <- cbind_dpcr(args)
             create_adpcr(res[["binded_data"]], 
-                         res[["n"]], bigger_thresholds, type = res[["type"]])
+                         res[["n"]], thresholds, type = res[["type"]])
           })
 
 #helper function for internal use only
@@ -165,7 +168,6 @@ cbind_dpcr <- function(args) {
     message("Different number of partitions. Shorter objects completed with NA values.")
     for(i in 1L:length(args)) {
       rows_to_add <- n_max - nrow(args[[i]])
-      print(rows_to_add)
       if (rows_to_add > 0)
         args[[i]] <- rbind(args[[i]], 
                            matrix(rep(NA, ncol(args[[i]])*rows_to_add), 
@@ -177,7 +179,7 @@ cbind_dpcr <- function(args) {
   binded_data <- do.call(cbind, args)
   
   col_names <- unlist(lapply(1L:length(args), function(i)
-    paste0(LETTERS[i], 1L:ncol(args[[i]]))))
+    paste0(i, ".", 1L:ncol(args[[i]]))))
   
   colnames(binded_data) <- col_names
   list(binded_data = binded_data, type = type, n = all_partitions)

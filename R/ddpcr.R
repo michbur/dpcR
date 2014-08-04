@@ -11,7 +11,7 @@ setMethod("summary", signature(object = "ddpcr"), function(object, print = TRUE)
   n <- slot(object, "n")
   
   if (type %in% c("nm", "tp")) 
-    k <- colSums(data > 0)
+    k <- colSums(data > 0, na.rm = TRUE)
   
   if (type %in% c("fluo")) 
     k <- apply(data, 2, function(x) get_k_n(x, slot(object, "threshold")))

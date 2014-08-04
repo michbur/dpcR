@@ -17,7 +17,7 @@ setMethod("summary", signature(object = "adpcr"), function(object, print = TRUE)
     stop(paste0("Summary not currently implemented for data type ", type, "."), call. = TRUE, domain = NA)
   
   if (type %in% c("nm", "tp")) {
-    k <- colSums(data > 0)
+    k <- colSums(data > 0, na.rm = TRUE)
   }
   
   invisible(print_summary(k, col_dat, type, n, print))
