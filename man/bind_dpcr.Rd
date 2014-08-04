@@ -21,7 +21,9 @@ objects of class \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}. See D
 }
 }
 \details{
-Something
+\code{bind_dpcr} can bind (analogously to \code{\link[base]{cbind}}) two or more 
+\code{adpcr} or \code{ddpcr} objects, but without recycling. In case on unqueal length,
+shorter objects will be filled in with additional \code{NA} values.
 }
 
 \value{
@@ -34,7 +36,7 @@ Michal Burdukiewicz
 }
 
 \seealso{
-\code{\linkS4class{adpcr}}
+\code{\link{extract_dpcr}}
 }
 
 \examples{

@@ -28,6 +28,10 @@ The object of the input's class (\code{\linkS4class{adpcr}} or \code{\linkS4clas
 Michal Burdukiewicz.
 }
 
+\seealso{
+\code{\link{extract_dpcr}}
+}
+
 \examples{
 #sample extracting
 panels <- sim_adpcr(10, 40, 1000, pos_sums = FALSE, n_panels = 50)

@@ -69,7 +69,7 @@ sim_ddpcr <- function(m, n, times, n_exp = 1, dube = FALSE, pos_sums = FALSE,
   type = ifelse(pos_sums, "tp", "nm")
   if (!is.null(fluo))
     type <- "fluo"
-  create_ddpcr(res, n, threshold = 0.5, type = type)
+  create_ddpcr(res, rep(n, n_exp), threshold = 0.5, type = type)
 }
 
 

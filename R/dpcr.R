@@ -18,7 +18,8 @@ calc_lambda <- function(k, n) {
   upper <- c(fl(p + qnorm(0.975)*p_conf), l + u_lambda)
   res <- data.frame(method = c(rep("dube", length(p)), rep("bhat", length(p))), 
                     lambda = c(l,l), lambda.low = lower, lambda.up = upper, m = l*n,
-                    m.low = lower*n, m.up = upper*n)
+                    m.low = lower*n, m.up = upper*n, 
+                    n = unlist(lapply(n, function(i) rep(i, 2))))
   res
 }
 
@@ -33,10 +34,12 @@ print_summary <- function(k, col_dat, type, n, print) {
   rownames(sums) <- 1L:(2*col_dat)
   
   if (print) {
-    k_print <- ifelse(col_dat  < 5, k, 
+    k_print <- ifelse(col_dat < 5, k, 
                       paste0(paste0(k[1:4], collapse = (", ")), ", ..."))
     cat("\nNumber of positive partitions:", k_print, "\n")
-    cat("Total number of partitions:   ", n, "\n")
+    n_print <- ifelse(col_dat < 5, n, 
+                      paste0(paste0(n[1:4], collapse = (", ")), ", ..."))
+    cat("Total number of partitions:   ", k_print, "\n")
     cat("\n")
     print.noquote(head(sums, 20L))
     if (col_dat > 20)
@@ -103,6 +106,7 @@ extract_dpcr <- function(input, id) {
   }
   result <- input
   slot(result, ".Data") <- selected
+  slot(result, "n") <- slot(input, "n")[id]
   result
 }
 
@@ -135,30 +139,32 @@ cbind_dpcr <- function(args) {
   if (length(unique(all_types)) > 1)
     stop("Input objects must have the same type.")
   type <- unique(all_types)
-
+  
   
   #check partitions and add NA values if needed
-  all_partitions <- sapply(args, function(single_arg) 
-    max(slot(single_arg, "n")))
-  n <- max(all_partitions)
+  all_partitions <- unlist(lapply(args, function(single_arg) 
+    slot(single_arg, "n")))
+  n_max <- max(all_partitions)
   if (length(unique(all_partitions)) > 1) {
     message("Different number of partitions. Shorter objects completed with NA values.")
-    rows_to_add <- n - all_partitions
     for(i in 1L:length(args)) {
-      if (rows_to_add[i] > 0)
-      args[[i]] <- rbind(args[[i]], 
-                         matrix(rep(NA, ncol(args[[i]])*rows_to_add[i]), 
-                                nrow = rows_to_add[i]))
+      rows_to_add <- n_max - nrow(args[[i]])
+      print(rows_to_add)
+      if (rows_to_add > 0)
+        args[[i]] <- rbind(args[[i]], 
+                           matrix(rep(NA, ncol(args[[i]])*rows_to_add), 
+                                  nrow = rows_to_add))
     }
   }
+  
   
   binded_data <- do.call(cbind, args)
   
   col_names <- unlist(lapply(1L:length(args), function(i)
     paste0(LETTERS[i], 1L:ncol(args[[i]]))))
-
+  
   colnames(binded_data) <- col_names
-  list(binded_data = binded_data, type = type, n = n)
+  list(binded_data = binded_data, type = type, n = all_partitions)
 }
 
 

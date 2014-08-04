@@ -80,7 +80,7 @@ test_panel <- function(X, nx_a, ny_a, nx = 5, ny = 5, alternative = c("two.sided
 sim_adpcr <- function(m, n, times, n_panels = 1, dube = FALSE, pos_sums = FALSE) {
   n <- t.int(n)
   res <- sim_dpcr(m, n, times, dube, pos_sums, n_panels)
-  create_adpcr(res, n, 0L:max(res), type = ifelse(pos_sums, "tp", "nm"))
+  create_adpcr(res, rep(n, n_panels), 0L:max(res), type = ifelse(pos_sums, "tp", "nm"))
 }
 
 # OTHER FUNCTIONS - array ------------------------------------------
