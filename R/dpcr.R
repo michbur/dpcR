@@ -131,6 +131,22 @@ setMethod("bind_dpcr",
                          res[["n"]], breaks, type = res[["type"]])
           })
 
+
+setMethod("bind_dpcr", 
+          signature(input = "ddpcr"), 
+          function(input, ...) {
+            args <- c(list(input), Filter(Negate(is.null), list(...)))
+            all_types <- all(sapply(args, class) == "ddpcr")
+            if (!all_types)
+              stop("All binded objects must have the same class.")
+            bigger_thresholds <- which.max(lapply(args, function(single_arg) 
+              max(slot(single_arg, "threshold"))))
+            breaks <- slot(args[[bigger_breaks]], "breaks")
+            res <- cbind_dpcr(args)
+            create_adpcr(res[["binded_data"]], 
+                         res[["n"]], bigger_thresholds, type = res[["type"]])
+          })
+
 #helper function for internal use only
 cbind_dpcr <- function(args) {
   #check types

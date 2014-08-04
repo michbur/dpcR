@@ -22,8 +22,9 @@ objects of class \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}. See D
 }
 \details{
 \code{bind_dpcr} can bind (analogously to \code{\link[base]{cbind}}) two or more 
-\code{adpcr} or \code{ddpcr} objects, but without recycling. In case on unqueal length,
-shorter objects will be filled in with additional \code{NA} values.
+\code{adpcr} or \code{ddpcr} objects, but without recycling. In case on unequal length,
+shorter objects will be filled in with additional \code{NA} values. The original length 
+is always preserved in \code{n} slot.
 }
 
 \value{
