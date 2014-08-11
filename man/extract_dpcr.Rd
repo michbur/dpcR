@@ -23,13 +23,17 @@ panels, because it preserves class and structure of the object in contrary to st
 \value{
 The object of the input's class (\code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}).
 }
+\note{
+The standard \code{\link[base]{Extract}} operator \code{x[i]} treats dpcr objects as 
+\code{matrix} and extracts values without preserving other attributies of the object.
+}
 
 \author{
 Michal Burdukiewicz.
 }
 
 \seealso{
-\code{\link{extract_dpcr}}
+Opposite function: \code{\link{bind_dpcr}}
 }
 
 \examples{

@@ -62,35 +62,6 @@ setMethod("qpcr_analyser", signature(input = "modlist"), function(input, type = 
 })
 
 
-# analysis <- qpcRanalyzer(fits, arrs[[1]][[1]]@fluo[[1]])
-
-
-#qpcRanalyzer(tmp_fits[[1]], arrs[[1]][[1]]@fluo[[1]], cyc = 1, "Cy0", takeoff = TRUE)
-
-# zeros <- cbind(reps384, matrix(rnorm(45*300, 5), ncol = 300))
-# sreps <- cbind(reps384, matrix(rnorm(45*100, 5), ncol = 100))
-# 
-# plot(zeros[, 1], zeros[, 2], ylim = c(0, 20000), cex = 0)
-# sapply(2L:ncol(zeros), function(i) lines(zeros[, 1], zeros[, i]))
-# 
-# tmp_res <- qpcRanalyzer(zeros, sort(rep(10^(1L:7), 12)), log = TRUE)
-
-# out <- qpcRanalyzer(guescini1, sort(rep(10^(1L:7), 12)), log = TRUE)
-# LinReg <- lm(out[, 2] ~ out[, 1])
-# summary.plot <- summary(LinReg)
-# plot(out[, 1], out[, 2])
-# 
-# EFF <- 3.32/((10^(-1/summary.plot[["coefficients"]][2])) - 1) * 100
-# 
-# abline(LinReg, col = 2)
-# 
-# text(4, 25, paste(summary.plot[["coefficients"]][1], 
-#                   summary.plot[["coefficients"]][2],
-#                   summary.plot[["r.squared"]],
-#                   EFF, sep = "\n"))
-
-
-
 
 #Stefan's validation method
 valid_amp <- function(x) {

@@ -44,7 +44,7 @@ Michal Burdukiewicz.
 
 \seealso{
 Ploting and management:
-\code{\link{extract_dpcr}}, \code{\link{plot_panel}}. 
+\code{\link{bind_dpcr}}, \code{\link{extract_dpcr}}, \code{\link{plot_panel}}. 
 
 Simulation:
 \code{\link{sim_adpcr}}.

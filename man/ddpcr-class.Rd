@@ -35,7 +35,7 @@ Michal Burdukiewicz.
 
 \seealso{
 Ploting and managment:
-\code{\link{extract_dpcr}}, \code{\link{plot_vic_fam}}.
+\code{\link{bind_dpcr}}, \code{\link{extract_dpcr}}, \code{\link{plot_vic_fam}}.
 
 Simulation:
 \code{\link{sim_ddpcr}}.

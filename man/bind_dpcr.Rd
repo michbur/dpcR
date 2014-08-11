@@ -38,8 +38,8 @@ depending on the input.
 
 \note{
 \code{bind_dpcr} automatically names binded experiments using format 
-code{x}.code{y}, where code{x} is number of object passed to function and
-code{y} is a number of experiment in a given object.
+\code{x}.\code{y}, where \code{x} is number of object passed to function and
+\code{y} is a number of experiment in a given object.
 }
 
 \author{
@@ -47,7 +47,7 @@ Michal Burdukiewicz
 }
 
 \seealso{
-\code{\link{extract_dpcr}}
+Opposite function: \code{\link{extract_dpcr}}
 }
 
 \examples{
