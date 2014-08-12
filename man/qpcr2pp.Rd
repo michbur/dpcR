@@ -5,10 +5,10 @@
 qPCR to Poisson Process
 }
 \description{
-Selected platforms (e.g., Open Array) are real-time platforms. dPCR can be 
-described by Poisson statistics. The function \code{qpcr2pp} takes a step 
-further and interprets the dPCR as a Poisson process if it is analyzed as 
-a "time" based process.
+Selected platforms (e.g., Open Array) are real-time platforms. dPCR can be described 
+by Poisson statistics. The function \code{qpcr2pp} takes a step further and 
+interprets the dPCR as a Poisson process if it is analyzed as a "time" 
+based process.
 }
 \usage{
 qpcr2pp(cycles, process, data = NULL, NuEvents = 1, delta = 1)
@@ -31,6 +31,19 @@ the column containing fluorescence values.
 }
 }
 \details{
+The dPCR Technology breaks fundamentally with the previous concept of 
+nucleic acid quantification. dPCR can be seen as a next generation nucleic 
+acid quantification method based on PCR. The key difference between dPCR 
+and traditional PCR lies in the method of measuring (absolute) nucleic 
+acids amounts. This is possible after ``clonal DNA amplification'' in 
+thousands of small separated partitions (e.g., droplets, nano chambers). 
+Partitions with no nucleic acid remain negative and the others turn 
+positive. Selected technologies (e.g., OpenArray(R) Real-Time PCR System) 
+monitor amplification reactions in the chambers in real-time. Cq values are 
+calculated from the amplification curves and converted into discrete events 
+by means of positive and negative partitions and the absolute 
+quantification of nucleic acids is done by Poisson statistics. 
+
 PCR data derived from a qPCR experiment can be seen as a series of events 
 over time. We define t_i as the time between the first (i - 1)^st and the 
 i^th event. Therefore, the time \eqn{S_n}{S_n} is the sum of all 
