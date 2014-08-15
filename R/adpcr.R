@@ -20,7 +20,7 @@ setMethod("summary", signature(object = "adpcr"), function(object, print = TRUE)
     k <- colSums(data > 0, na.rm = TRUE)
   }
   
-  invisible(print_summary(k, col_dat, type, n, print))
+  invisible(print_summary(k, col_dat, type, n, print, colnames(data)))
 })
 
 # Special method declared to hide slots other than .Data
@@ -85,8 +85,11 @@ sim_adpcr <- function(m, n, times, n_panels = 1, dube = FALSE, pos_sums = FALSE)
 
 # OTHER FUNCTIONS - array ------------------------------------------
 
-create_adpcr <- function(data, n, breaks = NULL, type, models = NULL) {
+create_adpcr <- function(data, n, breaks = NULL, type, models = NULL, 
+                         col_names = 1L:ncol(data)) {
   result <- new("adpcr")
+  if (!is.null(col_names) && is.null(colnames(data)))
+    colnames(data) <- col_names
   slot(result, ".Data") <- data
   slot(result, "n") <- n
   slot(result, "type") <- type

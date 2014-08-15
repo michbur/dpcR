@@ -26,12 +26,11 @@ calc_lambda <- function(k, n) {
 
 
 
-print_summary <- function(k, col_dat, type, n, print) {
+print_summary <- function(k, col_dat, type, n, print, exp_names) {
   
-  id <- 1L:col_dat 
-  sums <- cbind(id = rep(id, 2), calc_lambda(k, n))
+  sums <- cbind(id = rep(exp_names, 2), calc_lambda(k, n))
   sums <- sums[order(sums[,1]), ]
-  rownames(sums) <- 1L:(2*col_dat)
+  #rownames(sums) <- 1L:(2*col_dat)
   
   if (print) {
     k_print <- ifelse(col_dat < 5, k, 
@@ -254,6 +253,27 @@ setMethod("test_ratio",
             test_ratio(c(k_x, n_x), c(k_y, n_y), alternative = alternative, 
                        conf.level = conf.level)  
           })
+
+compare_dpcr <- function(..., method = "dube") {
+  bounded_dpcr <- bind_dpcr(...)
+  m_dpcr <- melt(bounded_dpcr)
+  colnames(m_dpcr)[1L:2] <- c("partition", "experiment")
+  m_dpcr[["experiment"]] <- factor(m_dpcr[["experiment"]])
+  
+  glm_fit <- glm(value ~ experiment, data = m_dpcr, family = quasipoisson)
+  multi_comp <- glht(glm_fit, linfct = mcp(experiment = "Tukey"))
+  
+  summ <- summary(bounded_dpcr, print = FALSE)[["summary"]]
+  summ <- summ[summ[["method"]] == method, c("id", "lambda")]
+  
+  groups <- cld(multi_comp)[["mcletters"]][["LetterMatrix"]]
+  mean_grlambdas <- if(class(groups) == "matrix") {
+    sapply(1L:ncol(groups), function(i)
+      mean(summ[summ[["id"]] %in% names(which(groups[,i])), "lambda"]))
+  }
+  list(groups = groups, mean_grlambdas = mean_grlambdas)
+}
+
 
 
 #a wrapper around rateratio.test

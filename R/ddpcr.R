@@ -15,8 +15,8 @@ setMethod("summary", signature(object = "ddpcr"), function(object, print = TRUE)
   
   if (type %in% c("fluo")) 
     k <- apply(data, 2, function(x) get_k_n(x, slot(object, "threshold")))
-  
-  invisible(print_summary(k, col_dat, type, n, print))
+    
+  invisible(print_summary(k, col_dat, type, n, print, colnames(data)))
 })
 
 setMethod("show", signature(object = "ddpcr"), function(object) {
@@ -87,8 +87,10 @@ sim_ddpcr_fluo <- function(res, n, resolution, space) {
 
 # OTHER FUNCTIONS - droplet ---------------------------------------------
 
-create_ddpcr <- function(data, n, threshold = NULL, type) {
+create_ddpcr <- function(data, n, threshold = NULL, type, col_names = 1L:ncol(data)) {
   result <- new("ddpcr")
+  if (!is.null(col_names) && is.null(colnames(data)))
+    colnames(data) <- col_names
   slot(result, ".Data") <- data
   slot(result, "n") <- n
   slot(result, "type") <- type
