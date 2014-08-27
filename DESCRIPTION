@@ -9,10 +9,22 @@ Maintainer: Michal Burdukiewicz <michalburdukiewicz@gmail.com>
 Description: Analysis, visualisation and simulation of digital PCR experiments.
 License: GPL-2
 URL: https://github.com/michbur/dpcR
-Depends: R (>= 3.0.0), methods, qpcR
-Imports: binom, chipPCR, e1071, dgof, multcomp, pracma, rateratio.test, 
-         reshape2, signal, shiny, spatstat
+Depends:
+    R (>= 3.0.0),
+    methods,
+    qpcR
+Imports:
+    binom,
+    chipPCR,
+    e1071,
+    dgof,
+    multcomp,
+    pracma,
+    rateratio.test,
+    reshape2,
+    signal,
+    shiny,
+    spatstat
 Packaged: 2014-06-30 11:00:00 UTC; Mihau
 NeedsCompilation: no
 Repository: CRAN
-Collate: utility.R adpcr.R ddpcr.R rtadpcr.R dpcr.R simulations.R bioamp.R
