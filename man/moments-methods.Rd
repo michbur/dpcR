@@ -8,7 +8,7 @@
 \alias{moments-methods}
 \title{Calculate Moments of Poisson Distribution}
 \usage{
-moments(input, ...)
+moments(input)
 }
 \arguments{
 \item{input}{a single numeric object (lambda) or a two element vector (first

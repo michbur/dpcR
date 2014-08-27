@@ -53,7 +53,7 @@
 #' ddpcr2 <- sim_ddpcr(m = 10, n = 40, times = 50, pos_sums = FALSE, n_exp = 5)
 #' moments(ddpcr2)
 #' 
-moments <- function (input, ...) {
+moments <- function (input) {
   stop("Wrong class of 'input'")
 }
 

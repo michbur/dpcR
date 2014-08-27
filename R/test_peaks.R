@@ -34,6 +34,7 @@
 #' @references Savitzky, A., Golay, M.J.E., 1964. Smoothing and Differentiation
 #' of Data by Simplified Least Squares Procedures. Anal. Chem. 36, 1627-1639.
 #' @keywords smooth peak AUC noise
+#' @export
 #' @examples
 #' 
 #' 

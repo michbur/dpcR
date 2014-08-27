@@ -39,31 +39,7 @@
 #' 
 #' ddpcr <- sim_ddpcr(m = 10, n = 20, times = 5)
 #' 
-NULL
-
-
 setClass("ddpcr", contains = "matrix", representation(.Data = "matrix", n = "integer", 
                                                       threshold = "numeric", 
                                                       type = "character"))
-
-setMethod("summary", signature(object = "ddpcr"), function(object, print = TRUE) {
-  data <- slot(object, ".Data")
-  col_dat <-ncol(data)
-  type <- slot(object, "type")
-  n <- slot(object, "n")
-  
-  if (type %in% c("nm", "tp")) 
-    k <- colSums(data > 0, na.rm = TRUE)
-  
-  if (type %in% c("fluo")) 
-    k <- apply(data, 2, function(x) get_k_n(x, slot(object, "threshold")))
-  
-  invisible(print_summary(k, col_dat, type, n, print, colnames(data)))
-})
-
-setMethod("show", signature(object = "ddpcr"), function(object) {
-  print(slot(object, ".Data"))
-  cat(paste0("\nType: '", slot(object, "type"), "'"))     
-})
-
 

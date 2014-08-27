@@ -9,8 +9,10 @@
 #' unequal length, shorter objects will be filled in with additional \code{NA}
 #' values. The original length is always preserved in \code{n} slot.
 #' 
-#' @aliases bind_dpcr bind_dpcr,adpcr bind_dpcr,adpcr-method bind_dpcr,ddpcr
-#' bind_dpcr,ddpcr-method
+#' @docType methods
+#' @name bind_dpcr-methods
+#' @aliases bind_dpcr bind_dpcr-methods bind_dpcr,adpcr bind_dpcr,adpcr-method 
+#' bind_dpcr,ddpcr bind_dpcr,ddpcr-method
 #' @param input an object of class \code{\linkS4class{adpcr}} or
 #' \code{\linkS4class{ddpcr}}.
 #' @param ...  objects of class \code{\linkS4class{adpcr}} or
@@ -23,6 +25,7 @@
 #' @author Michal Burdukiewicz
 #' @seealso Opposite function: \code{\link{extract_dpcr}}
 #' @keywords manip
+#' @export
 #' @examples
 #' 
 #' bigger_array <- sim_adpcr(400, 765, 1000, pos_sums = FALSE, n_panels = 5)
@@ -33,12 +36,11 @@
 #' bigger_droplet <- sim_ddpcr(m = 15, n = 25, times = 5, n_exp = 4)
 #' biggest_droplet <- sim_ddpcr(m = 15, n = 35, times = 5, n_exp = 1)
 #' bound_droplets <- bind_dpcr(smaller_droplet, bigger_droplet, biggest_droplet)
-#' 
-#' @export bind_dpcr
 bind_dpcr <- function (input, ...) {
-  stop("Wrong class of 'input'.")
+  stop("Wrong class of 'input'")
 }
 
+setGeneric("bind_dpcr")
 
 setMethod("bind_dpcr", 
           signature(input = "adpcr"), 
@@ -73,6 +75,7 @@ setMethod("bind_dpcr",
             create_adpcr(res[["binded_data"]], 
                          res[["n"]], thresholds, type = res[["type"]])
           })
+
 
 #helper function for internal use only
 cbind_dpcr <- function(args) {

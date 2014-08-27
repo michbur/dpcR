@@ -30,3 +30,14 @@
 #' show(droplet)
 #' 
 NULL
+
+# Special method declared to hide slots other than .Data
+setMethod("show", signature(object = "adpcr"), function(object) {
+  print(slot(object, ".Data"))
+  cat(paste0("\nType: '", slot(object, "type"), "'"))
+})
+
+setMethod("show", signature(object = "ddpcr"), function(object) {
+  print(slot(object, ".Data"))
+  cat(paste0("\nType: '", slot(object, "type"), "'"))     
+})

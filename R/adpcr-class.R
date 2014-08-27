@@ -44,35 +44,9 @@
 #' one_rand_array <- extract_dpcr(rand_array, 1)
 #' plot_panel(one_rand_array, 40, 40)
 #' 
-NULL
 setClass("adpcr", contains = "matrix", representation(.Data = "matrix",
                                                       n = "integer",
                                                       breaks = "numeric",
                                                       type = "character"))
-
-
-setMethod("summary", signature(object = "adpcr"), function(object, print = TRUE) {
-  data <- slot(object, ".Data")
-  
-  col_dat <- ncol(data)
-  type <- slot(object, "type")
-  n <- slot(object, "n")
-  
-  if (type %in% c("fluo", "ct")) 
-    stop(paste0("Summary not currently implemented for data type ", type, "."), call. = TRUE, domain = NA)
-  
-  if (type %in% c("nm", "tp")) {
-    k <- colSums(data > 0, na.rm = TRUE)
-  }
-  
-  invisible(print_summary(k, col_dat, type, n, print, colnames(data)))
-})
-
-# Special method declared to hide slots other than .Data
-setMethod("show", signature(object = "adpcr"), function(object) {
-  print(slot(object, ".Data"))
-  cat(paste0("\nType: '", slot(object, "type"), "'"))
-})
-
 
 

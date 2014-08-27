@@ -28,8 +28,8 @@
 #' inspection (see Example section) and as input for other R functions from the
 #' \code{dpcR} package (e.g., \link{plot_panel}).
 #' 
-#' @name qpcr_analyser-methods
-#' @aliases qpcr_analyser-methods qpcr_analyser,adpcr-method
+#' @name qpcr_analyser
+#' @aliases qpcr_analyser qpcr_analyser-methods qpcr_analyser,adpcr-method
 #' qpcr_analyser,data.frame-method qpcr_analyser,modlist-method qpcr_analyser
 #' @docType methods
 #' @param input a dataframe containing the qPCR data or a result of function
@@ -56,6 +56,7 @@
 #' fluorescence growth.
 #' @author Stefan Roediger, Andrej-Nikolai Spiess, Michal Burdukiewicz.
 #' @seealso \link[qpcR]{modlist}.
+#' @export
 #' @references Ritz C, Spiess An-N, \emph{qpcR: an R package for sigmoidal
 #' model selection in quantitative real-time polymerase chain reaction
 #' analysis}.  Bioinformatics 24 (13), 2008.

@@ -53,7 +53,7 @@ ttest <- sim_adpcr(m = 400, n = 765, times = 20, pos_sums = FALSE,
 plot_panel(ttest, nx_a = 45, ny_a = 17)
 
 # Apply a binary color code with blue as positive
-slot(ttest, breaks) <- c(0, 2, 4)
+slot(ttest, "breaks") <- c(0, 2, 4)
 plot_panel(ttest, nx_a = 45, ny_a = 17, col = "blue")
 
 # Apply a two color code for number of copies per compartment

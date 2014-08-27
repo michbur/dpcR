@@ -42,6 +42,19 @@
 #' Vogelstein B, Kinzler KW, \emph{Digital PCR}. PNAS, 1999. 96(16): p.
 #' 9236-9241. %%MORE REFERENCES
 #' @keywords package
+#' @import methods
+#' @import qpcR
+#' @importFrom binom binom.confint
+#' @importFrom chipPCR inder
+#' @importFrom dgof ks.test cvm.test
+#' @importFrom e1071 skewness kurtosis
+#' @importFrom multcomp cld glht mcp
+#' @importFrom pracma findpeaks
+#' @importFrom rateratio.test rateratio.test
+#' @importFrom reshape2 melt
+#' @importFrom shiny runApp
+#' @importFrom signal sgolayfilt
+#' @importFrom spatstat ppp quadrat.test
 #' @examples
 #' 
 #' adpcr <- sim_adpcr(m = 400, n = 765, times = 20, pos_sums = FALSE, n_panels = 1)
@@ -50,5 +63,4 @@
 #' dpcr_density(k = pos_chambers, n = 765)
 #' 
 NULL
-
 
