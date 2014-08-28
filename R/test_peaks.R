@@ -7,8 +7,8 @@
 #' \code{\link[pracma]{findpeaks}} function.  The area under the peak is
 #' calculated by integration of approximating spline.
 #' 
-#' @name test_peaks-methods
-#' @aliases test_peaks-methods test_peaks,adpcr-method
+#' @name test_peaks
+#' @aliases test_peaks test_peaks-methods test_peaks,adpcr-method
 #' test_peaks,numeric-method test_peaks
 #' @docType methods
 #' @param x a vector containing the abscissa values (e.g., time, position) OR
