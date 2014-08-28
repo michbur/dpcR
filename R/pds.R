@@ -20,46 +20,46 @@
 #' @name pds
 #' @docType data
 #' @format A data frame with 64 observations on the following 44 variables.
-#' \describe{ \item{list("Well")}{a factor with levels \code{A01} to
-#' \code{H04}} \item{list("ExptType")}{a factor with levels \code{Absolute
-#' Quantification}} \item{list("Experiment")}{a factor with levels \code{ABS}}
-#' \item{list("Sample")}{a factor with levels \code{B} \code{B + P 10^2}
+#' \describe{ \item{Well}{a factor with levels \code{A01} to
+#' \code{H04}} \item{ExptType}{a factor with levels \code{Absolute
+#' Quantification}} \item{Experiment}{a factor with levels \code{ABS}}
+#' \item{Sample}{a factor with levels \code{B} \code{B + P 10^2}
 #' \code{gDNA} \code{gDNA + P 10^0} \code{gDNA + P 10^1} \code{gDNA + P 10^-1}
 #' \code{gDNA + P 10^2} \code{gDNA + P 10^3} \code{gDNA + P 10^4}}
-#' \item{list("TypeAssay")}{a factor with levels \code{Ch1NTC}
-#' \code{Ch1Unknown} \code{Ch2NTC} \code{Ch2Unknown}} \item{list("Assay")}{a
-#' factor with levels \code{ileS} \code{styA}} \item{list("Status")}{a factor
-#' with levels \code{Manual}} \item{list("Concentration")}{a numeric vector}
-#' \item{list("TotalConfMax")}{a logical vector} \item{list("TotalConfMin")}{a
-#' logical vector} \item{list("PoissonConfMax")}{a numeric vector}
-#' \item{list("PoissonConfMin")}{a numeric vector} \item{list("Positives")}{a
-#' numeric vector} \item{list("Negatives")}{a numeric vector}
-#' \item{list("Ch1.Ch2.")}{a numeric vector} \item{list("Ch1.Ch2..1")}{a
-#' numeric vector} \item{list("Ch1.Ch2..2")}{a numeric vector}
-#' \item{list("Ch1.Ch2..3")}{a numeric vector} \item{list("Linkage")}{a numeric
-#' vector} \item{list("AcceptedDroplets")}{a numeric vector}
-#' \item{list("CNV")}{a logical vector} \item{list("TotalCNVMax")}{a logical
-#' vector} \item{list("TotalCNVMin")}{a logical vector}
-#' \item{list("PoissonCNVMax")}{a logical vector}
-#' \item{list("PoissonCNVMin")}{a logical vector}
-#' \item{list("ReferenceCopies")}{a logical vector}
-#' \item{list("UnknownCopies")}{a logical vector} \item{list("Ratio")}{a
-#' numeric vector} \item{list("TotalRatioMax")}{a logical vector}
-#' \item{list("TotalRatioMin")}{a logical vector}
-#' \item{list("PoissonRatioMax")}{a numeric vector}
-#' \item{list("PoissonRatioMin")}{a numeric vector}
-#' \item{list("FractionalAbundance")}{a numeric vector}
-#' \item{list("TotalFractionalAbundanceMax")}{a logical vector}
-#' \item{list("TotalFractionalAbundanceMin")}{a logical vector}
-#' \item{list("PoissonFractionalAbundanceMax")}{a numeric vector}
-#' \item{list("PoissonFractionalAbundanceMin")}{a numeric vector}
-#' \item{list("ReferenceAssayNumber")}{a numeric vector}
-#' \item{list("TargetAssayNumber")}{a numeric vector}
-#' \item{list("MeanAmplitudeofPositives")}{a numeric vector}
-#' \item{list("MeanAmplitudeofNegatives")}{a numeric vector}
-#' \item{list("MeanAmplitudeTotal")}{a numeric vector}
-#' \item{list("ExperimentComments")}{a logical vector}
-#' \item{list("MergedWells")}{a logical vector} }
+#' \item{TypeAssay}{a factor with levels \code{Ch1NTC}
+#' \code{Ch1Unknown} \code{Ch2NTC} \code{Ch2Unknown}} \item{Assay}{a
+#' factor with levels \code{ileS} \code{styA}} \item{Status}{a factor
+#' with levels \code{Manual}} \item{Concentration}{a numeric vector}
+#' \item{TotalConfMax}{a logical vector} \item{TotalConfMin}{a
+#' logical vector} \item{PoissonConfMax}{a numeric vector}
+#' \item{PoissonConfMin}{a numeric vector} \item{Positives}{a
+#' numeric vector} \item{Negatives}{a numeric vector}
+#' \item{Ch1.Ch2.}{a numeric vector} \item{Ch1.Ch2..1}{a
+#' numeric vector} \item{Ch1.Ch2..2}{a numeric vector}
+#' \item{Ch1.Ch2..3}{a numeric vector} \item{Linkage}{a numeric
+#' vector} \item{AcceptedDroplets}{a numeric vector}
+#' \item{CNV}{a logical vector} \item{TotalCNVMax}{a logical
+#' vector} \item{TotalCNVMin}{a logical vector}
+#' \item{PoissonCNVMax}{a logical vector}
+#' \item{PoissonCNVMin}{a logical vector}
+#' \item{ReferenceCopies}{a logical vector}
+#' \item{UnknownCopies}{a logical vector} \item{Ratio}{a
+#' numeric vector} \item{TotalRatioMax}{a logical vector}
+#' \item{TotalRatioMin}{a logical vector}
+#' \item{PoissonRatioMax}{a numeric vector}
+#' \item{PoissonRatioMin}{a numeric vector}
+#' \item{FractionalAbundance}{a numeric vector}
+#' \item{TotalFractionalAbundanceMax}{a logical vector}
+#' \item{TotalFractionalAbundanceMin}{a logical vector}
+#' \item{PoissonFractionalAbundanceMax}{a numeric vector}
+#' \item{PoissonFractionalAbundanceMin}{a numeric vector}
+#' \item{ReferenceAssayNumber}{a numeric vector}
+#' \item{TargetAssayNumber}{a numeric vector}
+#' \item{MeanAmplitudeofPositives}{a numeric vector}
+#' \item{MeanAmplitudeofNegatives}{a numeric vector}
+#' \item{MeanAmplitudeTotal}{a numeric vector}
+#' \item{ExperimentComments}{a logical vector}
+#' \item{MergedWells}{a logical vector} }
 #' @author Michael Jahn, Stefan Roediger, Michal Burdukiewcz
 #' @references Jahn et al., 2013, \emph{Curr Opin Biotechnol}, Vol. 24 (1):
 #' 79-87

@@ -26,6 +26,8 @@
 #' @seealso Opposite function: \code{\link{extract_dpcr}}
 #' @keywords manip
 #' @export
+#' @include adpcr-class.R
+#' @include ddpcr-class.R
 #' @examples
 #' 
 #' bigger_array <- sim_adpcr(400, 765, 1000, pos_sums = FALSE, n_panels = 5)
