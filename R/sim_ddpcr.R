@@ -1,7 +1,3 @@
-# SIMULATONS - droplet ---------------------------------------------
-
-
-
 #' Simulate Droplet Digital PCR
 #' 
 #' A function that simulates results of a droplet digital PCR.
@@ -70,7 +66,7 @@ sim_ddpcr <- function(m, n, times, n_exp = 1, dube = FALSE, pos_sums = FALSE,
     if (pos_sums)
       stop("During fluorescence simulation 'pos_sums' must be TRUE", call. = TRUE, 
            domain = NA)
-  n <- t.int(n)
+  n <- num2int(n)
   res <- sim_dpcr(m, n, times, dube, pos_sums, n_exp)
   if (!is.null(fluo)) {
     res <- apply(res, 2, function(x) sim_ddpcr_fluo(x, n, fluo[[1]], fluo[[2]]))
