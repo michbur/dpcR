@@ -8,7 +8,7 @@
 \title{Methods for Function \code{show}}
 \description{
 Expands function \code{\link[methods]{show}} allowing showing objects of the class 
-\code{\linkS4class{adpcr}} to or \code{\linkS4class{ddpcr}}.
+\code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}.
 }
 \usage{
 \S4method{show}{adpcr}(object)

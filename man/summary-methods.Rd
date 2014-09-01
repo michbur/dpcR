@@ -6,8 +6,8 @@
 \alias{summary}
 \title{Methods for Function \code{summary}}
 \description{
-Expands function \code{\link[base]{summary}} allowing printing summaries objects of the class 
-\code{\linkS4class{adpcr}} to or \code{\linkS4class{ddpcr}}.
+Expands the function \code{\link[base]{summary}} allowing to print summaries for objects of the 
+class \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}.
 }
 \usage{
 \S4method{summary}{adpcr}(object, print = TRUE)
@@ -19,9 +19,9 @@ Expands function \code{\link[base]{summary}} allowing printing summaries objects
 
 
 \details{
-The function prints summary of the dPCR reaction, including k (number of positive chambers), n 
-(total number of chambers), estimated lambda and m (number of molecules per plate), as well as 
-confidence intervals for the last two variables.
+  The function prints summary of the dPCR reaction, including k (number of positive chambers), n 
+  (total number of chambers), estimated lambda and m (number of molecules per plate), as well as 
+  confidence intervals for the last two variables.
 }
 
 \value{
@@ -47,7 +47,7 @@ Michal Burdukiewicz, Stefan Roediger.
 }  
   
 \note{
-If summary is used on an object containing results of many experiments, all experiments would be 
+If summary is used on an object containing results of many experiments, all experiments will be 
 independently summarized. Currently supported only for objects of class \code{\linkS4class{adpcr}}.
 }
 
