@@ -5,6 +5,9 @@
 \usage{
 num2int(x)
 }
+\arguments{
+\item{x}{an \code{numeric} vector}
+}
 \description{
 Converts \code{numeric} values to positive \code{integer}s with a warning.
 }
@@ -12,7 +15,7 @@ Converts \code{numeric} values to positive \code{integer}s with a warning.
 num2int uses \code{\link[base]{as.integer}} functionality.
 }
 \examples{
-num2int(pi) == 3L
+suppressWarnings(num2int(pi) == 3L)
 }
 \keyword{manip}
 

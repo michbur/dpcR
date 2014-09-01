@@ -16,7 +16,7 @@ AUCtest <- function(x = x, y = y, threshold = 0.05, noise_cut = 0.05, savgol = T
   if (savgol == TRUE) {
     data <- data.frame(x, sgolayfilt(y))
   } else (
-    data <- cbind(x, smooth.spline(x,y)$yin)
+    data <- cbind(x, smooth.spline(x,y)[["yin"]])
   )
   
   # find *ALL* peaks of the input data based on findpeaks of the pracma package

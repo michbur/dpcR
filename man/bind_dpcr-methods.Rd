@@ -32,11 +32,15 @@ In case of \code{adpcr} or \code{ddpcr} objects, \code{bind_dpcr} can works
 analogously to \code{\link[base]{cbind}}), but without recycling. In case on
 unequal length, shorter objects will be filled in with additional \code{NA}
 values. The original length is always preserved in \code{n} slot.
-}
-\note{
+
 \code{bind_dpcr} automatically names binded experiments using format
 \code{x}.\code{y}, where \code{x} is number of object passed to function and
 \code{y} is a number of experiment in a given object.
+}
+\note{
+Because \code{bind_dpcr} calls \code{\link[base]{do.call}} function,
+binding together at the same time more than 500 objects can lead to
+'stack overflow' error.
 }
 \examples{
 bigger_array <- sim_adpcr(400, 765, 1000, pos_sums = FALSE, n_panels = 5)

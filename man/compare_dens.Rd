@@ -26,7 +26,7 @@ compare_dens(adpcr_big, moments = TRUE)
 Michal Burdukiewcz.
 }
 \seealso{
-\link{moments}.
+\link{moments} is used to calculate moments of Poisson distribution.
 }
 \keyword{PCR}
 \keyword{density}

@@ -10,7 +10,7 @@
 #' moments are printed on the plot.
 #' @param \dots other arguments passed to the \code{plot} function.
 #' @author Michal Burdukiewcz.
-#' @seealso \link{moments}.
+#' @seealso \link{moments} is used to calculate moments of Poisson distribution.
 #' @keywords density digital PCR empirical
 #' @examples
 #' 

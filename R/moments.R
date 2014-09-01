@@ -84,11 +84,12 @@ setMethod("moments", signature(input = "adpcr"), function(input) {
          nm = {
            n_cols <- ncol(data)
            res <- do.call(cbind, lapply(1L:n_cols, function(i) 
-             moments(data[ , i])))
-           ids <- sort(rep(1:n_cols, 2))
-           nms <- colnames(res)
+             moments(data[1L:n[i], i])))
+           #need only two names, because they are repeating
+           nms <- colnames(res)[1:2]
+           rep_colnames <- unlist(lapply(colnames(data), function(i) rep(i, 2)))
            colnames(res) <- unlist(lapply(1L:(n_cols * 2), function(i) 
-             paste0(nms[i], ".", ids[i])))
+             paste0(nms[i], ".", rep_colnames[i])))
            res
          })  
 })
@@ -107,11 +108,12 @@ setMethod("moments", signature(input = "ddpcr"), function(input) {
          nm = {
            n_cols <- ncol(data)
            res <- do.call(cbind, lapply(1L:n_cols, function(i) 
-             moments(data[ , i])))
-           ids <- sort(rep(1:n_cols, 2))
-           nms <- colnames(res)
-           colnames(res) <- unlist(lapply(1L:(n_cols*2), function(i) 
-             paste0(nms[i], ".", ids[i])))
+             moments(data[1L:n[i], i])))
+           #need only two names, because they are repeating
+           nms <- colnames(res)[1:2]
+           rep_colnames <- unlist(lapply(colnames(data), function(i) rep(i, 2)))
+           colnames(res) <- unlist(lapply(1L:(n_cols * 2), function(i) 
+             paste0(nms[i], ".", rep_colnames[i])))
            res
          },
          fluo = {
