@@ -6,12 +6,30 @@
 \alias{summary,ddpcr-method}
 \alias{summary-methods}
 \title{Methods for Function \code{summary}}
+<<<<<<< HEAD
+\description{
+Expands the function \code{\link[base]{summary}} allowing to print summaries for objects of the 
+class \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}.
+}
+\usage{
+\S4method{summary}{adpcr}(object, print = TRUE)
+\S4method{summary}{ddpcr}(object, print = TRUE)
+}
+=======
+>>>>>>> f4fd2c36ec2bde2a5ef2bc74aa0101a6716cd101
 \arguments{
 \item{object}{an object of class \code{\linkS4class{adpcr}} or
 \code{\linkS4class{ddpcr}}.}
 
+<<<<<<< HEAD
+\details{
+  The function prints summary of the dPCR reaction, including k (number of positive chambers), n 
+  (total number of chambers), estimated lambda and m (number of molecules per plate), as well as 
+  confidence intervals for the last two variables.
+=======
 \item{print}{if \code{FALSE}, no output is printed, only calculations are
 performed.}
+>>>>>>> f4fd2c36ec2bde2a5ef2bc74aa0101a6716cd101
 }
 \value{
 The data frame with estimated values of lambda, m and corresponding
@@ -29,9 +47,14 @@ positive chambers), n (total number of chambers), estimated lambda and m
 last two variables.
 }
 \note{
+<<<<<<< HEAD
+If summary is used on an object containing results of many experiments, all experiments will be 
+independently summarized. Currently supported only for objects of class \code{\linkS4class{adpcr}}.
+=======
 If summary is used on an object containing results of many
 experiments, all experiments would be independently summarized. Currently
 supported only for objects of class \code{\linkS4class{adpcr}}.
+>>>>>>> f4fd2c36ec2bde2a5ef2bc74aa0101a6716cd101
 }
 \examples{
 # array dpcr
