@@ -19,9 +19,12 @@
 #' \code{\linkS4class{ddpcr}}. See Details.
 #' @return An object of class \code{\linkS4class{adpcr}} or
 #' \code{\linkS4class{ddpcr}}, depending on the input.
-#' @note \code{bind_dpcr} automatically names binded experiments using format
+#' @details \code{bind_dpcr} automatically names binded experiments using format
 #' \code{x}.\code{y}, where \code{x} is number of object passed to function and
 #' \code{y} is a number of experiment in a given object.
+#' @note Because \code{bind_dpcr} calls \code{\link[base]{do.call}} function, 
+#' binding together at the same time more than 500 objects can lead to 
+#' 'stack overflow' error.
 #' @author Michal Burdukiewicz
 #' @seealso Opposite function: \code{\link{extract_dpcr}}
 #' @keywords manip
