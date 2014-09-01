@@ -89,7 +89,7 @@ setMethod("moments", signature(input = "adpcr"), function(input) {
            nms <- colnames(res)[1:2]
            rep_colnames <- unlist(lapply(colnames(data), function(i) rep(i, 2)))
            colnames(res) <- unlist(lapply(1L:(n_cols * 2), function(i) 
-             paste0(nms[i], ".", rep_colnames[i])))
+             paste0(nms[i %% 2 + 1], ".", rep_colnames[i])))
            res
          })  
 })
@@ -113,7 +113,7 @@ setMethod("moments", signature(input = "ddpcr"), function(input) {
            nms <- colnames(res)[1:2]
            rep_colnames <- unlist(lapply(colnames(data), function(i) rep(i, 2)))
            colnames(res) <- unlist(lapply(1L:(n_cols * 2), function(i) 
-             paste0(nms[i], ".", rep_colnames[i])))
+             paste0(nms[i %% 2 + 1], ".", rep_colnames[i])))
            res
          },
          fluo = {

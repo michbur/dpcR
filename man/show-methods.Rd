@@ -6,17 +6,6 @@
 \alias{show,ddpcr-method}
 \alias{show-methods}
 \title{Methods for Function \code{show}}
-<<<<<<< HEAD
-\description{
-Expands function \code{\link[methods]{show}} allowing showing objects of the class 
-\code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}.
-}
-\usage{
-\S4method{show}{adpcr}(object)
-\S4method{show}{ddpcr}(object)
-}
-=======
->>>>>>> f4fd2c36ec2bde2a5ef2bc74aa0101a6716cd101
 \arguments{
 \item{object}{an object of class \code{\linkS4class{adpcr}} or
 \code{\linkS4class{ddpcr}}.}

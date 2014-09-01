@@ -142,23 +142,32 @@ setMethod("test_ratio",
           })
 
 compare_dpcr <- function(..., method = "dube") {
-  bounded_dpcr <- bind_dpcr(...)
-  m_dpcr <- melt(bounded_dpcr)
+  args <- c(Filter(Negate(is.null), list(...)))
+  if(length(args) > 1) {
+    input <- bind_dpcr(...)
+  } else {
+    input <- args[[1]]
+  }
+  
+  m_dpcr <- melt(input)
   colnames(m_dpcr)[1L:2] <- c("partition", "experiment")
   m_dpcr[["experiment"]] <- factor(m_dpcr[["experiment"]])
+  
   
   glm_fit <- glm(value ~ experiment, data = m_dpcr, family = quasipoisson)
   multi_comp <- glht(glm_fit, linfct = mcp(experiment = "Tukey"))
   
-  summ <- summary(bounded_dpcr, print = FALSE)[["summary"]]
+  summ <- summary(inpu, print = FALSE)[["summary"]]
   summ <- summ[summ[["method"]] == method, c("id", "lambda")]
   
   groups <- cld(multi_comp)[["mcletters"]][["LetterMatrix"]]
-  mean_grlambdas <- if(class(groups) == "matrix") {
+  mean_gr <- if(class(groups) == "matrix") {
     sapply(1L:ncol(groups), function(i)
       mean(summ[summ[["id"]] %in% names(which(groups[,i])), "lambda"]))
+  } else {
+    mean(summ[, "lambda"])
   }
-  list(groups = groups, mean_grlambdas = mean_grlambdas)
+  list(groups = groups, mean_gr = mean_gr, mean_single = summ)
 }
 
 
