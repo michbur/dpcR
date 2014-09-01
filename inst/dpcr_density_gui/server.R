@@ -1,4 +1,5 @@
 library(shiny)
+library(binom)
 
 shinyServer(function(input, output) {
   # Defines the input for the total number of positive molecules (k) and the total number of 
