@@ -51,7 +51,6 @@
 #' @importFrom multcomp cld glht mcp
 #' @importFrom pracma findpeaks
 #' @importFrom rateratio.test rateratio.test
-#' @importFrom reshape2 melt
 #' @importFrom shiny runApp
 #' @importFrom signal sgolayfilt
 #' @importFrom spatstat ppp quadrat.test

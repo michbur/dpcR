@@ -149,15 +149,19 @@ compare_dpcr <- function(..., method = "dube") {
     input <- args[[1]]
   }
   
-  m_dpcr <- melt(input)
-  colnames(m_dpcr)[1L:2] <- c("partition", "experiment")
-  m_dpcr[["experiment"]] <- factor(m_dpcr[["experiment"]])
+  n_vector <- slot(input, "n")
   
+  m_dpcr <- do.call(rbind, lapply(1L:length(n_vector), function(i) {
+    vals <- input[1L:n_vector[i], i]
+    data.frame(partition = rep(colnames(input)[i], length(vals)), values = vals)
+  }))
   
-  glm_fit <- glm(value ~ experiment, data = m_dpcr, family = quasipoisson)
+  #remove intercept
+  glm_fit <- glm(values ~ partition + 0, data = m_dpcr, family = quasipoisson)
   multi_comp <- glht(glm_fit, linfct = mcp(experiment = "Tukey"))
   
-  summ <- summary(inpu, print = FALSE)[["summary"]]
+  lambdas <- exp(coefficients(glm_fit))
+  summ <- summary(input, print = FALSE)[["summary"]]
   summ <- summ[summ[["method"]] == method, c("id", "lambda")]
   
   groups <- cld(multi_comp)[["mcletters"]][["LetterMatrix"]]
@@ -167,6 +171,7 @@ compare_dpcr <- function(..., method = "dube") {
   } else {
     mean(summ[, "lambda"])
   }
+  browser()
   list(groups = groups, mean_gr = mean_gr, mean_single = summ)
 }
 
