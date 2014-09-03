@@ -4,14 +4,76 @@ Title: Digital PCR Analysis
 Version: 0.1.3.1
 LazyData: true
 Date: 2013-09-07
-Author: Michal Burdukiewicz, Stefan Roediger
-Maintainer: Michal Burdukiewicz <michalburdukiewicz@gmail.com>
+Authors@R: c( person("Michal", "Burdukiewicz", email =
+    "michalburdukiewicz@gmail.com", role = c("cre", "aut")), person("Stefan",
+    "Roediger", email = "stefan.roedigier@hs-lausitz.de", role = "aut"))
 Description: Analysis, visualisation and simulation of digital PCR experiments.
-License: GPL-2
+License: GPL-3
 URL: https://github.com/michbur/dpcR
-Depends: R (>= 3.0.0), methods, qpcR
-Imports: binom, chipPCR, e1071, dgof, pracma, rateratio.test, signal, shiny, spatstat
+BugReports: https://github.com/michbur/dpcR/issues
+Depends:
+    R (>= 3.0.0),
+    methods,
+    qpcR
+Imports:
+    binom,
+    chipPCR,
+    e1071,
+    dgof,
+    multcomp,
+    pracma,
+    rateratio.test,
+    reshape2,
+    signal,
+    shiny,
+    spatstat
 Packaged: 2014-06-30 11:00:00 UTC; Mihau
 NeedsCompilation: no
 Repository: CRAN
-Collate: utility.R adpcr.R ddpcr.R rtadpcr.R dpcr.R simulations.R bioamp.R
+Collate:
+    'AUCtest.R'
+    'adpcr-class.R'
+    'adpcr2ppp.R'
+    'ddpcr-class.R'
+    'bind_dpcr.R'
+    'bioamp.R'
+    'calc_breaks.R'
+    'calc_lambda.R'
+    'compare_dens.R'
+    'create_adpcr.R'
+    'create_ddpcr.R'
+    'create_dpcr.R'
+    'dpcR-package.R'
+    'dpcr_calculator.R'
+    'dpcr_density.R'
+    'dpcr_density_gui.R'
+    'extract_dpcr.R'
+    'fit_adpcr.R'
+    'fl.R'
+    'get_k_n.R'
+    'limit_cq.R'
+    'many_peaks.R'
+    'modlist.R'
+    'moments.R'
+    'num2int.R'
+    'pds.R'
+    'pds_raw.R'
+    'plot_distr.R'
+    'plot_panel.R'
+    'plot_vf_circ.R'
+    'plot_vic_fam.R'
+    'print_summary.R'
+    'qpcr_analyser.R'
+    'qpcrpp.R'
+    'rtadpcr.R'
+    'safe_efficiency.R'
+    'show_dpcr.R'
+    'sim_adpcr.R'
+    'sim_ddpcr.R'
+    'simulations.R'
+    'summary_dpcr.R'
+    'test_panel.R'
+    'test_peaks.R'
+    'test_ratio.R'
+    'valid_amp.R'
+    'y_val_conf.R'

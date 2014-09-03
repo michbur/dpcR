@@ -49,7 +49,7 @@ sim_dpcr_multi <- function(m, n, times, pos_sums, n_panels) {
 
 
 sim_dpcr <- function(m, n, times, dube, pos_sums, n_panels) {
-  n <- t.int(n)
+  n <- num2int(n)
   if (n_panels > times) 
     stop("The 'n_panels' argument cannot have larger value than the 'times'
          argument", call. = TRUE, domain = NA)
