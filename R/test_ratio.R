@@ -1,8 +1,3 @@
-# TESTS - droplet, array ------------------------------
-
-#a wrapper around rateratio.test
-
-
 #' Rate ratio test
 #' 
 #' The test for comparing ratio of two Poisson means: \eqn{r =
@@ -141,39 +136,7 @@ setMethod("test_ratio",
                        conf.level = conf.level)  
           })
 
-compare_dpcr <- function(..., method = "dube") {
-  args <- c(Filter(Negate(is.null), list(...)))
-  if(length(args) > 1) {
-    input <- bind_dpcr(...)
-  } else {
-    input <- args[[1]]
-  }
-  
-  n_vector <- slot(input, "n")
-  
-  m_dpcr <- do.call(rbind, lapply(1L:length(n_vector), function(i) {
-    vals <- input[1L:n_vector[i], i]
-    data.frame(partition = rep(colnames(input)[i], length(vals)), values = vals)
-  }))
-  
-  #remove intercept
-  glm_fit <- glm(values ~ partition + 0, data = m_dpcr, family = quasipoisson)
-  multi_comp <- glht(glm_fit, linfct = mcp(experiment = "Tukey"))
-  
-  lambdas <- exp(coefficients(glm_fit))
-  summ <- summary(input, print = FALSE)[["summary"]]
-  summ <- summ[summ[["method"]] == method, c("id", "lambda")]
-  
-  groups <- cld(multi_comp)[["mcletters"]][["LetterMatrix"]]
-  mean_gr <- if(class(groups) == "matrix") {
-    sapply(1L:ncol(groups), function(i)
-      mean(summ[summ[["id"]] %in% names(which(groups[,i])), "lambda"]))
-  } else {
-    mean(summ[, "lambda"])
-  }
-  browser()
-  list(groups = groups, mean_gr = mean_gr, mean_single = summ)
-}
+
 
 
 

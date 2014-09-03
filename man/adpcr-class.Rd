@@ -15,21 +15,15 @@ fluorescence values \code{"fluo"}.
 }
 \section{Slots}{
  \describe{ \item{list(".Data")}{\code{"matrix"} containing
-data from array. See Description.}\item{:}{\code{"matrix"} containing data
-from array. See Description.} \item{list("n")}{Object of class
+data from array. See Description.}\item{list("n")}{Object of class
 \code{"integer"} equal to the number of partitions in each
-experiment.}\item{:}{Object of class \code{"integer"} equal to the number of
-partitions in each experiment.} \item{list("breaks")}{\code{"numeric"}
+experiment.} \item{list("breaks")}{\code{"numeric"}
 vector giving the number of intervals into which \code{.Data} should be
-cut.}\item{:}{\code{"numeric"} vector giving the number of intervals into
-which \code{.Data} should be cut.} \item{list("type")}{Object of class
+cut.} \item{list("type")}{Object of class
 \code{"character"} defining type of data. Could be \code{"nm"} (number of
 molecules per partition), \code{"tp"} (total number of positive wells in
 panel), \code{"fluo"} (fluorescence) or \code{"ct"} (threshold
-cycle).}\item{:}{Object of class \code{"character"} defining type of data.
-Could be \code{"nm"} (number of molecules per partition), \code{"tp"} (total
-number of positive wells in panel), \code{"fluo"} (fluorescence) or
-\code{"ct"} (threshold cycle).} }
+cycle).} }
 }
 \examples{
 rand_array <- sim_adpcr(400, 1600, 100, pos_sums = FALSE, n_panels = 5)
@@ -50,5 +44,4 @@ Real-time array digital PCR: \code{\linkS4class{rtadpcr}}.
 Droplet digital PCR: \code{\linkS4class{ddpcr}}.
 }
 \keyword{classes}
-\keyword{real-time}
 
