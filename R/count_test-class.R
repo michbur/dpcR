@@ -19,10 +19,12 @@
 setClass("count_test", representation(group_coef = "data.frame", 
                                       t_res = "matrix"))
 
+#' @describeIn count_test Summary statistics of assigned groups.
 setMethod("summary", signature(object = "count_test"), function(object) {
   aggregate(. ~ group, slot(object, "group_coef"), mean)
 })
 
+#' @describeIn count_test Print both \code{group_coef} and \code{t_res}
 setMethod("show", signature(object = "count_test"), function(object) {
   cat("Groups:\n")
   print(slot(object, "group_coef"))
@@ -31,7 +33,12 @@ setMethod("show", signature(object = "count_test"), function(object) {
   print(slot(object, "t_res"))
 })
 
-setMethod("plot", signature(object = "count_test"), function(x, ...) {
+#' @describeIn count_test Plots groups
+#' @param x object of class \code{count_test}.
+#' @param y ignored.
+#' @param ... ignored.
+setMethod("plot", signature(x = "count_test"), function(x, ...) {
+  group_coef <- slot(x, "group_coef")
   plot(1L:nrow(group_coef), group_coef[["lambda"]], 
        ylim = range(group_coef[, c("lambda.low", "lambda.up")]), xaxt = "n",
        xlab = "Experiment", ylab = expression(lambda))

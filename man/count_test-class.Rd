@@ -3,10 +3,38 @@
 \name{count_test}
 \alias{count_test}
 \alias{count_test-class}
+\alias{plot,count_test-method}
+\alias{show,count_test-method}
+\alias{summary,count_test-method}
 \title{Class \code{"count_test"}}
+\usage{
+\S4method{summary}{count_test}(object)
+
+\S4method{show}{count_test}(object)
+
+\S4method{plot}{count_test}(x, y, ...)
+}
+\arguments{
+\item{x}{object of class \code{count_test}.}
+
+\item{...}{currently nothing.}
+
+\item{object}{an object for which a summary is desired.}
+
+\item{y}{the y coordinates of points in the plot, \emph{optional}
+    if \code{x} is an appropriate structure.}
+}
 \description{
 A class
 }
+\section{Methods (by generic)}{
+\itemize{
+\item \code{summary}: Summary statistics of assigned groups.
+
+\item \code{show}: Print both \code{group_coef} and \code{t_res}
+
+\item \code{plot}: Plots groups
+}}
 \section{Slots}{
 
 \describe{

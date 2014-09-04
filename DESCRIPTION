@@ -23,7 +23,6 @@ Imports:
     multcomp,
     pracma,
     rateratio.test,
-    reshape2,
     signal,
     shiny,
     spatstat
