@@ -13,10 +13,10 @@ bind_dpcr(input, ...)
 }
 \arguments{
 \item{input}{an object of class \code{\linkS4class{adpcr}} or
-\code{\linkS4class{ddpcr}}.}
+\code{\linkS4class{ddpcr}} or a list.}
 
 \item{...}{objects of class \code{\linkS4class{adpcr}} or
-\code{\linkS4class{ddpcr}}. See Details.}
+\code{\linkS4class{ddpcr}}. See Details. If \code{input} is a list, ignored.}
 }
 \value{
 An object of class \code{\linkS4class{adpcr}} or

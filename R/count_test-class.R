@@ -48,6 +48,7 @@ setMethod("plot", signature(x = "count_test"), function(x, aggregate = FALSE, y,
     stripchart(lambda ~ group, data = group_coef, vertical = TRUE, xlab = "Group",
                ylab = expression(lambda), method = "jitter", 
                ylim = range(summ[, c("lambda.low", "lambda.up")]))
+    #TO DO: add something for 1 group case.
     abline(h = summ[1L:nrow(summ), "lambda.low"], lty = "dashed")
     abline(h = summ[1L:nrow(summ), "lambda.up"], lty = "dashed")
   } else {

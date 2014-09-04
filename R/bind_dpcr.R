@@ -14,9 +14,9 @@
 #' @aliases bind_dpcr bind_dpcr-methods bind_dpcr,adpcr bind_dpcr,adpcr-method 
 #' bind_dpcr,ddpcr bind_dpcr,ddpcr-method
 #' @param input an object of class \code{\linkS4class{adpcr}} or
-#' \code{\linkS4class{ddpcr}}.
+#' \code{\linkS4class{ddpcr}} or a list.
 #' @param ...  objects of class \code{\linkS4class{adpcr}} or
-#' \code{\linkS4class{ddpcr}}. See Details.
+#' \code{\linkS4class{ddpcr}}. See Details. If \code{input} is a list, ignored.
 #' @return An object of class \code{\linkS4class{adpcr}} or
 #' \code{\linkS4class{ddpcr}}, depending on the input.
 #' @details \code{bind_dpcr} automatically names binded experiments using format
@@ -48,9 +48,20 @@ bind_dpcr <- function (input, ...) {
 setGeneric("bind_dpcr")
 
 setMethod("bind_dpcr", 
+          signature(input = "list"), 
+          function(input, ...) {
+            bind_dpcr(input[[1]], input[-1])
+          })
+
+setMethod("bind_dpcr", 
           signature(input = "adpcr"), 
           function(input, ...) {
-            args <- c(list(input), Filter(Negate(is.null), list(...)))
+            if(is.list(...)) {
+              args <- c(list(input), Filter(Negate(is.null), ...))
+            } else {
+              args <- c(list(input), Filter(Negate(is.null), list(...)))
+            }
+            
             all_classes <- all(sapply(args, class) == "adpcr")
             if (!all_classes)
               stop("All binded objects must have the same class.")
