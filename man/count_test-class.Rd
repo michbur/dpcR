@@ -12,7 +12,7 @@ A class
 \describe{
 \item{group_coef}{\code{"data.frame"} containing experiments, groups to which they
 belong and calculated values of rate.}
-\item{test}{\code{"matrix"} containing result of t-test.} }
+\item{t_res}{\code{"matrix"} containing result of t-test.} }
 }
 \author{
 Michal Burdukiewicz.

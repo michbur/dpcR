@@ -1,20 +1,21 @@
-#' Counts test
+#' Test counts
 #' 
-#' The test for comparing two or more digital PCR experiments.
-#' 
+#' The test for comparing counts from two or more digital PCR experiments.
 #' 
 #' @aliases test_counts
 #' @param input adpcr or dpcr object with with "nm" type.
 #' @param ... additional arguments for \code{\link{glm}} function.
 #' @details \code{test_counts} fits General Linear Model (using Poisson 
 #' \code{\link[stats]{family}}) to the counts data from different digital PCR experiments.
+#' Comparision between single experiments are made using Tukey's contrast and multiple 
+#' t-tests using function \code{\link{glht}}.
 #' @export
 #' @return an object of class
 #' @author Michal Burdukiewicz, Stefan Roediger
 #' @examples
 #' adpcr1 <- sim_adpcr(m = 10, n = 765, times = 1000, pos_sums = FALSE, n_panels = 3)
-#' adpcr2 <- sim_adpcr(m = 10, n = 600, times = 1000, pos_sums = FALSE, n_panels = 3)
-#' adpcr3 <- sim_adpcr(m = 60, n = 550, times = 1000, pos_sums = FALSE, n_panels = 3)
+#' adpcr3 <- sim_adpcr(m = 10, n = 600, times = 1000, pos_sums = FALSE, n_panels = 3)
+#' adpcr2 <- sim_adpcr(m = 60, n = 550, times = 1000, pos_sums = FALSE, n_panels = 3)
 #' combo <- bind_dpcr(adpcr1, adpcr2, adpcr3)
 #' res <- test_counts(combo)
 #' summary(res)
@@ -44,8 +45,10 @@ test_counts <- function(input, ...) {
   group_coef <- data.frame(LETTERS[groups_vector], lambdas)
   colnames(group_coef) <- c("group", "lambda", "lambda.low", "lambda.up")
   rownames(group_coef) <- colnames(input)
-  new("count_test", group_coef = group_coef, test = cbind(summ_mc[["test"]][["tstat"]], 
-                                                     summ_mc[["test"]][["pvalues"]]))
+  group_coef <- group_coef[order(group_coef[["group"]]), ]
+  t_res <- cbind(t = summ_mc[["test"]][["tstat"]], 
+                 p.value = summ_mc[["test"]][["pvalues"]])
+  new("count_test", group_coef = group_coef, t_res = t_res)
 }
 
 #old version with comments
