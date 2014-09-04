@@ -12,20 +12,26 @@
 
 \S4method{show}{count_test}(object)
 
-\S4method{plot}{count_test}(x, y, ...)
+\S4method{plot}{count_test}(x, aggregate = FALSE, y, ...)
 }
 \arguments{
 \item{x}{object of class \code{count_test}.}
 
-\item{...}{currently nothing.}
+\item{aggregate}{logical, if \code{TRUE} experiments are aggregated according
+to their group.}
+
+\item{y}{ignored.}
+
+\item{...}{ignored.}
 
 \item{object}{an object for which a summary is desired.}
-
-\item{y}{the y coordinates of points in the plot, \emph{optional}
-    if \code{x} is an appropriate structure.}
 }
 \description{
 A class
+}
+\details{
+In case of aggregated plot, mean confidence intervals for groups are presented
+as dashed lines.
 }
 \section{Methods (by generic)}{
 \itemize{

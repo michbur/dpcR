@@ -16,10 +16,12 @@
 #' adpcr1 <- sim_adpcr(m = 10, n = 765, times = 1000, pos_sums = FALSE, n_panels = 3)
 #' adpcr3 <- sim_adpcr(m = 10, n = 600, times = 1000, pos_sums = FALSE, n_panels = 3)
 #' adpcr2 <- sim_adpcr(m = 60, n = 550, times = 1000, pos_sums = FALSE, n_panels = 3)
-#' combo <- bind_dpcr(adpcr1, adpcr2, adpcr3)
-#' res <- test_counts(combo)
-#' summary(res)
-
+#' two_groups <- test_counts(bind_dpcr(adpcr1, adpcr2, adpcr3))
+#' summary(two_groups)
+#' plot(two_groups)
+#' one_group <- test_counts(bind_dpcr(adpcr1, adpcr3))
+#' summary(one_group)
+#' plot(one_group)
 
 test_counts <- function(input, ...) {
   
@@ -41,7 +43,12 @@ test_counts <- function(input, ...) {
   
   summ_mc <- summary(multi_comp)
   groups <- cld(multi_comp)[["mcletters"]][["LetterMatrix"]]
-  groups_vector <- apply(groups, 1, which)
+  if(is.matrix(groups)) {
+    groups_vector <- apply(groups, 1, which)
+  } else {
+    groups_vector <- rep(1, ncol(input))
+  }
+  
   group_coef <- data.frame(LETTERS[groups_vector], lambdas)
   colnames(group_coef) <- c("group", "lambda", "lambda.low", "lambda.up")
   rownames(group_coef) <- colnames(input)
