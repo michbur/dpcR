@@ -12,7 +12,7 @@
 #' @docType methods
 #' @name bind_dpcr-methods
 #' @aliases bind_dpcr bind_dpcr-methods bind_dpcr,adpcr bind_dpcr,adpcr-method 
-#' bind_dpcr,ddpcr bind_dpcr,ddpcr-method
+#' bind_dpcr,ddpcr bind_dpcr,ddpcr-method bind_dpcr,list bind_dpcr,list-method
 #' @param input an object of class \code{\linkS4class{adpcr}} or
 #' \code{\linkS4class{ddpcr}} or a list.
 #' @param ...  objects of class \code{\linkS4class{adpcr}} or
@@ -56,19 +56,23 @@ setMethod("bind_dpcr",
 setMethod("bind_dpcr", 
           signature(input = "adpcr"), 
           function(input, ...) {
-            if(is.list(...)) {
-              args <- c(list(input), Filter(Negate(is.null), ...))
+            if(length(list(...)) != 1) {
+              all_args <- c(list(input), Filter(Negate(is.null), list(...)))
             } else {
-              args <- c(list(input), Filter(Negate(is.null), list(...)))
+              if(is.list(...)) {
+                all_args <- c(list(input), Filter(Negate(is.null), ...))
+              } else {
+                all_args <- c(list(input), Filter(Negate(is.null), list(...)))
+              }
             }
-            
-            all_classes <- all(sapply(args, class) == "adpcr")
+              
+            all_classes <- all(sapply(all_args, class) == "adpcr")
             if (!all_classes)
               stop("All binded objects must have the same class.")
-            bigger_breaks <- which.max(lapply(args, function(single_arg) 
+            bigger_breaks <- which.max(lapply(all_args, function(single_arg) 
               max(slot(single_arg, "breaks"))))
-            breaks <- slot(args[[bigger_breaks]], "breaks")
-            res <- cbind_dpcr(args)
+            breaks <- slot(all_args[[bigger_breaks]], "breaks")
+            res <- cbind_dpcr(all_args)
             create_adpcr(res[["binded_data"]], 
                          res[["n"]], breaks, type = res[["type"]])
           })
@@ -77,26 +81,35 @@ setMethod("bind_dpcr",
 setMethod("bind_dpcr", 
           signature(input = "ddpcr"), 
           function(input, ...) {
-            args <- c(list(input), Filter(Negate(is.null), list(...)))
-            all_classes <- all(sapply(args, class) == "ddpcr")
+            if(length(list(...)) != 1) {
+              all_args <- c(list(input), Filter(Negate(is.null), list(...)))
+            } else {
+              if(is.list(...)) {
+                all_args <- c(list(input), Filter(Negate(is.null), ...))
+              } else {
+                all_args <- c(list(input), Filter(Negate(is.null), list(...)))
+              }
+            }
+            
+            all_classes <- all(sapply(all_args, class) == "ddpcr")
             if (!all_classes)
               stop("All binded objects must have the same class.")
             if (slot(input, "type") == "fluo")
               stop("Binding method for fluorescence result not implemented.")
             
-            bigger_thresholds <- which.max(lapply(args, function(single_arg) 
+            bigger_thresholds <- which.max(lapply(all_args, function(single_arg) 
               max(slot(single_arg, "threshold"))))
-            thresholds <- slot(args[[bigger_thresholds]], "threshold")
-            res <- cbind_dpcr(args)
+            thresholds <- slot(all_args[[bigger_thresholds]], "threshold")
+            res <- cbind_dpcr(all_args)
             create_adpcr(res[["binded_data"]], 
                          res[["n"]], thresholds, type = res[["type"]])
           })
 
 
 #helper function for internal use only
-cbind_dpcr <- function(args) {
+cbind_dpcr <- function(all_args) {
   #check types
-  all_types <- sapply(args, function(single_arg) 
+  all_types <- sapply(all_args, function(single_arg) 
     slot(single_arg, "type"))
   if (length(unique(all_types)) > 1)
     stop("Input objects must have the same type.")
@@ -104,25 +117,25 @@ cbind_dpcr <- function(args) {
   
   
   #check partitions and add NA values if needed
-  all_partitions <- unlist(lapply(args, function(single_arg) 
+  all_partitions <- unlist(lapply(all_args, function(single_arg) 
     slot(single_arg, "n")))
   n_max <- max(all_partitions)
   if (length(unique(all_partitions)) > 1) {
     message("Different number of partitions. Shorter objects completed with NA values.")
-    for(i in 1L:length(args)) {
-      rows_to_add <- n_max - nrow(args[[i]])
+    for(i in 1L:length(all_args)) {
+      rows_to_add <- n_max - nrow(all_args[[i]])
       if (rows_to_add > 0)
-        args[[i]] <- rbind(args[[i]], 
-                           matrix(rep(NA, ncol(args[[i]])*rows_to_add), 
+        all_args[[i]] <- rbind(all_args[[i]], 
+                           matrix(rep(NA, ncol(all_args[[i]])*rows_to_add), 
                                   nrow = rows_to_add))
     }
   }
   
   
-  binded_data <- do.call(cbind, args)
+  binded_data <- do.call(cbind, all_args)
   
-  col_names <- unlist(lapply(1L:length(args), function(i)
-    paste0(i, ".", 1L:ncol(args[[i]]))))
+  col_names <- unlist(lapply(1L:length(all_args), function(i)
+    paste0(i, ".", 1L:ncol(all_args[[i]]))))
   
   colnames(binded_data) <- col_names
   list(binded_data = binded_data, type = type, n = all_partitions)

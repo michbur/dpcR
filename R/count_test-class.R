@@ -19,6 +19,7 @@ setClass("count_test", representation(group_coef = "data.frame",
                                       t_res = "matrix"))
 
 #' @describeIn count_test Summary statistics of assigned groups.
+#' @param object of class \code{count_test}.
 #' @export
 setMethod("summary", signature(object = "count_test"), function(object) {
   aggregate(. ~ group, slot(object, "group_coef"), mean)
@@ -37,11 +38,10 @@ setMethod("show", signature(object = "count_test"), function(object) {
 #' @param x object of class \code{count_test}.
 #' @param aggregate logical, if \code{TRUE} experiments are aggregated according
 #' to their group.
-#' @param y ignored.
-#' @param ... ignored.
 #' @details In case of aggregated plot, mean confidence intervals for groups are presented
 #' as dashed lines.
-setMethod("plot", signature(x = "count_test"), function(x, aggregate = FALSE, y, ...) {
+setMethod("plot", signature(x = "count_test"), function(x, aggregate = FALSE) {
+  browser()
   group_coef <- slot(x, "group_coef")
   if (aggregate) {
     summ <- aggregate(. ~ group, group_coef, mean)

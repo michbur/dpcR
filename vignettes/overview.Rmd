@@ -1,0 +1,8 @@
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{dpcR - package overview}
+-->
+
+# dpcR package
+
+Put sth here.
