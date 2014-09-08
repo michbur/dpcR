@@ -7,8 +7,10 @@
 #' @param ... additional arguments for \code{\link{glm}} function.
 #' @details \code{test_counts} fits General Linear Model (using Poisson 
 #' \code{\link[stats]{family}}) to the counts data from different digital PCR experiments.
-#' Comparision between single experiments are made using Tukey's contrast and multiple 
+#' Comparisions between single experiments utilize Tukey's contrast and multiple 
 #' t-tests using function \code{\link{glht}}.
+#' @note Mean values of Poisson distribution are derived from General Linear Models. They values
+#' will vary depending on input.
 #' @export
 #' @return an object of class
 #' @author Michal Burdukiewicz, Stefan Roediger
@@ -24,6 +26,9 @@
 #' plot(one_group)
 
 test_counts <- function(input, ...) {
+  #check input class
+  if (class(input) %in% c("adpcr", "ddpcr"))
+    stop("Input must have class 'adpcr' or 'ddpcr'."
   
   #dpcr version of melt
   n_vector <- slot(input, "n")

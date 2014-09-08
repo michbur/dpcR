@@ -19,8 +19,12 @@ The test for comparing counts from two or more digital PCR experiments.
 \details{
 \code{test_counts} fits General Linear Model (using Poisson
 \code{\link[stats]{family}}) to the counts data from different digital PCR experiments.
-Comparision between single experiments are made using Tukey's contrast and multiple
+Comparisions between single experiments utilize Tukey's contrast and multiple
 t-tests using function \code{\link{glht}}.
+}
+\note{
+Mean values of Poisson distribution are derived from General Linear Models. They values
+will vary depending on input.
 }
 \examples{
 adpcr1 <- sim_adpcr(m = 10, n = 765, times = 1000, pos_sums = FALSE, n_panels = 3)
