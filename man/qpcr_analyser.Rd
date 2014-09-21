@@ -72,6 +72,7 @@ inspection (see Example section) and as input for other R functions from the
 }
 \examples{
 # Take data of guescini1 data set from the qpcR R package.
+library(qpcR)
 # Use the first column containing the cycles and the second column for sample F1.1.
 data(guescini1)
 qpcr_analyser(guescini1, cyc = 1, fluo = 2)

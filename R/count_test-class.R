@@ -1,6 +1,6 @@
 #' Class \code{"count_test"} 
 #' 
-#' A class 
+#' A class for results of \code{\link{test_counts}} function.
 #' 
 #' @name count_test
 #' @aliases count_test-class count_test
@@ -26,20 +26,23 @@ setMethod("summary", signature(object = "count_test"), function(object) {
 })
 
 #' @describeIn count_test Print both \code{group_coef} and \code{t_res}
-setMethod("show", signature(object = "count_test"), function(object) {
-  cat("Groups:\n")
-  print(slot(object, "group_coef"))
-  
-  cat("\nResults of multiple comparison:\n")
-  print(slot(object, "t_res"))
-})
+#' @export
+setMethod("show", "count_test", 
+          function(object) {
+            cat("Groups:\n")
+            print(slot(object, "group_coef"))
+            
+            cat("\nResults of multiple comparison:\n")
+            print(slot(object, "t_res"))
+          })
 
-#' @describeIn count_test Plots groups
+#' @describeIn count_test
 #' @param x object of class \code{count_test}.
 #' @param aggregate logical, if \code{TRUE} experiments are aggregated according
 #' to their group.
 #' @details In case of aggregated plot, mean confidence intervals for groups are presented
 #' as dashed lines.
+#' @export
 setMethod("plot", signature(x = "count_test"), function(x, aggregate = FALSE) {
   browser()
   group_coef <- slot(x, "group_coef")

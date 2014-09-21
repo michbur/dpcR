@@ -16,8 +16,8 @@
 #' @author Michal Burdukiewicz, Stefan Roediger
 #' @examples
 #' adpcr1 <- sim_adpcr(m = 10, n = 765, times = 1000, pos_sums = FALSE, n_panels = 3)
-#' adpcr3 <- sim_adpcr(m = 10, n = 600, times = 1000, pos_sums = FALSE, n_panels = 3)
 #' adpcr2 <- sim_adpcr(m = 60, n = 550, times = 1000, pos_sums = FALSE, n_panels = 3)
+#' adpcr3 <- sim_adpcr(m = 10, n = 600, times = 1000, pos_sums = FALSE, n_panels = 3)
 #' two_groups <- test_counts(bind_dpcr(adpcr1, adpcr2))
 #' summary(two_groups)
 #' plot(two_groups)
@@ -25,11 +25,7 @@
 #' summary(one_group)
 #' plot(one_group)
 
-test_counts <- function(input, ...) {
-  #check input class
-  if (class(input) %in% c("adpcr", "ddpcr"))
-    stop("Input must have class 'adpcr' or 'ddpcr'."
-  
+test_counts <- function(input, ...) { 
   #dpcr version of melt
   n_vector <- slot(input, "n")
   m_dpcr <- do.call(rbind, lapply(1L:length(n_vector), function(i) {

@@ -93,9 +93,10 @@ setClass("qpcrpp", contains = "matrix", representation(.Data = "matrix", mu = "n
 #' @return An object of \code{\linkS4class{qpcrpp}} class.
 #' @author Stefan Roediger, Michal Burdukiewicz.
 #' @keywords Poisson Process qPCR
+#' @export qpcr2pp
 #' @examples
 #' 
-#' 
+#' library(qpcR)
 #' test <- cbind(reps[1L:45, ], reps2[1L:45, 2L:ncol(reps2)], 
 #' 	      reps3[1L:45, 2L:ncol(reps3)])
 #' 
@@ -105,9 +106,8 @@ setClass("qpcrpp", contains = "matrix", representation(.Data = "matrix", mu = "n
 #'                      Cq_range = Cq.range, model = l5)
 #'                      
 #' qpcr2pp(ranged[,1], ranged[,2], delta = 5)
-#' 
-#' 
-#' @export qpcr2pp
+
+
 qpcr2pp <- function(cycles, process, data = NULL, NuEvents = 1, delta = 1) {
   
   if (!is.null(data)) {
@@ -168,7 +168,7 @@ qpcr2pp <- function(cycles, process, data = NULL, NuEvents = 1, delta = 1) {
 #' @keywords hplot
 #' @examples
 #' 
-#' 
+#' library(qpcR)
 #' test <- cbind(reps[1L:45, ], reps2[1L:45, 2L:ncol(reps2)], reps3[1L:45, 
 #'         2L:ncol(reps3)])
 #' ranged <- limit_cq(data = test, cyc = 1, fluo = NULL, model = l5)

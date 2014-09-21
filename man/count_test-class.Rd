@@ -23,7 +23,7 @@
 to their group.}
 }
 \description{
-A class
+A class for results of \code{\link{test_counts}} function.
 }
 \details{
 In case of aggregated plot, mean confidence intervals for groups are presented
@@ -35,7 +35,7 @@ as dashed lines.
 
 \item \code{show}: Print both \code{group_coef} and \code{t_res}
 
-\item \code{plot}: Plots groups
+\item \code{plot}: 
 }}
 \section{Slots}{
 

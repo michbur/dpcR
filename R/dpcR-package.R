@@ -43,12 +43,12 @@
 #' 9236-9241. %%MORE REFERENCES
 #' @keywords package
 #' @import methods
-#' @import qpcR
 #' @importFrom binom binom.confint
 #' @importFrom chipPCR inder
 #' @importFrom dgof ks.test cvm.test
 #' @importFrom e1071 skewness kurtosis
 #' @importFrom multcomp cld glht mcp
+#' @importFrom qpcR efficiency pcrfit modlist
 #' @importFrom pracma findpeaks
 #' @importFrom rateratio.test rateratio.test
 #' @importFrom shiny runApp
@@ -62,4 +62,5 @@
 #' dpcr_density(k = pos_chambers, n = 765)
 #' 
 NULL
+
 

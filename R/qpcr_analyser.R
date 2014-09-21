@@ -67,6 +67,7 @@
 #' @examples
 #' 
 #' # Take data of guescini1 data set from the qpcR R package.
+#' library(qpcR)
 #' # Use the first column containing the cycles and the second column for sample F1.1.
 #' data(guescini1)
 #' qpcr_analyser(guescini1, cyc = 1, fluo = 2)
@@ -86,10 +87,11 @@
 NULL
 
 
-qpcr_analyser <- function (input, cyc = 1, fluo = NULL, model = l5, norm = FALSE, iter_tr = 50, 
+qpcr_analyser <- function(input, cyc = 1, fluo = NULL, model = l5, norm = FALSE, iter_tr = 50, 
                            type = "Cy0", takeoff = FALSE) {
   stop("Wrong class of 'input'")
 }
+
 setGeneric("qpcr_analyser")
 
 setMethod("qpcr_analyser", signature(input = "data.frame"), function(input, 

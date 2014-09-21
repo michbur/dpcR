@@ -68,6 +68,7 @@ amplification methods such as isothermal amplifications are time based and
 thus better suited for Poisson process.
 }
 \examples{
+library(qpcR)
 test <- cbind(reps[1L:45, ], reps2[1L:45, 2L:ncol(reps2)],
 	      reps3[1L:45, 2L:ncol(reps3)])
 
