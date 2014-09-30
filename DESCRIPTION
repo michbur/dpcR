@@ -43,8 +43,6 @@ Collate:
     'calc_lambda.R'
     'compare_dens.R'
     'count_test-class.R'
-    'create_adpcr.R'
-    'create_ddpcr.R'
     'create_dpcr.R'
     'dpcR-package.R'
     'dpcr_calculator.R'

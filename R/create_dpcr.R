@@ -4,7 +4,7 @@
 #' objects.
 #' 
 #' This function assists in creation of objects used by other functions of the
-#' package. Its in build capabilities include checking the correctness of
+#' package. Its i build capabilities include checking the correctness of
 #' arguments.
 #' 
 #' A warning is prompted whenever any of arguments is converted to other type.
@@ -24,7 +24,7 @@
 #' \code{\linkS4class{adpcr}} object.  If \code{FALSE}, function creates
 #' \code{\linkS4class{ddpcr}} object.
 #' @return An \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} object.
-#' @note Currently only end point measurements are supported.
+#' @note Currently only end-point measurements are supported.
 #' @author Michal Burdukiewicz, Stefan Roediger.
 #' @keywords ddPCR adPCR
 #' @examples

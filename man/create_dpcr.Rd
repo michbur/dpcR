@@ -35,13 +35,13 @@ objects.
 }
 \details{
 This function assists in creation of objects used by other functions of the
-package. Its in build capabilities include checking the correctness of
+package. Its i build capabilities include checking the correctness of
 arguments.
 
 A warning is prompted whenever any of arguments is converted to other type.
 }
 \note{
-Currently only end point measurements are supported.
+Currently only end-point measurements are supported.
 }
 \examples{
 # Droplet digital PCR example

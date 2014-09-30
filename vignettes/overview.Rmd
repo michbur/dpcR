@@ -1,14 +1,41 @@
 <!--
-title: "dpcR - package overwiev"
-author: "Michal Burdukiewicz"
-date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Vignette Title}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\usepackage[utf8]{inputenc}
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{dpcR - package overview}
 -->
+`r library("knitr")`
 
 # dpcR package
 
-Put sth here.
+dpcR is an R package design to assist in analysis of digital PCR results.
+
+## Read data
+
+dpcR does not have any inbuild tools for reading specific data types. Instead we advice to use other packages belonging do the pcRuniversum as [RDML](http://cran.r-project.org/web/packages/RDML/index.html).
+
+Before analysis data should be saved using one of the three classes - `adpcr` (end point array digitap PCR experiments), `ddpcr` (droplet digitap PCR experiments) and `rtadpcr` (real-time array digitap PCR experiments). To do so, use `create_dpcr` function.
+
+```{r eval=TRUE}
+library(dpcR)
+#generate some data from 15x16 array. Lets presume, that we have results from two plates
+sample_runs <- matrix(rpois(480, lambda = 1.5), ncol = 2)
+#check its class - it's a typical R structure
+class(sample_runs)
+#save it to adpcr object
+adpcr_experiments <- create_dpcr(sample_runs, n = 30L, type = "nm", adpcr = TRUE)
+class(adpcr_experiments)
+```
+
+## Data visualisation and tests
+
+Data can be easily visualized using `plot_panel` function.
+
+```{r eval=TRUE}
+#remember, you can plot only single panel at once 
+plot_panel(extract_dpcr(adpcr_experiments, 1), nx_a = 15, ny_a = 16, main = "Experiment 1")
+```
+
+Randomness of spatial distribution on plate can be checked using `test_panel`.
+```{r eval=TRUE}
+#remember, you can plot only single panel at once 
+test_panel(extract_dpcr(adpcr_experiments, 1), nx_a = 15, ny_a = 16)
+```
