@@ -6,17 +6,17 @@
 
 # dpcR package
 
-dpcR is an R package design to assist in analysis of digital PCR results.
+dpcR is an R package designed to assist in analysis of digital PCR experiments.
 
 ## Read data
 
-dpcR does not have any inbuild tools for reading specific data types. Instead we advice to use other packages belonging do the pcRuniversum as [RDML](http://cran.r-project.org/web/packages/RDML/index.html).
+dpcR does not have any inbuilt tools for reading specific data types. Instead, we advise to use other packages belonging do the pcRuniversum as [RDML](http://cran.r-project.org/web/packages/RDML/index.html) or dedicated packages such as ReadqPCR (available from bioconductor.org).
 
-Before analysis data should be saved using one of the three classes - `adpcr` (end point array digitap PCR experiments), `ddpcr` (droplet digitap PCR experiments) and `rtadpcr` (real-time array digitap PCR experiments). To do so, use `create_dpcr` function.
+Before analysis data should be saved using one of the three classes - `adpcr` (end-point array digital PCR experiments), `ddpcr` (droplet digital PCR experiments) and `rtadpcr` (real-time array digital PCR experiments). To do so, use `create_dpcr` function.
 
 ```{r eval=TRUE}
 library(dpcR)
-#generate some data from 15x16 array. Lets presume, that we have results from two plates
+#generate some data from 15x16 array. Let's presume, that we have results from two plates
 sample_runs <- matrix(rpois(480, lambda = 1.5), ncol = 2)
 #check its class - it's a typical R structure
 class(sample_runs)
