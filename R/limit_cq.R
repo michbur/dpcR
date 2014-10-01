@@ -30,7 +30,7 @@
 #' @param data a dataframe containing the qPCR data.
 #' @param cyc the column containing the cycle data. Defaults to first column.
 #' @param fluo the column(s) (runs) to be analyzed. If NULL, all runs will be
-#' considered. Use fluo = 2 to chose the second column for example.
+#' considered. Use fluo = 2 to choose the second column for example.
 #' @param Cq_range is a user defined range of cycles to be used for the
 #' determination of the Cq values.
 #' @param model is the model to be used for the analysis for all runs. Defaults
@@ -71,7 +71,7 @@
 #' 
 #' 
 #' @export limit_cq
-limit_cq <- function(data = data, cyc = 1, fluo = NULL,
+limit_cq <- function(data, cyc = 1, fluo = NULL,
                      Cq_range = c(1, max(data[cyc])), model = l5, SDM = TRUE) {
   if (Cq_range[1] > Cq_range[2]) {
     warning("First value of Cq_range is greater than second. Cq_range reversed.")
@@ -85,14 +85,14 @@ limit_cq <- function(data = data, cyc = 1, fluo = NULL,
   
   if (SDM) {
     Cy0 <- vapply(fluo, function(fluo_col) {
-      summary(inder(x = data[, cyc], y = data[, fluo_col]), print = FALSE)["SDM"]
       setTxtProgressBar(pb, fluo_col)
+      summary(inder(x = data[, cyc], y = data[, fluo_col]), print = FALSE)["SDM"]
     }, 0)
   } else {
     Cy0 <- vapply(fluo, function(fluo_col) {
+      setTxtProgressBar(pb, fluo_col)
       efficiency(pcrfit(data = data, cyc = cyc, fluo = fluo_col,
                         model = model), type = "Cy0", plot = FALSE)[["Cy0"]]
-      setTxtProgressBar(pb, fluo_col)
     }, 0)
   }
   
