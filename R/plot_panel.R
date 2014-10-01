@@ -23,6 +23,9 @@
 #' @param legend If \code{TRUE}, a built-in legend is added to the plot.
 #' @param half If \code{left} or \code{right}, every well is represented only
 #' by the adequate half of the rectangle.
+#' @param use_breaks if \code{TRUE}, input is cutted into intervals using 
+#' \code{breaks} slot. If \code{FALSE}, input is converted to factor using
+#' \code{\link[base]{as.factor}}.
 #' @param ... Arguments to be passed to \code{plot} function.
 #' @return A list of coordinates of each microfluidic well and an assigned
 #' color.
@@ -38,12 +41,17 @@
 #' # Plot the dPCR experiment results with default settings
 #' plot_panel(ttest, nx_a = 45, ny_a = 17)
 #' 
+#' #do it without breaks
+#' plot_panel(ttest, nx_a = 45, ny_a = 17, use_breaks = FALSE)
+#' 
 #' # Apply a binary color code with blue as positive
 #' slot(ttest, "breaks") <- c(0, 2, 4)
 #' plot_panel(ttest, nx_a = 45, ny_a = 17, col = "blue")
 #' 
 #' # Apply a two color code for number of copies per compartment
 #' plot_panel(ttest, nx_a = 45, ny_a = 17, col = c("blue", "red"))
+#' 
+#' 
 #' 
 #' # supply customized breaks and compare
 #' par(mfcol = c(2, 1))
@@ -79,7 +87,7 @@
 #' 
 #' @export plot_panel
 plot_panel <- function(input, nx_a, ny_a, col = "red", legend = TRUE, 
-                       half = "none", ...) {  
+                       half = "none", use_breaks = TRUE, ...) {  
   if (class(input) == "adpcr") {
     if (!(slot(input, "type") %in% c("nm", "tp", "ct")))
       stop("Input must contain data of type 'nm', 'tp' or 'ct'.", 
@@ -99,8 +107,12 @@ plot_panel <- function(input, nx_a, ny_a, col = "red", legend = TRUE,
                  \n Change nx_a * ny_a to have the same number of elements."))
   
   # Use breaks points to split input 
-  cutted_input <- cut(slot(input, ".Data"), breaks = slot(input, "breaks"), 
-                      include.lowest = TRUE, right = FALSE)
+  if(use_breaks) {
+    cutted_input <- cut(slot(input, ".Data"), breaks = slot(input, "breaks"), 
+                        include.lowest = TRUE, right = FALSE)
+  } else {
+    cutted_input <- factor(slot(input, ".Data"))
+  }
   
   plot(NA, NA, xlim = c(1, nx_a), ylim = c(1, ny_a), axes = FALSE, xlab = "", 
        ylab = "", ...)
