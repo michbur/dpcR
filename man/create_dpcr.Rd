@@ -19,7 +19,7 @@ which \code{data} should be cut.  Ignored if \code{adpcr} is \code{FALSE}.}
 
 \item{type}{Object of class \code{"character"} defining type of data. Could
 be \code{"nm"} (number of molecules per partition), \code{"tp"} (total
-number of positive wells in panel), \code{"fluo"} (fluorescence) or
+number of positive wells in the panel), \code{"fluo"} (fluorescence) or
 \code{"ct"} (threshold cycle).}
 
 \item{adpcr}{logical. If \code{TRUE}, function creates
@@ -35,7 +35,7 @@ objects.
 }
 \details{
 This function assists in creation of objects used by other functions of the
-package. Its i build capabilities include checking the correctness of
+package. Its inbuilt capabilities include checking the correctness of
 arguments.
 
 A warning is prompted whenever any of arguments is converted to other type.

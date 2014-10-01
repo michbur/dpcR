@@ -1,6 +1,6 @@
 dpcr_calculator <- function(k, n, average = FALSE, log = FALSE) {
-  if (n <= k)  
-    stop("'n' must be larger than 'k'.", call. = TRUE, domain = NA)
+  if (n < k)  
+    stop("'n' must be larger or equal to 'k'.", call. = TRUE, domain = NA)
   if (k == 0)  
     stop("'k' must be larger then 0. No template molecules in the sample", call. = TRUE, 
          domain = NA)

@@ -3,16 +3,16 @@
 \alias{limit_cq}
 \title{Limit Cy0 values}
 \usage{
-limit_cq(data = data, cyc = 1, fluo = NULL, Cq_range = c(1,
-  max(data[cyc])), model = l5, SDM = TRUE)
+limit_cq(data, cyc = 1, fluo = NULL, Cq_range = c(1, max(data[cyc])),
+  model = l5, SDM = TRUE)
 }
 \arguments{
 \item{data}{a dataframe containing the qPCR data.}
 
 \item{cyc}{the column containing the cycle data. Defaults to first column.}
 
-\item{fluo}{the column(s) (runs) to be analyzed. If NULL, all runs will be
-considered. Use fluo = 2 to chose the second column for example.}
+\item{fluo}{the column(s) (runs) to be analyzed. If \code{NULL}, all runs will be
+considered (equivalent of \code{(1L:ncol(data))[-cyc]}).}
 
 \item{Cq_range}{is a user defined range of cycles to be used for the
 determination of the Cq values.}
@@ -65,6 +65,9 @@ ranged <- limit_cq(data = test, cyc = 1, fluo = NULL,
                            Cq_range = Cq.range, model = l5)
 # Same as above, but without Cq.range
 no_range <- limit_cq(data = test, cyc = 1, fluo = NULL, model = l5)
+
+# Same as above, but only three columns
+no_range234 <- limit_cq(data = test, cyc = 1, fluo = c(2:4), model = l5)
 }
 \author{
 Michal Burdukiewicz, Stefan Roediger.

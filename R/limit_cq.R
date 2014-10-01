@@ -29,8 +29,8 @@
 #' 
 #' @param data a dataframe containing the qPCR data.
 #' @param cyc the column containing the cycle data. Defaults to first column.
-#' @param fluo the column(s) (runs) to be analyzed. If NULL, all runs will be
-#' considered. Use fluo = 2 to choose the second column for example.
+#' @param fluo the column(s) (runs) to be analyzed. If \code{NULL}, all runs will be
+#' considered (equivalent of \code{(1L:ncol(data))[-cyc]}).
 #' @param Cq_range is a user defined range of cycles to be used for the
 #' determination of the Cq values.
 #' @param model is the model to be used for the analysis for all runs. Defaults
@@ -69,6 +69,8 @@
 #' # Same as above, but without Cq.range
 #' no_range <- limit_cq(data = test, cyc = 1, fluo = NULL, model = l5)
 #' 
+#' # Same as above, but only three columns
+#' no_range234 <- limit_cq(data = test, cyc = 1, fluo = c(2:4), model = l5)
 #' 
 #' @export limit_cq
 limit_cq <- function(data, cyc = 1, fluo = NULL,
