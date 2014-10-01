@@ -4,7 +4,7 @@
 \title{Plot Panel}
 \usage{
 plot_panel(input, nx_a, ny_a, col = "red", legend = TRUE, half = "none",
-  ...)
+	   use_breaks = TRUE, ...)
 }
 \arguments{
 \item{input}{object of the \code{\linkS4class{adpcr}} class. See Details.}
