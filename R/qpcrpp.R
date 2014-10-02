@@ -163,6 +163,7 @@ qpcr2pp <- function(cycles, process, data = NULL, NuEvents = 1, delta = 1) {
 #' @param mincyc is the first cycle to start the plot from.
 #' @param maxcyc the the last cycle for the plot.
 #' @param rug Adds a rug representation of the data to the plot.
+#' @param digits how many significant digits are to be used in plot.
 #' @author Stefan Roediger, Michal Burdukiewicz
 #' @seealso \code{\linkS4class{qpcrpp}}
 #' @keywords hplot
@@ -177,7 +178,8 @@ qpcr2pp <- function(cycles, process, data = NULL, NuEvents = 1, delta = 1) {
 #' 
 NULL
 
-setMethod("plot", signature(x = "qpcrpp"), function(x, mincyc = 1, maxcyc = 45, rug = TRUE) {
+setMethod("plot", signature(x = "qpcrpp"), function(x, mincyc = 1, maxcyc = 45, rug = TRUE,
+                                                    digits = getOption("digits") - 3) {
   # Plot the calculated qPCR data as Poisson processes
   res_qPCR <- slot(x, ".Data")
   plot(res_qPCR[, 1], res_qPCR[,3], xlim = c(mincyc, maxcyc), 
@@ -185,11 +187,12 @@ setMethod("plot", signature(x = "qpcrpp"), function(x, mincyc = 1, maxcyc = 45, 
        ylab = expression(paste(lambda,
                                " (cycles)")), type = "S", lwd = 1.5)
   abline(h = nrow(res_qPCR) * 0.5, col = "grey")
-  legend(mincyc,nrow(res_qPCR), c(paste0("Partitions: ", slot(x, "partitions")),
-                                  paste0("Events: ", slot(x, "events")),
-                                  paste0("mu: ", slot(x, "mu")), 
-                                  paste0("CT: ", slot(x, "CT")),
-                                  paste0("CO: ", slot(x, "CO"))))
+  legend_texts <- c(paste0("Partitions: ", slot(x, "partitions")),
+                    paste0("Events: ", slot(x, "events")),
+                    as.expression(bquote(paste(mu, ": ", .(slot(x, "mu"))))),
+                    paste0("CT: ", format(slot(x, "CT"), digits = digits)),
+                    paste0("CO: ", format(slot(x, "CO"), digits = digits)))
+  legend(mincyc, nrow(res_qPCR), legend_texts)
   # Add rug to the the plot the illustrate the density of events
   if (rug) 
     rug(res_qPCR[, 1])

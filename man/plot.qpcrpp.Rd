@@ -11,6 +11,8 @@
 \item{maxcyc}{the the last cycle for the plot.}
 
 \item{rug}{Adds a rug representation of the data to the plot.}
+
+\item{digits}{how many significant digits are to be used in plot.}
 }
 \description{
 An analytical plot describing relationship between the cycle number and the

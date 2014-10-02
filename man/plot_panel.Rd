@@ -4,7 +4,7 @@
 \title{Plot Panel}
 \usage{
 plot_panel(input, nx_a, ny_a, col = "red", legend = TRUE, half = "none",
-	   use_breaks = TRUE, ...)
+  use_breaks = TRUE, ...)
 }
 \arguments{
 \item{input}{object of the \code{\linkS4class{adpcr}} class. See Details.}
@@ -19,6 +19,10 @@ plot_panel(input, nx_a, ny_a, col = "red", legend = TRUE, half = "none",
 
 \item{half}{If \code{left} or \code{right}, every well is represented only
 by the adequate half of the rectangle.}
+
+\item{use_breaks}{if \code{TRUE}, input is cutted into intervals using
+\code{breaks} slot. If \code{FALSE}, input is converted to factor using
+\code{\link[base]{as.factor}}.}
 
 \item{...}{Arguments to be passed to \code{plot} function.}
 }
@@ -52,12 +56,17 @@ ttest <- sim_adpcr(m = 400, n = 765, times = 20, pos_sums = FALSE,
 # Plot the dPCR experiment results with default settings
 plot_panel(ttest, nx_a = 45, ny_a = 17)
 
+#do it without breaks
+plot_panel(ttest, nx_a = 45, ny_a = 17, use_breaks = FALSE)
+
 # Apply a binary color code with blue as positive
 slot(ttest, "breaks") <- c(0, 2, 4)
 plot_panel(ttest, nx_a = 45, ny_a = 17, col = "blue")
 
 # Apply a two color code for number of copies per compartment
 plot_panel(ttest, nx_a = 45, ny_a = 17, col = c("blue", "red"))
+
+
 
 # supply customized breaks and compare
 par(mfcol = c(2, 1))
