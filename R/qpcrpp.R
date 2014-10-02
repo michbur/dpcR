@@ -14,9 +14,9 @@
 #' \item{list("mu")}{\code{"numeric"} of the expected number of events in
 #' defined interval.}\item{:}{\code{"numeric"} of the expected number of events
 #' in defined interval.} \item{list("CT")}{\code{"numeric"} value of the
-#' "average time" between the occurence of a positive reaction and another
+#' "average time" between the occurrence of a positive reaction and another
 #' positive reaction.}\item{:}{\code{"numeric"} value of the "average time"
-#' between the occurence of a positive reaction and another positive reaction.}
+#' between the occurrence of a positive reaction and another positive reaction.}
 #' \item{list("partitions")}{\code{"integer"} value equal to the number of
 #' partitions.}\item{:}{\code{"integer"} value equal to the number of
 #' partitions.} \item{list("events")}{\code{"integer"} value equal number of
@@ -124,7 +124,7 @@ qpcr2pp <- function(cycles, process, data = NULL, NuEvents = 1, delta = 1) {
   colnames(res_qPCR) <- c("Cycles", "result", "lambda") 
   
   # do not know if this is correct, WIP
-  # cycle.time should give the "average time" between the occurence of a 
+  # cycle.time should give the "average time" between the occurrence of a 
   # positive reaction and another positive reaction
   dens.tmp <- dpcr_density(sum(res_qPCR[, 2]), nrow(res_qPCR), plot = FALSE)
   cycle.time <- exp(1/dens.tmp[["k"]])
@@ -135,7 +135,7 @@ qpcr2pp <- function(cycles, process, data = NULL, NuEvents = 1, delta = 1) {
   # delta is the difference "time (cycles) points" e.g., Cycle 18 and 25
   # mu is the expected number of events in defined interval (but this is somewhat
   # stupid since the intervals are discrete ... and so on)
-  # cyc.occ gives the occurence in an interval
+  # cyc.occ gives the occurrence in an interval
   mu <- dens.tmp[["k"]] * delta
   fact.NuEvents <- factorial(NuEvents)
   if (fact.NuEvents != "Inf") {
