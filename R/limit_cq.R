@@ -1,3 +1,62 @@
+l5 <- structure(list(expr = "Fluo ~ c + (d - c)/((1 + exp(b * (log(Cycles) - log(e))))^f)", 
+    fct = function (x, parm) 
+    {
+        b <- parm[1]
+        c <- parm[2]
+        d <- parm[3]
+        e <- parm[4]
+        f <- parm[5]
+        c + (d - c)/((1 + exp(b * (log(x) - log(e))))^f)
+    }, ssFct = function (x, y) 
+    {
+        d <- max(y) + 0.001
+        c <- min(y) - 0.001
+        x2 <- x[y > 0]
+        y2 <- y[y > 0]
+        logitTrans <- log((d - y2)/(y2 - c))
+        lmFit <- lm(logitTrans ~ log(x2))
+        coefVec <- coef(lmFit)
+        b <- coefVec[2]
+        e <- exp(-coefVec[1]/b)
+        f <- 1
+        ssVal <- as.numeric(c(b, c, d, e, f))
+        names(ssVal) <- l5$parnames
+        return(ssVal)
+    }, d1 = function (x, parm) 
+    {
+        b <- parm[1]
+        c <- parm[2]
+        d <- parm[3]
+        e <- parm[4]
+        f <- parm[5]
+        b * (c - d) * e^-b * f * x^(-1 + b) * (1 + e^-b * x^b)^(-1 - 
+            f)
+    }, d2 = function (x, parm) 
+    {
+        b <- parm[1]
+        c <- parm[2]
+        d <- parm[3]
+        e <- parm[4]
+        f <- parm[5]
+        -b * (c - d) * e^(-2 * b) * f * x^(-2 + b) * (1 + e^-b * 
+            x^b)^(-2 - f) * (-(-1 + b) * e^b + (1 + b * f) * 
+            x^b)
+    }, inv = function (y, parm) 
+    {
+        b <- parm[1]
+        c <- parm[2]
+        d <- parm[3]
+        e <- parm[4]
+        f <- parm[5]
+        e * (1/(-1 + ((c - d)/(c - y))^(1/f)))^(-1/b)
+    }, expr.grad = expression(c + (d - c)/((1 + exp(b * (log(Cycles) - 
+        log(e))))^f)), inv.grad = expression(e * (1/(-1 + ((c - 
+        d)/(c - Fluo))^(1/f)))^(-1/b)), parnames = c("b", "c", 
+    "d", "e", "f"), name = "l5", type = "five-parameter log-logistic"), .Names = c("expr", 
+"fct", "ssFct", "d1", "d2", "inv", "expr.grad", "inv.grad", "parnames", 
+"name", "type"))
+
+
 # Example of an artificial chamber dPCR experiment using the test data set from
 # qpcR. The function limit_cq is used to calculate the Cy0 value and converts 
 # all values between a defined range to 1 and the remaining to 0.
