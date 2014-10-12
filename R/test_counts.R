@@ -12,7 +12,7 @@
 #' @note Mean values of Poisson distribution are derived from General Linear Models. They values
 #' will vary depending on input.
 #' @export
-#' @return an object of class
+#' @return an object of class \code{\linkS4class{count_test}}.
 #' @author Michal Burdukiewicz, Stefan Roediger
 #' @examples
 #' adpcr1 <- sim_adpcr(m = 10, n = 765, times = 1000, pos_sums = FALSE, n_panels = 3)
