@@ -9,8 +9,8 @@
 #' @section Slots: 
 #' \describe{ 
 #' \item{group_coef}{\code{"data.frame"} containing experiments, groups to which they
-#' belong and calculated values of rate.}
-#' \item{t_res}{\code{"matrix"} containing result of t-test.} }
+#' belong and calculated values of rate (lambda).}
+#' \item{t_res}{\code{"matrix"} containing result of multiple comparisions t-test.} }
 #' @author Michal Burdukiewicz.
 #' @seealso Nothing yet.
 #' @export
@@ -44,7 +44,6 @@ setMethod("show", "count_test",
 #' as dashed lines.
 #' @export
 setMethod("plot", signature(x = "count_test"), function(x, aggregate = FALSE) {
-  browser()
   group_coef <- slot(x, "group_coef")
   if (aggregate) {
     summ <- aggregate(. ~ group, group_coef, mean)
