@@ -8,11 +8,11 @@
 
 \item{mincyc}{is the first cycle to start the plot from.}
 
-\item{maxcyc}{the last cycle for the plot.}
+\item{maxcyc}{the the last cycle for the plot.}
 
 \item{rug}{Adds a rug representation of the data to the plot.}
 
-\item{digits}{how many significant digits are to be used in the plot.}
+\item{digits}{how many significant digits are to be used in plot.}
 }
 \description{
 An analytical plot describing relationship between the cycle number and the

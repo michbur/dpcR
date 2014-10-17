@@ -50,7 +50,7 @@ method. The function can be used to analyze data from chamber based dPCR
 machines.
 }
 \details{
-The \code{qpcr_analyzer} is a functions to automatize the analysis of
+The \code{qpcRanalyzer} is a functions to automatize the analysis of
 amplification curves from conventional quantitative real-time PCR (qPCR)
 experiments and is adapted for the needs in dPCR.  This function calls
 instances of the the \code{qpcR} package to calculate the quantification

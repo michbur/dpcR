@@ -41,8 +41,8 @@ as dashed lines.
 
 \describe{
 \item{group_coef}{\code{"data.frame"} containing experiments, groups to which they
-belong and calculated values of rate.}
-\item{t_res}{\code{"matrix"} containing result of t-test.} }
+belong and calculated values of rate (lambda).}
+\item{t_res}{\code{"matrix"} containing result of multiple comparisions t-test.} }
 }
 \author{
 Michal Burdukiewicz.

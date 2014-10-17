@@ -11,7 +11,7 @@ test_counts(input, ...)
 \item{...}{additional arguments for \code{\link{glm}} function.}
 }
 \value{
-an object of class
+an object of class \code{\linkS4class{count_test}}.
 }
 \description{
 The test for comparing counts from two or more digital PCR experiments.

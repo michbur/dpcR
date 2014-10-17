@@ -19,9 +19,9 @@ number of cycles, amplification curves and cumulative sum of events.}
 \item{list("mu")}{\code{"numeric"} of the expected number of events in
 defined interval.}\item{:}{\code{"numeric"} of the expected number of events
 in defined interval.} \item{list("CT")}{\code{"numeric"} value of the
-"average time" between the occurence of a positive reaction and another
+"average time" between the occurrence of a positive reaction and another
 positive reaction.}\item{:}{\code{"numeric"} value of the "average time"
-between the occurence of a positive reaction and another positive reaction.}
+between the occurrence of a positive reaction and another positive reaction.}
 \item{list("partitions")}{\code{"integer"} value equal to the number of
 partitions.}\item{:}{\code{"integer"} value equal to the number of
 partitions.} \item{list("events")}{\code{"integer"} value equal number of
