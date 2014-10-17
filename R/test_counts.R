@@ -45,12 +45,14 @@ test_counts <- function(input, ...) {
   summ_mc <- summary(multi_comp)
   groups <- cld(multi_comp)[["mcletters"]][["LetterMatrix"]]
   if(is.matrix(groups)) {
-    groups_vector <- apply(groups, 1, which)
+    groups_vector <- apply(groups, 1, function(i)
+      paste0(colnames(groups)[i], collapse = ""))
   } else {
-    groups_vector <- rep(1, ncol(input))
+    groups_vector <- rep("a", ncol(input))
+    names(groups_vector) <- colnames(input)
   }
-  
-  group_coef <- data.frame(LETTERS[groups_vector], lambdas)
+
+  group_coef <- data.frame(groups_vector, lambdas)
   colnames(group_coef) <- c("group", "lambda", "lambda.low", "lambda.up")
   rownames(group_coef) <- colnames(input)
   group_coef <- group_coef[order(group_coef[["group"]]), ]
