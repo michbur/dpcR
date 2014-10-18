@@ -109,7 +109,7 @@ setMethod("plot", signature(x = "count_test"), function(x, aggregate = FALSE,
       #errorbars
       sapply(lab_pos, function(j)
         lines(c(j, j), group_coef[j, c("lambda.low", "lambda.up")],
-              col = colors[i]))
+              col = colors[i], lwd = 1.5))
       #top axis with group names
       axis(side = 3, labels = rep(levels(group_coef[["group"]])[i], length(lab_pos)), 
            at = lab_pos, col.axis = colors[i])
