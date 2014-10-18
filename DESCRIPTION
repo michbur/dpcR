@@ -74,6 +74,7 @@ Collate:
     'simulations.R'
     'summary_dpcr.R'
     'test_counts.R'
+    'test_counts_gui.R'
     'test_panel.R'
     'test_peaks.R'
     'test_ratio.R'
