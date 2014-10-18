@@ -55,22 +55,26 @@ setMethod("plot", signature(x = "count_test"), function(x, aggregate = FALSE,
     
     plot(c(0.55, nrow(summ) + 0.45), range(summ[, c("lambda.low", "lambda.up")]), 
          xlab = "Group", ylab = expression(lambda), xaxt = "n", cex = 0)
-    axis(side = 1, labels = summ[["group"]], at = 1L:nrow(summ))
     
+    #colors and axis setup
     colors <- if(nice) {
       rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], 
            col = adjustcolor("grey", alpha.f = 0.30))
-      axis(1, tck = 1, col.ticks = "white", labels = FALSE)
+      axis(1, tck = 1, col.ticks = "white", labels = FALSE, at = 1L:nrow(summ))
       axis(2, tck = 1, col.ticks = "white", labels = FALSE)
+      box()
       rainbow(nlevels(pos_groups))
     } else {
       rep("black", nlevels(pos_groups))
     }
     
+    sapply(1L:nrow(summ), function(i)
+      axis(side = 1, labels = summ[i, "group"], at = i, col.axis = colors[i]))
+    
     sapply(1L:length(levels(pos_groups)), function(i) {
       points(i + seq(-2, 2, length.out = sum(levels(pos_groups)[i] == pos_groups))/10,
              group_coef[group_coef[["group"]] == levels(pos_groups)[i], "lambda"],
-             col = colors[i], pch = ifelse(nice, 17, 1))
+             col = colors[i], pch = ifelse(nice, 16, 1))
     })
     
     abline(h = summ[1L:nrow(summ), "lambda.low"], lty = "dashed", col = colors)
@@ -78,15 +82,40 @@ setMethod("plot", signature(x = "count_test"), function(x, aggregate = FALSE,
     
     
   } else {
-    plot(1L:nrow(group_coef), group_coef[["lambda"]], 
+    #positions of experiments
+    exp_pos <- 1L:nrow(group_coef)
+                       
+    plot(exp_pos, group_coef[["lambda"]], 
          ylim = range(group_coef[, c("lambda.low", "lambda.up")]), xaxt = "n",
-         xlab = "Experiment", ylab = expression(lambda))
-    axis(1, at = 1L:nrow(group_coef), labels = rownames(group_coef))
-    sapply(1L:nrow(group_coef), function(i) 
-      lines(c(i, i), c(group_coef[i, "lambda.low"], group_coef[i, "lambda.up"]))
-    )
-    axis(3, at = 1L:nrow(group_coef), labels = as.character(group_coef[["group"]]),
-         lwd.ticks = NA, padj = 1)
+         xlab = "Experiment", ylab = expression(lambda), cex = 0)
+    
+    #colors and axis setup
+    colors <- if(nice) {
+      rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], 
+           col = adjustcolor("grey", alpha.f = 0.30))
+      axis(1, tck = 1, col.ticks = "white", labels = FALSE, at = exp_pos)
+      axis(2, tck = 1, col.ticks = "white", labels = FALSE)
+      box()
+      rainbow(nlevels(group_coef[["group"]]))
+    } else {
+      rep("black", nlevels(group_coef[["group"]]))
+    } 
+    
+    
+    sapply(1L:nlevels(group_coef[["group"]]), function(i) {
+      lab_pos <- exp_pos[group_coef[["group"]] == levels(group_coef[["group"]])[i]]
+      points(lab_pos, group_coef[lab_pos, "lambda"], col = colors[i],
+             pch = ifelse(nice, 16, 1))
+      #errorbars
+      sapply(lab_pos, function(j)
+        lines(c(j, j), group_coef[j, c("lambda.low", "lambda.up")],
+              col = colors[i]))
+      #top axis with group names
+      axis(side = 3, labels = rep(levels(group_coef[["group"]])[i], length(lab_pos)), 
+           at = lab_pos, col.axis = colors[i])
+      })
+    
+    axis(1, at = exp_pos, labels = rownames(group_coef))
   }
 })
 
