@@ -7,4 +7,4 @@
 ### Readme
 
 1. *Number of molecules* - number of molecules in experiment.  
-2. *Number of runs* - number of dighital PCR reactions.  
+2. *Number of runs* - number of digital PCR reactions.  

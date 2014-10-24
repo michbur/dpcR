@@ -31,6 +31,7 @@ shinyServer(function(input, output) {
   })
   
   output[["test_plot"]] <- renderPlot({
+    other_sums <- summary(full_model()[["dat"]], print = FALSE)[["summary"]]
     plot(full_model()[["test_res"]], aggregate = FALSE)
   })
   
@@ -39,6 +40,6 @@ shinyServer(function(input, output) {
   })
   
   output[["test"]] <- renderPrint({
-    full_model()[["test_res"]]
+    summary(full_model()[["dat"]])
   })
 })

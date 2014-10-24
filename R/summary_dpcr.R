@@ -11,6 +11,7 @@
 #' 
 #' @name summary-methods
 #' @aliases summary-methods summary,adpcr-method summary,ddpcr-method summary
+#' summary.adpcr summary.ddpcr
 #' @docType methods
 #' @param object an object of class \code{\linkS4class{adpcr}} or
 #' \code{\linkS4class{ddpcr}}.
