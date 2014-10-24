@@ -13,19 +13,15 @@ positive droplets \code{"tnm"} (in this case whole experiment is represented
 by one row) or fluorescence \code{"fluo"}.
 }
 \section{Slots}{
- \describe{ \item{list(".Data")}{\code{"matrix"} containing
-data from all droplets. See Description.}\item{:}{\code{"matrix"} containing
-data from all droplets. See Description.} \item{list("n")}{\code{"integer"}
-representing number of partitions.}\item{:}{\code{"integer"} representing
-number of partitions.} \item{list("threshold")}{ \code{"numeric"} value
-giving the threshold above which droplet is counted as positive.}\item{:}{
-\code{"numeric"} value giving the threshold above which droplet is counted
-as positive.} \item{list("type")}{Object of class \code{"character"}
-defining type of data. Could be \code{"nm"} (Number of molecules per
-partition), \code{"tp"} (number of positive droplets) or \code{"fluo"}
-(fluorescence).}\item{:}{Object of class \code{"character"} defining type of
-data. Could be \code{"nm"} (Number of molecules per partition), \code{"tp"}
-(number of positive droplets) or \code{"fluo"} (fluorescence).} }
+ \describe{
+\item{.Data}{\code{"matrix"} containing data from all droplets. See Description.}
+\item{n}{\code{"integer"} representing number of partitions.}
+\item{threshold}{ \code{"numeric"} value giving the threshold above which droplet is
+counted as positive.}
+\item{type}{Object of class \code{"character"} defining type of data. Could be \code{"nm"}
+(Number of molecules per partition), \code{"tnp"} (number of positive droplets) or
+\code{"fluo"} (fluorescence).}
+}
 }
 \examples{
 ddpcr_fluo <- sim_ddpcr(m = 10, n = 20, times = 5, fluo = list(0.1, 0))

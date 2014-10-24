@@ -4,7 +4,7 @@
 #' digital PCR experiments. Data is represented as matrix, where each column
 #' describes different experiment. Type of data in all columns is specified in
 #' slot \code{"type"} and could be a number of molecules \code{"nm"}, a number
-#' of positive droplets \code{"tnm"} (in this case whole experiment is
+#' of positive droplets \code{"tnp"} (in this case whole experiment is
 #' represented by one row), a cycle threshold of each well \code{"ct"} or
 #' fluorescence values \code{"fluo"}.
 #' 
@@ -12,15 +12,16 @@
 #' @name adpcr-class
 #' @aliases adpcr-class adpcr
 #' @docType class
-#' @section Slots: \describe{ \item{list(".Data")}{\code{"matrix"} containing
-#' data from array. See Description.}\item{list("n")}{Object of class
-#' \code{"integer"} equal to the number of partitions in each
-#' experiment.} \item{list("breaks")}{\code{"numeric"}
-#' vector giving the number of intervals into which \code{.Data} should be
-#' cut.} \item{list("type")}{Object of class
-#' \code{"character"} defining type of data. Could be \code{"nm"} (number of
-#' molecules per partition), \code{"tp"} (total number of positive wells in
-#' panel), \code{"fluo"} (fluorescence) or \code{"ct"} (threshold
+#' @section Slots: \describe{ 
+#' \item{.Data}{\code{"matrix"} containing
+#' data from array. See Description.}
+#' \item{n}{Object of class \code{"integer"} equal to the number of partitions in each
+#' experiment.} 
+#' \item{breaks}{\code{"numeric"} vector giving the number of intervals into which 
+#' \code{.Data} should be cut.} 
+#' \item{type}{Object of class \code{"character"} defining type of data. Could be 
+#' \code{"nm"} (number of molecules per partition), \code{"tnp"} (total number of positive 
+#' wells in panel), \code{"fluo"} (fluorescence) or \code{"ct"} (threshold
 #' cycle).} }
 #' @author Michal Burdukiewicz.
 #' @seealso Ploting and management: \code{\link{bind_dpcr}},

@@ -89,8 +89,8 @@
 plot_panel <- function(input, nx_a, ny_a, col = "red", legend = TRUE, 
                        half = "none", use_breaks = TRUE, ...) {  
   if (class(input) == "adpcr") {
-    if (!(slot(input, "type") %in% c("nm", "tp", "ct")))
-      stop("Input must contain data of type 'nm', 'tp' or 'ct'.", 
+    if (!(slot(input, "type") %in% c("nm", "tnp", "ct")))
+      stop("Input must contain data of type 'nm', 'tnp' or 'ct'.", 
            call. = TRUE, domain = NA) 
     if (ncol(input) > 1)
       stop("Input must contain only one panel.", call. = TRUE, domain = NA)    

@@ -9,9 +9,9 @@
 #' numeric vectors of length greater than 2. The length of vector is assumed to
 #' represent total number of partitions. Every element of the vector with value
 #' bigger than 0 is assumed to be a positive partitions.  \item
-#' \code{\linkS4class{adpcr}} objects with type \code{tp} (total number of
+#' \code{\linkS4class{adpcr}} objects with type \code{tnp} (total number of
 #' positive wells in panel) or \code{nm} (number of molecules per partition).
-#' \code{\linkS4class{ddpcr}} objects with type \code{tp} (total number of
+#' \code{\linkS4class{ddpcr}} objects with type \code{tnp} (total number of
 #' positive droplets) or \code{nm} (number of molecules per droplet).  } Both
 #' \code{dpcr1} and \code{dpcr2} must have the same class. See Examples.
 #' 
@@ -107,8 +107,8 @@ setMethod("test_ratio",
             if(ncol(dpcr1) != 1 || ncol(dpcr2) != 1)
               stop("Both 'dpcr1' and 'dpcr2' must contain only one experiment.", 
                    call. = TRUE)
-            if(!all(c(slot(dpcr1, "type"), slot(dpcr2, "type")) %in% c("nm", "tp")))
-              stop("Both 'dpcr1' and 'dpcr2' must have type 'nm' or 'tp'", 
+            if(!all(c(slot(dpcr1, "type"), slot(dpcr2, "type")) %in% c("nm", "tnp")))
+              stop("Both 'dpcr1' and 'dpcr2' must have type 'nm' or 'tnp'", 
                    call. = TRUE)
             n_x <- slot(dpcr1, "n")
             n_y <- slot(dpcr2, "n")
@@ -125,8 +125,8 @@ setMethod("test_ratio",
             if(ncol(dpcr1) != 1 || ncol(dpcr2) != 1)
               stop("Both 'dpcr1' and 'dpcr2' must contain only one experiment.", 
                    call. = TRUE)
-            if(!all(c(slot(dpcr1, "type"), slot(dpcr2, "type")) %in% c("nm", "tp")))
-              stop("Both 'dpcr1' and 'dpcr2' must have type 'nm' or 'tp'", 
+            if(!all(c(slot(dpcr1, "type"), slot(dpcr2, "type")) %in% c("nm", "tnp")))
+              stop("Both 'dpcr1' and 'dpcr2' must have type 'nm' or 'tnp'", 
                    call. = TRUE)
             n_x <- slot(dpcr1, "n")
             n_y <- slot(dpcr2, "n")

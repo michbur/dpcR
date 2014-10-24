@@ -54,7 +54,7 @@
 #' \code{pos_sums} argument has value \code{TRUE}, the function returns a
 #' matrix with one row and \eqn{n_panels} columns. Each column contains the
 #' total number of positive chambers in each plate and type of simulation would
-#' be set as \code{"tp"}.
+#' be set as \code{"tnp"}.
 #' 
 #' In each case the value is an object of the \code{\linkS4class{adpcr}} class.
 #' @author Michal Burdukiewicz.
@@ -99,5 +99,5 @@
 sim_adpcr <- function(m, n, times, n_panels = 1, dube = FALSE, pos_sums = FALSE) {
   n <- num2int(n)
   res <- sim_dpcr(m, n, times, dube, pos_sums, n_panels)
-  create_adpcr(res, rep(n, n_panels), 0L:max(res), type = ifelse(pos_sums, "tp", "nm"))
+  create_adpcr(res, rep(n, n_panels), 0L:max(res), type = ifelse(pos_sums, "tnp", "nm"))
 }

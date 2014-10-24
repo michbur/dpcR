@@ -18,7 +18,7 @@ droplet is counted as positive.  Ignored if \code{adpcr} is \code{TRUE}.}
 which \code{data} should be cut.  Ignored if \code{adpcr} is \code{FALSE}.}
 
 \item{type}{Object of class \code{"character"} defining type of data. Could
-be \code{"nm"} (number of molecules per partition), \code{"tp"} (total
+be \code{"nm"} (number of molecules per partition), \code{"tnp"} (total
 number of positive wells in the panel), \code{"fluo"} (fluorescence) or
 \code{"ct"} (threshold cycle).}
 

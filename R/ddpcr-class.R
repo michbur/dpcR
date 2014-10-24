@@ -11,19 +11,15 @@
 #' @name ddpcr-class
 #' @aliases ddpcr-class ddpcr
 #' @docType class
-#' @section Slots: \describe{ \item{list(".Data")}{\code{"matrix"} containing
-#' data from all droplets. See Description.}\item{:}{\code{"matrix"} containing
-#' data from all droplets. See Description.} \item{list("n")}{\code{"integer"}
-#' representing number of partitions.}\item{:}{\code{"integer"} representing
-#' number of partitions.} \item{list("threshold")}{ \code{"numeric"} value
-#' giving the threshold above which droplet is counted as positive.}\item{:}{
-#' \code{"numeric"} value giving the threshold above which droplet is counted
-#' as positive.} \item{list("type")}{Object of class \code{"character"}
-#' defining type of data. Could be \code{"nm"} (Number of molecules per
-#' partition), \code{"tp"} (number of positive droplets) or \code{"fluo"}
-#' (fluorescence).}\item{:}{Object of class \code{"character"} defining type of
-#' data. Could be \code{"nm"} (Number of molecules per partition), \code{"tp"}
-#' (number of positive droplets) or \code{"fluo"} (fluorescence).} }
+#' @section Slots: \describe{ 
+#' \item{.Data}{\code{"matrix"} containing data from all droplets. See Description.}
+#' \item{n}{\code{"integer"} representing number of partitions.}
+#' \item{threshold}{ \code{"numeric"} value giving the threshold above which droplet is 
+#' counted as positive.}
+#' \item{type}{Object of class \code{"character"} defining type of data. Could be \code{"nm"} 
+#' (Number of molecules per partition), \code{"tnp"} (number of positive droplets) or 
+#' \code{"fluo"} (fluorescence).}
+#' }
 #' @author Michal Burdukiewicz.
 #' @seealso Ploting and managment: \code{\link{bind_dpcr}},
 #' \code{\link{extract_dpcr}}, \code{\link{plot_vic_fam}}.
