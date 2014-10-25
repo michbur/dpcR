@@ -3,26 +3,26 @@
 #' A class specifically designed to contain results from end-point array
 #' digital PCR experiments. Data is represented as matrix, where each column
 #' describes different experiment. Type of data in all columns is specified in
-#' slot \code{"type"} and could be a number of molecules \code{"nm"}, a number
-#' of positive droplets \code{"tnp"} (in this case whole experiment is
-#' represented by one row), a cycle threshold of each well \code{"ct"} or
-#' fluorescence values \code{"fluo"}.
-#' 
+#' slot \code{"type"}.
 #' 
 #' @name adpcr-class
 #' @aliases adpcr-class adpcr
 #' @docType class
-#' @section Slots: \describe{ 
-#' \item{.Data}{\code{"matrix"} containing
-#' data from array. See Description.}
-#' \item{n}{Object of class \code{"integer"} equal to the number of partitions in each
-#' experiment.} 
-#' \item{breaks}{\code{"numeric"} vector giving the number of intervals into which 
-#' \code{.Data} should be cut.} 
-#' \item{type}{Object of class \code{"character"} defining type of data. Could be 
-#' \code{"nm"} (number of molecules per partition), \code{"tnp"} (total number of positive 
-#' wells in panel), \code{"fluo"} (fluorescence) or \code{"ct"} (threshold
-#' cycle).} }
+#' @slot .Data \code{"matrix"} containing data from array. See Description.
+#' @slot n Object of class \code{"integer"} equal to the number of wells in each
+#' experiment.
+#' @slot breaks \code{"numeric"} vector giving the number of intervals into which 
+#' \code{.Data} should be cut. Applies only to objects with \code{type = "nm"}.
+#' @slot type Object of class \code{"character"} defining type of data. See Details.
+#' @details
+#' Possible \code{type} values of \code{adpcr} objects:
+#' \enumerate{
+#'  \item{\code{"ct"}: cycle threshold of each well,}
+#'  \item{\code{"fluo"}: fluorescence of each well,}
+#'  \item{\code{"nm"}: number of molecules in each well,}
+#'  \item{\code{"np"}: status (positive (1) or negative(0)) of each well,}
+#'  \item{\code{"tnp"}: total number of positive wells in the panel (single value per each 
+#'  panel, not per well).}}
 #' @author Michal Burdukiewicz.
 #' @seealso Ploting and management: \code{\link{bind_dpcr}},
 #' \code{\link{extract_dpcr}}, \code{\link{plot_panel}}.
@@ -53,7 +53,11 @@ create_adpcr <- function(data, n, breaks = NULL, type, models = NULL,
     colnames(data) <- col_names
   slot(result, ".Data") <- data
   slot(result, "n") <- n
-  slot(result, "type") <- type
+  if (type %in% c("ct", "fluo", "nm", "np", "tnp")) {
+    slot(result, "type") <- type
+  } else {
+    stop(paste0(type, " is not recognized type value."))
+  }
   if (is.null(breaks)) {
     slot(result, "breaks") <- 0L:max(data)
   } else {
