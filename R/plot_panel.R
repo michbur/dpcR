@@ -89,8 +89,8 @@
 plot_panel <- function(input, nx_a, ny_a, col = "red", legend = TRUE, 
                        half = "none", use_breaks = TRUE, ...) {  
   if (class(input) == "adpcr") {
-    if (!(slot(input, "type") %in% c("nm", "tnp", "ct")))
-      stop("Input must contain data of type 'nm', 'tnp' or 'ct'.", 
+    if (!(slot(input, "type") %in% c("nm", "np", "tnp", "ct")))
+      stop("Input must contain data of type 'nm', 'np', 'tnp' or 'ct'.", 
            call. = TRUE, domain = NA) 
     if (ncol(input) > 1)
       stop("Input must contain only one panel.", call. = TRUE, domain = NA)    
@@ -100,7 +100,7 @@ plot_panel <- function(input, nx_a, ny_a, col = "red", legend = TRUE,
   } else {
     stop("Input must have the 'adpcr' class", call. = TRUE, domain = NA)
   }
-  if (length(input) != nx_a * ny_a)
+  if (slot(input, "n") != nx_a * ny_a)
     stop (paste0("Can not process with plot since the input 
                  legnth (", length(input) ,
                  ") differs from the size of nx_a * ny_a (", nx_a * ny_a, ").
