@@ -12,7 +12,7 @@
 
 \S4method{show}{count_test}(object)
 
-\S4method{plot}{count_test}(x, aggregate = FALSE)
+\S4method{plot}{count_test}(x, aggregate = FALSE, nice = TRUE)
 }
 \arguments{
 \item{object}{of class \code{count_test}.}
@@ -21,6 +21,9 @@
 
 \item{aggregate}{logical, if \code{TRUE} experiments are aggregated according
 to their group.}
+
+\item{nice}{logical, if \code{TRUE} a more aesthetically pleasing (but harder to
+customize) version of the plot is created.}
 }
 \description{
 A class for results of \code{\link{test_counts}} function.
