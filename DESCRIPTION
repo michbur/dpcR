@@ -1,7 +1,7 @@
 Package: dpcR
 Type: Package
 Title: Digital PCR Analysis
-Version: 0.1.3.1
+Version: 0.1.3.2
 LazyData: true
 Date: 2014-10-02
 Authors@R: c( person("Michal", "Burdukiewicz", email =
@@ -74,6 +74,7 @@ Collate:
     'simulations.R'
     'summary_dpcr.R'
     'test_counts.R'
+    'test_counts_gui.R'
     'test_panel.R'
     'test_peaks.R'
     'test_ratio.R'

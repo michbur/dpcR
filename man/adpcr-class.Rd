@@ -8,23 +8,31 @@
 A class specifically designed to contain results from end-point array
 digital PCR experiments. Data is represented as matrix, where each column
 describes different experiment. Type of data in all columns is specified in
-slot \code{"type"} and could be a number of molecules \code{"nm"}, a number
-of positive droplets \code{"tnm"} (in this case whole experiment is
-represented by one row), a cycle threshold of each well \code{"ct"} or
-fluorescence values \code{"fluo"}.
+slot \code{"type"}.
+}
+\details{
+Possible \code{type} values of \code{adpcr} objects:
+\enumerate{
+ \item{\code{"ct"}: cycle threshold of each well,}
+ \item{\code{"fluo"}: fluorescence of each well,}
+ \item{\code{"nm"}: number of molecules in each well,}
+ \item{\code{"np"}: status (positive (1) or negative(0)) of each well,}
+ \item{\code{"tnp"}: total number of positive wells in the panel (single value per each
+ panel, not per well).}}
 }
 \section{Slots}{
- \describe{ \item{list(".Data")}{\code{"matrix"} containing
-data from array. See Description.}\item{list("n")}{Object of class
-\code{"integer"} equal to the number of partitions in each
-experiment.} \item{list("breaks")}{\code{"numeric"}
-vector giving the number of intervals into which \code{.Data} should be
-cut.} \item{list("type")}{Object of class
-\code{"character"} defining type of data. Could be \code{"nm"} (number of
-molecules per partition), \code{"tp"} (total number of positive wells in
-panel), \code{"fluo"} (fluorescence) or \code{"ct"} (threshold
-cycle).} }
-}
+
+\describe{
+\item{\code{.Data}}{\code{"matrix"} containing data from array. See Description.}
+
+\item{\code{n}}{Object of class \code{"integer"} equal to the number of wells in each
+experiment.}
+
+\item{\code{breaks}}{\code{"numeric"} vector giving the number of intervals into which
+\code{.Data} should be cut. Applies only to objects with \code{type = "nm"}.}
+
+\item{\code{type}}{Object of class \code{"character"} defining type of data. See Details.}
+}}
 \examples{
 rand_array <- sim_adpcr(400, 1600, 100, pos_sums = FALSE, n_panels = 5)
 one_rand_array <- extract_dpcr(rand_array, 1)

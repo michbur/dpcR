@@ -35,7 +35,7 @@ represents one plate. Type of such simulation would be \code{"nm"}. If the
 \code{pos_sums} argument has value \code{TRUE}, the function returns a
 matrix with one row and \eqn{n_panels} columns. Each column contains the
 total number of positive chambers in each plate and type of simulation would
-be set as \code{"tp"}.
+be set as \code{"tnp"}.
 
 In each case the value is an object of the \code{\linkS4class{adpcr}} class.
 }

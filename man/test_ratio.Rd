@@ -48,9 +48,9 @@ partitions and the second one to be the total number of partitions.  \item
 numeric vectors of length greater than 2. The length of vector is assumed to
 represent total number of partitions. Every element of the vector with value
 bigger than 0 is assumed to be a positive partitions.  \item
-\code{\linkS4class{adpcr}} objects with type \code{tp} (total number of
+\code{\linkS4class{adpcr}} objects with type \code{tnp} (total number of
 positive wells in panel) or \code{nm} (number of molecules per partition).
-\code{\linkS4class{ddpcr}} objects with type \code{tp} (total number of
+\code{\linkS4class{ddpcr}} objects with type \code{tnp} (total number of
 positive droplets) or \code{nm} (number of molecules per droplet).  } Both
 \code{dpcr1} and \code{dpcr2} must have the same class. See Examples.
 

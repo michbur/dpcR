@@ -39,7 +39,7 @@
 #' \code{pos_sums} argument has value \code{TRUE}, the function return matrix
 #' with one row and \eqn{n_panels} columns. Each column contains the total
 #' number of positive chambers in each plate and type of simulation would be
-#' set as \code{"tp"}.
+#' set as \code{"tnp"}.
 #' 
 #' In each case the value is an object of the \code{\linkS4class{ddpcr}} class.
 #' @note Although Dube's simulation of digital PCR was developed for array
@@ -72,7 +72,7 @@ sim_ddpcr <- function(m, n, times, n_exp = 1, dube = FALSE, pos_sums = FALSE,
     res <- apply(res, 2, function(x) sim_ddpcr_fluo(x, n, fluo[[1]], fluo[[2]]))
   }
   #simplify
-  type = ifelse(pos_sums, "tp", "nm")
+  type = ifelse(pos_sums, "tnp", "nm")
   if (!is.null(fluo))
     type <- "fluo"
   create_ddpcr(res, rep(n, n_exp), threshold = 0.5, type = type)

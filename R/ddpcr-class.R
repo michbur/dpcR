@@ -2,28 +2,28 @@
 #' 
 #' A class specifically designed to contain results from droplet digital PCR
 #' experiments. Data is represented as matrix, where each column describes
-#' different experiment. Type of data in all columns is specified in slot
-#' \code{"type"} and could be a by number of molecules \code{"nm"}, number of
-#' positive droplets \code{"tnm"} (in this case whole experiment is represented
-#' by one row) or fluorescence \code{"fluo"}.
+#' different experiment. Type of data in all columns is specified in
+#' slot \code{"type"}.
 #' 
 #' 
 #' @name ddpcr-class
 #' @aliases ddpcr-class ddpcr
 #' @docType class
-#' @section Slots: \describe{ \item{list(".Data")}{\code{"matrix"} containing
-#' data from all droplets. See Description.}\item{:}{\code{"matrix"} containing
-#' data from all droplets. See Description.} \item{list("n")}{\code{"integer"}
-#' representing number of partitions.}\item{:}{\code{"integer"} representing
-#' number of partitions.} \item{list("threshold")}{ \code{"numeric"} value
-#' giving the threshold above which droplet is counted as positive.}\item{:}{
-#' \code{"numeric"} value giving the threshold above which droplet is counted
-#' as positive.} \item{list("type")}{Object of class \code{"character"}
-#' defining type of data. Could be \code{"nm"} (Number of molecules per
-#' partition), \code{"tp"} (number of positive droplets) or \code{"fluo"}
-#' (fluorescence).}\item{:}{Object of class \code{"character"} defining type of
-#' data. Could be \code{"nm"} (Number of molecules per partition), \code{"tp"}
-#' (number of positive droplets) or \code{"fluo"} (fluorescence).} }
+#' @slot .Data \code{"matrix"} containing data from all droplets. See Description.
+#' @slot n Object of class \code{"integer"} equal to the number of droplets in each
+#' experiment.
+#' @slot threshold \code{"numeric"} value giving the threshold above which 
+#' droplet is counted as positive.
+#' @slot type Object of class \code{"character"} defining type of data. See Details.
+#' 
+#' @details
+#' Possible \code{type} values of \code{adpcr} objects:
+#' \enumerate{
+#'  \item{\code{"fluo"}: fluorescence of each droplet,}
+#'  \item{\code{"nm"}: number of molecules in each droplet,}
+#'  \item{\code{"np"}: status (positive (1) or negative(0)) of each droplet,}
+#'  \item{\code{"tnp"}: total number of positive droplets in the reaction 
+#'  (single value per each reaction, not per droplet).}}
 #' @author Michal Burdukiewicz.
 #' @seealso Ploting and managment: \code{\link{bind_dpcr}},
 #' \code{\link{extract_dpcr}}, \code{\link{plot_vic_fam}}.
@@ -50,7 +50,11 @@ create_ddpcr <- function(data, n, threshold = NULL, type, col_names = 1L:ncol(da
     colnames(data) <- col_names
   slot(result, ".Data") <- data
   slot(result, "n") <- n
-  slot(result, "type") <- type
+  if (type %in% c("fluo", "nm", "np", "tnp")) {
+    slot(result, "type") <- type
+  } else {
+    stop(paste0(type, " is not recognized type value."))
+  }
   slot(result, "threshold") <- threshold
   result
 }
