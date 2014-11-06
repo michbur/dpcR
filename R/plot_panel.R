@@ -27,8 +27,8 @@
 #' \code{breaks} slot. If \code{FALSE}, input is converted to factor using
 #' \code{\link[base]{as.factor}}.
 #' @param ... Arguments to be passed to \code{plot} function.
-#' @return A list of coordinates of each microfluidic well and an assigned
-#' color.
+#' @return Invisibly returns a list of coordinates of each microfluidic well 
+#' and an assigned color.
 #' @author Michal Burdukiewicz, Stefan Roediger.
 #' @seealso \code{\link{extract_dpcr}}.
 #' @keywords hplot
@@ -102,9 +102,8 @@ plot_panel <- function(input, nx_a, ny_a, col = "red", legend = TRUE,
   }
   if (slot(input, "n") != nx_a * ny_a)
     stop (paste0("Can not process with plot since the input 
-                 legnth (", length(input) ,
-                 ") differs from the size of nx_a * ny_a (", nx_a * ny_a, ").
-                 \n Change nx_a * ny_a to have the same number of elements."))
+                 length (", slot(input, "n"),
+                 ") differs from the size of nx_a * ny_a (", nx_a * ny_a, ")."))
   
   # Use breaks points to split input 
   if(use_breaks) {
