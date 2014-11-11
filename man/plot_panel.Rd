@@ -27,8 +27,8 @@ by the adequate half of the rectangle.}
 \item{...}{Arguments to be passed to \code{plot} function.}
 }
 \value{
-A list of coordinates of each microfluidic well and an assigned
-color.
+Invisibly returns a list of coordinates of each microfluidic well
+and an assigned color.
 }
 \description{
 The \code{plot_panel} function takes objects of the class

@@ -1,7 +1,3 @@
-# SIMULATIONS - array ---------------------------------------------
-
-
-
 #' Simulate Array Digital PCR
 #' 
 #' A function that simulates results of an array digital PCR.
@@ -32,7 +28,7 @@
 #' simulations. The higher the value of the argument \code{times}, the
 #' simulation result is closer to theoretical calculations.
 #' 
-#' @aliases sim_adpcr Dube
+#' @aliases sim_adpcr
 #' @param m the total number of template molecules added to the plate. Must be
 #' a positive integer.
 #' @param n the number of chambers per plate. Must be a positive integer.

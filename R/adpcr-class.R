@@ -12,7 +12,8 @@
 #' @slot n Object of class \code{"integer"} equal to the number of wells in each
 #' experiment.
 #' @slot breaks \code{"numeric"} vector giving the number of intervals into which 
-#' \code{.Data} should be cut. Applies only to objects with \code{type = "nm"}.
+#' \code{.Data} should be cut. The second element in \code{breaks} vector is considered 
+#' a threshold above which partition is counted as positive.
 #' @slot type Object of class \code{"character"} defining type of data. See Details.
 #' @details
 #' Possible \code{type} values of \code{adpcr} objects:
