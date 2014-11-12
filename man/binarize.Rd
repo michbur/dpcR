@@ -19,8 +19,13 @@ Transforms multinomial (number of molecules per partition) or continuous (fluore
 digital PCR data to binary (positive/negative partition) format.
 }
 \examples{
+#adpcr object
 rand_array <- sim_adpcr(200, 300, 100, pos_sums = FALSE, n_panels = 1)
 binarize(rand_array)
+
+#ddpcr object
+rand_droplets <- sim_ddpcr(200, 300, 100, pos_sums = FALSE, n_exp = 1)
+binarize(rand_droplets)
 }
 \author{
 Michal Burdukiewicz.

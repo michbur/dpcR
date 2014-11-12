@@ -14,8 +14,13 @@
 #' @export
 #' @examples
 #' 
+#' #adpcr object
 #' rand_array <- sim_adpcr(200, 300, 100, pos_sums = FALSE, n_panels = 1)
 #' binarize(rand_array)
+#' 
+#' #ddpcr object
+#' rand_droplets <- sim_ddpcr(200, 300, 100, pos_sums = FALSE, n_exp = 1)
+#' binarize(rand_droplets)
 binarize <- function(input) {
   if (class(input) %in% c("adpcr", "ddpcr")) {
     positive_threshold <- if (class(input) == c("adpcr")) {
