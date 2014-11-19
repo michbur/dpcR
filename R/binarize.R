@@ -23,6 +23,8 @@
 #' binarize(rand_droplets)
 binarize <- function(input) {
   if (class(input) %in% c("adpcr", "ddpcr")) {
+    if(slot(input, "threshold") %in% c("tp", "tnp"))
+      stop("Cannot binarize already binary data.")
     positive_threshold <- if (class(input) == c("adpcr")) {
       slot(input, "breaks")[2]
     } else {
@@ -32,7 +34,7 @@ binarize <- function(input) {
     stop("Input must have 'adpcr' or 'ddpcr' class.")
   }
   
-  bin_data <- slot(input, ".Data") > positive_threshold
+  bin_data <- slot(input, ".Data") >= positive_threshold
   storage.mode(bin_data) <- "integer"
   slot(input, ".Data") <-  bin_data
   slot(input, "type") <- "np"

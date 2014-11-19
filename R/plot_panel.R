@@ -133,8 +133,7 @@ plot_panel <- function(input, nx_a, ny_a, col = "red", legend = TRUE,
   } else {
     if (length(col) != ncols) {
       stop("The vector of colors must have length equal to the number of levels of 
-           the input.", 
-           call. = TRUE, domain = NA)    
+           the input.")    
     }
     levels(cols) <- col
   }

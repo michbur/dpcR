@@ -12,8 +12,8 @@
 #' @slot .Data \code{"matrix"} containing data from all droplets. See Description.
 #' @slot n Object of class \code{"integer"} equal to the number of droplets in each
 #' experiment.
-#' @slot threshold \code{"numeric"} value giving the threshold above which 
-#' droplet is counted as positive.
+#' @slot threshold \code{"numeric"} value giving the threshold. Droplets equal or
+#' bigger than threshold are counted as positive.
 #' @slot type Object of class \code{"character"} defining type of data. See Details.
 #' 
 #' @details
