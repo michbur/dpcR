@@ -21,7 +21,7 @@ sample_runs <- matrix(rpois(480, lambda = 1.5), ncol = 2)
 #check its class - it's a typical R structure
 class(sample_runs)
 #save it to adpcr object
-adpcr_experiments <- create_dpcr(sample_runs, n = 30L, type = "nm", adpcr = TRUE)
+adpcr_experiments <- create_dpcr(sample_runs, n = 240L, type = "nm", adpcr = TRUE)
 class(adpcr_experiments)
 ```
 

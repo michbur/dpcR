@@ -30,7 +30,8 @@ experiment.}
 
 \item{\code{breaks}}{\code{"numeric"} vector giving the number of intervals into which
 \code{.Data} should be cut. The second element in \code{breaks} vector is considered
-a threshold above which partition is counted as positive.}
+a threshold. Partition above or equal to threshold is counted as
+positive.}
 
 \item{\code{type}}{Object of class \code{"character"} defining type of data. See Details.}
 }}

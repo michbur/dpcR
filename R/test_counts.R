@@ -4,6 +4,8 @@
 #' 
 #' @aliases test_counts
 #' @param input adpcr or dpcr object with with "nm" type.
+#' @param binomial \code{logical}, should binomial regression be used?
+#' If \code{FALSE}, Poisson regression is used instead.
 #' @param ... additional arguments for \code{\link{glm}} function.
 #' @details \code{test_counts} fits General Linear Model (using Poisson 
 #' \code{\link[stats]{family}}) to the counts data from different digital PCR experiments.
@@ -25,8 +27,14 @@
 #' summary(one_group)
 #' plot(one_group)
 
-test_counts <- function(input, ...) { 
+test_counts <- function(input, binomial = TRUE, ...) { 
   #dpcr version of melt
+  if (binomial) {
+    input <- binarize(input)
+    fam <- quasibinomial
+  } else {
+    fam <- quasipoisson
+  }
   n_vector <- slot(input, "n")
   m_dpcr <- do.call(rbind, lapply(1L:length(n_vector), function(i) {
     vals <- input[1L:n_vector[i], i]
@@ -34,7 +42,7 @@ test_counts <- function(input, ...) {
   }))
   
   #remove intercept
-  fit <- glm(values ~ experiment + 0, data = m_dpcr, family = quasipoisson)
+  fit <- glm(values ~ experiment + 0, data = m_dpcr, family = fam)
   multi_comp <- glht(fit, linfct = mcp(experiment = "Tukey"))
   
   coefs <- summary(fit)[["coefficients"]][, 1:2]

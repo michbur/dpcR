@@ -27,8 +27,8 @@ Possible \code{type} values of \code{adpcr} objects:
 \item{\code{n}}{Object of class \code{"integer"} equal to the number of droplets in each
 experiment.}
 
-\item{\code{threshold}}{\code{"numeric"} value giving the threshold above which
-droplet is counted as positive.}
+\item{\code{threshold}}{\code{"numeric"} value giving the threshold. Droplets equal or
+bigger than threshold are counted as positive.}
 
 \item{\code{type}}{Object of class \code{"character"} defining type of data. See Details.}
 }}

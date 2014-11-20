@@ -3,10 +3,13 @@
 \alias{test_counts}
 \title{Test counts}
 \usage{
-test_counts(input, ...)
+test_counts(input, binomial = TRUE, ...)
 }
 \arguments{
 \item{input}{adpcr or dpcr object with with "nm" type.}
+
+\item{binomial}{\code{logical}, should binomial regression be used?
+If \code{FALSE}, Poisson regression is used instead.}
 
 \item{...}{additional arguments for \code{\link{glm}} function.}
 }
