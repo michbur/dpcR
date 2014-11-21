@@ -4,8 +4,8 @@
 #' 
 #' @aliases test_counts
 #' @param input adpcr or dpcr object with with "nm" type.
-#' @param binomial \code{logical}, should binomial regression be used?
-#' If \code{FALSE}, Poisson regression is used instead.
+#' @param binomial \code{logical}, if \code{TRUE} binomial regression 
+#' is used. If \code{FALSE}, Poisson regression is used instead.
 #' @param ... additional arguments for \code{\link{glm}} function.
 #' @details \code{test_counts} fits General Linear Model (using Poisson 
 #' \code{\link[stats]{family}}) to the counts data from different digital PCR experiments.
@@ -30,7 +30,8 @@
 test_counts <- function(input, binomial = TRUE, ...) { 
   #dpcr version of melt
   if (binomial) {
-    input <- binarize(input)
+    if(!(slot(input, "type") %in% c("tp", "tnp")))
+      input <- binarize(input)
     fam <- quasibinomial
   } else {
     fam <- quasipoisson

@@ -8,8 +8,8 @@ test_counts(input, binomial = TRUE, ...)
 \arguments{
 \item{input}{adpcr or dpcr object with with "nm" type.}
 
-\item{binomial}{\code{logical}, should binomial regression be used?
-If \code{FALSE}, Poisson regression is used instead.}
+\item{binomial}{\code{logical}, if \code{TRUE} binomial regression
+is used. If \code{FALSE}, Poisson regression is used instead.}
 
 \item{...}{additional arguments for \code{\link{glm}} function.}
 }
