@@ -7,10 +7,10 @@
 #' @param binomial \code{logical}, if \code{TRUE} binomial regression 
 #' is performed. If \code{FALSE}, Poisson regression is used instead.
 #' @param ... additional arguments for \code{\link{glm}} function.
-#' @details \code{test_counts} fits General Linear Model (using Poisson 
-#' \code{\link[stats]{family}}) to the counts data from different digital PCR experiments.
-#' Comparisions between single experiments utilize Tukey's contrast and multiple 
-#' t-tests using function \code{\link{glht}}.
+#' @details \code{test_counts} fits General Linear Model (using quasibinomial
+#' or quasipoisson \code{\link[stats]{family}}) to the counts data from different 
+#' digital PCR experiments. Comparisions between single experiments utilize Tukey's 
+#' contrast and multiple t-tests using function \code{\link{glht}}.
 #' @note Mean values of binomial/Poisson distribution are derived from General Linear Models. T
 #' hey values will vary depending on input.
 #' @export
@@ -20,30 +20,45 @@
 #' adpcr1 <- sim_adpcr(m = 10, n = 765, times = 1000, pos_sums = FALSE, n_panels = 3)
 #' adpcr2 <- sim_adpcr(m = 60, n = 550, times = 1000, pos_sums = FALSE, n_panels = 3)
 #' adpcr3 <- sim_adpcr(m = 10, n = 600, times = 1000, pos_sums = FALSE, n_panels = 3)
-#' two_groups <- test_counts(bind_dpcr(adpcr1, adpcr2))
-#' summary(two_groups)
-#' plot(two_groups)
+#' 
+#' #compare experiments using binomial regression
+#' two_groups_bin <- test_counts(bind_dpcr(adpcr1, adpcr2), binomial = TRUE)
+#' summary(two_groups_bin)
+#' plot(two_groups_bin)
+#' 
+#' #this time use Poisson regression
+#' two_groups_pois <- test_counts(bind_dpcr(adpcr1, adpcr2), binomial = FALSE)
+#' summary(two_groups_pois)
+#' plot(two_groups_pois)
+#' 
+#' #see how test behaves when results aren't significantly different
 #' one_group <- test_counts(bind_dpcr(adpcr1, adpcr3))
 #' summary(one_group)
 #' plot(one_group)
 
 test_counts <- function(input, binomial = TRUE, ...) { 
-  #dpcr version of melt
+  
+  #choose proper family
   if (binomial) {
     if(!(slot(input, "type") %in% c("tp", "tnp")))
+      #binarize input which isn't already binary
       input <- binarize(input)
     fam <- quasibinomial
   } else {
     fam <- quasipoisson
   }
+  
+  #dpcr version of melt
   n_vector <- slot(input, "n")
   m_dpcr <- do.call(rbind, lapply(1L:length(n_vector), function(i) {
     vals <- input[1L:n_vector[i], i]
     data.frame(experiment = rep(colnames(input)[i], length(vals)), values = vals)
   }))
   
-  #remove intercept
+  #fit model without
   fit <- glm(values ~ experiment + 0, data = m_dpcr, family = fam)
+  
+  #do multiple comparision
   multi_comp <- glht(fit, linfct = mcp(experiment = "Tukey"))
   
   coefs <- summary(fit)[["coefficients"]][, 1:2]
@@ -54,9 +69,11 @@ test_counts <- function(input, binomial = TRUE, ...) {
   summ_mc <- summary(multi_comp)
   groups <- cld(multi_comp)[["mcletters"]][["LetterMatrix"]]
   if(is.matrix(groups)) {
+    #more than one group
     groups_vector <- apply(groups, 1, function(i)
       paste0(colnames(groups)[i], collapse = ""))
   } else {
+    #only one group
     groups_vector <- rep("a", ncol(input))
     names(groups_vector) <- colnames(input)
   }
