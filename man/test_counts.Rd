@@ -9,7 +9,7 @@ test_counts(input, binomial = TRUE, ...)
 \item{input}{adpcr or dpcr object with with "nm" type.}
 
 \item{binomial}{\code{logical}, if \code{TRUE} binomial regression
-is used. If \code{FALSE}, Poisson regression is used instead.}
+is performed. If \code{FALSE}, Poisson regression is used instead.}
 
 \item{...}{additional arguments for \code{\link{glm}} function.}
 }
@@ -26,8 +26,8 @@ Comparisions between single experiments utilize Tukey's contrast and multiple
 t-tests using function \code{\link{glht}}.
 }
 \note{
-Mean values of Poisson distribution are derived from General Linear Models. They values
-will vary depending on input.
+Mean values of binomial/Poisson distribution are derived from General Linear Models. T
+hey values will vary depending on input.
 }
 \examples{
 adpcr1 <- sim_adpcr(m = 10, n = 765, times = 1000, pos_sums = FALSE, n_panels = 3)

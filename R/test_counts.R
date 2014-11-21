@@ -5,14 +5,14 @@
 #' @aliases test_counts
 #' @param input adpcr or dpcr object with with "nm" type.
 #' @param binomial \code{logical}, if \code{TRUE} binomial regression 
-#' is used. If \code{FALSE}, Poisson regression is used instead.
+#' is performed. If \code{FALSE}, Poisson regression is used instead.
 #' @param ... additional arguments for \code{\link{glm}} function.
 #' @details \code{test_counts} fits General Linear Model (using Poisson 
 #' \code{\link[stats]{family}}) to the counts data from different digital PCR experiments.
 #' Comparisions between single experiments utilize Tukey's contrast and multiple 
 #' t-tests using function \code{\link{glht}}.
-#' @note Mean values of Poisson distribution are derived from General Linear Models. They values
-#' will vary depending on input.
+#' @note Mean values of binomial/Poisson distribution are derived from General Linear Models. T
+#' hey values will vary depending on input.
 #' @export
 #' @return an object of class \code{\linkS4class{count_test}}.
 #' @author Michal Burdukiewicz, Stefan Roediger
