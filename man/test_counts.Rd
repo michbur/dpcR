@@ -26,8 +26,8 @@ digital PCR experiments. Comparisions between single experiments utilize Tukey's
 contrast and multiple t-tests using function \code{\link{glht}}.
 }
 \note{
-Mean values of binomial/Poisson distribution are derived from General Linear Models. T
-hey values will vary depending on input.
+Mean number of template molecules per partitions and its confidence intervals are derived
+from General Linear Models. Their values will vary depending on input.
 }
 \examples{
 adpcr1 <- sim_adpcr(m = 10, n = 765, times = 1000, pos_sums = FALSE, n_panels = 3)
@@ -50,6 +50,6 @@ summary(one_group)
 plot(one_group)
 }
 \author{
-Michal Burdukiewicz, Stefan Roediger
+Michal Burdukiewicz, Stefan Roediger.
 }
 
