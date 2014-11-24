@@ -34,7 +34,14 @@ Data can be easily visualized using `plot_panel` function.
 plot_panel(extract_dpcr(adpcr_experiments, 1), nx_a = 15, ny_a = 16, main = "Experiment 1")
 ```
 
-Randomness of spatial distribution on plate can be checked using `test_panel`.
+The same data can be visualized easily in binarized form (positive/negative partitions).
+```{r eval=TRUE}
+#remember, you can plot only single panel at once 
+plot_panel(binarize(extract_dpcr(adpcr_experiments, 1)), nx_a = 15, ny_a = 16, main = "Experiment 1")
+```
+
+
+The randomness of spatial distribution on plate can be checked using `test_panel`.
 ```{r eval=TRUE}
 #remember, you can plot only single panel at once 
 test_panel(extract_dpcr(adpcr_experiments, 1), nx_a = 15, ny_a = 16)

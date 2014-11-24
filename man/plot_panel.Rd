@@ -22,7 +22,8 @@ by the adequate half of the rectangle.}
 
 \item{use_breaks}{if \code{TRUE}, input is cutted into intervals using
 \code{breaks} slot. If \code{FALSE}, input is converted to factor using
-\code{\link[base]{as.factor}}.}
+\code{\link[base]{as.factor}}. Ignored if data has \code{"tp"} type (see
+possible types of \code{\linkS4class{adpcr}} objects).}
 
 \item{...}{Arguments to be passed to \code{plot} function.}
 }
