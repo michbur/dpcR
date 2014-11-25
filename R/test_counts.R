@@ -7,13 +7,21 @@
 #' @param binomial \code{logical}, if \code{TRUE} binomial regression 
 #' is performed. If \code{FALSE}, Poisson regression is used instead.
 #' @param ... additional arguments for \code{\link{glm}} function.
-#' @details \code{test_counts} fits General Linear Model (using quasibinomial
+#' @details \code{test_counts} fits Generalized Linear Model (using quasibinomial
 #' or quasipoisson \code{\link[stats]{family}}) to the counts data from different 
 #' digital PCR experiments. Comparisions between single experiments utilize Tukey's 
 #' contrast and multiple t-tests using function \code{\link{glht}}.
 #' @note Mean number of template molecules per partitions and its confidence intervals are derived 
 #' from General Linear Models. Their values will vary depending on input.
 #' @export
+#' @seealso
+#' Functions used by \code{test_counts}: 
+#' \itemize{
+#' \item \code{\link[stats]{glm}},
+#' \item \code{\link[multcomp]{glht}},
+#' \item \code{\link[multcomp]{cld}}
+#' }
+#' 
 #' @return an object of class \code{\linkS4class{count_test}}.
 #' @author Michal Burdukiewicz, Stefan Roediger.
 #' @examples
