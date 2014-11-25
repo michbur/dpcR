@@ -41,8 +41,9 @@ plot_panel(binarize(extract_dpcr(adpcr_experiments, 1)), nx_a = 15, ny_a = 16, m
 ```
 
 
-The randomness of spatial distribution on plate can be checked using `test_panel`.
+The randomness of spatial distribution on plate can be checked using `test_panel` function.
 ```{r eval=TRUE}
-#remember, you can plot only single panel at once 
-test_panel(extract_dpcr(adpcr_experiments, 1), nx_a = 15, ny_a = 16)
+test_panel(adpcr_experiments, nx_a = 15, ny_a = 16)
 ```
+
+The lower p-value, the less probable that spatial distribution of the positive partitions is random.
