@@ -100,7 +100,8 @@ test_counts <- function(input, binomial = TRUE, ...) {
   group_coef <- group_coef[order(group_coef[["group"]]), ]
   t_res <- cbind(t = summ_mc[["test"]][["tstat"]], 
                  p.value = summ_mc[["test"]][["pvalues"]])
-  new("count_test", group_coef = group_coef, t_res = t_res)
+  new("count_test", group_coef = group_coef, t_res = t_res, 
+      model = ifelse(binomial, "binomial", "Poisson"))
 }
 
 #old version with comments

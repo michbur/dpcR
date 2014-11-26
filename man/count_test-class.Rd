@@ -45,7 +45,8 @@ as dashed lines.
 \describe{
 \item{group_coef}{\code{"data.frame"} containing experiments, groups to which they
 belong and calculated values of rate (lambda).}
-\item{t_res}{\code{"matrix"} containing result of multiple comparisions t-test.} }
+\item{t_res}{\code{"matrix"} containing result of multiple comparisions t-test.}
+\item{model}{\code{"character"} name of GLM used to compare experiments.} }
 }
 \author{
 Michal Burdukiewicz.

@@ -10,13 +10,15 @@
 #' \describe{ 
 #' \item{group_coef}{\code{"data.frame"} containing experiments, groups to which they
 #' belong and calculated values of rate (lambda).}
-#' \item{t_res}{\code{"matrix"} containing result of multiple comparisions t-test.} }
+#' \item{t_res}{\code{"matrix"} containing result of multiple comparisions t-test.} 
+#' \item{model}{\code{"character"} name of GLM used to compare experiments.} }
 #' @author Michal Burdukiewicz.
 #' @seealso Nothing yet.
 #' @export
 #' @keywords classes
 setClass("count_test", representation(group_coef = "data.frame", 
-                                      t_res = "matrix"))
+                                      t_res = "matrix",
+                                      model = "character"))
 
 #' @describeIn count_test Summary statistics of assigned groups.
 #' @param object of class \code{count_test}.
@@ -34,6 +36,9 @@ setMethod("show", "count_test",
             
             cat("\nResults of multiple comparison:\n")
             print(slot(object, "t_res"))
+            
+            cat("\nModel used:\n")
+            print(slot(object, "model"))
           })
 
 #' @describeIn count_test
