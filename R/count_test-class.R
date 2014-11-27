@@ -1,6 +1,6 @@
 #' Class \code{"count_test"} 
 #' 
-#' A class for results of \code{\link{test_counts}} function.
+#' Objects of this class are created by \code{\link{test_counts}}.
 #' 
 #' @name count_test
 #' @aliases count_test-class count_test
@@ -20,14 +20,14 @@ setClass("count_test", representation(group_coef = "data.frame",
                                       t_res = "matrix",
                                       model = "character"))
 
-#' @describeIn count_test Summary statistics of assigned groups.
+#' @describeIn count_test Summary statistics of assigned groups..
 #' @param object of class \code{count_test}.
 #' @export
 setMethod("summary", signature(object = "count_test"), function(object) {
   aggregate(. ~ group, slot(object, "group_coef"), mean)
 })
 
-#' @describeIn count_test Print both \code{group_coef} and \code{t_res}
+#' @describeIn count_test Print both \code{group_coef} and \code{t_res}.
 #' @export
 setMethod("show", "count_test", 
           function(object) {
@@ -41,7 +41,7 @@ setMethod("show", "count_test",
             print(slot(object, "model"))
           })
 
-#' @describeIn count_test
+#' @describeIn count_test plots mean number of molecules per partition and its confidence intervals.
 #' @param x object of class \code{count_test}.
 #' @param aggregate logical, if \code{TRUE} experiments are aggregated according
 #' to their group.
