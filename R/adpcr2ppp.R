@@ -56,6 +56,8 @@ adpcr2ppp <- function(input, nx_a, ny_a) {
   
   #apply in case input contains more than 1 array
   apply(array_data, 2, function(array_col) { 
+    #strange syntax, because spatstat use different localizations
+    #than dpcR.
     data_points <- matrix(NA, nrow = nrow_array, ncol = 3)
     i = 1
     for (x in 1L:nx_a) {
@@ -64,7 +66,6 @@ adpcr2ppp <- function(input, nx_a, ny_a) {
         i <- i + 1
       }
     }
-    
     data_points <- data_points[data_points[, 3] > 0, ]
     data_ppp <- ppp(data_points[, 1], data_points[, 2], 
                     c(1, nx_a), c(1, ny_a), marks = data_points[, 3])
