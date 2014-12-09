@@ -7,15 +7,23 @@
 #' @param binomial \code{logical}, if \code{TRUE} binomial regression 
 #' is performed. If \code{FALSE}, Poisson regression is used instead.
 #' @param ... additional arguments for \code{\link{glm}} function.
-#' @details \code{test_counts} fits General Linear Model (using quasibinomial
+#' @details \code{test_counts} fits Generalized Linear Model (using quasibinomial
 #' or quasipoisson \code{\link[stats]{family}}) to the counts data from different 
 #' digital PCR experiments. Comparisions between single experiments utilize Tukey's 
 #' contrast and multiple t-tests using function \code{\link{glht}}.
-#' @note Mean values of binomial/Poisson distribution are derived from General Linear Models. T
-#' hey values will vary depending on input.
+#' @note Mean number of template molecules per partitions and its confidence intervals are derived 
+#' from General Linear Models. Their values will vary depending on input.
 #' @export
+#' @seealso
+#' Functions used by \code{test_counts}: 
+#' \itemize{
+#' \item \code{\link[stats]{glm}},
+#' \item \code{\link[multcomp]{glht}},
+#' \item \code{\link[multcomp]{cld}}
+#' }
+#' 
 #' @return an object of class \code{\linkS4class{count_test}}.
-#' @author Michal Burdukiewicz, Stefan Roediger
+#' @author Michal Burdukiewicz, Stefan Roediger.
 #' @examples
 #' adpcr1 <- sim_adpcr(m = 10, n = 765, times = 1000, pos_sums = FALSE, n_panels = 3)
 #' adpcr2 <- sim_adpcr(m = 60, n = 550, times = 1000, pos_sums = FALSE, n_panels = 3)
@@ -43,9 +51,17 @@ test_counts <- function(input, binomial = TRUE, ...) {
     if(!(slot(input, "type") %in% c("tp", "tnp")))
       #binarize input which isn't already binary
       input <- binarize(input)
-    fam <- quasibinomial
+    #family for model
+    fam <- quasibinomial(link = "log")
+    #function transforming coefficients of model to lambdas
+    trans_fun <- function(x) fl(exp(x))
   } else {
-    fam <- quasipoisson
+    if(slot(input, "type") %in% c("tp", "tnp"))
+      stop("Poisson regression require non-binary data.")
+    #family for model
+    fam <- quasipoisson(link = "log")
+    #function transforming coefficients of model to lambdas
+    trans_fun <- function(x) exp(x)
   }
   
   #dpcr version of melt
@@ -62,7 +78,7 @@ test_counts <- function(input, binomial = TRUE, ...) {
   multi_comp <- glht(fit, linfct = mcp(experiment = "Tukey"))
   
   coefs <- summary(fit)[["coefficients"]][, 1:2]
-  lambdas <- exp(matrix(c(coefs[, 1], 
+  lambdas <- trans_fun(matrix(c(coefs[, 1], 
                           coefs[, 1] - coefs[, 2], 
                           coefs[, 1] + coefs[, 2]), ncol = 3))
   
@@ -84,7 +100,8 @@ test_counts <- function(input, binomial = TRUE, ...) {
   group_coef <- group_coef[order(group_coef[["group"]]), ]
   t_res <- cbind(t = summ_mc[["test"]][["tstat"]], 
                  p.value = summ_mc[["test"]][["pvalues"]])
-  new("count_test", group_coef = group_coef, t_res = t_res)
+  new("count_test", group_coef = group_coef, t_res = t_res, 
+      model = ifelse(binomial, "binomial", "Poisson"))
 }
 
 #old version with comments

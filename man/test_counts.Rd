@@ -20,14 +20,14 @@ an object of class \code{\linkS4class{count_test}}.
 The test for comparing counts from two or more digital PCR experiments.
 }
 \details{
-\code{test_counts} fits General Linear Model (using quasibinomial
+\code{test_counts} fits Generalized Linear Model (using quasibinomial
 or quasipoisson \code{\link[stats]{family}}) to the counts data from different
 digital PCR experiments. Comparisions between single experiments utilize Tukey's
 contrast and multiple t-tests using function \code{\link{glht}}.
 }
 \note{
-Mean values of binomial/Poisson distribution are derived from General Linear Models. T
-hey values will vary depending on input.
+Mean number of template molecules per partitions and its confidence intervals are derived
+from General Linear Models. Their values will vary depending on input.
 }
 \examples{
 adpcr1 <- sim_adpcr(m = 10, n = 765, times = 1000, pos_sums = FALSE, n_panels = 3)
@@ -50,6 +50,14 @@ summary(one_group)
 plot(one_group)
 }
 \author{
-Michal Burdukiewicz, Stefan Roediger
+Michal Burdukiewicz, Stefan Roediger.
+}
+\seealso{
+Functions used by \code{test_counts}:
+\itemize{
+\item \code{\link[stats]{glm}},
+\item \code{\link[multcomp]{glht}},
+\item \code{\link[multcomp]{cld}}
+}
 }
 

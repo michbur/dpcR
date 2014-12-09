@@ -26,7 +26,7 @@ to their group.}
 customize) version of the plot is created.}
 }
 \description{
-A class for results of \code{\link{test_counts}} function.
+Objects of this class are created by \code{\link{test_counts}}.
 }
 \details{
 In case of aggregated plot, mean confidence intervals for groups are presented
@@ -34,18 +34,19 @@ as dashed lines.
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{summary}: Summary statistics of assigned groups.
+\item \code{summary}: Summary statistics of assigned groups..
 
-\item \code{show}: Print both \code{group_coef} and \code{t_res}
+\item \code{show}: Print both \code{group_coef} and \code{t_res}.
 
-\item \code{plot}: 
+\item \code{plot}: plots mean number of molecules per partition and its confidence intervals.
 }}
 \section{Slots}{
 
 \describe{
 \item{group_coef}{\code{"data.frame"} containing experiments, groups to which they
 belong and calculated values of rate (lambda).}
-\item{t_res}{\code{"matrix"} containing result of multiple comparisions t-test.} }
+\item{t_res}{\code{"matrix"} containing result of multiple comparisions t-test.}
+\item{model}{\code{"character"} name of GLM used to compare experiments.} }
 }
 \author{
 Michal Burdukiewicz.

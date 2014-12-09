@@ -38,5 +38,10 @@ binarize <- function(input) {
   storage.mode(bin_data) <- "integer"
   slot(input, ".Data") <-  bin_data
   slot(input, "type") <- "np"
+  if (class(input) == c("adpcr")) {
+    slot(input, "breaks") <- c(0, 1)
+  } else {
+    slot(input, "threshold") <- 1
+  }
   input
 }
