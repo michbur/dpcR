@@ -11,6 +11,7 @@
 #' from one or more panels.
 #' @param nx_a Number of columns in a plate.
 #' @param ny_a Number of rows in a plate.
+#' @param marks If \code{TRUE}, marks are added.
 #' @return A list containing objects with class
 #' \code{\link[spatstat]{ppp.object}} with the length equal to the number of
 #' plates (minimum 1).
@@ -41,7 +42,7 @@
 #' 
 #' 
 #' @export adpcr2ppp
-adpcr2ppp <- function(input, nx_a, ny_a) {
+adpcr2ppp <- function(input, nx_a, ny_a, marks = TRUE) {
   if (class(input) != "adpcr")
     stop("Input must have 'adpcr' class", call. = TRUE, domain = NA)
   
@@ -55,19 +56,22 @@ adpcr2ppp <- function(input, nx_a, ny_a) {
                  \n Change nx_a * ny_a to have the same number of elements."))  
   
   #apply in case input contains more than 1 array
+  #here list of?
   apply(array_data, 2, function(array_col) { 
     #strange syntax, because spatstat use different localizations
     #than dpcR.
-    data_points <- matrix(NA, nrow = nrow_array, ncol = 3)
-    i = 1
-    for (x in 1L:nx_a) {
-      for (y in ny_a:1L) {
-        data_points[i, ] <- c(x, y, array_col[i])
-        i <- i + 1
-      }
+    data_points <- which(matrix(array_col, ncol = nx_a, nrow = ny_a) > 0,
+                         arr.ind = TRUE)
+    data_points[, "row"] <- ny_a - data_points[, "row"] + 1
+    plot(ppp(data_points[, 2], data_points[, 1], 
+             c(1, nx_a), c(1, ny_a)))
+    #check if marks are properly assigned
+    if (marks) {
+      data_ppp1 <- ppp(data_points[, 2], data_points[, 1], 
+                       c(1, nx_a), c(1, ny_a), marks = array_col[array_col != 0])
+    } else {
+      data_ppp1 <- ppp(data_points[, 2], data_points[, 1], 
+                       c(1, nx_a), c(1, ny_a))
     }
-    data_points <- data_points[data_points[, 3] > 0, ]
-    data_ppp <- ppp(data_points[, 1], data_points[, 2], 
-                    c(1, nx_a), c(1, ny_a), marks = data_points[, 3])
   })
 }

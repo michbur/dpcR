@@ -3,7 +3,7 @@
 \alias{adpcr2ppp}
 \title{Convert adpcr to ppp}
 \usage{
-adpcr2ppp(input, nx_a, ny_a)
+adpcr2ppp(input, nx_a, ny_a, marks = TRUE)
 }
 \arguments{
 \item{input}{Object of the \code{\linkS4class{adpcr}} class containing data
@@ -12,6 +12,8 @@ from one or more panels.}
 \item{nx_a}{Number of columns in a plate.}
 
 \item{ny_a}{Number of rows in a plate.}
+
+\item{marks}{If \code{TRUE}, marks are added.}
 }
 \value{
 A list containing objects with class
