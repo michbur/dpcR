@@ -11,7 +11,7 @@
 #' from one or more panels.
 #' @param nx_a Number of columns in a plate.
 #' @param ny_a Number of rows in a plate.
-#' @param marks If \code{TRUE}, marks are added.
+#' @param marks If \code{TRUE}, marks values for non-empty partitions.
 #' @return A list containing objects with class
 #' \code{\link[spatstat]{ppp.object}} with the length equal to the number of
 #' plates (minimum 1).

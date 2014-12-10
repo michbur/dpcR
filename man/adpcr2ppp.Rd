@@ -13,7 +13,7 @@ from one or more panels.}
 
 \item{ny_a}{Number of rows in a plate.}
 
-\item{marks}{If \code{TRUE}, marks are added.}
+\item{marks}{If \code{TRUE}, marks values for non-empty partitions.}
 }
 \value{
 A list containing objects with class

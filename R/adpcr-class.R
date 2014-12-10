@@ -29,6 +29,8 @@
 #' @seealso Ploting and management: \code{\link{bind_dpcr}},
 #' \code{\link{extract_dpcr}}, \code{\link{plot_panel}}.
 #' 
+#' Tests: \code{\link{test_panel}}.
+#' 
 #' Simulation: \code{\link{sim_adpcr}}.
 #' 
 #' Real-time array digital PCR: \code{\linkS4class{rtadpcr}}.
