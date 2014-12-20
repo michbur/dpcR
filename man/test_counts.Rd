@@ -20,10 +20,10 @@ an object of class \code{\linkS4class{count_test}}.
 The test for comparing counts from two or more digital PCR experiments.
 }
 \details{
-\code{test_counts} fits Generalized Linear Model (using quasibinomial
-or quasipoisson \code{\link[stats]{family}}) to the counts data from different
-digital PCR experiments. Comparisions between single experiments utilize Tukey's
-contrast and multiple t-tests using function \code{\link{glht}}.
+\code{test_counts} fits counts data from different
+digital PCR experiments to Generalized Linear Model (using quasibinomial
+or quasipoisson \code{\link[stats]{family}}). Comparisions between single experiments
+utilize Tukey's contrast and multiple t-tests (as provided by function \code{\link{glht}}).
 }
 \note{
 Mean number of template molecules per partitions and its confidence intervals are derived
@@ -38,6 +38,10 @@ adpcr3 <- sim_adpcr(m = 10, n = 600, times = 1000, pos_sums = FALSE, n_panels = 
 two_groups_bin <- test_counts(bind_dpcr(adpcr1, adpcr2), binomial = TRUE)
 summary(two_groups_bin)
 plot(two_groups_bin)
+#plot aggregated results
+plot(two_groups_bin, aggregate = TRUE)
+#get coefficients
+coef(two_groups_bin)
 
 #this time use Poisson regression
 two_groups_pois <- test_counts(bind_dpcr(adpcr1, adpcr2), binomial = FALSE)

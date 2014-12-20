@@ -13,19 +13,27 @@
 #' \item{t_res}{\code{"matrix"} containing result of multiple comparisions t-test.} 
 #' \item{model}{\code{"character"} name of GLM used to compare experiments.} }
 #' @author Michal Burdukiewicz.
-#' @seealso Nothing yet.
+#' @seealso \code{\link{test_counts}}.
 #' @export
 #' @keywords classes
 setClass("count_test", representation(group_coef = "data.frame", 
                                       t_res = "matrix",
                                       model = "character"))
 
-#' @describeIn count_test Summary statistics of assigned groups..
+#' @describeIn count_test Summary statistics of assigned groups.
 #' @param object of class \code{count_test}.
 #' @export
 setMethod("summary", signature(object = "count_test"), function(object) {
   aggregate(. ~ group, slot(object, "group_coef"), mean)
 })
+
+#' @describeIn count_test Extract coefficients of groups.
+#' @param object of class \code{count_test}.
+#' @export
+setMethod("coef", signature(object = "count_test"), function(object) {
+  slot(object, "group_coef")
+})
+
 
 #' @describeIn count_test Print both \code{group_coef} and \code{t_res}.
 #' @export
@@ -40,6 +48,9 @@ setMethod("show", "count_test",
             cat("\nModel used:\n")
             print(slot(object, "model"))
           })
+
+
+
 
 #' @describeIn count_test plots mean number of molecules per partition and its confidence intervals.
 #' @param x object of class \code{count_test}.
