@@ -22,6 +22,8 @@
 #' \item \code{\link[multcomp]{cld}}
 #' }
 #' 
+#' GUI presenting capabilities of the test: \code{\link{test_counts_gui}}.
+#' 
 #' @return an object of class \code{\linkS4class{count_test}}.
 #' @author Michal Burdukiewicz, Stefan Roediger.
 #' @examples

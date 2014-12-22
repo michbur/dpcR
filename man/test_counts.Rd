@@ -63,5 +63,7 @@ Functions used by \code{test_counts}:
 \item \code{\link[multcomp]{glht}},
 \item \code{\link[multcomp]{cld}}
 }
+
+GUI presenting capabilities of the test: \code{\link{test_counts_gui}}.
 }
 
