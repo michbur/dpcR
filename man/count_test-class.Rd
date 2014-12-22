@@ -27,8 +27,6 @@ to their group.}
 
 \item{nice}{logical, if \code{TRUE} a more aesthetically pleasing (but harder to
 customize) version of the plot is created.}
-
-\item{object}{of class \code{count_test}.}
 }
 \description{
 Objects of this class are created by \code{\link{test_counts}}.

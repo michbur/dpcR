@@ -21,7 +21,6 @@ setClass("count_test", representation(group_coef = "data.frame",
                                       model = "character"))
 
 #' @describeIn count_test Summary statistics of assigned groups.
-#' @param object of class \code{count_test}.
 #' @export
 setMethod("summary", signature(object = "count_test"), function(object) {
   aggregate(. ~ group, slot(object, "group_coef"), mean)
