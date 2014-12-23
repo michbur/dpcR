@@ -41,12 +41,41 @@ plot_panel(binarize(extract_dpcr(adpcr_experiments, 1)), nx_a = 15, ny_a = 16, m
 ```
 
 
-The randomness of spatial distribution on plate can be checked using `test_panel` function.
+## Comparison of the experiments
+
+Generalized Linear Models (GLM) are linear models for data, where the response variables may have non-normal distributions (as for example binomially distributed positive partitions in digital PCR experiments). Using GLM we can describe relationships in results of digital PCR:
+
+$$\log{Y} = \beta^T X$$
+    
+where $Y$ are counts, $X$ are experiments names (categorical data) and $\beta$ are linear model coefficients for every experiment. Moreover, $\exp{\beta} = \lambda$.
+    
+Estimated means copies per partitions obtained from the model are compared each other using multiple t-test.
+
 ```{r eval=TRUE}
-test_panel(adpcr_experiments, nx_a = 15, ny_a = 16)
+#comparison of the experiments using GLM
+
+#1. Simulate results of three different experiments with two repetitions each
+#experiment 2 differs significantly from others
+adpcr1 <- sim_adpcr(m = 20, n = 765, times = 1e5, pos_sums = FALSE, n_panels = 2)
+adpcr2 <- sim_adpcr(m = 100, n = 765, times = 1e5, pos_sums = FALSE, n_panels = 2)
+adpcr3 <- sim_adpcr(m = 20, n = 765, times = 1e5, pos_sums = FALSE, n_panels = 2)
+
+#2. Join together results for convinience
+adpcrs <- bind_dpcr(adpcr1, adpcr2, adpcr3)
+
+#3. Perform test.
+comp <- test_counts(adpcrs)
+
+#4. See summary of the test
+summary(comp)
+
+#5. Plot results of the test 
+plot(comp, aggregate = FALSE)
+plot(comp, aggregate = TRUE)
+
+#extract coefficients for the further usage
+coef(comp)
 ```
 
-The lower p-value, the less probable that spatial distribution of the positive partitions is random.
-
-## Comparing experiments
-
+The Poisson regression on binary data (positive/negative partition) can be used only when the concentration of template molecules in samples is small (positive partitions contain very rarely more than 1 template particle). Higher concentrations requires binomial regression.
+    

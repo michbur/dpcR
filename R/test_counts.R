@@ -26,6 +26,8 @@
 #' 
 #' @return an object of class \code{\linkS4class{count_test}}.
 #' @author Michal Burdukiewicz, Stefan Roediger.
+#' @references Bretz F, Hothorn T, Westfall P, \emph{Multiple comparisons using R}. 
+#' Boca Raton, Florida, USA: Chapman & Hall/CRC Press (2010).
 #' @examples
 #' adpcr1 <- sim_adpcr(m = 10, n = 765, times = 1000, pos_sums = FALSE, n_panels = 3)
 #' adpcr2 <- sim_adpcr(m = 60, n = 550, times = 1000, pos_sums = FALSE, n_panels = 3)

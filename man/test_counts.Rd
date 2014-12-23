@@ -56,6 +56,10 @@ plot(one_group)
 \author{
 Michal Burdukiewicz, Stefan Roediger.
 }
+\references{
+Bretz F, Hothorn T, Westfall P, \emph{Multiple comparisons using R}.
+Boca Raton, Florida, USA: Chapman & Hall/CRC Press (2010).
+}
 \seealso{
 Functions used by \code{test_counts}:
 \itemize{
