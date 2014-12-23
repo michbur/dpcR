@@ -25,7 +25,7 @@ adpcr_experiments <- create_dpcr(sample_runs, n = 240L, type = "nm", adpcr = TRU
 class(adpcr_experiments)
 ```
 
-## Data visualisation and tests
+## Data visualisation
 
 Data can be easily visualized using `plot_panel` function.
 
@@ -47,3 +47,6 @@ test_panel(adpcr_experiments, nx_a = 15, ny_a = 16)
 ```
 
 The lower p-value, the less probable that spatial distribution of the positive partitions is random.
+
+## Comparing experiments
+
