@@ -54,7 +54,7 @@ units (PCR cycles), such as the increase of signal during a qPCR reaction in
 a single compartment. A Poisson process can be used to model times at which
 an event occurs in a "system". The \code{qpcr2pp} (quantitative Real-Time
 PCR to Poisson process) function transforms the qPCR amplification curve
-data to quantification points (Cq) which are visualized as Poisson process.
+data to quantification points (Cq), which are visualized as Poisson process.
 This functions helps to spot differences between replicate runs of digital
 PCR experiments. In ideal scenarios the \code{qpcr2pp} plots are highly
 similar.

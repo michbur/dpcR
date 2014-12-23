@@ -15,8 +15,8 @@ dpcr_density(k, n, average = FALSE, methods = "wilson", conf.level = 0.95,
 molecules per partition. If \code{FALSE}, instead performs calculations for
 the total number of positive molecules.}
 
-\item{methods}{Which method of calculating confidence interval should be
-used. Possible values are: \code{"wilson"}, \code{"agresti-coull"},
+\item{methods}{Method for calculating the confidence interval. 
+Possible values are: \code{"wilson"}, \code{"agresti-coull"},
 \code{"exact"}, \code{"prop.test"}, \code{"profile"}, \code{"lrt"},
 \code{"asymptotic"}, \code{"bayes"}, \code{"cloglog"}, \code{"logit"},
 \code{"probit"}. Default value is \code{"wilson"}. See Details.}
@@ -31,7 +31,7 @@ A data frame with one row containing bounds of the confidence
 intervals and a name of the method used to calculate them.
 }
 \description{
-A function which calculates and plots the density of the number of positive
+A function, which calculates and plots the density of the number of positive
 molecules or the average number of molecules per partition. Can be used for
 both array digital PCR and droplet digital PCR.
 }

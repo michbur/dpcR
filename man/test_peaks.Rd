@@ -12,7 +12,7 @@ an object of class \code{\linkS4class{adpcr}}.}
 
 \item{y}{a vector of fluorescence value.}
 
-\item{threshold}{a value which defines the peak heights not to consider as
+\item{threshold}{a value, which defines the peak heights not to consider as
 peak.}
 
 \item{noise_cut}{a numeric value between 0 and 1. All data between 0 and
