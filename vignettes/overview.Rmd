@@ -6,11 +6,12 @@
 
 # dpcR package
 
-dpcR is an R package designed to assist in analysis of digital PCR experiments.
+dpcR is an R package designed to perform an analysis of digital PCR experiments.
 
 ## Read data
 
-dpcR does not have any inbuilt tools for reading specific data types. Instead, we advise to use other packages belonging do the pcRuniversum as [RDML](http://cran.r-project.org/web/packages/RDML/index.html) or dedicated packages such as ReadqPCR (available from bioconductor.org).
+dpcR does not have built-in tools for reading specific data types. Instead, we advise to use other packages belonging do the pcRuniversum such as [RDML](http://cran.r-project.org/web/packages/RDML/index.html) or dedicated packages such as ReadqPCR (available from bioconductor.org). Further information can be found in Pabinger et al. 2014 (A survey of tools for the analysis of quantitative PCR (qPCR) data. Biomolecular Detection and Quantification 1, 23--33. doi:10.1016/j.bdq.2014.08.002).
+
 
 Before analysis data should be saved using one of the three classes - `adpcr` (end-point array digital PCR experiments), `ddpcr` (droplet digital PCR experiments) and `rtadpcr` (real-time array digital PCR experiments). To do so, use `create_dpcr` function.
 
@@ -43,7 +44,7 @@ plot_panel(binarize(extract_dpcr(adpcr_experiments, 1)), nx_a = 15, ny_a = 16, m
 
 ## Comparison of the experiments
 
-Generalized Linear Models (GLM) are linear models for data, where the response variables may have non-normal distributions (as for example binomially distributed positive partitions in digital PCR experiments). Using GLM we can describe relationships in results of digital PCR:
+Generalized Linear Models (GLM) are linear models for data, where the response variables may have non-normal distributions (as for example binomially distributed positive partitions in digital PCR experiments). Using GLM we can describe relationships between results of digital PCR:
 
 $$\log{Y} = \beta^T X$$
     
@@ -60,7 +61,7 @@ adpcr1 <- sim_adpcr(m = 20, n = 765, times = 1e5, pos_sums = FALSE, n_panels = 2
 adpcr2 <- sim_adpcr(m = 100, n = 765, times = 1e5, pos_sums = FALSE, n_panels = 2)
 adpcr3 <- sim_adpcr(m = 20, n = 765, times = 1e5, pos_sums = FALSE, n_panels = 2)
 
-#2. Join together results for convinience
+#2. Join results for convenience
 adpcrs <- bind_dpcr(adpcr1, adpcr2, adpcr3)
 
 #3. Perform test.

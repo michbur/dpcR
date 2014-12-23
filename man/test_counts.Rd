@@ -21,8 +21,8 @@ The test for comparing counts from two or more digital PCR experiments.
 }
 \details{
 \code{test_counts} fits counts data from different
-digital PCR experiments to Generalized Linear Model (using quasibinomial
-or quasipoisson \code{\link[stats]{family}}). Comparisions between single experiments
+digital PCR experiments to Generalized Linear Model (using quasi-binomial
+or quasi-poisson \code{\link[stats]{family}}). Comparisons between single experiments
 utilize Tukey's contrast and multiple t-tests (as provided by function \code{\link{glht}}).
 }
 \note{
@@ -34,7 +34,7 @@ adpcr1 <- sim_adpcr(m = 10, n = 765, times = 1000, pos_sums = FALSE, n_panels = 
 adpcr2 <- sim_adpcr(m = 60, n = 550, times = 1000, pos_sums = FALSE, n_panels = 3)
 adpcr3 <- sim_adpcr(m = 10, n = 600, times = 1000, pos_sums = FALSE, n_panels = 3)
 
-#compare experiments using binomial regression
+#compare experiments by binomial regression
 two_groups_bin <- test_counts(bind_dpcr(adpcr1, adpcr2), binomial = TRUE)
 summary(two_groups_bin)
 plot(two_groups_bin)
