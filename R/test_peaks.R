@@ -14,7 +14,7 @@
 #' @param x a vector containing the abscissa values (e.g., time, position) OR
 #' an object of class \code{\linkS4class{adpcr}}.
 #' @param y a vector of fluorescence value.
-#' @param threshold a value which defines the peak heights not to consider as
+#' @param threshold a value, which defines the peak heights not to consider as
 #' peak.
 #' @param noise_cut a numeric value between 0 and 1. All data between 0 and
 #' \code{noise_cut} quantile would be considered noise in the further analysis.

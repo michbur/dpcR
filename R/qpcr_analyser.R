@@ -24,7 +24,7 @@
 #' described in Guescini et al. (2008) for estimation of the quantification
 #' point since method is considered to be better suited for many probe systems.
 #' By default a 5-parameter model is used to fit the amplification curves. As
-#' such \code{qpcr_analyser} is a functions which serves for preliminary data
+#' such \code{qpcr_analyser} is a function, which serves for preliminary data
 #' inspection (see Example section) and as input for other R functions from the
 #' \code{dpcR} package (e.g., \link{plot_panel}).
 #' 
