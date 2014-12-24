@@ -15,7 +15,7 @@ dpcr_density(k, n, average = FALSE, methods = "wilson", conf.level = 0.95,
 molecules per partition. If \code{FALSE}, instead performs calculations for
 the total number of positive molecules.}
 
-\item{methods}{Method for calculating the confidence interval. 
+\item{methods}{Method for calculating the confidence interval.
 Possible values are: \code{"wilson"}, \code{"agresti-coull"},
 \code{"exact"}, \code{"prop.test"}, \code{"profile"}, \code{"lrt"},
 \code{"asymptotic"}, \code{"bayes"}, \code{"cloglog"}, \code{"logit"},
