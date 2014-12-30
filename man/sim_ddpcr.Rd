@@ -7,10 +7,10 @@ sim_ddpcr(m, n, times, n_exp = 1, dube = FALSE, pos_sums = FALSE,
   fluo = NULL)
 }
 \arguments{
-\item{m}{the total number of template molecules added to the plate. Must be
+\item{m}{the total number of template molecules used in the expertiment. Must be
 a positive integer.}
 
-\item{n}{the number of chambers per plate. Must be a positive integer.}
+\item{n}{the number of droplets per experiment. Must be a positive integer.}
 
 \item{times}{number of repetitions (see Details).}
 
@@ -49,7 +49,7 @@ In each case the value is an object of the \code{\linkS4class{ddpcr}} class.
 A function that simulates results of a droplet digital PCR.
 }
 \details{
-%% here few words what is droplet PCR The function contains two
+The function contains two
 implementations of the array digital PCR simulation. First one was described
 in Dube at. al (2008). This method is based on random distributing \eqn{m
 \times times}{m * times} molecules between \eqn{n \times times}{n * times}

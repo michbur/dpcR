@@ -2,7 +2,7 @@
 #' 
 #' A function that simulates results of a droplet digital PCR.
 #' 
-#' %% here few words what is droplet PCR The function contains two
+#' The function contains two
 #' implementations of the array digital PCR simulation. First one was described
 #' in Dube at. al (2008). This method is based on random distributing \eqn{m
 #' \times times}{m * times} molecules between \eqn{n \times times}{n * times}
@@ -13,9 +13,9 @@
 #' The higher the value of the argument \code{times}, the simulation result is
 #' closer to theoretical calculations.
 #' 
-#' @param m the total number of template molecules added to the plate. Must be
+#' @param m the total number of template molecules used in the expertiment. Must be
 #' a positive integer.
-#' @param n the number of chambers per plate. Must be a positive integer.
+#' @param n the number of droplets per experiment. Must be a positive integer.
 #' @param times number of repetitions (see Details).
 #' @param n_exp the number of experiments that are simulated by the function.
 #' Cannot have higher value than the \code{times} argument.
