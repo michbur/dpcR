@@ -158,7 +158,7 @@ qpcr2pp <- function(cycles, process, data = NULL, NuEvents = 1, delta = 1) {
 #' to the plot.
 #' 
 #' @name plot.qpcrpp
-#' @aliases plot.qpcrpp plot,qpcrpp-method
+#' @aliases plot.qpcrpp plot,qpcrpp-method plot,qpcrpp,ANY-method
 #' @param x is a \code{\linkS4class{qpcrpp}} object.
 #' @param mincyc is the first cycle to start the plot from.
 #' @param maxcyc the the last cycle for the plot.

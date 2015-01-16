@@ -106,8 +106,8 @@ test_counts <- function(input, binomial = TRUE, ...) {
   colnames(group_coef) <- c("group", "lambda", "lambda.low", "lambda.up")
   rownames(group_coef) <- colnames(input)
   group_coef <- group_coef[order(group_coef[["group"]]), ]
-  t_res <- cbind(t = summ_mc[["test"]][["tstat"]], 
+  test_res <- cbind(t = summ_mc[["test"]][["tstat"]], 
                  p.value = summ_mc[["test"]][["pvalues"]])
-  new("count_test", group_coef = group_coef, t_res = t_res, 
+  new("count_test", group_coef = group_coef, test_res = test_res, 
       model = ifelse(binomial, "binomial", "Poisson"))
 }
