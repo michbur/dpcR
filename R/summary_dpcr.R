@@ -15,8 +15,7 @@
 #' @docType methods
 #' @param object an object of class \code{\linkS4class{adpcr}} or
 #' \code{\linkS4class{ddpcr}}.
-#' @param print if \code{FALSE}, no output is printed, only calculations are
-#' performed.
+#' @param print if \code{FALSE}, no output is printed.
 #' @return The data frame with estimated values of lambda, m and corresponding
 #' confidence intervals.
 #' @note If summary is used on an object containing results of many

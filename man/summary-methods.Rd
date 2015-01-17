@@ -13,8 +13,7 @@
 \item{object}{an object of class \code{\linkS4class{adpcr}} or
 \code{\linkS4class{ddpcr}}.}
 
-\item{print}{if \code{FALSE}, no output is printed, only calculations are
-performed.}
+\item{print}{if \code{FALSE}, no output is printed.}
 }
 \value{
 The data frame with estimated values of lambda, m and corresponding

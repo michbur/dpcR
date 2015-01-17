@@ -34,9 +34,6 @@ setClass("qpcrpp", contains = "matrix", representation(.Data = "matrix", mu = "n
                                                        partitions = "integer",
                                                        events = "integer"))
 
-
-
-
 #' qPCR to Poisson Process
 #' 
 #' Selected platforms (e.g., Open Array) are real-time platforms. dPCR can be

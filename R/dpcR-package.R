@@ -8,9 +8,10 @@
 #' hundredths to thousands of small compartments with parallel amplifications
 #' reactions. The analysis is based on counting the number of positive
 #' compartments and to relate it to the total number of compartments be means
-#' of Poission statistics which enables an absolute quantification. The package
-#' includes plot functions, summary functions, data sets and simulations for
-#' dPCR and customizable GUI creators for droplet digital PCRs and
+#' of Poission statistics which enables an absolute quantification. 
+#' 
+#' The package includes plot functions, summary functions, data sets and simulations 
+#' for dPCR and customizable GUI creators for droplet digital PCRs and
 #' chamber-based digital PCRs. The authors of the package aim to include all
 #' statistical approaches published in peer-review literature and additional
 #' selected sources of expertise currently available and to make them available
@@ -22,9 +23,6 @@
 #' addition the dpcR package provides interactive tools that can be used in
 #' classes or by individuals to better learn about digital PCR concepts and
 #' data interpretation.
-#' 
-#' \tabular{ll}{ Package: \tab dpcR\cr Type: \tab Package\cr Version: \tab
-#' 0.1.1\cr Date: \tab 2013-09-07\cr License: \tab GPL2 \cr }
 #' 
 #' @name dpcR-package
 #' @aliases dpcR-package dpcR
