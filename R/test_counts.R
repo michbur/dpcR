@@ -155,7 +155,7 @@ test_counts <- function(input, model = "binomial", ...) {
     colnames(group_coef) <- c("group", "lambda", "lambda.low", "lambda.up")
     rownames(group_coef) <- colnames(input)
     test_res <- cbind(t = summ_mc[["test"]][["tstat"]], 
-                      p.value = summ_mc[["test"]][["pvalues"]])
+                      p_value = summ_mc[["test"]][["pvalues"]])
   }
   
   new("count_test", group_coef = group_coef, test_res = test_res, 

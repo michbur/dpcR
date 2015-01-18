@@ -47,10 +47,10 @@ setMethod("show", "count_test",
                                     cutpoints = c(0, 0.001, 0.01, 0.05, 0.1, 1), 
                                     symbols = c("***", "**", "*", ".", " "))
             print(data.frame(slot(object, "test_res"), signif = as.vector(signif_stars)))
-            if ((w <- getOption("width")) < nchar(sleg <- attr(signif_stars, "legend")))
-              sleg <- strwrap(sleg, width = w - 2, prefix = "  ")
-            cat("---\nSignif. codes:  ", sleg, sep = "", fill = w + 
-                  4 + max(nchar(sleg, "bytes") - nchar(sleg)))
+
+            cat("---\nSignif. codes:  ", attr(signif_stars, "legend"), sep = "", 
+                fill = getOption("width") + 4 + max(nchar(attr(signif_stars, "legend"), "bytes") 
+                                                    - nchar(attr(signif_stars, "legend"))))
 
             cat("\nModel used:\n")
             print(slot(object, "model"))
