@@ -42,8 +42,16 @@ setMethod("show", "count_test",
             print(slot(object, "group_coef"))
             
             cat("\nResults of multiple comparison:\n")
-            print(slot(object, "test_res"))
             
+            signif_stars <- symnum(slot(object, "test_res")[, "p_value"], corr = FALSE, na = FALSE, 
+                                    cutpoints = c(0, 0.001, 0.01, 0.05, 0.1, 1), 
+                                    symbols = c("***", "**", "*", ".", " "))
+            print(data.frame(slot(object, "test_res"), signif = as.vector(signif_stars)))
+            if ((w <- getOption("width")) < nchar(sleg <- attr(signif_stars, "legend")))
+              sleg <- strwrap(sleg, width = w - 2, prefix = "  ")
+            cat("---\nSignif. codes:  ", sleg, sep = "", fill = w + 
+                  4 + max(nchar(sleg, "bytes") - nchar(sleg)))
+
             cat("\nModel used:\n")
             print(slot(object, "model"))
           })
