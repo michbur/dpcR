@@ -4,8 +4,8 @@
 #' 
 #' @aliases test_counts
 #' @param input adpcr or dpcr object with with "nm" type.
-#' @param binomial \code{logical}, if \code{TRUE} binomial regression 
-#' is performed. If \code{FALSE}, Poisson regression is used instead.
+#' @param model may have one of following values: \code{binomial}, \code{poisson},
+#' \code{simple}.
 #' @param ... additional arguments for \code{\link{glm}} function.
 #' @details \code{test_counts} fits counts data from different 
 #' digital PCR experiments to Generalized Linear Model (using quasibinomial
@@ -34,7 +34,7 @@
 #' adpcr3 <- sim_adpcr(m = 10, n = 600, times = 1000, pos_sums = FALSE, n_panels = 3)
 #' 
 #' #compare experiments using binomial regression
-#' two_groups_bin <- test_counts(bind_dpcr(adpcr1, adpcr2), binomial = TRUE)
+#' two_groups_bin <- test_counts(bind_dpcr(adpcr1, adpcr2), model = "binomial")
 #' summary(two_groups_bin)
 #' plot(two_groups_bin)
 #' #plot aggregated results
@@ -43,7 +43,7 @@
 #' coef(two_groups_bin)
 #' 
 #' #this time use Poisson regression
-#' two_groups_pois <- test_counts(bind_dpcr(adpcr1, adpcr2), binomial = FALSE)
+#' two_groups_pois <- test_counts(bind_dpcr(adpcr1, adpcr2), binomial = "poisson")
 #' summary(two_groups_pois)
 #' plot(two_groups_pois)
 #' 
@@ -52,62 +52,102 @@
 #' summary(one_group)
 #' plot(one_group)
 
-test_counts <- function(input, binomial = TRUE, ...) { 
+test_counts <- function(input, model = "binomial", ...) { 
   
-  #choose proper family
-  if (binomial) {
-    if(!(slot(input, "type") %in% c("tp", "tnp")))
-      #binarize input which isn't already binary
-      input <- binarize(input)
-    #family for model
-    fam <- quasibinomial(link = "log")
-    #function transforming coefficients of model to lambdas
-    trans_fun <- function(x) fl(exp(x))
-  } else {
-    if(slot(input, "type") %in% c("tp", "tnp"))
-      stop("Poisson regression require non-binary data.")
-    #family for model
-    fam <- quasipoisson(link = "log")
-    #function transforming coefficients of model to lambdas
-    trans_fun <- function(x) exp(x)
-  }
-  
-  #dpcr version of melt
-  n_vector <- slot(input, "n")
-  m_dpcr <- do.call(rbind, lapply(1L:length(n_vector), function(i) {
-    vals <- input[1L:n_vector[i], i]
-    data.frame(experiment = rep(colnames(input)[i], length(vals)), values = vals)
-  }))
-  
-  #fit model without
-  fit <- glm(values ~ experiment + 0, data = m_dpcr, family = fam)
-  
-  #do multiple comparision
-  multi_comp <- glht(fit, linfct = mcp(experiment = "Tukey"))
-  
-  coefs <- summary(fit)[["coefficients"]][, 1:2]
-  lambdas <- trans_fun(matrix(c(coefs[, 1], 
-                          coefs[, 1] - coefs[, 2], 
-                          coefs[, 1] + coefs[, 2]), ncol = 3))
-  
-  summ_mc <- summary(multi_comp)
-  groups <- cld(multi_comp)[["mcletters"]][["LetterMatrix"]]
-  if(is.matrix(groups)) {
-    #more than one group
-    groups_vector <- apply(groups, 1, function(i)
-      paste0(colnames(groups)[i], collapse = ""))
-  } else {
-    #only one group
-    groups_vector <- rep("a", ncol(input))
-    names(groups_vector) <- colnames(input)
-  }
+  if(model == "simple") {
+    positives <- colSums(input)
+    total <- slot(input, "n")
+    test_ids <- combn(1L:length(total), 2)
+    all_combns <- apply(test_ids, 2, function(i)
+      prop.test(positives[i], total[i]))
+    
+    p_vals <- p.adjust(sapply(all_combns, function(i)
+      i[["p.value"]]), method = "BH")
+    
+    statistics <- sapply(all_combns, function(i)
+      i[["statistic"]])
 
-  group_coef <- data.frame(groups_vector, lambdas)
-  colnames(group_coef) <- c("group", "lambda", "lambda.low", "lambda.up")
-  rownames(group_coef) <- colnames(input)
-  group_coef <- group_coef[order(group_coef[["group"]]), ]
-  test_res <- cbind(t = summ_mc[["test"]][["tstat"]], 
-                 p.value = summ_mc[["test"]][["pvalues"]])
+    x_res <- data.frame(X_squared = statistics, p_value = p_vals,
+                        row.names = apply(matrix(names(positives)[test_ids], ncol = 2, byrow= TRUE),
+                                          1, function(i) paste(i, collapse = " - ")))
+    
+    #group_coef slot
+    only_signif <- test_ids[, p_vals > 0.05]
+    groups <- unique(lapply(1L:length(total), function(i)
+      sort(unique(as.vector(only_signif[, as.logical(colSums(only_signif == i))])))))
+    group_matrix <- sapply(1L:length(total), function(experiment) 
+      sapply(groups, function(single_group) experiment %in% single_group))
+    dimnames(group_matrix) <- list(letters[1L:length(groups)], names(positives))
+    
+    group_coef<- data.frame(apply(group_matrix, 2, function(i) 
+      paste(names(i[which(i)]), collapse = "")), 
+      fl(binom.confint(colSums(input), 
+                       slot(input, "n"), 
+                       conf.level = 1 - p.adjust(rep(0.05, ncol(input)), "BH")[1],
+                       "wilson")[, 4L:6]))
+    colnames(group_coef) <- c("group", "lambda", "lambda.low", "lambda.up")
+    
+  } else {
+
+    #choose proper family
+    if (model == "binomial") {
+      if(!(slot(input, "type") %in% c("tp", "tnp")))
+        #binarize input which isn't already binary
+        input <- binarize(input)
+      #family for model
+      fam <- quasibinomial(link = "log")
+      #function transforming coefficients of model to lambdas
+      trans_fun <- function(x) fl(exp(x))
+    } 
+    
+    if (model == "poisson") {
+      if(slot(input, "type") %in% c("tp", "tnp"))
+        stop("Poisson regression require non-binary data.")
+      #family for model
+      fam <- quasipoisson(link = "log")
+      #function transforming coefficients of model to lambdas
+      trans_fun <- function(x) exp(x)
+    }
+    
+    #dpcr version of melt
+    n_vector <- slot(input, "n")
+    m_dpcr <- do.call(rbind, lapply(1L:length(n_vector), function(i) {
+      vals <- input[1L:n_vector[i], i]
+      data.frame(experiment = rep(colnames(input)[i], length(vals)), values = vals)
+    }))
+    
+    
+    #fit model
+    fit <- glm(values ~ experiment + 0, data = m_dpcr, family = fam)
+    
+    #do multiple comparision
+    multi_comp <- glht(fit, linfct = mcp(experiment = "Tukey"))
+    
+    coefs <- summary(fit)[["coefficients"]][, 1:2]
+    lambdas <- trans_fun(matrix(c(coefs[, 1], 
+                                  coefs[, 1] - coefs[, 2], 
+                                  coefs[, 1] + coefs[, 2]), ncol = 3))
+    
+    summ_mc <- summary(multi_comp)
+    groups <- cld(multi_comp)[["mcletters"]][["LetterMatrix"]]
+    if(is.matrix(groups)) {
+      #more than one group
+      groups_vector <- apply(groups, 1, function(i)
+        paste0(colnames(groups)[i], collapse = ""))
+    } else {
+      #only one group
+      groups_vector <- rep("a", ncol(input))
+      names(groups_vector) <- colnames(input)
+    }
+    
+    group_coef <- data.frame(groups_vector, lambdas)
+    colnames(group_coef) <- c("group", "lambda", "lambda.low", "lambda.up")
+    rownames(group_coef) <- colnames(input)
+    group_coef <- group_coef[order(group_coef[["group"]]), ]
+    test_res <- cbind(t = summ_mc[["test"]][["tstat"]], 
+                      p.value = summ_mc[["test"]][["pvalues"]])
+  }
+  
   new("count_test", group_coef = group_coef, test_res = test_res, 
-      model = ifelse(binomial, "binomial", "Poisson"))
+      model = model)
 }
