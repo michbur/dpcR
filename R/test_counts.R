@@ -53,6 +53,9 @@
 #' plot(one_group)
 
 test_counts <- function(input, model = "binomial", ...) { 
+  if(!(model %in% c("binomial", "poisson", "simple")))
+    stop("Must must have one of following values: 'binomial', 'poisson' or 'simple'.")
+  
   
   if(model == "simple") {
     positives <- colSums(input)
@@ -66,10 +69,12 @@ test_counts <- function(input, model = "binomial", ...) {
     
     statistics <- sapply(all_combns, function(i)
       i[["statistic"]])
-
-    x_res <- data.frame(X_squared = statistics, p_value = p_vals,
-                        row.names = apply(matrix(names(positives)[test_ids], ncol = 2, byrow= TRUE),
-                                          1, function(i) paste(i, collapse = " - ")))
+    
+    test_res <- matrix(c(statistics, p_vals), ncol = 2,
+                       dimnames = list(apply(matrix(names(positives)[test_ids], ncol = 2, 
+                                               byrow= TRUE),1, function(i) 
+                                                 paste(i, collapse = " - ")),
+                                       c("X_squared", "p_value")))
     
     #group_coef slot
     only_signif <- test_ids[, p_vals > 0.05]
@@ -88,7 +93,7 @@ test_counts <- function(input, model = "binomial", ...) {
     colnames(group_coef) <- c("group", "lambda", "lambda.low", "lambda.up")
     
   } else {
-
+    
     #choose proper family
     if (model == "binomial") {
       if(!(slot(input, "type") %in% c("tp", "tnp")))
