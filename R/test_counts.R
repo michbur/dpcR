@@ -60,13 +60,18 @@ test_counts <- function(input, model = "binomial", ...) {
   if(model == "simple") {
     positives <- colSums(input)
     total <- slot(input, "n")
-    test_ids <- combn(1L:length(total), 2)
+    #change sequence of rows to create output similar to glm
+    test_ids <- combn(1L:length(total), 2)[c(2, 1), ]
+    
+    #perform one-against-one multiple proportion tests
     all_combns <- apply(test_ids, 2, function(i)
       prop.test(positives[i], total[i]))
     
+    #adjust p-values
     p_vals <- p.adjust(sapply(all_combns, function(i)
       i[["p.value"]]), method = "BH")
     
+    #values of chi square statistic
     statistics <- sapply(all_combns, function(i)
       i[["statistic"]])
     
@@ -76,7 +81,7 @@ test_counts <- function(input, model = "binomial", ...) {
                                                  paste(i, collapse = " - ")),
                                        c("X_squared", "p_value")))
     
-    #group_coef slot
+    #split data in groups
     only_signif <- test_ids[, p_vals > 0.05]
     groups <- unique(lapply(1L:length(total), function(i)
       sort(unique(as.vector(only_signif[, as.logical(colSums(only_signif == i))])))))
@@ -84,13 +89,16 @@ test_counts <- function(input, model = "binomial", ...) {
       sapply(groups, function(single_group) experiment %in% single_group))
     dimnames(group_matrix) <- list(letters[1L:length(groups)], names(positives))
     
-    group_coef<- data.frame(apply(group_matrix, 2, function(i) 
+    #calculate confidence intervals - IMPROVE ME!
+    group_coef <- data.frame(apply(group_matrix, 2, function(i) 
       paste(names(i[which(i)]), collapse = "")), 
       fl(binom.confint(colSums(input), 
                        slot(input, "n"), 
                        conf.level = 1 - p.adjust(rep(0.05, ncol(input)), "BH")[1],
                        "wilson")[, 4L:6]))
     colnames(group_coef) <- c("group", "lambda", "lambda.low", "lambda.up")
+    #reorder to unify output with glm
+    group_coef <- group_coef[order(group_coef[, "group"]), ]
     
   } else {
     
