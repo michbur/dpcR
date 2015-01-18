@@ -97,8 +97,6 @@ test_counts <- function(input, model = "binomial", ...) {
                        conf.level = 1 - p.adjust(rep(0.05, ncol(input)), "BH")[1],
                        "wilson")[, 4L:6]))
     colnames(group_coef) <- c("group", "lambda", "lambda.low", "lambda.up")
-    #reorder to unify output with glm
-    group_coef <- group_coef[order(group_coef[, "group"]), ]
     
   } else {
     
@@ -156,7 +154,6 @@ test_counts <- function(input, model = "binomial", ...) {
     group_coef <- data.frame(groups_vector, lambdas)
     colnames(group_coef) <- c("group", "lambda", "lambda.low", "lambda.up")
     rownames(group_coef) <- colnames(input)
-    group_coef <- group_coef[order(group_coef[["group"]]), ]
     test_res <- cbind(t = summ_mc[["test"]][["tstat"]], 
                       p.value = summ_mc[["test"]][["pvalues"]])
   }
