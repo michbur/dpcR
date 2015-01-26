@@ -66,7 +66,9 @@ Functions used by \code{test_counts}:
 \itemize{
 \item \code{\link[stats]{glm}},
 \item \code{\link[multcomp]{glht}},
-\item \code{\link[multcomp]{cld}}
+\item \code{\link[multcomp]{cld}},
+\item \code{\link[stats]{prop.test}},
+\item \code{\link[rateratio.test]{rateratio.test}}
 }
 
 GUI presenting capabilities of the test: \code{\link{test_counts_gui}}.
