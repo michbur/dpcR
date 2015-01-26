@@ -61,7 +61,7 @@ test_counts <- function(input, model = "binomial", ...) {
   
   if(model %in% c("prop", "ratio")) {
     test_function <- if(model == "prop") prop.test else rateratio.test
-    positives <- colSums(input)
+    positives <- colSums(input > 0, na.rm = TRUE)
     total <- slot(input, "n")
     #change sequence of rows to create output similar to glm
     test_ids <- combn(1L:length(total), 2)[c(2, 1), ]
@@ -95,8 +95,8 @@ test_counts <- function(input, model = "binomial", ...) {
     #calculate confidence intervals - IMPROVE ME!
     group_coef <- data.frame(apply(group_matrix, 2, function(i) 
       paste(names(i[which(i)]), collapse = "")), 
-      fl(binom.confint(colSums(input), 
-                       slot(input, "n"), 
+      fl(binom.confint(positives, 
+                       total, 
                        conf.level = 1 - p.adjust(rep(0.05, ncol(input)), "BH")[1],
                        "wilson")[, 4L:6]))
     colnames(group_coef) <- c("group", "lambda", "lambda.low", "lambda.up")
