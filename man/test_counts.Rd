@@ -10,7 +10,7 @@ test_counts(input, model = "binomial", ...)
 \item{input}{adpcr or dpcr object with with "nm" type.}
 
 \item{model}{may have one of following values: \code{binomial}, \code{poisson},
-\code{simple}.}
+\code{prop}, \code{ratio}.}
 
 \item{...}{additional arguments for \code{\link{glm}} function.}
 }

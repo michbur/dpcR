@@ -5,7 +5,7 @@
 #' @aliases test_counts
 #' @param input adpcr or dpcr object with with "nm" type.
 #' @param model may have one of following values: \code{binomial}, \code{poisson},
-#' \code{simple}.
+#' \code{prop}, \code{ratio}.
 #' @param ... additional arguments for \code{\link{glm}} function.
 #' @details \code{test_counts} fits counts data from different 
 #' digital PCR experiments to Generalized Linear Model (using quasibinomial
@@ -53,11 +53,12 @@
 #' plot(one_group)
 
 test_counts <- function(input, model = "binomial", ...) { 
-  if(!(model %in% c("binomial", "poisson", "simple")))
-    stop("Must must have one of following values: 'binomial', 'poisson' or 'simple'.")
+  if(!(model %in% c("binomial", "poisson", "prop", "ratio")))
+    stop("Must must have one of following values: 'binomial', 'poisson', 'ratio' or 'prop'.")
   
   
-  if(model == "simple") {
+  if(model %in% c("prop", "ratio")) {
+    test_function <- if(model == "prop") prop.test else rateratio.test
     positives <- colSums(input)
     total <- slot(input, "n")
     #change sequence of rows to create output similar to glm
