@@ -85,6 +85,11 @@ test_counts <- function(input, model = "binomial", ...) {
                                        c("X_squared", "p_value")))
     
     #split data in groups
+    group_vals <- fl(binom.confint(positives, 
+                                   total, 
+                                   conf.level = 1 - p.adjust(rep(0.05, ncol(input)), "BH")[1],
+                                   "wilson")[, 4L:6])
+    
     only_signif <- test_ids[, p_vals > 0.05]
     groups <- unique(lapply(1L:length(total), function(i)
       sort(unique(as.vector(only_signif[, as.logical(colSums(only_signif == i))])))))
@@ -93,15 +98,14 @@ test_counts <- function(input, model = "binomial", ...) {
     #all experiments in one group
     if(is.null(dim(group_matrix)))
       group_matrix <- matrix(group_matrix, nrow = 1)
-    dimnames(group_matrix) <- list(letters[1L:length(groups)], names(positives))
+    #name groups using the abc convention and at the same time reorder them along to value
+    dimnames(group_matrix) <- list(letters[1L:length(groups)]
+                                   [order(sapply(groups, function(single_group) mean(group_vals[single_group, 1])))], names(positives))
     
     #calculate confidence intervals - IMPROVE ME!
     group_coef <- data.frame(apply(group_matrix, 2, function(i) 
       paste(names(i[which(i)]), collapse = "")), 
-      fl(binom.confint(positives, 
-                       total, 
-                       conf.level = 1 - p.adjust(rep(0.05, ncol(input)), "BH")[1],
-                       "wilson")[, 4L:6]))
+      group_vals)
     colnames(group_coef) <- c("group", "lambda", "lambda.low", "lambda.up")
     
   } else {
