@@ -90,6 +90,9 @@ test_counts <- function(input, model = "binomial", ...) {
       sort(unique(as.vector(only_signif[, as.logical(colSums(only_signif == i))])))))
     group_matrix <- sapply(1L:length(total), function(experiment) 
       sapply(groups, function(single_group) experiment %in% single_group))
+    #all experiments in one group
+    if(is.null(dim(group_matrix)))
+      group_matrix <- matrix(group_matrix, nrow = 1)
     dimnames(group_matrix) <- list(letters[1L:length(groups)], names(positives))
     
     #calculate confidence intervals - IMPROVE ME!
