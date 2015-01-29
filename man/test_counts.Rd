@@ -55,7 +55,7 @@ summary(one_group)
 plot(one_group)
 }
 \author{
-Michal Burdukiewicz, Stefan Roediger.
+Michal Burdukiewicz, Stefan Roediger, Piotr Sobczyk.
 }
 \references{
 Bretz F, Hothorn T, Westfall P, \emph{Multiple comparisons using R}.

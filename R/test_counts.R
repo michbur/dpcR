@@ -27,7 +27,7 @@
 #' GUI presenting capabilities of the test: \code{\link{test_counts_gui}}.
 #' 
 #' @return an object of class \code{\linkS4class{count_test}}.
-#' @author Michal Burdukiewicz, Stefan Roediger.
+#' @author Michal Burdukiewicz, Stefan Roediger, Piotr Sobczyk.
 #' @references Bretz F, Hothorn T, Westfall P, \emph{Multiple comparisons using R}. 
 #' Boca Raton, Florida, USA: Chapman & Hall/CRC Press (2010).
 #' @examples
@@ -126,7 +126,7 @@ test_counts <- function(input, model = "binomial", ...) {
     
     if (model == "poisson") {
       if(slot(input, "type") %in% c("tp", "tnp"))
-        stop("Poisson regression require non-binary data.")
+        stop("Poisson regression requires non-binary data.")
       #family for model
       fam <- quasipoisson(link = "log")
       #function transforming coefficients of model to lambdas

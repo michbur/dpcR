@@ -6,7 +6,8 @@ LazyData: true
 Date: 2014-12-22
 Authors@R: c(person("Michal", "Burdukiewicz", email =
     "michalburdukiewicz@gmail.com", role = c("cre", "aut")), person("Stefan",
-    "Roediger", email = "stefan.roedigier@b-tu.de", role = "aut"))
+    "Roediger", email = "stefan.roedigier@b-tu.de", role = "aut"),
+    person("Piotr", "Sobczyk", email = "sobbombo@gmail.com", role = "aut"))
 Description: Analysis, visualisation and simulation of digital PCR experiments.
 License: GPL-3
 URL: https://github.com/michbur/dpcR
