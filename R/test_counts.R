@@ -97,7 +97,10 @@ test_counts <- function(input, model = "binomial", ...) {
                                    conf.level = 1 - p.adjust(rep(0.05, ncol(input)), "BH")[1],
                                    "wilson")[, 4L:6])
     
+    #only unsignif in reality
     only_signif <- test_ids[, p_vals > 0.05]
+    if(!is.matrix(only_signif))
+      only_signif <- as.matrix(only_signif)
     #every experiment belongs to different group when dim(only_signif)[2] == 0
     groups <- if(dim(only_signif)[2] == 0) {
       as.list(1L:length(total))
@@ -105,6 +108,15 @@ test_counts <- function(input, model = "binomial", ...) {
       unique(lapply(1L:length(total), function(i)
         sort(unique(as.vector(only_signif[, as.logical(colSums(only_signif == i))])))))
     }
+    
+    #detect single experiment groups - they are empty before this
+    groups_length <- sapply(groups, length)
+    if(0 %in% groups_length) {
+      groups <- groups[groups_length != 0]
+      groups <- c(groups, as.list((1L:length(total))[!(1L:length(total) %in% 
+                                                         unlist(groups))]))
+    }
+    
     
     group_matrix <- sapply(1L:length(total), function(experiment) 
       sapply(groups, function(single_group) experiment %in% single_group))
