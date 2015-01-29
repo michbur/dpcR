@@ -66,6 +66,9 @@ test_counts <- function(input, model = "binomial", ...) {
     #change sequence of rows to create output similar to glm
     test_ids <- combn(1L:length(total), 2)[c(2, 1), ]
     
+    #for only two experiments
+    if(!is.matrix(test_ids))
+      test_ids <- as.matrix(test_ids)
     #perform one-against-one multiple proportion tests
     all_combns <- apply(test_ids, 2, function(i)
       prop.test(positives[i], total[i]))
