@@ -5,7 +5,7 @@
 \alias{coef,count_test-method}
 \alias{count_test}
 \alias{count_test-class}
-\alias{plot,count_test-method}
+\alias{plot,count_test,ANY-method}
 \alias{show,count_test-method}
 \alias{summary,count_test-method}
 \title{Class \code{"count_test"}}
@@ -16,7 +16,7 @@
 
 \S4method{show}{count_test}(object)
 
-\S4method{plot}{count_test}(x, aggregate = FALSE, nice = TRUE)
+\S4method{plot}{count_test,ANY}(x, aggregate = FALSE, nice = TRUE)
 }
 \arguments{
 \item{object}{of class \code{count_test}.}

@@ -73,11 +73,77 @@
 #' Must be a real number between 0 and 1 with 0 no rain, 1 positive droplets follow same distribution as negative droplets
 #' Default 0 for no rain
 #' Not used with \code{fluo} is \code{NULL}
+#' @export
+#' @examples
+#' # no parameters, no replicates, one given concentration
+#' test1 <- sim_ddpcr_bkm(0.5,n_exp=1,seed=1)
+#' str(test1)
+#' -log(1-test1[[1]][1]/test1[[1]][2])
+#' # changed parameters, no replicates, one given concentration
+#' test2 <- sim_ddpcr_bkm(0.5,n_exp=1,seed=2,sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=TRUE,piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01)
+#' str(test2)
+#' -log(1-test2[[1]][1]/test2[[1]][2])
+#' # changed parameters, no replicates, one given concentration
+#' # output all droplets and their peak fluorescence
+#' test3 <- sim_ddpcr_bkm(0.5,n_exp=1,seed=3,pos_sums=TRUE,fluo=TRUE,sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=TRUE,piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01)
+#' str(test3)
+#' -log(1-sum(test3[[1]])/length(test3[[1]]))
+#' plot(density(test3[[2]])) # not logical: falpos & falneg do not influence distribution
+#' 
+#' # output only number of positive droplet, but also their fluorescence
+#' test3b <- sim_ddpcr_bkm(0.5,n_exp=1,seed=3,pos_sums=FALSE,fluo=TRUE,sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=TRUE,piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01)
+#' str(test3b)
+#' 
+#' # changed parameters, no replicates, one given concentration
+#' # output all droplets and the full fluorescence (huge, length about 128 800)
+#' # becomes somewhat slower (16 seconds on my relatively slow computer)
+#' system.time(test4 <- sim_ddpcr_bkm(0.5,n_exp=1,seed=4,pos_sums=TRUE,fluo=10,sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=TRUE,piperr=0.02,dropsd=0.2,rain=0.1))
+#' str(test4)
+#' -log(1-sum(test4[[1]])/length(test4[[1]]))
+#' par(mar=rep(0,4))
+#' par(mfrow=c(10,1))
+#' x <- 12880
+#' for(i in 1:10){
+#'   plot(test4[[2]][((i-1)*x+1):(i*x)],type="l",xaxt="n")}
+#' par(mfrow=c(1,1))
+#' # better zoom in and plot less
+#' par(mfrow=c(10,1))
+#' x <- 250
+#' for(i in 11:20){
+#'   plot(test4[[2]][((i-1)*x+1):(i*x)],type="l",xaxt="n")}
+#' par(mfrow=c(1,1))
+#' 
+#' # 8 replicates, one given concentration
+#' # output all droplets and peak fluorescence
+#' system.time(test5 <- sim_ddpcr_bkm(0.5,n_exp=8,seed=5,pos_sums=TRUE,fluo=TRUE,sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=TRUE,piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01))
+#' str(test5)
+#' conc <- NULL
+#' for(i in 1:8){
+#'   conc <- c(conc,-log(1-sum(test5[[2*i-1]])/length(test5[[2*i-1]])))}
+#' conc
+
+#' # 8 replicates, several concentrations
+#' # output all droplets and peak fluorescence
+#' # higher concentrations (and more droplets) take more time.
+#' # This set-up took about 1 minute on my computer
+#' system.time(test6 <- sim_ddpcr_bkm(exp(-4:1),n_exp=8,seed=6,pos_sums=TRUE,fluo=TRUE,sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=TRUE,piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01))
+#' str(test6)
+
+#' conc <- NULL
+#' for(j in 1:6){
+#'   conct <- NULL
+#'   for(i in 1:8){
+#'     conct <- c(conct,-log(1-sum(test6[[16*(j-1)+2*i-1]])/length(test6[[16*(j-1)+2*i-1]])))
+#'   }
+#'   conc <- cbind(conc,conct)
+#' }
+#' colnames(conc) <- round(exp(-4:1),3)
+#' conc
 
 
-
-
-sim_ddpcr_bkm <- function(m, n=20000, mexp=T, n_exp = 8, pos_sums=F, fluo = NULL,sddropc=0,mudropr=1,sddropr=0,Pvar=T,piperr=0,seed=runif(1),dropsd=0,falpos=0,falneg=0,rain=0){
+sim_ddpcr_bkm <- function(m, n=20000, mexp=TRUE, n_exp = 8, pos_sums=FALSE, 
+                          fluo = NULL, sddropc=0, mudropr=1, sddropr=0, Pvar=TRUE,
+                          piperr=0, seed=runif(1), dropsd=0, falpos=0, falneg=0, rain=0) {
 
 ##############
 ### checks ###
@@ -86,7 +152,7 @@ sim_ddpcr_bkm <- function(m, n=20000, mexp=T, n_exp = 8, pos_sums=F, fluo = NULL
   if(!is.numeric(seed)) stop("seed must have a numeric argument", call. = TRUE, domain = NA)
   set.seed(seed)
 
-  testInteger <- function(x){
+  is.integer <- function(x){
     test <- all.equal(x, as.integer(x), check.attributes = FALSE)
     isTRUE(test)
   }
@@ -98,12 +164,12 @@ sim_ddpcr_bkm <- function(m, n=20000, mexp=T, n_exp = 8, pos_sums=F, fluo = NULL
 
   if(!is.numeric(n)) stop("number of droplets must have a numeric argument", call. = TRUE, domain = NA)
   if(n < 10) stop("number of droplets must be large", call. = TRUE, domain = NA)
-  if(!testInteger(n)) {warning("number of droplets will be rounded up to the next integer", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
+  if(!is.integer(n)) {warning("number of droplets will be rounded up to the next integer", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
     n <- ceiling(n)}
 
   if(!is.numeric(n_exp)) stop("number of replicates must have a numeric argument", call. = TRUE, domain = NA)
   if(n_exp < 1) stop("number of replicates must be at least 1", call. = TRUE, domain = NA)
-  if(!testInteger(n_exp)) {warning("number of replicates will be rounded up to the next integer", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
+  if(!is.integer(n_exp)) {warning("number of replicates will be rounded up to the next integer", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
     n_exp <- ceiling(n_exp)}
 
   if(!is.logical(pos_sums)) stop("pos_sums must be a logical argument (TRUE or FALSE)", call. = TRUE, domain = NA)
@@ -163,7 +229,7 @@ sim_ddpcr_bkm <- function(m, n=20000, mexp=T, n_exp = 8, pos_sums=F, fluo = NULL
 # Same procedure for all replicates
 # repfunc is called internally in samfunc
 repfunc <- function(repdat){
-  dropmem <- sample(repdat[1],repdat[2],replace=T,prob=rlnorm(repdat[1],0,dropsd))
+  dropmem <- sample(repdat[1],repdat[2],replace=TRUE,prob=rlnorm(repdat[1],0,dropsd))
     # droplet membership, probability proportional to size, size following a lognormal distribution
   dropn <- ifelse(mudropr>=1,repdat[1],round(repdat[1]*plogis(rnorm(1,log(mudropr/(1-mudropr)),log((mudropr+sddropr)/(mudropr-sddropr)*(1-mudropr+sddropr)/(1-mudropr-sddropr))/2))))
     # number of droplets retained
@@ -279,70 +345,5 @@ out <- sapply(lambda,samfunc)
 
 #' Testfile to check the most important settings
 
-# no parameters, no replicates, one given concentration
-test1 <- sim_ddpcr_bkm(0.5,n_exp=1,seed=1)
-str(test1)
--log(1-test1[[1]][1]/test1[[1]][2])
 
-# changed parameters, no replicates, one given concentration
-test2 <- sim_ddpcr_bkm(0.5,n_exp=1,seed=2,sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=T,piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01)
-str(test2)
--log(1-test2[[1]][1]/test2[[1]][2])
-
-# changed parameters, no replicates, one given concentration
-# output all droplets and their peak fluorescence
-test3 <- sim_ddpcr_bkm(0.5,n_exp=1,seed=3,pos_sums=T,fluo=T,sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=T,piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01)
-str(test3)
--log(1-sum(test3[[1]])/length(test3[[1]]))
-plot(density(test3[[2]])) # not logical: falpos & falneg do not influence distribution
-
-# output only number of positive droplet, but also their fluorescence
-test3b <- sim_ddpcr_bkm(0.5,n_exp=1,seed=3,pos_sums=F,fluo=T,sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=T,piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01)
-str(test3b)
-
-# changed parameters, no replicates, one given concentration
-# output all droplets and the full fluorescence (huge, length about 128 800)
-# becomes somewhat slower (16 seconds on my relatively slow computer)
-system.time(test4 <- sim_ddpcr_bkm(0.5,n_exp=1,seed=4,pos_sums=T,fluo=10,sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=T,piperr=0.02,dropsd=0.2,rain=0.1))
-str(test4)
--log(1-sum(test4[[1]])/length(test4[[1]]))
-par(mar=rep(0,4))
-par(mfrow=c(10,1))
-x <- 12880
-for(i in 1:10){
-plot(test4[[2]][((i-1)*x+1):(i*x)],type="l",xaxt="n")}
-par(mfrow=c(1,1))
-# better zoom in and plot less
-par(mfrow=c(10,1))
-x <- 250
-for(i in 11:20){
-plot(test4[[2]][((i-1)*x+1):(i*x)],type="l",xaxt="n")}
-par(mfrow=c(1,1))
-
-# 8 replicates, one given concentration
-# output all droplets and peak fluorescence
-system.time(test5 <- sim_ddpcr_bkm(0.5,n_exp=8,seed=5,pos_sums=T,fluo=T,sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=T,piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01))
-str(test5)
-conc <- NULL
-for(i in 1:8){
-conc <- c(conc,-log(1-sum(test5[[2*i-1]])/length(test5[[2*i-1]])))}
-conc
-
-# 8 replicates, several concentrations
-# output all droplets and peak fluorescence
-# higher concentrations (and more droplets) take more time.
-# This set-up took about 1 minute on my computer
-system.time(test6 <- sim_ddpcr_bkm(exp(-4:1),n_exp=8,seed=6,pos_sums=T,fluo=T,sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=T,piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01))
-str(test6)
-
-conc <- NULL
-for(j in 1:6){
-conct <- NULL
-for(i in 1:8){
-conct <- c(conct,-log(1-sum(test6[[16*(j-1)+2*i-1]])/length(test6[[16*(j-1)+2*i-1]])))
-}
-conc <- cbind(conc,conct)
-}
-colnames(conc) <- round(exp(-4:1),3)
-conc
 
