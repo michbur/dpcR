@@ -77,14 +77,18 @@ test_counts <- function(input, model = "binomial", ...) {
     p_vals <- p.adjust(sapply(all_combns, function(i)
       i[["p.value"]]), method = "BH")
     
+    #     #for only two experiments
+    #     if(!is.matrix(p_vals))
+    #       p_vals <- as.matrix(p_vals)
+    
     #values of chi square statistic
     statistics <- sapply(all_combns, function(i)
       i[["statistic"]])
     
     test_res <- matrix(c(statistics, p_vals), ncol = 2,
                        dimnames = list(apply(matrix(names(positives)[test_ids], ncol = 2, 
-                                               byrow= TRUE),1, function(i) 
-                                                 paste(i, collapse = " - ")),
+                                                    byrow= TRUE),1, function(i) 
+                                                      paste(i, collapse = " - ")),
                                        c("X_squared", "p_value")))
     
     #split data in groups
@@ -94,8 +98,14 @@ test_counts <- function(input, model = "binomial", ...) {
                                    "wilson")[, 4L:6])
     
     only_signif <- test_ids[, p_vals > 0.05]
-    groups <- unique(lapply(1L:length(total), function(i)
-      sort(unique(as.vector(only_signif[, as.logical(colSums(only_signif == i))])))))
+    #every experiment belongs to different group when dim(only_signif)[2] == 0
+    groups <- if(dim(only_signif)[2] == 0) {
+      as.list(1L:length(total))
+    } else {
+      unique(lapply(1L:length(total), function(i)
+        sort(unique(as.vector(only_signif[, as.logical(colSums(only_signif == i))])))))
+    }
+    
     group_matrix <- sapply(1L:length(total), function(experiment) 
       sapply(groups, function(single_group) experiment %in% single_group))
     #all experiments in one group
