@@ -4,7 +4,7 @@
 \alias{sim_ddpcr_bkm}
 \title{Simulate Droplet Digital PCR}
 \usage{
-sim_ddpcr_bkm(m, n = 20000, mexp = TRUE, n_exp = 8, pos_sums = FALSE,
+sim_ddpcr_bkm(m, n = 20000L, mexp = TRUE, n_exp = 8, pos_sums = FALSE,
   fluo = NULL, sddropc = 0, mudropr = 1, sddropr = 0, Pvar = TRUE,
   piperr = 0, seed = runif(1), dropsd = 0, falpos = 0, falneg = 0,
   rain = 0)
@@ -13,13 +13,15 @@ sim_ddpcr_bkm(m, n = 20000, mexp = TRUE, n_exp = 8, pos_sums = FALSE,
 \item{m}{is either the concentration of templates molecules in the raw sample
 (copies/microliter)
 or the expected number of template molecules per droplet.
-See}
+See \code{mexp} paramter for details
+Must be a (vector of) positive integers.}
 
 \item{n}{the expected number of droplets per experiment. Must be a positive integer.
 Default 20000 based on the Bio-Rad ddPCR QX100 theoretical expected values}
 
-\item{mexp}{for details
-Must be a (vector of) positive integers.}
+\item{mexp}{If \code{TRUE}, m is the expected number of template molecules per droplet
+If \code{FALSE}, m is the concentration of the raw sample
+Default \code{TRUE} as in Jacobs et al.}
 
 \item{n_exp}{the number of experiments that are simulated by the function for each given
 \code{m}.
@@ -70,21 +72,17 @@ Must be a real number between 0 and 1
 Default 0 for no false positives
 Only used with \code{fluo} is \code{NULL}}
 
+\item{falneg}{probability that a partition containing at least one copy gives a negative
+result
+Must be a real number between 0 and 1
+Default 0 for no false negatives
+Only used with \code{fluo} is \code{NULL}}
+
 \item{rain}{parameter that defines how much inhibition is enforced on positive droplets.
 Must be a real number between 0 and 1 with 0 no rain, 1 positive droplets follow same
 distribution as negative droplets
 Default 0 for no rain
 Not used with \code{fluo} is \code{NULL}}
-
-\item{mexp}{If \code{TRUE}, m is the expected number of template molecules per droplet
-If \code{FALSE}, m is the concentration of the raw sample
-Default \code{TRUE} as in Jacobs et al.}
-
-\item{falneg:}{probability that a partition containing at least one copy gives a negative
-result
-Must be a real number between 0 and 1
-Default 0 for no false negatives
-Only used with \code{fluo} is \code{NULL}}
 }
 \description{
 Simulates results of a droplet digital PCR.
@@ -93,29 +91,38 @@ Simulates results of a droplet digital PCR.
 sim_ddpcr_bkm is based on the R code from Jacobs et al. (2014) (see references).
 }
 \examples{
+\dontrun{
 # no parameters, no replicates, one given concentration
 test1 <- sim_ddpcr_bkm(0.5,n_exp=1,seed=1)
 str(test1)
 -log(1-test1[[1]][1]/test1[[1]][2])
 # changed parameters, no replicates, one given concentration
-test2 <- sim_ddpcr_bkm(0.5,n_exp=1,seed=2,sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=TRUE,piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01)
+test2 <- sim_ddpcr_bkm(0.5,n_exp=1,seed=2,sddropc=500,mudropr=0.7,
+                       sddropr=0.1,Pvar=TRUE,piperr=0.02,dropsd=0.2,
+                       falpos=0.001,falneg=0.01)
 str(test2)
 -log(1-test2[[1]][1]/test2[[1]][2])
 # changed parameters, no replicates, one given concentration
 # output all droplets and their peak fluorescence
-test3 <- sim_ddpcr_bkm(0.5,n_exp=1,seed=3,pos_sums=TRUE,fluo=TRUE,sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=TRUE,piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01)
+test3 <- sim_ddpcr_bkm(0.5,n_exp=1,seed=3,pos_sums=TRUE,fluo=TRUE,
+                       sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=TRUE,
+                       piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01)
 str(test3)
 -log(1-sum(test3[[1]])/length(test3[[1]]))
 plot(density(test3[[2]])) # not logical: falpos & falneg do not influence distribution
 
 # output only number of positive droplet, but also their fluorescence
-test3b <- sim_ddpcr_bkm(0.5,n_exp=1,seed=3,pos_sums=FALSE,fluo=TRUE,sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=TRUE,piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01)
+test3b <- sim_ddpcr_bkm(0.5,n_exp=1,seed=3,pos_sums=FALSE,fluo=TRUE,
+                        sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=TRUE,
+                        piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01)
 str(test3b)
 
 # changed parameters, no replicates, one given concentration
 # output all droplets and the full fluorescence (huge, length about 128 800)
 # becomes somewhat slower (16 seconds on my relatively slow computer)
-system.time(test4 <- sim_ddpcr_bkm(0.5,n_exp=1,seed=4,pos_sums=TRUE,fluo=10,sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=TRUE,piperr=0.02,dropsd=0.2,rain=0.1))
+system.time(test4 <- sim_ddpcr_bkm(0.5,n_exp=1,seed=4,pos_sums=TRUE,fluo=10,sddropc=500,
+                                   mudropr=0.7,sddropr=0.1,Pvar=TRUE,piperr=0.02,
+                                   dropsd=0.2,rain=0.1))
 str(test4)
 -log(1-sum(test4[[1]])/length(test4[[1]]))
 par(mar=rep(0,4))
@@ -133,7 +140,9 @@ par(mfrow=c(1,1))
 
 # 8 replicates, one given concentration
 # output all droplets and peak fluorescence
-system.time(test5 <- sim_ddpcr_bkm(0.5,n_exp=8,seed=5,pos_sums=TRUE,fluo=TRUE,sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=TRUE,piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01))
+system.time(test5 <- sim_ddpcr_bkm(0.5,n_exp=8,seed=5,pos_sums=TRUE,fluo=TRUE,
+                                   sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=TRUE,
+                                   piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01))
 str(test5)
 conc <- NULL
 for(i in 1:8){
@@ -143,7 +152,9 @@ conc
 # output all droplets and peak fluorescence
 # higher concentrations (and more droplets) take more time.
 # This set-up took about 1 minute on my computer
-system.time(test6 <- sim_ddpcr_bkm(exp(-4:1),n_exp=8,seed=6,pos_sums=TRUE,fluo=TRUE,sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=TRUE,piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01))
+system.time(test6 <- sim_ddpcr_bkm(exp(-4:1),n_exp=8,seed=6,pos_sums=TRUE,fluo=TRUE,
+                                   sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=TRUE,
+                                   piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01))
 str(test6)
 conc <- NULL
 for(j in 1:6){
@@ -155,6 +166,7 @@ for(j in 1:6){
 }
 colnames(conc) <- round(exp(-4:1),3)
 conc
+}
 }
 \references{
 Jacobs B, Goetghebeur E, Clement L \emph{Impact of variance components on reliability of

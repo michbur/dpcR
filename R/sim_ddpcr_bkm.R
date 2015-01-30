@@ -5,27 +5,33 @@
 #' @param m is either the concentration of templates molecules in the raw sample 
 #' (copies/microliter)
 #' or the expected number of template molecules per droplet.
-#' See @param mexp for details
+#' See \code{mexp} paramter for details
 #' Must be a (vector of) positive integers.
+#' 
 #' @param n the expected number of droplets per experiment. Must be a positive integer.
 #' Default 20000 based on the Bio-Rad ddPCR QX100 theoretical expected values
+#' 
 #' @param mexp If \code{TRUE}, m is the expected number of template molecules per droplet
 #' If \code{FALSE}, m is the concentration of the raw sample
 #' Default \code{TRUE} as in Jacobs et al.
+#' 
 #' @param n_exp the number of experiments that are simulated by the function for each given 
 #' \code{m}.
 #' Default 8 for eight replicates for each given \code{m} as in Jacobs et al.
+#' 
 #' @param pos_sums if \code{TRUE}, function returns only the total number and
 #' the number of positive (containing at least one molecule) droplets per well.
 #' If \code{FALSE}, the function returns a vector of length equal to the number
 #' of droplets. Each element of the vector represents whether the given droplet
 #' contained at least one target molecule or was void of target molecules.
+#' 
 #' @param fluo if \code{NULL}, the function calculates total number of positive droplets.
 #' If \code{TRUE}, the function returns the fluorence intensities of all droplets
 #' If a positive real number, the function returns the full fluoresence curve
 #' with the given number the expected space between two consecutive measured droplets.
 #' Values between 10-20 give nice results 
 #' Default \code{NULL} to mimic automatic commercial output.
+#' 
 #' @param sddropc standard deviation of the number of droplets generated
 #' Must be a real number between 0 and \code{n} divided by 10.
 #' Default 0 for constant number of droplets
@@ -58,7 +64,7 @@
 #' Default 0 for no false positives
 #' Only used with \code{fluo} is \code{NULL}
 #' 
-#' @param falneg: probability that a partition containing at least one copy gives a negative 
+#' @param falneg probability that a partition containing at least one copy gives a negative 
 #' result
 #' Must be a real number between 0 and 1
 #' Default 0 for no false negatives
@@ -69,35 +75,45 @@
 #' distribution as negative droplets
 #' Default 0 for no rain
 #' Not used with \code{fluo} is \code{NULL}
+#' 
 #' @details sim_ddpcr_bkm is based on the R code from Jacobs et al. (2014) (see references).
 #' @references
 #' Jacobs B, Goetghebeur E, Clement L \emph{Impact of variance components on reliability of 
 #' absolute quantification using digital PCR} BMC Bioinformatics, 2014.
 #' @export
 #' @examples
+#' \dontrun{
 #' # no parameters, no replicates, one given concentration
 #' test1 <- sim_ddpcr_bkm(0.5,n_exp=1,seed=1)
 #' str(test1)
 #' -log(1-test1[[1]][1]/test1[[1]][2])
 #' # changed parameters, no replicates, one given concentration
-#' test2 <- sim_ddpcr_bkm(0.5,n_exp=1,seed=2,sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=TRUE,piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01)
+#' test2 <- sim_ddpcr_bkm(0.5,n_exp=1,seed=2,sddropc=500,mudropr=0.7,
+#'                        sddropr=0.1,Pvar=TRUE,piperr=0.02,dropsd=0.2,
+#'                        falpos=0.001,falneg=0.01)
 #' str(test2)
 #' -log(1-test2[[1]][1]/test2[[1]][2])
 #' # changed parameters, no replicates, one given concentration
 #' # output all droplets and their peak fluorescence
-#' test3 <- sim_ddpcr_bkm(0.5,n_exp=1,seed=3,pos_sums=TRUE,fluo=TRUE,sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=TRUE,piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01)
+#' test3 <- sim_ddpcr_bkm(0.5,n_exp=1,seed=3,pos_sums=TRUE,fluo=TRUE,
+#'                        sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=TRUE,
+#'                        piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01)
 #' str(test3)
 #' -log(1-sum(test3[[1]])/length(test3[[1]]))
 #' plot(density(test3[[2]])) # not logical: falpos & falneg do not influence distribution
 #' 
 #' # output only number of positive droplet, but also their fluorescence
-#' test3b <- sim_ddpcr_bkm(0.5,n_exp=1,seed=3,pos_sums=FALSE,fluo=TRUE,sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=TRUE,piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01)
+#' test3b <- sim_ddpcr_bkm(0.5,n_exp=1,seed=3,pos_sums=FALSE,fluo=TRUE,
+#'                         sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=TRUE,
+#'                         piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01)
 #' str(test3b)
 #' 
 #' # changed parameters, no replicates, one given concentration
 #' # output all droplets and the full fluorescence (huge, length about 128 800)
 #' # becomes somewhat slower (16 seconds on my relatively slow computer)
-#' system.time(test4 <- sim_ddpcr_bkm(0.5,n_exp=1,seed=4,pos_sums=TRUE,fluo=10,sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=TRUE,piperr=0.02,dropsd=0.2,rain=0.1))
+#' system.time(test4 <- sim_ddpcr_bkm(0.5,n_exp=1,seed=4,pos_sums=TRUE,fluo=10,sddropc=500,
+#'                                    mudropr=0.7,sddropr=0.1,Pvar=TRUE,piperr=0.02,
+#'                                    dropsd=0.2,rain=0.1))
 #' str(test4)
 #' -log(1-sum(test4[[1]])/length(test4[[1]]))
 #' par(mar=rep(0,4))
@@ -115,20 +131,22 @@
 #' 
 #' # 8 replicates, one given concentration
 #' # output all droplets and peak fluorescence
-#' system.time(test5 <- sim_ddpcr_bkm(0.5,n_exp=8,seed=5,pos_sums=TRUE,fluo=TRUE,sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=TRUE,piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01))
+#' system.time(test5 <- sim_ddpcr_bkm(0.5,n_exp=8,seed=5,pos_sums=TRUE,fluo=TRUE,
+#'                                    sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=TRUE,
+#'                                    piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01))
 #' str(test5)
 #' conc <- NULL
 #' for(i in 1:8){
 #'   conc <- c(conc,-log(1-sum(test5[[2*i-1]])/length(test5[[2*i-1]])))}
 #' conc
-
 #' # 8 replicates, several concentrations
 #' # output all droplets and peak fluorescence
 #' # higher concentrations (and more droplets) take more time.
 #' # This set-up took about 1 minute on my computer
-#' system.time(test6 <- sim_ddpcr_bkm(exp(-4:1),n_exp=8,seed=6,pos_sums=TRUE,fluo=TRUE,sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=TRUE,piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01))
+#' system.time(test6 <- sim_ddpcr_bkm(exp(-4:1),n_exp=8,seed=6,pos_sums=TRUE,fluo=TRUE,
+#'                                    sddropc=500,mudropr=0.7,sddropr=0.1,Pvar=TRUE,
+#'                                    piperr=0.02,dropsd=0.2,falpos=0.001,falneg=0.01))
 #' str(test6)
-
 #' conc <- NULL
 #' for(j in 1:6){
 #'   conct <- NULL
@@ -139,80 +157,82 @@
 #' }
 #' colnames(conc) <- round(exp(-4:1),3)
 #' conc
+#' }
 
 
-sim_ddpcr_bkm <- function(m, n=20000, mexp=TRUE, n_exp = 8, pos_sums=FALSE, 
-                          fluo = NULL, sddropc=0, mudropr=1, sddropr=0, Pvar=TRUE,
-                          piperr=0, seed=runif(1), dropsd=0, falpos=0, falneg=0, rain=0) {
+sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8, pos_sums = FALSE, 
+                          fluo = NULL, sddropc = 0, mudropr = 1, sddropr = 0, Pvar = TRUE,
+                          piperr = 0, seed = runif(1), dropsd = 0, falpos = 0, falneg = 0, 
+                          rain = 0) {
   
   ##############
   ### checks ###
   ##############
   
-  if(!is.numeric(seed)) stop("seed must have a numeric argument", call. = TRUE, domain = NA)
+  if(!is.numeric(seed)) stop("seed must have a numeric argument.", call. = TRUE, domain = NA)
   set.seed(seed)
   
-  if(!is.logical(mexp)) stop("mexp must be a logical argument (TRUE or FALSE)", call. = TRUE, domain = NA)
-  if(max(!is.finite(m))) stop("Concentrations should all be numeric", call. = TRUE, domain = NA)
-  if(min(m)<0) stop("Concentrations cannot be negative", call. = TRUE, domain = NA)
-  if(mexp){lambda <- m}else{lambda <- m*0.89/1000}
+  if(!is.logical(mexp)) stop("mexp must be a logical argument (TRUE or FALSE).", call. = TRUE, domain = NA)
+  if(max(!is.finite(m))) stop("Concentrations should all be numeric.", call. = TRUE, domain = NA)
+  if(min(m) < 0) stop("Concentrations cannot be negative.", call. = TRUE, domain = NA)
+  lambda <- ifelse(mexp, m, m*0.89/1000)
   
-  if(!is.numeric(n)) stop("number of droplets must have a numeric argument", call. = TRUE, domain = NA)
-  if(n < 10) stop("number of droplets must be large", call. = TRUE, domain = NA)
-  if(!is.integer(n)) {warning("number of droplets will be rounded up to the next integer", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
+  if(!is.numeric(n)) stop("Number of droplets must have a numeric argument..", call. = TRUE, domain = NA)
+  if(n < 10) stop("Number of droplets must be larger than 10.", call. = TRUE, domain = NA)
+  if(!is.integer(n)) {warning("Number of droplets will be rounded up to the next integer.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
                       n <- ceiling(n)}
   
-  if(!is.numeric(n_exp)) stop("number of replicates must have a numeric argument", call. = TRUE, domain = NA)
-  if(n_exp < 1) stop("number of replicates must be at least 1", call. = TRUE, domain = NA)
-  if(!is.integer(n_exp)) {warning("number of replicates will be rounded up to the next integer", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
+  if(!is.numeric(n_exp)) stop("number of replicates must have a numeric argument.", call. = TRUE, domain = NA)
+  if(n_exp < 1) stop("number of replicates must be at least 1.", call. = TRUE, domain = NA)
+  if(!is.integer(n_exp)) {warning("number of replicates will be rounded up to the next integer.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
                           n_exp <- ceiling(n_exp)}
   
-  if(!is.logical(pos_sums)) stop("pos_sums must be a logical argument (TRUE or FALSE)", call. = TRUE, domain = NA)
+  if(!is.logical(pos_sums)) stop("pos_sums must be a logical argument (TRUE or FALSE).", call. = TRUE, domain = NA)
   
-  if(!is.numeric(sddropc)) stop("sddropc must have a numeric argument", call. = TRUE, domain = NA)
-  if(sddropc < 0) {warning("sddropc will be set to 0", call. = TRUE, domain = NA)
+  if(!is.numeric(sddropc)) stop("sddropc must have a numeric argument.", call. = TRUE, domain = NA)
+  if(sddropc < 0) {warning("sddropc will be set to 0.", call. = TRUE, domain = NA)
                    sddropc <- 0}
-  if(sddropc > n/5) {warning("sddropc will be set to n/5", call. = TRUE, domain = NA)
+  if(sddropc > n/5) {warning("sddropc will be set to n/5.", call. = TRUE, domain = NA)
                      sddropc <- n/5}
   
-  if(!is.numeric(mudropr)) stop("mudropr must have a numeric argument", call. = TRUE, domain = NA)
-  if(mudropr*n < 10) stop("mudropr too small, too few droplets will be returned", call. = TRUE, domain = NA)
-  if(mudropr > 1) warning("mudropr will be set to 1", call. = TRUE, domain = NA) # happens in code
+  if(!is.numeric(mudropr)) stop("mudropr must have a numeric argument.", call. = TRUE, domain = NA)
+  if(mudropr*n < 10) stop("mudropr too small, too few droplets will be returned.", call. = TRUE, domain = NA)
+  if(mudropr > 1) warning("mudropr will be set to 1.", call. = TRUE, domain = NA) # happens in code
   
-  if(mudropr < 1){if(!is.numeric(sddropr)) stop("sddropr must have a numeric argument", call. = TRUE, domain = NA)
-                  if(sddropr < 0) {warning("sddropr will be set to 0", call. = TRUE, domain = NA)
+  if(mudropr < 1){if(!is.numeric(sddropr)) stop("sddropr must have a numeric argument.", call. = TRUE, domain = NA)
+                  if(sddropr < 0) {warning("sddropr will be set to 0.", call. = TRUE, domain = NA)
                                    sddropr <- 0}
-                  if((sddropr >= mudropr) | ((sddropr+mudropr) >= 1)) stop("sddropr too large", call. = TRUE, domain = NA)
+                  if((sddropr >= mudropr) | ((sddropr+mudropr) >= 1)) stop("sddropr too large.", call. = TRUE, domain = NA)
   }
   
-  if(!is.numeric(piperr)) stop("pipette error must have a numeric argument", call. = TRUE, domain = NA)
-  if(piperr < 0) stop("pipette error should be positive or 0", call. = TRUE, domain = NA)
+  if(!is.numeric(piperr)) stop("pipette error must have a numeric argument.", call. = TRUE, domain = NA)
+  if(piperr < 0) stop("pipette error should be positive or 0.", call. = TRUE, domain = NA)
   
-  if(!is.numeric(dropsd)) stop("dropsd must have a numeric argument", call. = TRUE, domain = NA)
-  if(dropsd < 0) {warning("dropsd will be set to 0", call. = TRUE, domain = NA)
+  if(!is.numeric(dropsd)) stop("dropsd must have a numeric argument.", call. = TRUE, domain = NA)
+  if(dropsd < 0) {warning("dropsd will be set to 0.", call. = TRUE, domain = NA)
                   dropsd <- 0}
   
-  if(!is.logical(Pvar)) stop("Pvar must be a logical argument (TRUE or FALSE)", call. = TRUE, domain = NA)
+  if(!is.logical(Pvar)) stop("Pvar must be a logical argument (TRUE or FALSE).", call. = TRUE, domain = NA)
   
   if(is.null(fluo)){fluoselect <- 1
-                    if(!is.numeric(falpos)) stop("falpos must have a numeric argument", call. = TRUE, domain = NA)
-                    if(falpos < 0) {warning("falpos will be set to 0", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
+                    if(!is.numeric(falpos)) stop("falpos must have a numeric argument.", call. = TRUE, domain = NA)
+                    if(falpos < 0) {warning("falpos will be set to 0.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
                                     falpos <- 0}
-                    if(!is.numeric(falneg)) stop("falneg must have a numeric argument", call. = TRUE, domain = NA)
-                    if(falneg < 0) {warning("falneg will be set to 0", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
+                    if(!is.numeric(falneg)) stop("falneg must have a numeric argument.", call. = TRUE, domain = NA)
+                    if(falneg < 0) {warning("falneg will be set to 0.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
                                     falneg <- 0}
-                    if(falpos >= 1) stop("falpos too large, set a number between 0 and 1", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
-                    if(falneg >= 1) stop("falneg too large, set a number between 0 and 1", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
+                    if(falpos >= 1) stop("falpos too large, set a number between 0 and 1.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
+                    if(falneg >= 1) stop("falneg too large, set a number between 0 and 1.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
   }
   else{
-    if(!is.numeric(rain)) stop("rain must have a numeric argument", call. = TRUE, domain = NA)
-    if(rain < 0) {warning("rain will be set to 0", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
+    if(!is.numeric(rain)) stop("rain must have a numeric argument.", call. = TRUE, domain = NA)
+    if(rain < 0) {warning("rain will be set to 0.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
                   rain <- 0}
-    if(rain >= 1) {warning("rain will be set to 1", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
+    if(rain >= 1) {warning("rain will be set to 1.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
                    rain <- 1}
     if(is.logical(fluo)){fluoselect <- ifelse(fluo,2,1)}
-    else{if(is.numeric(fluo)){if(fluo>0){fluoselect <- 3}else{stop("fluo does not have a valid argument", call. = TRUE, domain = NA)}}
-         else{stop("fluo does not have a valid argument", call. = TRUE, domain = NA)}
+    else{if(is.numeric(fluo)){if(fluo>0){fluoselect <- 3}else{stop("fluo does not have a valid argument.", call. = TRUE, domain = NA)}}
+         else{stop("fluo does not have a valid argument.", call. = TRUE, domain = NA)}
     }
   }
   
