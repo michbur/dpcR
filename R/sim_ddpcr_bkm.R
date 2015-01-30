@@ -1,37 +1,31 @@
 #' Simulate Droplet Digital PCR
 #'
-#' A function that simulates results of a droplet digital PCR.
+#' Simulates results of a droplet digital PCR.
 #'
-#' Version sim_ddpcr_bkm based on the R code from Jacobs et al. (2014)
-
-#' @param m is either the concentration of templates molecules in the raw sample (copies/microliter)
+#' @param m is either the concentration of templates molecules in the raw sample 
+#' (copies/microliter)
 #' or the expected number of template molecules per droplet.
 #' See @param mexp for details
 #' Must be a (vector of) positive integers.
-
 #' @param n the expected number of droplets per experiment. Must be a positive integer.
 #' Default 20000 based on the Bio-Rad ddPCR QX100 theoretical expected values
-
 #' @param mexp If \code{TRUE}, m is the expected number of template molecules per droplet
 #' If \code{FALSE}, m is the concentration of the raw sample
 #' Default \code{TRUE} as in Jacobs et al.
-
-#' @param n_exp the number of experiments that are simulated by the function for each given \code{m}.
+#' @param n_exp the number of experiments that are simulated by the function for each given 
+#' \code{m}.
 #' Default 8 for eight replicates for each given \code{m} as in Jacobs et al.
-
 #' @param pos_sums if \code{TRUE}, function returns only the total number and
 #' the number of positive (containing at least one molecule) droplets per well.
 #' If \code{FALSE}, the function returns a vector of length equal to the number
 #' of droplets. Each element of the vector represents whether the given droplet
 #' contained at least one target molecule or was void of target molecules.
-
 #' @param fluo if \code{NULL}, the function calculates total number of positive droplets.
 #' If \code{TRUE}, the function returns the fluorence intensities of all droplets
 #' If a positive real number, the function returns the full fluoresence curve
 #' with the given number the expected space between two consecutive measured droplets.
 #' Values between 10-20 give nice results 
 #' Default \code{NULL} to mimic automatic commercial output.
-
 #' @param sddropc standard deviation of the number of droplets generated
 #' Must be a real number between 0 and \code{n} divided by 10.
 #' Default 0 for constant number of droplets
@@ -63,16 +57,22 @@
 #' Must be a real number between 0 and 1
 #' Default 0 for no false positives
 #' Only used with \code{fluo} is \code{NULL}
-
-#' @param falneg: probability that a partition containing at least one copy gives a negative result
+#' 
+#' @param falneg: probability that a partition containing at least one copy gives a negative 
+#' result
 #' Must be a real number between 0 and 1
 #' Default 0 for no false negatives
 #' Only used with \code{fluo} is \code{NULL}
-
+#' 
 #' @param rain parameter that defines how much inhibition is enforced on positive droplets.
-#' Must be a real number between 0 and 1 with 0 no rain, 1 positive droplets follow same distribution as negative droplets
+#' Must be a real number between 0 and 1 with 0 no rain, 1 positive droplets follow same 
+#' distribution as negative droplets
 #' Default 0 for no rain
 #' Not used with \code{fluo} is \code{NULL}
+#' @details sim_ddpcr_bkm is based on the R code from Jacobs et al. (2014) (see references).
+#' @references
+#' Jacobs B, Goetghebeur E, Clement L \emph{Impact of variance components on reliability of 
+#' absolute quantification using digital PCR} BMC Bioinformatics, 2014.
 #' @export
 #' @examples
 #' # no parameters, no replicates, one given concentration

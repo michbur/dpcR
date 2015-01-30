@@ -10,7 +10,8 @@ sim_ddpcr_bkm(m, n = 20000, mexp = TRUE, n_exp = 8, pos_sums = FALSE,
   rain = 0)
 }
 \arguments{
-\item{m}{is either the concentration of templates molecules in the raw sample (copies/microliter)
+\item{m}{is either the concentration of templates molecules in the raw sample
+(copies/microliter)
 or the expected number of template molecules per droplet.
 See}
 
@@ -20,7 +21,8 @@ Default 20000 based on the Bio-Rad ddPCR QX100 theoretical expected values}
 \item{mexp}{for details
 Must be a (vector of) positive integers.}
 
-\item{n_exp}{the number of experiments that are simulated by the function for each given \code{m}.
+\item{n_exp}{the number of experiments that are simulated by the function for each given
+\code{m}.
 Default 8 for eight replicates for each given \code{m} as in Jacobs et al.}
 
 \item{pos_sums}{if \code{TRUE}, function returns only the total number and
@@ -69,7 +71,8 @@ Default 0 for no false positives
 Only used with \code{fluo} is \code{NULL}}
 
 \item{rain}{parameter that defines how much inhibition is enforced on positive droplets.
-Must be a real number between 0 and 1 with 0 no rain, 1 positive droplets follow same distribution as negative droplets
+Must be a real number between 0 and 1 with 0 no rain, 1 positive droplets follow same
+distribution as negative droplets
 Default 0 for no rain
 Not used with \code{fluo} is \code{NULL}}
 
@@ -77,16 +80,17 @@ Not used with \code{fluo} is \code{NULL}}
 If \code{FALSE}, m is the concentration of the raw sample
 Default \code{TRUE} as in Jacobs et al.}
 
-\item{falneg:}{probability that a partition containing at least one copy gives a negative result
+\item{falneg:}{probability that a partition containing at least one copy gives a negative
+result
 Must be a real number between 0 and 1
 Default 0 for no false negatives
 Only used with \code{fluo} is \code{NULL}}
 }
 \description{
-A function that simulates results of a droplet digital PCR.
+Simulates results of a droplet digital PCR.
 }
 \details{
-Version sim_ddpcr_bkm based on the R code from Jacobs et al. (2014)
+sim_ddpcr_bkm is based on the R code from Jacobs et al. (2014) (see references).
 }
 \examples{
 # no parameters, no replicates, one given concentration
@@ -151,5 +155,9 @@ for(j in 1:6){
 }
 colnames(conc) <- round(exp(-4:1),3)
 conc
+}
+\references{
+Jacobs B, Goetghebeur E, Clement L \emph{Impact of variance components on reliability of
+absolute quantification using digital PCR} BMC Bioinformatics, 2014.
 }
 
