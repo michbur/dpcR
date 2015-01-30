@@ -214,15 +214,20 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8, pos_sums = FALS
   
   if(!is.logical(Pvar)) stop("Pvar must be a logical argument (TRUE or FALSE).", call. = TRUE, domain = NA)
   
-  if(is.null(fluo)){fluoselect <- 1
-                    if(!is.numeric(falpos)) stop("falpos must have a numeric argument.", call. = TRUE, domain = NA)
-                    if(falpos < 0) {warning("falpos will be set to 0.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
-                                    falpos <- 0}
-                    if(!is.numeric(falneg)) stop("falneg must have a numeric argument.", call. = TRUE, domain = NA)
-                    if(falneg < 0) {warning("falneg will be set to 0.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
-                                    falneg <- 0}
-                    if(falpos >= 1) stop("falpos too large, set a number between 0 and 1.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
-                    if(falneg >= 1) stop("falneg too large, set a number between 0 and 1.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
+  if(is.null(fluo)) {
+    fluoselect <- 1
+    if(!is.numeric(falpos)) stop("falpos must have a numeric argument.", call. = TRUE, domain = NA)
+    if(falpos < 0) {
+      warning("falpos will be set to 0.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
+      falpos <- 0
+    }
+    if(!is.numeric(falneg)) stop("falneg must have a numeric argument.", call. = TRUE, domain = NA)
+    if(falneg < 0) {
+      warning("falneg will be set to 0.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
+      falneg <- 0
+    }
+    if(falpos >= 1) stop("falpos too large, set a number between 0 and 1.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
+    if(falneg >= 1) stop("falneg too large, set a number between 0 and 1.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
   }
   else{
     if(!is.numeric(rain)) stop("rain must have a numeric argument.", call. = TRUE, domain = NA)
@@ -230,7 +235,8 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8, pos_sums = FALS
                   rain <- 0}
     if(rain >= 1) {warning("rain will be set to 1.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
                    rain <- 1}
-    if(is.logical(fluo)){fluoselect <- ifelse(fluo,2,1)}
+    if(is.logical(fluo)) 
+      fluoselect <- ifelse(fluo, 2, 1)
     else{if(is.numeric(fluo)){if(fluo>0){fluoselect <- 3}else{stop("fluo does not have a valid argument.", call. = TRUE, domain = NA)}}
          else{stop("fluo does not have a valid argument.", call. = TRUE, domain = NA)}
     }
@@ -243,60 +249,67 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8, pos_sums = FALS
   
   # Same procedure for all replicates
   # repfunc is called internally in samfunc
-  repfunc <- function(repdat){
-    dropmem <- sample(repdat[1],repdat[2],replace=TRUE,prob=rlnorm(repdat[1],0,dropsd))
+  repfunc <- function(repdat) {
+    dropmem <- sample(repdat[1], repdat[2], replace = TRUE, prob = rlnorm(repdat[1], 0, dropsd))
     # droplet membership, probability proportional to size, size following a lognormal distribution
-    dropn <- ifelse(mudropr>=1,repdat[1],round(repdat[1]*plogis(rnorm(1,log(mudropr/(1-mudropr)),log((mudropr+sddropr)/(mudropr-sddropr)*(1-mudropr+sddropr)/(1-mudropr-sddropr))/2))))
+    dropn <- ifelse(mudropr >= 1, repdat[1], 
+                    round(repdat[1]*plogis(rnorm(1,log(mudropr/(1-mudropr)), log((mudropr+sddropr)/(mudropr-sddropr)*(1-mudropr+sddropr)/(1-mudropr-sddropr))/2))))
     # number of droplets retained
-    dropmem <- dropmem[dropmem<=dropn]
+    dropmem <- dropmem[dropmem <= dropn]
     # only retain copies of which the droplet is retained (lower rank)
-    if(fluoselect==1){
-      if(!pos_sums){dropno <- dropn - length(as.vector(table(dropmem)))
-                    # number of droplets without copy (total - number with copies)
-                    droppos <- dropn-(rbinom(1,dropno,1-falpos)+rbinom(1,dropn-dropno,falneg))
-                    return.drops <- c(droppos,dropn)}
+    if(fluoselect == 1){
+      if(!pos_sums) {
+        dropno <- dropn - length(as.vector(table(dropmem)))
+        # number of droplets without copy (total - number with copies)
+        droppos <- dropn-(rbinom(1,dropno,1-falpos)+rbinom(1,dropn-dropno,falneg))
+        return.drops <- c(droppos,dropn)
+      }
       # number of droplets with a negative signal (true neg + false neg)
-      else{dropvec <- sapply(1:dropn,function(i){any(dropmem==i)})
-           # vector with TRUE for positive droplets and FALSE for negative
-           dropfin <- (sapply(dropvec,function(x){ifelse(x,rbinom(1,1,falneg),rbinom(1,1,falpos))}))%%2
-           return.drops <- dropfin}
+      else {
+        dropvec <- sapply(1L:dropn, function(i)
+          any(dropmem == i))
+
+        # vector with TRUE for positive droplets and FALSE for negative
+        dropfin <- (sapply(dropvec,function(x){ifelse(x,rbinom(1,1,falneg),rbinom(1,1,falpos))}))%%2
+        return.drops <- dropfin}
       # vector TRUE for positive signal and FALSE for negative signal
       return.fluo <- NULL
     }
-    else{dropvec <- sapply(1:dropn,function(i){any(dropmem==i)})
-         # vector with TRUE for positive droplets and FALSE for negative
-         fluopeaks <- rnorm(dropn,1000,100)+8000*dropvec*(1-runif(dropn)^(1/rain-1))*(1-rain^2)+2000*(1-dropvec)*(1-runif(dropn)^rain)*(1-rain^2)
-         # random variation+downward rain+upward rain
-         dropfin <- (fluopeaks>2500)
-         # hard threshold as in most software these days
-         # vector TRUE for positive signal and FALSE for negative signal
-         if(pos_sums){return.drops <- dropfin}
-         else{return.drops <- c(sum(dropfin),dropn)}
-         if(fluoselect==2){return.fluo <- fluopeaks}
-         else{fluopos <- (1:dropn)*fluo+9+runif(dropn)*2+rnorm(dropn)
-              # vector of positions where the peak was found
-              # peaks on average 10 positions away from each other.
-              fluox <- 1:(round(dropn*fluo+90,-2))
-              fluoy <- rnorm(length(fluox),50,10)
-              # define fluo vectors with random background
-              j <- 1
-              for(i in fluox){
-                if(j<=dropn){
-                  if(fluopos[j]<(i-20)){j <- j+1}
-                  for(k in j:round(j+30/fluo)){
-                    # move j such that only the influence of peaks close by are counted
-                    # influence of peaks further away would be marginally small anyway
-                    if(k <= dropn){
-                      dist <- fluopos[k]-i
-                      # distance between peak and current location
-                      fluoy[i] <- fluoy[i]+dnorm(dist/2+rnorm(1,0,0.1))/dnorm(0)*fluopeaks[k]*0.95
-                      # add fluorescence signal stemming from this specific droplet
-                    }
-                  }
-                }
-              }
-              return.fluo <- fluoy
-         }
+    else {
+      dropvec <- sapply(1L:dropn, function(i) any(dropmem == i))
+      # vector with TRUE for positive droplets and FALSE for negative
+      fluopeaks <- rnorm(dropn,1000,100)+8000*dropvec*(1-runif(dropn)^(1/rain-1))*(1-rain^2)+2000*(1-dropvec)*(1-runif(dropn)^rain)*(1-rain^2)
+      # random variation+downward rain+upward rain
+      dropfin <- (fluopeaks>2500)
+      # hard threshold as in most software these days
+      # vector TRUE for positive signal and FALSE for negative signal
+      if(pos_sums){return.drops <- dropfin}
+      else{return.drops <- c(sum(dropfin),dropn)}
+      if(fluoselect==2){return.fluo <- fluopeaks}
+      else{fluopos <- (1:dropn)*fluo+9+runif(dropn)*2+rnorm(dropn)
+           # vector of positions where the peak was found
+           # peaks on average 10 positions away from each other.
+           fluox <- 1:(round(dropn*fluo+90,-2))
+           fluoy <- rnorm(length(fluox),50,10)
+           # define fluo vectors with random background
+           j <- 1
+           for(i in fluox){
+             if(j<=dropn){
+               if(fluopos[j]<(i-20)){j <- j+1}
+               for(k in j:round(j+30/fluo)){
+                 # move j such that only the influence of peaks close by are counted
+                 # influence of peaks further away would be marginally small anyway
+                 if(k <= dropn){
+                   dist <- fluopos[k]-i
+                   # distance between peak and current location
+                   fluoy[i] <- fluoy[i]+dnorm(dist/2+rnorm(1,0,0.1))/dnorm(0)*fluopeaks[k]*0.95
+                   # add fluorescence signal stemming from this specific droplet
+                 }
+               }
+             }
+           }
+           return.fluo <- fluoy
+      }
     }
     return(list(drop=return.drops,fluo=return.fluo))
     # returns list with first element vector of droplets 1/0
