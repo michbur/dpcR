@@ -288,35 +288,44 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, pos_sums = FAL
       dropfin <- (fluopeaks>2500)
       # hard threshold as in most software these days
       # vector TRUE for positive signal and FALSE for negative signal
-      if(pos_sums){return.drops <- dropfin}
-      else{return.drops <- c(sum(dropfin),dropn)}
-      if(fluoselect==2){return.fluo <- fluopeaks}
-      else{fluopos <- (1:dropn)*fluo+9+runif(dropn)*2+rnorm(dropn)
-           # vector of positions where the peak was found
-           # peaks on average 10 positions away from each other.
-           fluox <- 1:(round(dropn*fluo+90,-2))
-           fluoy <- rnorm(length(fluox),50,10)
-           # define fluo vectors with random background
-           j <- 1
-           for(i in fluox){
-             if(j<=dropn){
-               if(fluopos[j]<(i-20)){j <- j+1}
-               for(k in j:round(j+30/fluo)){
-                 # move j such that only the influence of peaks close by are counted
-                 # influence of peaks further away would be marginally small anyway
-                 if(k <= dropn){
-                   dist <- fluopos[k]-i
-                   # distance between peak and current location
-                   fluoy[i] <- fluoy[i]+dnorm(dist/2+rnorm(1,0,0.1))/dnorm(0)*fluopeaks[k]*0.95
-                   # add fluorescence signal stemming from this specific droplet
-                 }
-               }
-             }
-           }
-           return.fluo <- fluoy
+      return.drops <-  if (pos_sums) {
+        dropfin
+      } else {
+        c(sum(dropfin), dropn)
+      }
+      
+      
+      return.fluo <- if (fluoselect==2) {
+        fluopeaks
+      } else{
+        fluopos <- (1:dropn)*fluo+9+runif(dropn)*2+rnorm(dropn)
+        # vector of positions where the peak was found
+        # peaks on average 10 positions away from each other.
+        fluox <- 1:(round(dropn*fluo+90,-2))
+        fluoy <- rnorm(length(fluox),50,10)
+        # define fluo vectors with random background
+        j <- 1
+        for (i in fluox) {
+          if (j <= dropn) {
+            if (fluopos[j] < (i - 20)) {
+              j <- j + 1
+            }
+            for(k in j:round(j+30/fluo)){
+              # move j such that only the influence of peaks close by are counted
+              # influence of peaks further away would be marginally small anyway
+              if(k <= dropn) {
+                dist <- fluopos[k] - i
+                # distance between peak and current location
+                fluoy[i] <- fluoy[i] + dnorm(dist/2+rnorm(1, 0, 0.1))/dnorm(0)*fluopeaks[k]*0.95
+                # add fluorescence signal stemming from this specific droplet
+              }
+            }
+          }
+        }
+        fluoy
       }
     }
-    return(list(drop=return.drops,fluo=return.fluo))
+    list(drop = return.drops, fluo = return.fluo)
     # returns list with first element vector of droplets 1/0
     # or pair of number of pos droplets and total number of droplets
     # and second element either NULL, peak fluorescence of droplets
@@ -333,16 +342,16 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, pos_sums = FAL
   samfunc <- function(lambdan){
     dropstart <- round(rnorm(n_exp,n,sddropc))
     # number of droplets
-    copyvar <- lambdan*rnorm(n_exp,1,piperr)*dropstart
-    copyvar[copyvar<0] <- 0
+    copyvar <- lambdan*rnorm(n_exp, 1, piperr)*dropstart
+    copyvar[copyvar < 0] <- 0
     # expected number of copies after pipette variation
-    copyn <- ifelse(rep(Pvar,n_exp),rpois(n_exp,copyvar),round(copyvar))
+    copyn <- ifelse(rep(Pvar, n_exp), rpois(n_exp, copyvar), round(copyvar))
     # number of copies
     lamdummy <- rep(lambdan,n_exp)
-    repdat <- as.list(data.frame(rbind(dropstart,copyn,lamdummy)))
+    repdat <- as.list(data.frame(rbind(dropstart, copyn, lamdummy)))
     # number of droplets and copies in a list with n_exp elements, all pairs
     # droplets is the first element, copies the second
-    repres <- sapply(repdat,repfunc)
+    repres <- sapply(repdat, repfunc)
     # returns a list with n_exp*2 elements with
     # first element vector of droplets 1/0 or
     #   pair of number of pos droplets and total number of droplets
@@ -356,7 +365,7 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, pos_sums = FAL
   ### execute ###
   ###############
   
-  out <- sapply(lambda,samfunc)
+  out <- sapply(lambda, samfunc)
   # out returns a list with entries for each lambda
   # each entry is a list with n_exp*2 elements from samfunc
   # first element vector of droplets 1/0 or
