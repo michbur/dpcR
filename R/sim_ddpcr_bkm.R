@@ -160,7 +160,7 @@
 #' }
 
 
-sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8, pos_sums = FALSE, 
+sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, pos_sums = FALSE, 
                           fluo = NULL, sddropc = 0, mudropr = 1, sddropr = 0, Pvar = TRUE,
                           piperr = 0, seed = runif(1), dropsd = 0, falpos = 0, falneg = 0, 
                           rain = 0) {
@@ -184,7 +184,7 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8, pos_sums = FALS
   
   if(!is.numeric(n_exp)) stop("number of replicates must have a numeric argument.", call. = TRUE, domain = NA)
   if(n_exp < 1) stop("number of replicates must be at least 1.", call. = TRUE, domain = NA)
-  if(!is.integer(n_exp)) {warning("number of replicates will be rounded up to the next integer.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
+  if(!is.integer(n_exp)) {warning("number of replicates 'n_exp' will be rounded up to the next integer.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
                           n_exp <- ceiling(n_exp)}
   
   if(!is.logical(pos_sums)) stop("pos_sums must be a logical argument (TRUE or FALSE).", call. = TRUE, domain = NA)
@@ -227,14 +227,17 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8, pos_sums = FALS
       falneg <- 0
     }
     if(falpos >= 1) stop("falpos too large, set a number between 0 and 1.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
-    if(falneg >= 1) stop("falneg too large, set a number between 0 and 1.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
   }
   else{
     if(!is.numeric(rain)) stop("rain must have a numeric argument.", call. = TRUE, domain = NA)
-    if(rain < 0) {warning("rain will be set to 0.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
-                  rain <- 0}
-    if(rain >= 1) {warning("rain will be set to 1.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
-                   rain <- 1}
+    if(rain < 0) {
+      warning("rain will be set to 0.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
+      rain <- 0
+    }
+    if(rain >= 1) {
+      warning("rain will be set to 1.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
+      rain <- 1
+    }
     if(is.logical(fluo)) 
       fluoselect <- ifelse(fluo, 2, 1)
     else{if(is.numeric(fluo)){if(fluo>0){fluoselect <- 3}else{stop("fluo does not have a valid argument.", call. = TRUE, domain = NA)}}
@@ -268,10 +271,12 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8, pos_sums = FALS
       else {
         dropvec <- sapply(1L:dropn, function(i)
           any(dropmem == i))
-
-        # vector with TRUE for positive droplets and FALSE for negative
-        dropfin <- (sapply(dropvec,function(x){ifelse(x,rbinom(1,1,falneg),rbinom(1,1,falpos))}))%%2
-        return.drops <- dropfin}
+        
+        # vector with TRUE for posi tive droplets and FALSE for negative
+        dropfin <- (sapply(dropvec,function(x)
+          ifelse(x, rbinom(1, 1, falneg), rbinom(1, 1, falpos))))%%2
+        return.drops <- dropfin
+      }
       # vector TRUE for positive signal and FALSE for negative signal
       return.fluo <- NULL
     }

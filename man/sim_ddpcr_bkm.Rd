@@ -4,7 +4,7 @@
 \alias{sim_ddpcr_bkm}
 \title{Simulate Droplet Digital PCR}
 \usage{
-sim_ddpcr_bkm(m, n = 20000L, mexp = TRUE, n_exp = 8, pos_sums = FALSE,
+sim_ddpcr_bkm(m, n = 20000L, mexp = TRUE, n_exp = 8L, pos_sums = FALSE,
   fluo = NULL, sddropc = 0, mudropr = 1, sddropr = 0, Pvar = TRUE,
   piperr = 0, seed = runif(1), dropsd = 0, falpos = 0, falneg = 0,
   rain = 0)
