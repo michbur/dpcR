@@ -265,44 +265,46 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, pos_sums = FAL
         dropno <- dropn - length(as.vector(table(dropmem)))
         # number of droplets without copy (total - number with copies)
         droppos <- dropn-(rbinom(1,dropno,1-falpos)+rbinom(1,dropn-dropno,falneg))
-        return.drops <- c(droppos,dropn)
+        return_drops <- c(droppos,dropn)
       }
       # number of droplets with a negative signal (true neg + false neg)
       else {
         dropvec <- sapply(1L:dropn, function(i)
           any(dropmem == i))
         
-        # vector with TRUE for posi tive droplets and FALSE for negative
+        # vector with TRUE for positive droplets and FALSE for negative
         dropfin <- (sapply(dropvec,function(x)
           ifelse(x, rbinom(1, 1, falneg), rbinom(1, 1, falpos))))%%2
-        return.drops <- dropfin
+        return_drops <- dropfin
       }
       # vector TRUE for positive signal and FALSE for negative signal
-      return.fluo <- NULL
+      return_fluo <- NULL
     }
     else {
       dropvec <- sapply(1L:dropn, function(i) any(dropmem == i))
       # vector with TRUE for positive droplets and FALSE for negative
-      fluopeaks <- rnorm(dropn,1000,100)+8000*dropvec*(1-runif(dropn)^(1/rain-1))*(1-rain^2)+2000*(1-dropvec)*(1-runif(dropn)^rain)*(1-rain^2)
+      fluopeaks <- rnorm(dropn, 1000, 100) + 
+        8000*dropvec*(1 - runif(dropn)^(1/rain - 1))*(1 - rain^2) + 
+        2000*(1 - dropvec)*(1 - runif(dropn)^rain)*(1 - rain^2)
       # random variation+downward rain+upward rain
-      dropfin <- (fluopeaks>2500)
+      dropfin <- (fluopeaks > 2500)
       # hard threshold as in most software these days
       # vector TRUE for positive signal and FALSE for negative signal
-      return.drops <-  if (pos_sums) {
+      return_drops <-  if (pos_sums) {
         dropfin
       } else {
         c(sum(dropfin), dropn)
       }
       
       
-      return.fluo <- if (fluoselect==2) {
+      return_fluo <- if (fluoselect==2) {
         fluopeaks
       } else{
-        fluopos <- (1:dropn)*fluo+9+runif(dropn)*2+rnorm(dropn)
+        fluopos <- (1:dropn)*fluo + 9 + runif(dropn)*2 + rnorm(dropn)
         # vector of positions where the peak was found
         # peaks on average 10 positions away from each other.
-        fluox <- 1:(round(dropn*fluo+90,-2))
-        fluoy <- rnorm(length(fluox),50,10)
+        fluox <- 1:(round(dropn*fluo + 90, -2))
+        fluoy <- rnorm(length(fluox), 50, 10)
         # define fluo vectors with random background
         j <- 1
         for (i in fluox) {
@@ -310,13 +312,13 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, pos_sums = FAL
             if (fluopos[j] < (i - 20)) {
               j <- j + 1
             }
-            for(k in j:round(j+30/fluo)){
+            for(k in j:round(j + 30/fluo)){
               # move j such that only the influence of peaks close by are counted
               # influence of peaks further away would be marginally small anyway
               if(k <= dropn) {
                 dist <- fluopos[k] - i
                 # distance between peak and current location
-                fluoy[i] <- fluoy[i] + dnorm(dist/2+rnorm(1, 0, 0.1))/dnorm(0)*fluopeaks[k]*0.95
+                fluoy[i] <- fluoy[i] + dnorm(dist/2 + rnorm(1, 0, 0.1))/dnorm(0)*fluopeaks[k]*0.95
                 # add fluorescence signal stemming from this specific droplet
               }
             }
@@ -325,7 +327,7 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, pos_sums = FAL
         fluoy
       }
     }
-    list(drop = return.drops, fluo = return.fluo)
+    list(drop = return_drops, fluo = return_fluo)
     # returns list with first element vector of droplets 1/0
     # or pair of number of pos droplets and total number of droplets
     # and second element either NULL, peak fluorescence of droplets
@@ -377,15 +379,4 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, pos_sums = FAL
   # To do: create ddpcr object?
   # create_ddpcr(res, rep(n, n_exp), threshold = 2500, type = type)
 }
-
-
-
-
-
-
-
-
-#' Testfile to check the most important settings
-
-
 
