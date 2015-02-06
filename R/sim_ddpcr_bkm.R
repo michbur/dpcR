@@ -209,8 +209,10 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, pos_sums = FAL
   if(piperr < 0) stop("pipette error should be positive or 0.", call. = TRUE, domain = NA)
   
   if(!is.numeric(dropsd)) stop("dropsd must have a numeric argument.", call. = TRUE, domain = NA)
-  if(dropsd < 0) {warning("dropsd will be set to 0.", call. = TRUE, domain = NA)
-                  dropsd <- 0}
+  if(dropsd < 0) {
+    warning("dropsd will be set to 0.", call. = TRUE, domain = NA)
+    dropsd <- 0
+  }
   
   if(!is.logical(Pvar)) stop("Pvar must be a logical argument (TRUE or FALSE).", call. = TRUE, domain = NA)
   
@@ -240,8 +242,16 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, pos_sums = FAL
     }
     if(is.logical(fluo)) 
       fluoselect <- ifelse(fluo, 2, 1)
-    else{if(is.numeric(fluo)){if(fluo>0){fluoselect <- 3}else{stop("fluo does not have a valid argument.", call. = TRUE, domain = NA)}}
-         else{stop("fluo does not have a valid argument.", call. = TRUE, domain = NA)}
+    else{
+      if(is.numeric(fluo)) {
+        if(fluo > 0) {
+          fluoselect <- 3
+        } else {
+          stop("fluo does not have a valid argument.", call. = TRUE, domain = NA)
+        }
+      } else {
+        stop("fluo does not have a valid argument.", call. = TRUE, domain = NA)
+      }
     }
   }
   
@@ -256,7 +266,7 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, pos_sums = FAL
     dropmem <- sample(repdat[1], repdat[2], replace = TRUE, prob = rlnorm(repdat[1], 0, dropsd))
     # droplet membership, probability proportional to size, size following a lognormal distribution
     dropn <- ifelse(mudropr >= 1, repdat[1], 
-                    round(repdat[1]*plogis(rnorm(1,log(mudropr/(1-mudropr)), log((mudropr+sddropr)/(mudropr-sddropr)*(1-mudropr+sddropr)/(1-mudropr-sddropr))/2))))
+                    round(repdat[1]*plogis(rnorm(1, log(mudropr/(1 - mudropr)), log((mudropr + sddropr)/(mudropr - sddropr)*(1 - mudropr + sddropr)/(1 - mudropr - sddropr))/2))))
     # number of droplets retained
     dropmem <- dropmem[dropmem <= dropn]
     # only retain copies of which the droplet is retained (lower rank)
@@ -264,8 +274,8 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, pos_sums = FAL
       if(!pos_sums) {
         dropno <- dropn - length(as.vector(table(dropmem)))
         # number of droplets without copy (total - number with copies)
-        droppos <- dropn-(rbinom(1,dropno,1-falpos)+rbinom(1,dropn-dropno,falneg))
-        return_drops <- c(droppos,dropn)
+        droppos <- dropn - (rbinom(1, dropno, 1 - falpos) + rbinom(1, dropn - dropno, falneg))
+        return_drops <- c(droppos, dropn)
       }
       # number of droplets with a negative signal (true neg + false neg)
       else {
