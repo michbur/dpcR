@@ -179,13 +179,17 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, pos_sums = FAL
   
   if(!is.numeric(n)) stop("Number of droplets must have a numeric argument..", call. = TRUE, domain = NA)
   if(n < 10) stop("Number of droplets must be larger than 10.", call. = TRUE, domain = NA)
-  if(!is.integer(n)) {warning("Number of droplets will be rounded up to the next integer.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
-                      n <- ceiling(n)}
+  if(!is.integer(n)) {
+    warning("Number of droplets will be rounded up to the next integer.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
+                      n <- ceiling(n)
+  }
   
   if(!is.numeric(n_exp)) stop("number of replicates must have a numeric argument.", call. = TRUE, domain = NA)
   if(n_exp < 1) stop("number of replicates must be at least 1.", call. = TRUE, domain = NA)
-  if(!is.integer(n_exp)) {warning("number of replicates 'n_exp' will be rounded up to the next integer.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
-                          n_exp <- ceiling(n_exp)}
+  if(!is.integer(n_exp)) {
+    warning("number of replicates 'n_exp' will be rounded up to the next integer.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
+                          n_exp <- ceiling(n_exp)
+  }
   
   if(!is.logical(pos_sums)) stop("pos_sums must be a logical argument (TRUE or FALSE).", call. = TRUE, domain = NA)
   
@@ -359,11 +363,12 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, pos_sums = FAL
     # expected number of copies after pipette variation
     copyn <- ifelse(rep(Pvar, n_exp), rpois(n_exp, copyvar), round(copyvar))
     # number of copies
-    lamdummy <- rep(lambdan,n_exp)
-    repdat <- as.list(data.frame(rbind(dropstart, copyn, lamdummy)))
+    lamdummy <- rep(lambdan, n_exp)
+    repdat <- data.frame(dropstart, copyn, lamdummy)
     # number of droplets and copies in a list with n_exp elements, all pairs
     # droplets is the first element, copies the second
-    repres <- sapply(repdat, repfunc)
+    repres <- apply(repdat, 1, repfunc)
+    repres
     # returns a list with n_exp*2 elements with
     # first element vector of droplets 1/0 or
     #   pair of number of pos droplets and total number of droplets
@@ -377,7 +382,7 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, pos_sums = FAL
   ### execute ###
   ###############
   
-  out <- sapply(lambda, samfunc)
+  out <- lapply(lambda, samfunc)
   # out returns a list with entries for each lambda
   # each entry is a list with n_exp*2 elements from samfunc
   # first element vector of droplets 1/0 or
