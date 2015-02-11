@@ -382,7 +382,12 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, pos_sums = FAL
   ### execute ###
   ###############
   
-  out <- lapply(lambda, samfunc)
+  out <- unlist(lapply(lambda, samfunc), recursive = FALSE)
+  
+  suppressMessages(bind_dpcr(lapply(out, function(single_run)
+    create_dpcr(single_run[["fluo"]], length(single_run[["drop"]]), NULL, type = "fluo")
+  )))
+  
   # out returns a list with entries for each lambda
   # each entry is a list with n_exp*2 elements from samfunc
   # first element vector of droplets 1/0 or
