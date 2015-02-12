@@ -52,8 +52,6 @@
 #' Must be a positive real number, preferably close to 0 (0.1 = 10% is very large).
 #' Default 0 for constant volume equal to the expected volume
 
-#' @param seed random seed to obtain the same results if rerun
-
 #' @param dropsd relative variability of the droplet volume
 #' parameter sigma of a lognormal distribution with mu = 0
 #' Must be a positive real number, preferably close to 0.
@@ -162,15 +160,12 @@
 
 sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, pos_sums = FALSE, 
                           fluo = NULL, sddropc = 0, mudropr = 1, sddropr = 0, Pvar = TRUE,
-                          piperr = 0, seed = runif(1), dropsd = 0, falpos = 0, falneg = 0, 
+                          piperr = 0, dropsd = 0, falpos = 0, falneg = 0, 
                           rain = 0) {
   
   ##############
   ### checks ###
   ##############
-  
-  if(!is.numeric(seed)) stop("seed must have a numeric argument.", call. = TRUE, domain = NA)
-  set.seed(seed)
   
   if(!is.logical(mexp)) stop("mexp must be a logical argument (TRUE or FALSE).", call. = TRUE, domain = NA)
   if(max(!is.finite(m))) stop("Concentrations should all be numeric.", call. = TRUE, domain = NA)
