@@ -1,6 +1,6 @@
 #' Create dpcR object
 #' 
-#' Quick creation of \code{\linkS4class{adpcr}} and\code{\linkS4class{ddpcr}}
+#' Quick creation of \code{\linkS4class{adpcr}} and \code{\linkS4class{ddpcr}}
 #' objects.
 #' 
 #' This function assists in creation of objects used by other functions of the
@@ -10,19 +10,19 @@
 #' A warning is prompted whenever any of arguments is converted to other type.
 #' 
 #' @param data a \code{"numeric"} vector or matrix of data from dPCR
-#' experiments.  Data frames will be converted to matrices.
+#' experiments. Data frames will be converted to matrices.
 #' @param n \code{"integer"} equal to number of partitions.
 #' @param threshold \code{"numeric"} value giving the threshold above which
 #' droplet is counted as positive.  Ignored if \code{adpcr} is \code{TRUE}.
 #' @param breaks \code{"numeric"} vector giving the number of intervals into
-#' which \code{data} should be cut.  Ignored if \code{adpcr} is \code{FALSE}.
+#' which \code{data} should be cut. Ignored if \code{adpcr} is \code{FALSE}.
 #' @param type Object of class \code{"character"} defining type of data. Could
 #' be \code{"nm"} (number of molecules per partition), \code{"tnp"} (total
 #' number of positive wells in the panel), \code{"fluo"} (fluorescence), \code{"np"} 
-#' (status (positive (1) or negative(0)) of each droplet) or  \code{"ct"} 
+#' (status (positive (1) or negative(0)) of each droplet) or\code{"ct"} 
 #' (threshold cycle).
 #' @param adpcr logical. If \code{TRUE}, function creates
-#' \code{\linkS4class{adpcr}} object.  If \code{FALSE}, function creates
+#' \code{\linkS4class{adpcr}} object. If \code{FALSE}, function creates
 #' \code{\linkS4class{ddpcr}} object.
 #' @return An \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} object.
 #' @note Currently only end-point measurements are supported.
