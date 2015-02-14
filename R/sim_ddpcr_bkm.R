@@ -309,10 +309,10 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, pos_sums = FAL
       return_fluo <- if (fluoselect==2) {
         fluopeaks
       } else{
-        fluopos <- (1:dropn)*fluo + 9 + runif(dropn)*2 + rnorm(dropn)
+        fluopos <- (1L:dropn)*fluo + 9 + runif(dropn)*2 + rnorm(dropn)
         # vector of positions where the peak was found
         # peaks on average 10 positions away from each other.
-        fluox <- 1:(round(dropn*fluo + 90, -2))
+        fluox <- 1L:(round(dropn*fluo + 90, -2))
         fluoy <- rnorm(length(fluox), 50, 10)
         # define fluo vectors with random background
         j <- 1
@@ -379,9 +379,17 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, pos_sums = FAL
   
   out <- unlist(lapply(lambda, samfunc), recursive = FALSE)
   
-  suppressMessages(bind_dpcr(lapply(out, function(single_run)
-    create_dpcr(single_run[["fluo"]], length(single_run[["drop"]]), NULL, type = "fluo")
-  )))
+  if(is.null(fluo)) {
+    suppressMessages(bind_dpcr(lapply(out, function(single_run)
+      create_dpcr(single_run[["drop"]], length(single_run[["drop"]]), NULL, type = "fluo")
+    )))
+  } else {
+    suppressMessages(bind_dpcr(lapply(out, function(single_run)
+      create_dpcr(single_run[["fluo"]], length(single_run[["drop"]]), NULL, type = "fluo")
+    )))
+  }
+  
+  
   
   # out returns a list with entries for each lambda
   # each entry is a list with n_exp*2 elements from samfunc
