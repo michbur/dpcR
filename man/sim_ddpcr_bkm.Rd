@@ -90,7 +90,7 @@ sim_ddpcr_bkm is based on the R code from Jacobs et al. (2014) (see references).
 \examples{
 \dontrun{
 # no parameters, no replicates, one given concentration
-test1 <- sim_ddpcr_bkm(0.5, n_exp = 1, seed = 1)
+test1 <- sim_ddpcr_bkm(0.5, n_exp = 1L)
 str(test1)
 -log(1-test1[[1]][1]/test1[[1]][2])
 # changed parameters, no replicates, one given concentration

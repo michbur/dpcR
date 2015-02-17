@@ -82,7 +82,7 @@
 #' @examples
 #' \dontrun{
 #' # no parameters, no replicates, one given concentration
-#' test1 <- sim_ddpcr_bkm(0.5, n_exp = 1, seed = 1)
+#' test1 <- sim_ddpcr_bkm(0.5, n_exp = 1L)
 #' str(test1)
 #' -log(1-test1[[1]][1]/test1[[1]][2])
 #' # changed parameters, no replicates, one given concentration
@@ -299,12 +299,11 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, pos_sums = FAL
       dropfin <- (fluopeaks > 2500)
       # hard threshold as in most software these days
       # vector TRUE for positive signal and FALSE for negative signal
-      return_drops <-  if (pos_sums) {
-        dropfin
-      } else {
+      return_drops <-  if (pos_sums) { #change here, I think it was bug in if statement
         c(sum(dropfin), dropn)
+      } else {
+        dropfin
       }
-      
       
       return_fluo <- if (fluoselect==2) {
         fluopeaks
