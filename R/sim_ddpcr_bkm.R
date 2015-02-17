@@ -254,7 +254,6 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, pos_sums = FAL
     }
   }
   
-  
   ###############
   ### repfunc ###
   ###############
@@ -270,7 +269,7 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, pos_sums = FAL
     dropmem <- dropmem[dropmem <= dropn]
     # only retain copies of which the droplet is retained (lower rank)
     if(fluoselect == 1){
-      if(!pos_sums) {
+      if(pos_sums) { #changed from !pos_sums - I think it was bug
         dropno <- dropn - length(as.vector(table(dropmem)))
         # number of droplets without copy (total - number with copies)
         droppos <- dropn - (rbinom(1, dropno, 1 - falpos) + rbinom(1, dropn - dropno, falneg))
@@ -299,10 +298,11 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, pos_sums = FAL
       dropfin <- (fluopeaks > 2500)
       # hard threshold as in most software these days
       # vector TRUE for positive signal and FALSE for negative signal
-      return_drops <-  if (pos_sums) { #change here, I think it was bug in if statement
-        c(sum(dropfin), dropn)
-      } else {
+      
+      return_drops <-  if (pos_sums) {
         dropfin
+      } else {
+        c(sum(dropfin), dropn)
       }
       
       return_fluo <- if (fluoselect==2) {
