@@ -82,9 +82,9 @@
 #' @examples
 #' \dontrun{
 #' # no parameters, no replicates, one given concentration
-#' test1 <- sim_ddpcr_bkm(0.5, n_exp = 1L)
+#' test1 <- sim_ddpcr_bkm(0.5, n_exp = 1L, pos_sums = TRUE)
 #' str(test1)
-#' -log(1-test1[[1]][1]/test1[[1]][2])
+#' -log(1-test1[1]/test1[2]) #100% aggreement with original version
 #' # changed parameters, no replicates, one given concentration
 #' test2 <- sim_ddpcr_bkm(0.5, n_exp = 1, seed = 2, sddropc = 500, mudropr = 0.7,
 #'                        sddropr = 0.1, Pvar = TRUE, piperr = 0.02, dropsd = 0.2,
