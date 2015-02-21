@@ -83,8 +83,7 @@
 #' \dontrun{
 #' # no parameters, no replicates, one given concentration
 #' test1 <- sim_ddpcr_bkm(0.5, n_exp = 1L, pos_sums = TRUE)
-#' str(test1)
-#' -log(1-test1[1]/test1[2]) #100% aggreement with original version
+#' -log(1-test1[1]/test1@@n) #100% aggreement with original version
 #' # changed parameters, no replicates, one given concentration
 #' test2 <- sim_ddpcr_bkm(0.5, n_exp = 1, seed = 2, sddropc = 500, mudropr = 0.7,
 #'                        sddropr = 0.1, Pvar = TRUE, piperr = 0.02, dropsd = 0.2,
@@ -379,12 +378,18 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, pos_sums = FAL
   out <- unlist(lapply(lambda, samfunc), recursive = FALSE)
   
   if(is.null(fluo)) {
-    suppressMessages(bind_dpcr(lapply(out, function(single_run)
-      create_dpcr(single_run[["drop"]], length(single_run[["drop"]]), NULL, type = "fluo")
-    )))
+    suppressMessages(bind_dpcr(lapply(out, function(single_run) {
+      if(pos_sums) {
+        create_dpcr(single_run[["drop"]][1], get("n"), NULL, type = "tnp")
+      } else {
+        create_dpcr(single_run[["drop"]], get("n"), NULL, type = "nm")
+      }
+      
+      
+    })))
   } else {
     suppressMessages(bind_dpcr(lapply(out, function(single_run)
-      create_dpcr(single_run[["fluo"]], length(single_run[["drop"]]), NULL, type = "fluo")
+      create_dpcr(single_run[["fluo"]], get("n"), NULL, type = "fluo")
     )))
   }
   
