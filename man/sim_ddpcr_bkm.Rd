@@ -4,9 +4,10 @@
 \alias{sim_ddpcr_bkm}
 \title{Simulate Droplet Digital PCR}
 \usage{
-sim_ddpcr_bkm(m, n = 20000L, mexp = TRUE, n_exp = 8L, pos_sums = FALSE,
-  fluo = NULL, sddropc = 0, mudropr = 1, sddropr = 0, Pvar = TRUE,
-  piperr = 0, dropsd = 0, falpos = 0, falneg = 0, rain = 0)
+sim_ddpcr_bkm(m, n = 20000L, mexp = TRUE, n_exp = 8L, type = "np",
+  fluo_range = NULL, sddropc = 0, mudropr = 1, sddropr = 0,
+  Pvar = TRUE, piperr = 0, dropsd = 0, falpos = 0, falneg = 0,
+  rain = 0)
 }
 \arguments{
 \item{m}{is either the concentration of templates molecules in the raw sample
@@ -26,18 +27,14 @@ Default \code{TRUE} as in Jacobs et al.}
 \code{m}.
 Default 8 for eight replicates for each given \code{m} as in Jacobs et al. 2014}
 
-\item{pos_sums}{if \code{TRUE}, function returns only the total number and
-the number of positive (containing at least one molecule) droplets per well.
-If \code{FALSE}, the function returns a vector of length equal to the number
-of droplets. Each element of the vector represents whether the given droplet
-contained at least one target molecule or was void of target molecules.}
+\item{type}{Object of class \code{"character"} defining type of data. Could
+be \code{"nm"} (number of molecules per partition), \code{"tnp"} (total
+number of positive wells in the panel), \code{"fluo"} (fluorescence) or \code{"np"}
+(status (positive (1) or negative(0)) of each droplet)..}
 
-\item{fluo}{if \code{NULL}, the function calculates total number of positive droplets.
-If \code{TRUE}, the function returns the florescence intensities of all droplets
-If a positive real number, the function returns the full fluorescence curve
-with the given number the expected space between two consecutive measured droplets.
-Values between 10-20 give nice results
-Default \code{NULL} to mimic automatic commercial output.}
+\item{fluo_range}{if parameter \code{type} is \code{"fluo"} function returns
+the full fluorescence curve with the given number the expected space between two
+consecutive measured droplets. Values between 10-20 give nice results}
 
 \item{sddropc}{standard deviation of the number of droplets generated
 Must be a real number between 0 and \code{n} divided by 10.
