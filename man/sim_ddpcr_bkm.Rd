@@ -28,9 +28,8 @@ Default \code{TRUE} as in Jacobs et al.}
 Default 8 for eight replicates for each given \code{m} as in Jacobs et al. 2014}
 
 \item{type}{Object of class \code{"character"} defining type of data. Could
-be \code{"nm"} (number of molecules per partition), \code{"tnp"} (total
-number of positive wells in the panel), \code{"fluo"} (fluorescence) or \code{"np"}
-(status (positive (1) or negative(0)) of each droplet)..}
+be \code{"tnp"} (total number of positive wells in the panel), \code{"fluo"}
+(fluorescence) or \code{"np"} (status (positive (1) or negative(0)) of each droplet).}
 
 \item{fluo_range}{if parameter \code{type} is \code{"fluo"} function returns
 the full fluorescence curve with the given number the expected space between two

@@ -20,9 +20,8 @@
 #' Default 8 for eight replicates for each given \code{m} as in Jacobs et al. 2014
 #' 
 #' @param type Object of class \code{"character"} defining type of data. Could
-#' be \code{"nm"} (number of molecules per partition), \code{"tnp"} (total
-#' number of positive wells in the panel), \code{"fluo"} (fluorescence) or \code{"np"} 
-#' (status (positive (1) or negative(0)) of each droplet)..
+#' be \code{"tnp"} (total number of positive wells in the panel), \code{"fluo"} 
+#' (fluorescence) or \code{"np"} (status (positive (1) or negative(0)) of each droplet).
 #' 
 #' @param fluo_range if parameter \code{type} is \code{"fluo"} function returns 
 #' the full fluorescence curve with the given number the expected space between two 
@@ -175,7 +174,8 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, type = "np",
     n <- ceiling(n)
   }
   
-  #add type check
+  if(!(type %in% c("tnp", "fluo", "np")))
+    stop("Invalid value of 'type' parameter.", call. = TRUE, domain = NA)
   
   if(!is.numeric(n_exp)) stop("number of replicates must have a numeric argument.", call. = TRUE, domain = NA)
   if(n_exp < 1) stop("number of replicates must be at least 1.", call. = TRUE, domain = NA)

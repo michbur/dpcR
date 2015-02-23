@@ -45,8 +45,11 @@
 #' 
 #' @export create_dpcr
 create_dpcr <- function(data, n, threshold = NULL, breaks = NULL, type, adpcr = TRUE) {
-  if (adpcr != TRUE && adpcr != FALSE)
-    stop("'adpcr' argument must have TRUE or FALSE value.", call. = TRUE, domain = NA)
+  if(!(type %in% c("nm", "tnp", "fluo", "np", "ct")))
+    stop("Invalid value of 'type' parameter.", call. = TRUE, domain = NA)
+  
+  if (!(adpcr %in% c(TRUE, FALSE)))
+    stop("'adpcr' parameter must have TRUE or FALSE value.", call. = TRUE, domain = NA)
   
   if (type == "ct" && adpcr == FALSE)
     stop("'ct' type is not implemented for 'ddpcr' objects.", call. = TRUE, domain = NA)
