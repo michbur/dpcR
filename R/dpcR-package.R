@@ -17,7 +17,7 @@
 #' selected sources of expertise currently available and to make them available
 #' to the scientific community in an open and cross-platform environment. As
 #' such the dpcR packages has a list of expressions/functions and may serve in
-#' future a reference to a unified nomenclature in dpcR.  The package is
+#' future a reference to a unified nomenclature in dpcR. The package is
 #' primarily targeted at researchers who which to use it with an existing
 #' technology or during the development of novel digital PCR systems. In
 #' addition the dpcR package provides interactive tools that can be used in
@@ -30,7 +30,7 @@
 #' @author Michal Burdukiewicz, Stefan Roediger.
 #' 
 #' Maintainer: Michal Burdukiewicz <michalburdukiewicz@@gmail.com>
-#' @seealso \link[qpcR]{qpcR.news}.
+#' @seealso \link[qpcR]{qpcR.news}, \link[pcRuniveRsum]{http://michbur.github.io/pcRuniveRsum/}.
 #' @references Huggett J, Foy CA, Benes V, Emslie K, Garson JA, Haynes R,
 #' Hellemans J, Kubista M, Mueller RD, Nolan T, Pfaffl MW, Shipley GL,
 #' Vandesompele J, Wittwer CT, Bustin SA \emph{The Digital MIQE Guidelines:
