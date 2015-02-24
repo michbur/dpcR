@@ -1,3 +1,6 @@
+Changes from Version 0.1.2 to 0.1.3.3 [February 2015]
+* Technical update - resolved conflicts after the update of chipPCR
+
 Changes from Version 0.1.2 to 0.1.3.2 [December 2014]
 * New features
   - test_counts, function for comparing multiple digital PCR experiments using GLM - accompanied by plot, summary, coef methods and GUI.
