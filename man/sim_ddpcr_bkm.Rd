@@ -31,9 +31,9 @@ Default 8 for eight replicates for each given \code{m} as in Jacobs et al. 2014}
 be \code{"tnp"} (total number of positive wells in the panel), \code{"fluo"}
 (fluorescence) or \code{"np"} (status (positive (1) or negative(0)) of each droplet).}
 
-\item{fluo_range}{if parameter \code{type} is \code{"fluo"} function returns
-the full fluorescence curve with the given number the expected space between two
-consecutive measured droplets. Values between 10-20 give nice results}
+\item{fluo_range}{defines expected space between two
+consecutive measured droplets. Used only when parameter \code{type} has value
+\code{"fluo"}. Values between 10-20 give nice results.}
 
 \item{sddropc}{standard deviation of the number of droplets generated
 Must be a real number between 0 and \code{n} divided by 10.
@@ -74,8 +74,7 @@ Only used with \code{fluo} is \code{NULL}}
 \item{rain}{parameter that defines how much inhibition is enforced on positive droplets.
 Must be a real number between 0 and 1 with 0 no rain, 1 positive droplets follow same
 distribution as negative droplets
-Default 0 for no rain
-Not used with \code{fluo} is \code{NULL}}
+Default 0 for no rain. Used only when \code{type} is \code{fluo}.}
 }
 \description{
 Simulates results of a droplet digital PCR.

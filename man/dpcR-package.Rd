@@ -24,7 +24,7 @@ statistical approaches published in peer-review literature and additional
 selected sources of expertise currently available and to make them available
 to the scientific community in an open and cross-platform environment. As
 such the dpcR packages has a list of expressions/functions and may serve in
-future a reference to a unified nomenclature in dpcR.  The package is
+future a reference to a unified nomenclature in dpcR. The package is
 primarily targeted at researchers who which to use it with an existing
 technology or during the development of novel digital PCR systems. In
 addition the dpcR package provides interactive tools that can be used in
@@ -53,7 +53,7 @@ Vogelstein B, Kinzler KW, \emph{Digital PCR}. PNAS, 1999. 96(16): p.
 9236-9241. %%MORE REFERENCES
 }
 \seealso{
-\link[qpcR]{qpcR.news}.
+\link[qpcR]{qpcR.news}, \url{http://michbur.github.io/pcRuniveRsum/}.
 }
 \keyword{package}
 

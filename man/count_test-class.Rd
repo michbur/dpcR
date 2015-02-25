@@ -6,6 +6,8 @@
 \alias{count_test}
 \alias{count_test-class}
 \alias{plot,count_test,ANY-method}
+\alias{plot,count_test-method}
+\alias{plot.count_test}
 \alias{show,count_test-method}
 \alias{summary,count_test-method}
 \title{Class \code{"count_test"}}

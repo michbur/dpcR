@@ -30,7 +30,7 @@
 #' @author Michal Burdukiewicz, Stefan Roediger.
 #' 
 #' Maintainer: Michal Burdukiewicz <michalburdukiewicz@@gmail.com>
-#' @seealso \link[qpcR]{qpcR.news}, \link[pcRuniveRsum]{http://michbur.github.io/pcRuniveRsum/}.
+#' @seealso \link[qpcR]{qpcR.news}, \url{http://michbur.github.io/pcRuniveRsum/}.
 #' @references Huggett J, Foy CA, Benes V, Emslie K, Garson JA, Haynes R,
 #' Hellemans J, Kubista M, Mueller RD, Nolan T, Pfaffl MW, Shipley GL,
 #' Vandesompele J, Wittwer CT, Bustin SA \emph{The Digital MIQE Guidelines:

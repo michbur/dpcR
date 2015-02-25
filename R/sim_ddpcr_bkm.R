@@ -23,9 +23,9 @@
 #' be \code{"tnp"} (total number of positive wells in the panel), \code{"fluo"} 
 #' (fluorescence) or \code{"np"} (status (positive (1) or negative(0)) of each droplet).
 #' 
-#' @param fluo_range if parameter \code{type} is \code{"fluo"} function returns 
-#' the full fluorescence curve with the given number the expected space between two 
-#' consecutive measured droplets. Values between 10-20 give nice results 
+#' @param fluo_range defines expected space between two 
+#' consecutive measured droplets. Used only when parameter \code{type} has value 
+#' \code{"fluo"}. Values between 10-20 give nice results.
 #' 
 #' @param sddropc standard deviation of the number of droplets generated
 #' Must be a real number between 0 and \code{n} divided by 10.
@@ -66,8 +66,7 @@
 #' @param rain parameter that defines how much inhibition is enforced on positive droplets.
 #' Must be a real number between 0 and 1 with 0 no rain, 1 positive droplets follow same 
 #' distribution as negative droplets
-#' Default 0 for no rain
-#' Not used with \code{fluo} is \code{NULL}
+#' Default 0 for no rain. Used only when \code{type} is \code{fluo}.
 #' 
 #' @details sim_ddpcr_bkm is based on the R code from Jacobs et al. (2014) (see references).
 #' @references
@@ -179,9 +178,9 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, type = "np",
   
   if(!is.numeric(n_exp)) stop("number of replicates must have a numeric argument.", call. = TRUE, domain = NA)
   if(n_exp < 1) stop("number of replicates must be at least 1.", call. = TRUE, domain = NA)
-  if(!is.integer(n_exp)) {
+  if(n_exp != as.integer(n_exp)) {
     warning("number of replicates 'n_exp' will be rounded up to the next integer.", call. = TRUE, immediate. = FALSE, noBreaks. = FALSE, domain = NA)
-    n_exp <- ceiling(n_exp)
+    n_exp <- as.integer(n_exp)
   }
   
   if(!is.numeric(sddropc)) stop("sddropc must have a numeric argument.", call. = TRUE, domain = NA)
