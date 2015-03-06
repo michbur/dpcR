@@ -164,7 +164,8 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, type = "np",
   if(!is.logical(mexp)) stop("mexp must be a logical argument (TRUE or FALSE).", call. = TRUE, domain = NA)
   if(max(!is.finite(m))) stop("Concentrations should all be numeric.", call. = TRUE, domain = NA)
   if(min(m) < 0) stop("Concentrations cannot be negative.", call. = TRUE, domain = NA)
-  lambda <- ifelse(mexp, m, m * 0.89 / 1000)
+  lambda <- if(mexp)
+    m else m * 0.89 / 1000
   
   if(!is.numeric(n)) stop("Number of droplets must have a numeric argument.", call. = TRUE, domain = NA)
   if(n < 10) stop("Number of droplets must be larger than 10.", call. = TRUE, domain = NA)
@@ -345,8 +346,8 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, type = "np",
   ###############
   
   out <- unlist(lapply(lambda, samfunc), recursive = FALSE)
-  
-  suppressMessages(bind_dpcr(lapply(out, function(single_run) {
+    
+  res <- suppressMessages(bind_dpcr(lapply(out, function(single_run) {
     switch(type,
            tnp = create_dpcr(sum(single_run[["drop"]]), length(single_run[["drop"]]), 
                              NULL, type = "tnp"),
@@ -356,15 +357,9 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, type = "np",
                               type = "fluo"))
   })))
   
-  # out returns a list with entries for each lambda
-  # each entry is a list with n_exp*2 elements from samfunc
-  # first element vector of droplets 1/0 or
-  #   pair of number of pos droplets and total number of droplets
-  # second element either NULL, peak fluorescence of droplets or
-  #   vector with continuous fluorescence output
-  # and so on
+  #crude solution to naming of the experiments
   
-  # To do: create ddpcr object?
-  # create_ddpcr(res, rep(n, n_exp), threshold = 2500, type = type)
+  colnames(res) <- sapply(1L:length(lambda), function(single_lambda) paste0(single_lambda, ".", 1L:n_exp))
+  res
 }
 
