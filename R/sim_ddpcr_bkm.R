@@ -27,35 +27,35 @@
 #' consecutive measured droplets. Used only when parameter \code{type} has value 
 #' \code{"fluo"}. Values between 10-20 give nice results.
 #' 
-#' @param sddropc standard deviation of the number of droplets generated
+#' @param sddropc standard deviation of the number of droplets generated.
 #' Must be a real number between 0 and \code{n} divided by 10.
-#' Default 0 for constant number of droplets
+#' Default 0 for constant number of droplets.
 
-#' @param mudropr average proportion (between 0 and 1) of retained partitions
-#' Must be a real number between 0 and 1
-#' Default 1 for no loss
+#' @param mudropr average proportion (between 0 and 1) of retained partitions.
+#' Must be a real number between 0 and 1.
+#' Default 1 for no loss.
 
-#' @param sddropr relative standard deviation of the proportion of retained partitions
+#' @param sddropr relative standard deviation of the proportion of retained partitions.
 #' Must be a real number, preferably close to 0.
-#' Default 0 for a constant loss
+#' Default 0 for a constant loss.
 
-#' @param Pvar If \code{TRUE}, number of copies in constant volume follows P(c) distribution
-#' If \code{FALSE},  number of copies in constant volume is constant
+#' @param Pvar If \code{TRUE}, number of copies in constant volume follows P(c) distribution.
+#' If \code{FALSE},  number of copies in constant volume is constant.
 #' Default \code{TRUE} for the realistic Poisson model.
 
 #' @param piperr coefficient of variation of the actual pipetted volume from the raw material.
 #' Must be a positive real number, preferably close to 0 (0.1 = 10% is very large).
 #' Default 0 for constant volume equal to the expected volume
 
-#' @param dropsd relative variability of the droplet volume
-#' parameter sigma of a lognormal distribution with mu = 0
+#' @param dropsd relative variability of the droplet volume.
+#' parameter sigma of a lognormal distribution with mu = 0.
 #' Must be a positive real number, preferably close to 0.
-#' Default 0 for constant droplet size
+#' Default 0 for constant droplet size.
 
-#' @param falpos probability that a partition containing no copy gives a positive result
-#' Must be a real number between 0 and 1
-#' Default 0 for no false positives
-#' Only used with \code{fluo} is \code{NULL}
+#' @param falpos probability that a partition containing no copy gives a positive result.
+#' Must be a real number between 0 and 1.
+#' Default 0 for no false positives.
+#' Only used if \code{fluo} is \code{NULL}.
 #' 
 #' @param falneg probability that a partition containing at least one copy gives a negative 
 #' result
@@ -190,6 +190,7 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, type = "np",
       return_drops[dropvec] <- rbinom(sum(dropvec), 1, 1 - falneg)
       return_drops[!dropvec] <- rbinom(sum(!dropvec), 1, falpos)
       # vector TRUE for positive signal and FALSE for negative signal
+
       return_fluo <- NULL
     } else {
       fluopeaks <- rnorm(dropn, 1000, 100) + 
@@ -212,12 +213,15 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, type = "np",
         fluoy <- rnorm(length(fluox), 50, 10)
         # define fluo vectors with random background
         j <- 1L
+        
+        #adjusted fluo_range
+        adj_fluo_range <- 30/fluo_range
         for (i in fluox) {
           if (j <= dropn) {
             if (fluopos[j] < (i - 20)) {
               j <- j + 1L
             }
-            for(k in j:round(j + 30/fluo_range)){
+            for(k in j:round(j + adj_fluo_range)){
               # move j such that only the influence of peaks close by are counted
               # influence of peaks further away would be marginally small anyway
               if(k <= dropn) {
@@ -232,6 +236,7 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, type = "np",
         fluoy
       }
     }
+    
     list(drop = return_drops, fluo = return_fluo)
     # returns list with first element vector of droplets 1/0
     # or pair of number of pos droplets and total number of droplets
@@ -285,8 +290,9 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, type = "np",
   })))
   
   #crude solution to naming of the experiments
+  colnames(res) <- sapply(1L:length(lambda), function(single_lambda) 
+    paste0(single_lambda, ".", 1L:n_exp))
   
-  colnames(res) <- sapply(1L:length(lambda), function(single_lambda) paste0(single_lambda, ".", 1L:n_exp))
   res
 }
 

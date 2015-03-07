@@ -35,35 +35,35 @@ be \code{"tnp"} (total number of positive wells in the panel), \code{"fluo"}
 consecutive measured droplets. Used only when parameter \code{type} has value
 \code{"fluo"}. Values between 10-20 give nice results.}
 
-\item{sddropc}{standard deviation of the number of droplets generated
+\item{sddropc}{standard deviation of the number of droplets generated.
 Must be a real number between 0 and \code{n} divided by 10.
-Default 0 for constant number of droplets}
+Default 0 for constant number of droplets.}
 
-\item{mudropr}{average proportion (between 0 and 1) of retained partitions
-Must be a real number between 0 and 1
-Default 1 for no loss}
+\item{mudropr}{average proportion (between 0 and 1) of retained partitions.
+Must be a real number between 0 and 1.
+Default 1 for no loss.}
 
-\item{sddropr}{relative standard deviation of the proportion of retained partitions
+\item{sddropr}{relative standard deviation of the proportion of retained partitions.
 Must be a real number, preferably close to 0.
-Default 0 for a constant loss}
+Default 0 for a constant loss.}
 
-\item{Pvar}{If \code{TRUE}, number of copies in constant volume follows P(c) distribution
-If \code{FALSE},  number of copies in constant volume is constant
+\item{Pvar}{If \code{TRUE}, number of copies in constant volume follows P(c) distribution.
+If \code{FALSE},  number of copies in constant volume is constant.
 Default \code{TRUE} for the realistic Poisson model.}
 
 \item{piperr}{coefficient of variation of the actual pipetted volume from the raw material.
 Must be a positive real number, preferably close to 0 (0.1 = 10% is very large).
 Default 0 for constant volume equal to the expected volume}
 
-\item{dropsd}{relative variability of the droplet volume
-parameter sigma of a lognormal distribution with mu = 0
+\item{dropsd}{relative variability of the droplet volume.
+parameter sigma of a lognormal distribution with mu = 0.
 Must be a positive real number, preferably close to 0.
-Default 0 for constant droplet size}
+Default 0 for constant droplet size.}
 
-\item{falpos}{probability that a partition containing no copy gives a positive result
-Must be a real number between 0 and 1
-Default 0 for no false positives
-Only used with \code{fluo} is \code{NULL}}
+\item{falpos}{probability that a partition containing no copy gives a positive result.
+Must be a real number between 0 and 1.
+Default 0 for no false positives.
+Only used if \code{fluo} is \code{NULL}.}
 
 \item{falneg}{probability that a partition containing at least one copy gives a negative
 result
