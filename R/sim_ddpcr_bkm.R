@@ -282,13 +282,13 @@ sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, type = "np",
   res <- suppressMessages(bind_dpcr(lapply(out, function(single_run) {
     switch(type,
            tnp = create_dpcr(sum(single_run[["drop"]]), length(single_run[["drop"]]), 
-                             NULL, type = "tnp"),
+                             NULL, type = "tnp", threshold = 2000, adpcr = FALSE),
            np = create_dpcr(single_run[["drop"]], length(single_run[["drop"]]), NULL, 
-                            type = "np"),
+                            type = "np", threshold = 2000, adpcr = FALSE),
            fluo = create_dpcr(single_run[["fluo"]], length(single_run[["drop"]]), NULL, 
-                              type = "fluo"))
+                              type = "fluo", threshold = 2000, adpcr = FALSE))
   })))
-  
+
   #crude solution to naming of the experiments
   colnames(res) <- sapply(1L:length(lambda), function(single_lambda) 
     paste0(single_lambda, ".", 1L:n_exp))

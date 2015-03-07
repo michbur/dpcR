@@ -79,7 +79,7 @@ setMethod("summary", signature(object = "ddpcr"), function(object, print = TRUE)
   type <- slot(object, "type")
   n <- slot(object, "n")
   
-  if (type %in% c("nm", "tnp")) 
+  if (type %in% c("nm", "tnp", "np")) 
     k <- colSums(data > 0, na.rm = TRUE)
   
   if (type %in% c("fluo")) 
@@ -98,7 +98,7 @@ setMethod("summary", signature(object = "adpcr"), function(object, print = TRUE)
   if (type %in% c("fluo", "ct")) 
     stop(paste0("Summary not currently implemented for data type ", type, "."), call. = TRUE, domain = NA)
   
-  if (type %in% c("nm", "tnp")) {
+  if (type %in% c("nm", "tnp", "np")) {
     k <- colSums(data > 0, na.rm = TRUE)
   }
   

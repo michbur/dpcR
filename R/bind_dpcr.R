@@ -101,7 +101,7 @@ setMethod("bind_dpcr",
               max(slot(single_arg, "threshold"))))
             thresholds <- slot(all_args[[bigger_thresholds]], "threshold")
             res <- cbind_dpcr(all_args)
-            create_adpcr(res[["binded_data"]], 
+            create_ddpcr(res[["binded_data"]], 
                          res[["n"]], thresholds, type = res[["type"]])
           })
 
