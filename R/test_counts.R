@@ -132,6 +132,10 @@ test_counts <- function(input, model = "binomial", ...) {
       paste(names(i[which(i)]), collapse = "")), 
       group_vals)
     colnames(group_coef) <- c("group", "lambda", "lambda.low", "lambda.up")
+    #CI - Fitzpatrick and Scott (1987)
+    z_value <- abs(qnorm(1 - (0.05/2)))
+    group_coef[, "lambda.low"] <- positives/total - z_value/(2 * sqrt(total))
+    group_coef[, "lambda.up"] <- positives/total + z_value/(2 * sqrt(total))
     
   } else {
     
