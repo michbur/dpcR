@@ -92,9 +92,10 @@ test_counts <- function(input, model = "binomial", ...) {
                                        c("X_squared", "p_value")))
     
     #split data in groups
+    #calculate confidence intervals using Sidak's unequality
     group_vals <- fl(binom.confint(positives, 
                                    total, 
-                                   conf.level = 1 - p.adjust(rep(0.05, ncol(input)), "BH")[1],
+                                   conf.level = (1 - 0.05)^(1/ncol(input)),
                                    "wilson")[, 4L:6])
     
     #only unsignif in reality
@@ -132,10 +133,6 @@ test_counts <- function(input, model = "binomial", ...) {
       paste(names(i[which(i)]), collapse = "")), 
       group_vals)
     colnames(group_coef) <- c("group", "lambda", "lambda.low", "lambda.up")
-    #CI - Fitzpatrick and Scott (1987)
-    z_value <- abs(qnorm(1 - (0.05/2)))
-    group_coef[, "lambda.low"] <- positives/total - z_value/(2 * sqrt(total))
-    group_coef[, "lambda.up"] <- positives/total + z_value/(2 * sqrt(total))
     
   } else {
     
