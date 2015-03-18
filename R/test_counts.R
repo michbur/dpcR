@@ -128,7 +128,6 @@ test_counts <- function(input, model = "binomial", ...) {
     dimnames(group_matrix) <- list(letters[1L:length(groups)]
                                    [order(sapply(groups, function(single_group) mean(group_vals[single_group, 1])))], names(positives))
     
-    #calculate confidence intervals - IMPROVE ME!
     group_coef <- data.frame(apply(group_matrix, 2, function(i) 
       paste(names(i[which(i)]), collapse = "")), 
       group_vals)
