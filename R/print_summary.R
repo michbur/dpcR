@@ -2,8 +2,9 @@
 #summary workhorse + plot, should be not called directly by user
 print_summary <- function(k, col_dat, type, n, print, exp_names) {
   
-  sums <- cbind(id = rep(exp_names, 2), calc_lambda(k, n))
-  sums <- sums[order(sums[,1]), ]
+  sums <- cbind(id = unlist(lapply(exp_names, rep, 2)), calc_lambda(k, n))
+  #removed re-ordering
+  #sums <- sums[order(sums[,1]), ]
   #rownames(sums) <- 1L:(2*col_dat)
   
   if (print) {

@@ -15,5 +15,6 @@ calc_lambda <- function(k, n) {
                     lambda = c(l,l), lambda.low = lower, lambda.up = upper, m = l*n,
                     m.low = lower*n, m.up = upper*n, 
                     n = rep(n, 2), row.names = 1L:(length(l)*2))
-  res
+  #reorder
+  res[unlist(lapply(1L:(nrow(res)/2), function(i) c(i, i + nrow(res)/2))), ]
 }
