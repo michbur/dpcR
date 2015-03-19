@@ -79,8 +79,11 @@ setMethod("summary", signature(object = "ddpcr"), function(object, print = TRUE)
   type <- slot(object, "type")
   n <- slot(object, "n")
   
-  if (type %in% c("nm", "tnp", "np")) 
+  if (type %in% c("nm", "np")) 
     k <- colSums(data > 0, na.rm = TRUE)
+  
+  if (type %in% c("tnp")) 
+    k <- data
   
   if (type %in% c("fluo")) 
     k <- apply(data, 2, function(x) get_k_n(x, slot(object, "threshold")))
@@ -98,9 +101,11 @@ setMethod("summary", signature(object = "adpcr"), function(object, print = TRUE)
   if (type %in% c("fluo", "ct")) 
     stop(paste0("Summary not currently implemented for data type ", type, "."), call. = TRUE, domain = NA)
   
-  if (type %in% c("nm", "tnp", "np")) {
+  if (type %in% c("nm", "np")) 
     k <- colSums(data > 0, na.rm = TRUE)
-  }
+  
+  if (type %in% c("tnp")) 
+    k <- data
   
   invisible(print_summary(k, col_dat, type, n, print, colnames(data)))
 })
