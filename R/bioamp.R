@@ -9,8 +9,8 @@
 #' @param robust Is the method used to calculate the location (mean or median)
 #' and dispersion (standard deviation or median absolute deviation).
 #' @param plot logical, if \code{TRUE}, the plot is printed.
-#' @param amp_x is the first amplitude (x-axis).
-#' @param amp_y is the second amplitude (y-axis).
+#' @param amp_x is the first amplitude channel (x-axis).
+#' @param amp_y is the second amplitude channel (y-axis).
 #' @param cluster are the clusters of the plot.
 #' @param stat logical, if \code{TRUE}, the statistics of the droplet digital
 #' PCR experiment are calculated.
@@ -37,11 +37,11 @@ bioamp <- function(data = data, amp_x = 1, amp_y = 2, cluster = 3,
   
   # Create a matirx for results of clusters
   res_ma <- matrix(NA, nrow = 6, ncol = length(cluster_count), 
-		   dimnames = list(c("Number 1", "Location 2", "Location 1", 
+		   dimnames = list(c("Counts 1", "Counts 2", "Median 1", 
 				     "Median 2", "Dispersion 1", "Dispersion 2"),
                                c(cluster_count)))
 
-  # Decide if a robus method is used for the calculation of the statistics
+  # Decide if a robust method is used for the calculation of the statistics
   if (robust) {
     loc_method <- median
     disp_method <- mad
@@ -52,13 +52,13 @@ bioamp <- function(data = data, amp_x = 1, amp_y = 2, cluster = 3,
   
   # Calculate the results of the clusters
   if (stat) {
-    for (i in cluster_count) {
-      res_ma[1, i] <- length(data[data[cluster] == i, amp_x])
-      res_ma[2, i] <- length(data[data[cluster] == i, amp_y])
-      res_ma[3, i] <- loc_method(data[data[cluster] == i, amp_x])
-      res_ma[4, i] <- loc_method(data[data[cluster] == i, amp_y])
-      res_ma[5, i] <- disp_method(data[data[cluster] == i, amp_x])
-      res_ma[6, i] <- disp_method(data[data[cluster] == i, amp_y])
+    for (i in 1L:length(cluster_count)) {
+      res_ma[1, i] <- length(data[data[cluster] == cluster_count[i], amp_x])
+      res_ma[2, i] <- length(data[data[cluster] == cluster_count[i], amp_y])
+      res_ma[3, i] <- loc_method(data[data[cluster] == cluster_count[i], amp_x])
+      res_ma[4, i] <- loc_method(data[data[cluster] == cluster_count[i], amp_y])
+      res_ma[5, i] <- disp_method(data[data[cluster] == cluster_count[i], amp_x])
+      res_ma[6, i] <- disp_method(data[data[cluster] == cluster_count[i], amp_y])
     }
   }
   
