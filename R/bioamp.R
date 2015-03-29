@@ -11,7 +11,7 @@
 #' @param plot logical, if \code{TRUE}, the plot is printed.
 #' @param amp_x is the first amplitude channel (x-axis).
 #' @param amp_y is the second amplitude channel (y-axis).
-#' @param cluster are the clusters of the plot.
+#' @param cluster are the clusters of the plot. The number indicates the column of a table, which contains the cluster information.
 #' @param stat logical, if \code{TRUE}, the statistics of the droplet digital
 #' PCR experiment are calculated.
 #' @param xlab x-label of the plot.
