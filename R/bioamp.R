@@ -37,8 +37,8 @@ bioamp <- function(data = data, amp_x = 1, amp_y = 2, cluster = 3,
   
   # Create a matirx for results of clusters
   res_ma <- matrix(NA, nrow = 6, ncol = length(cluster_count), 
-		   dimnames = list(c("Counts 1", "Counts 2", "Median 1", 
-				     "Median 2", "Dispersion 1", "Dispersion 2"),
+		   dimnames = list(c("Counts 1", "Counts 2", "Location 1", 
+				     "Location 2", "Dispersion 1", "Dispersion 2"),
                                c(cluster_count)))
 
   # Decide if a robust method is used for the calculation of the statistics
