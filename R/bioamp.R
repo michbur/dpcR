@@ -40,7 +40,7 @@ bioamp <- function(data = data, amp_x = 1, amp_y = 2, cluster = 3,
 		   dimnames = list(c("Counts Ch. 1", "Counts Ch. 2", 
 				     "Location Ch. 1", "Location Ch. 2", 
 				     "Dispersion Ch. 1", "Dispersion Ch. 2"),
-                               c(cluster_count)))
+                               paste0("Cluster.", c(cluster_count))))
 
   # Decide if a robust method is used for the calculation of the statistics
   if (robust) {
