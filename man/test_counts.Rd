@@ -4,7 +4,7 @@
 \alias{test_counts}
 \title{Test counts}
 \usage{
-test_counts(input, model = "binomial", ...)
+test_counts(input, model = "binomial", conf.level = 0.95)
 }
 \arguments{
 \item{input}{adpcr or dpcr object with with "nm" type.}
@@ -12,7 +12,7 @@ test_counts(input, model = "binomial", ...)
 \item{model}{may have one of following values: \code{binomial}, \code{poisson},
 \code{prop}, \code{ratio}.}
 
-\item{...}{additional arguments for \code{\link{glm}} function.}
+\item{conf.level}{confidence level of the intervals and groups.}
 }
 \value{
 an object of class \code{\linkS4class{count_test}}.
@@ -45,7 +45,7 @@ plot(two_groups_bin, aggregate = TRUE)
 coef(two_groups_bin)
 
 #this time use Poisson regression
-two_groups_pois <- test_counts(bind_dpcr(adpcr1, adpcr2), binomial = "poisson")
+two_groups_pois <- test_counts(bind_dpcr(adpcr1, adpcr2), model = "poisson")
 summary(two_groups_pois)
 plot(two_groups_pois)
 

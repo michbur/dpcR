@@ -6,7 +6,7 @@
 #' @param input adpcr or dpcr object with with "nm" type.
 #' @param model may have one of following values: \code{binomial}, \code{poisson},
 #' \code{prop}, \code{ratio}.
-#' @param ... additional arguments for \code{\link{glm}} function.
+#' @param conf.level confidence level of the intervals and groups.
 #' @details \code{test_counts} fits counts data from different 
 #' digital PCR experiments to Generalized Linear Model (using quasibinomial
 #' or quasipoisson \code{\link[stats]{family}}). Comparisions between single experiments
@@ -45,7 +45,7 @@
 #' coef(two_groups_bin)
 #' 
 #' #this time use Poisson regression
-#' two_groups_pois <- test_counts(bind_dpcr(adpcr1, adpcr2), binomial = "poisson")
+#' two_groups_pois <- test_counts(bind_dpcr(adpcr1, adpcr2), model = "poisson")
 #' summary(two_groups_pois)
 #' plot(two_groups_pois)
 #' 
@@ -54,7 +54,7 @@
 #' summary(one_group)
 #' plot(one_group)
 
-test_counts <- function(input, model = "binomial", ...) { 
+test_counts <- function(input, model = "binomial", conf.level = 0.95) { 
   if(!(model %in% c("binomial", "poisson", "prop", "ratio")))
     stop("Must must have one of following values: 'binomial', 'poisson', 'ratio' or 'prop'.")
   
@@ -95,11 +95,11 @@ test_counts <- function(input, model = "binomial", ...) {
     #calculate confidence intervals using Sidak's unequality
     group_vals <- fl(binom.confint(positives, 
                                    total, 
-                                   conf.level = (1 - 0.05)^(1/ncol(input)),
+                                   conf.level = (conf.level)^(1/ncol(input)),
                                    "wilson")[, 4L:6])
     
     #only unsignif in reality
-    only_signif <- test_ids[, p_vals > 0.05]
+    only_signif <- test_ids[, p_vals > 1 - conf.level]
     if(!is.matrix(only_signif))
       only_signif <- as.matrix(only_signif)
     #every experiment belongs to different group when dim(only_signif)[2] == 0
@@ -174,7 +174,7 @@ test_counts <- function(input, model = "binomial", ...) {
                                   coefs[, 1] - coefs[, 2], 
                                   coefs[, 1] + coefs[, 2]), ncol = 3))
     
-    summ_mc <- summary(multi_comp)
+    summ_mc <- summary(multi_comp, level = conf.level)
     groups <- cld(multi_comp)[["mcletters"]][["LetterMatrix"]]
     if(is.matrix(groups)) {
       #more than one group
