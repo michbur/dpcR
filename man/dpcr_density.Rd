@@ -53,9 +53,9 @@ accessible as \link{dpcr_density_gui}.
 # confidence interval
 par(mfrow = c(1,2))
 dpcr_density(k = 25, n = 55, average = TRUE, methods = "wilson",
-	     conf.level = 0.9)
+	     conf.level = 0.95)
 dpcr_density(k = 25, n = 55, average = TRUE, methods = "wilson",
-	     conf.level = -0.9)
+	     conf.level = -0.95)
 
 # By setting average to FALSE the total number of positive molecules is
 # calculated
