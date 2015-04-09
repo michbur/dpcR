@@ -5,7 +5,7 @@
 \title{Calculate Density of Digital PCR}
 \usage{
 dpcr_density(k, n, average = FALSE, methods = "wilson", conf.level = 0.95,
-  plot = TRUE, ...)
+  plot = TRUE, bars = FALSE, ...)
 }
 \arguments{
 \item{k}{Total number of positive molecules.}
@@ -26,6 +26,8 @@ Possible values are: \code{"wilson"}, \code{"agresti-coull"},
 interval. Values from 0 to 1 and -1 to 0 are acceptable.}
 
 \item{plot}{If \code{TRUE}, plots density plot.}
+
+\item{bars}{plot on density plot bars for discrete values of lambda.}
 
 \item{...}{Additional arguments send to \code{plot} function.}
 }
