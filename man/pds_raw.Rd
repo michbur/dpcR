@@ -4,40 +4,7 @@
 \name{pds_raw}
 \alias{pds_raw}
 \title{Plasmid dilution series raw data}
-\format{The format is: List of 32 $ A01:'data.frame': 11964 obs. of 3
-variables: ..$ Assay1.Amplitude: num [1:11964] 397 399 402 416 417 ...  ..$
-Assay2.Amplitude: num [1:11964] 3732 3808 4007 3778 3685 ...  ..$ Cluster :
-int [1:11964] 4 4 4 4 4 4 4 4 4 4 ...  $ A02:'data.frame': 11198 obs. of 3
-...$
-}
-
-\source{
-Michael Jahn Flow cytometry group / Environmental microbiology
-Helmholtz Centre for Environmental Research - UFZ Permoserstrasse 15 / 04318
-Leipzig / Germany phone +49 341 235 1318 michael.jahn [at] ufz.de /
-www.ufz.de
-}
-\description{
-These are the raw data from the \code{pds_raw} data set as measured by the
-BioRad QX100 Droplet Digital PCR System.
-}
-
-\details{
-The results can be as calculated by the BioRad QX100 Droplet Digital PCR
-System are to be found in \code{pds}.
-
-Setup: Duplex assay with constant amount of genomic DNA and six 10-fold
-dilutions of plasmid DNA with 4 replicates, ranging theoretically from ~
-10^4 to 10^-1 copies/ micro L plus 4 replicates without plasmid DNA.
-Included are No-gDNA-control and No-template-control, 2 replicates each.
-
-Annotation: FX.Y (X = dilution number, Y = replicate number). Hardware:
-Bio-Rad QX100 Droplet digital PCR system Details: Genomic DNA isolated from
-Pseudomonas putida KT2440. Plasmid is pCOM10-StyA::EGFP StyB [Jahn et al.,
-2013, Curr Opin Biotechnol, Vol. 24 (1): 79-87]. Template DNA was heat
-treated at 95 degree Celsius for 5 min prior to PCR. Channel 1, primers for
-genomic DNA marker ileS, Taqman probes (FAM labelled). Channel 2, primers
-for plasmid DNA marker styA, Taqman probes (HEX labelled).
+\format{A list of 32 data frames.
 \describe{
   \item{Well }{| ExptType }{| Experiment }{| Sample + Dilution step }{| TypeAssay }{| Assay}
   \item{A01 }{| Absolute Quantification }{| ABS }{| gDNA + P 10^4 }{| Ch1Unknown }{| ileS}
@@ -104,7 +71,49 @@ for plasmid DNA marker styA, Taqman probes (HEX labelled).
   \item{F04 }{| Absolute Quantification }{| ABS }{| B + P 10^2 }{| Ch2Unknown }{| styA}
   \item{G04 }{| Absolute Quantification }{| ABS }{| B }{| Ch2NTC }{| styA}
   \item{H04 }{| Absolute Quantification }{| ABS }{| B }{| Ch2NTC }{| styA}
-  }
+}}
+\source{
+Michael Jahn Flow cytometry group / Environmental microbiology
+Helmholtz Centre for Environmental Research - UFZ Permoserstrasse 15 / 04318
+Leipzig / Germany phone +49 341 235 1318 michael.jahn [at] ufz.de /
+www.ufz.de
+}
+\description{
+These are the raw data from the \code{pds_raw} data set as measured by the
+BioRad QX100 Droplet Digital PCR System.
+}
+\details{
+The results can be as calculated by the BioRad QX100 Droplet Digital PCR
+System are to be found in \code{pds}.
+
+Setup: Duplex assay with constant amount of genomic DNA and six 10-fold
+dilutions of plasmid DNA with 4 replicates, ranging theoretically from ~
+10^4 to 10^-1 copies/ micro L plus 4 replicates without plasmid DNA.
+Included are No-gDNA-control and No-template-control, 2 replicates each.
+
+Annotation: FX.Y (X = dilution number, Y = replicate number). Hardware:
+Bio-Rad QX100 Droplet digital PCR system Details: Genomic DNA isolated from
+Pseudomonas putida KT2440. Plasmid is pCOM10-StyA::EGFP StyB [Jahn et al.,
+2013, Curr Opin Biotechnol, Vol. 24 (1): 79-87]. Template DNA was heat
+treated at 95 degree Celsius for 5 min prior to PCR. Channel 1, primers for
+genomic DNA marker ileS, Taqman probes (FAM labelled). Channel 2, primers
+for plasmid DNA marker styA, Taqman probes (HEX labelled).
+
+The results can be as calculated by the BioRad QX100 Droplet Digital PCR
+System are to be found in \code{pds}.
+
+Setup: Duplex assay with constant amount of genomic DNA and six 10-fold
+dilutions of plasmid DNA with 4 replicates, ranging theoretically from ~
+10^4 to 10^-1 copies/ micro L plus 4 replicates without plasmid DNA.
+Included are No-gDNA-control and No-template-control, 2 replicates each.
+
+Annotation: FX.Y (X = dilution number, Y = replicate number). Hardware:
+  Bio-Rad QX100 Droplet digital PCR system Details: Genomic DNA isolated from
+Pseudomonas putida KT2440. Plasmid is pCOM10-StyA::EGFP StyB [Jahn et al.,
+                                                              2013, Curr Opin Biotechnol, Vol. 24 (1): 79-87]. Template DNA was heat
+treated at 95 degree Celsius for 5 min prior to PCR. Channel 1, primers for
+genomic DNA marker ileS, Taqman probes (FAM labelled). Channel 2, primers
+for plasmid DNA marker styA, Taqman probes (HEX labelled).
 }
 \examples{
 #str(pds_raw)
@@ -117,10 +126,9 @@ Michael Jahn, Stefan Roediger, Michal Burdukiewcz
 Jahn et al., 2013, \emph{Curr Opin Biotechnol}, Vol. 24 (1):
 79-87
 
-Jahn M, Vorpahl C, Tuerkowsky D, Lindmeyer M, Buehler B, Harms H, et al. 
-Accurate Determination of Plasmid Copy Number of Flow-Sorted Cells using 
+Jahn M, Vorpahl C, Tuerkowsky D, Lindmeyer M, Buehler B, Harms H, et al.
+Accurate Determination of Plasmid Copy Number of Flow-Sorted Cells using
 Droplet Digital PCR. \emph{Anal Chem} 2014; 86:5969--76. doi:10.1021/ac501118v.
-
 }
 \keyword{datasets}
 

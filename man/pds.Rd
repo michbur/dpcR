@@ -112,10 +112,6 @@ Michael Jahn, Stefan Roediger, Michal Burdukiewcz
 \references{
 Jahn et al., 2013, \emph{Curr Opin Biotechnol}, Vol. 24 (1):
 79-87
-
-Jahn M, Vorpahl C, Tuerkowsky D, Lindmeyer M, Buehler B, Harms H, et al. 
-Accurate Determination of Plasmid Copy Number of Flow-Sorted Cells using 
-Droplet Digital PCR. \emph{Anal Chem} 2014; 86:5969--76. doi:10.1021/ac501118v.
 }
 \keyword{datasets}
 

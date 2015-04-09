@@ -19,6 +19,7 @@
 #' @param conf.level The level of confidence to be used in the confidence
 #' interval. Values from 0 to 1 and -1 to 0 are acceptable.
 #' @param plot If \code{TRUE}, plots density plot.
+#' @param ... Additional arguments send to \code{plot} function.
 #' @return A data frame with one row containing bounds of the confidence
 #' intervals and a name of the method used to calculate them.
 #' @note The browser-based graphical user interface for this function is
@@ -102,7 +103,7 @@
 #' 
 #' @export dpcr_density
 dpcr_density <- function(k, n, average = FALSE, methods = "wilson", 
-                         conf.level = 0.95, plot = TRUE) {
+                         conf.level = 0.95, plot = TRUE, ...) {
   dat <- dpcr_calculator(k, n, average)
   conf <- binom.confint(k, n, methods = methods, conf.level = conf.level)
   if (average) {
@@ -118,7 +119,7 @@ dpcr_density <- function(k, n, average = FALSE, methods = "wilson",
   names(conf)[2] <- "k"
   if (plot) {
     plot_distr(dat, ylab = "Density", xlab = xlab,
-               main = main)
+               main = main, ...)
     plot_conf_int(conf[1, 4:6], dat, "left", conf_int_col = adjustcolor("cyan4", 
                                                                         alpha.f = 0.15), 
                   conf_int_border = adjustcolor("cyan4", alpha.f = 0.15))

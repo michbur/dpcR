@@ -5,7 +5,7 @@
 \title{Calculate Density of Digital PCR}
 \usage{
 dpcr_density(k, n, average = FALSE, methods = "wilson", conf.level = 0.95,
-  plot = TRUE)
+  plot = TRUE, ...)
 }
 \arguments{
 \item{k}{Total number of positive molecules.}
@@ -26,6 +26,8 @@ Possible values are: \code{"wilson"}, \code{"agresti-coull"},
 interval. Values from 0 to 1 and -1 to 0 are acceptable.}
 
 \item{plot}{If \code{TRUE}, plots density plot.}
+
+\item{...}{Additional arguments send to \code{plot} function.}
 }
 \value{
 A data frame with one row containing bounds of the confidence
