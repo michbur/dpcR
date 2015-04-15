@@ -72,6 +72,7 @@ setMethod("bind_dpcr",
             bigger_breaks <- which.max(lapply(all_args, function(single_arg) 
               max(slot(single_arg, "breaks"))))
             breaks <- slot(all_args[[bigger_breaks]], "breaks")
+            
             res <- cbind_dpcr(all_args)
             create_adpcr(res[["binded_data"]], 
                          res[["n"]], breaks, type = res[["type"]])
@@ -99,7 +100,7 @@ setMethod("bind_dpcr",
             
             bigger_thresholds <- which.max(lapply(all_args, function(single_arg) 
               max(slot(single_arg, "threshold"))))
-            thresholds <- slot(all_args[[bigger_thresholds]], "threshold")
+            thresholds <- slot(all_args[[bigger_thresholds]], "threshold")        
             res <- cbind_dpcr(all_args)
             create_ddpcr(res[["binded_data"]], 
                          res[["n"]], thresholds, type = res[["type"]])
@@ -119,19 +120,22 @@ cbind_dpcr <- function(all_args) {
   #check partitions and add NA values if needed
   all_partitions <- unlist(lapply(all_args, function(single_arg) 
     slot(single_arg, "n")))
-  n_max <- max(all_partitions)
-  if (length(unique(all_partitions)) > 1) {
-    message("Different number of partitions. Shorter objects completed with NA values.")
-    for(i in 1L:length(all_args)) {
-      rows_to_add <- n_max - nrow(all_args[[i]])
-      if (rows_to_add > 0)
-        all_args[[i]] <- rbind(all_args[[i]], 
-                           matrix(rep(NA, ncol(all_args[[i]])*rows_to_add), 
-                                  nrow = rows_to_add))
+  
+  if (slot(all_args[[1]], "type") != "tnp") {
+    n_max <- max(all_partitions)
+    
+    if (length(unique(all_partitions)) > 1) {
+      message("Different number of partitions. Shorter objects completed with NA values.")
+      for(i in 1L:length(all_args)) {
+        rows_to_add <- n_max - nrow(all_args[[i]])
+        if (rows_to_add > 0)
+          all_args[[i]] <- rbind(all_args[[i]], 
+                                 matrix(rep(NA, ncol(all_args[[i]])*rows_to_add), 
+                                        nrow = rows_to_add))
+      }
     }
   }
-  
-  
+    
   binded_data <- do.call(cbind, all_args)
   
   col_names <- unlist(lapply(1L:length(all_args), function(i)

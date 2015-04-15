@@ -61,7 +61,13 @@ test_counts <- function(input, model = "binomial", conf.level = 0.95) {
   
   if(model %in% c("prop", "ratio")) {
     test_function <- if(model == "prop") prop.test else rateratio.test
-    positives <- colSums(input > 0, na.rm = TRUE)
+    
+    #extract number of positive partitions
+    positives <- if(slot(input, "type") == "tnp") {
+      slot(input, ".Data")[1, ]
+    } else {
+      colSums(input > 0, na.rm = TRUE)
+    }
     total <- slot(input, "n")
     #change sequence of rows to create output similar to glm
     test_ids <- combn(1L:length(total), 2)[c(2, 1), ]
@@ -84,7 +90,7 @@ test_counts <- function(input, model = "binomial", conf.level = 0.95) {
     #values of chi square statistic
     statistics <- sapply(all_combns, function(i)
       i[["statistic"]])
-    
+
     test_res <- matrix(c(statistics, p_vals), ncol = 2,
                        dimnames = list(apply(matrix(names(positives)[test_ids], ncol = 2, 
                                                     byrow= TRUE),1, function(i) 
@@ -135,9 +141,13 @@ test_counts <- function(input, model = "binomial", conf.level = 0.95) {
     
   } else {
     
+    #
+    if(slot(input, "type") == "tnp")
+      stop("GLM does not work with 'tnp' type.")
+    
     #choose proper family
     if (model == "binomial") {
-      if(!(slot(input, "type") %in% c("tp", "tnp")))
+      if(!(slot(input, "type") %in% c("tp")))
         #binarize input which isn't already binary
         input <- binarize(input)
       #family for model
@@ -147,8 +157,7 @@ test_counts <- function(input, model = "binomial", conf.level = 0.95) {
     } 
     
     if (model == "poisson") {
-      if(slot(input, "type") %in% c("tp", "tnp"))
-        stop("Poisson regression requires non-binary data.")
+      
       #family for model
       fam <- quasipoisson(link = "log")
       #function transforming coefficients of model to lambdas
