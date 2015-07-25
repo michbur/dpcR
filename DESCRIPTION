@@ -1,7 +1,7 @@
 Package: dpcR
 Type: Package
 Title: Digital PCR Analysis
-Version: 0.1.4.0
+Version: 0.2
 LazyData: true
 Date: 2015-04-09
 Authors@R: c(person("Michal", "Burdukiewicz", email =

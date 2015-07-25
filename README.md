@@ -1,6 +1,6 @@
-
-
-
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/dpcR)](http://cran.r-project.org/web/packages/dpcR)
+[![Downloads](http://cranlogs.r-pkg.org/badges/dpcR)](http://cran.rstudio.com/package=dpcR)
+[![Build Status](https://api.travis-ci.org/michbur/dpcR.png)](https://travis-ci.org/michbur/dpcR)
 
 
 ![dpcR](https://github.com/michbur/dpcR/blob/master/vignettes/dpcR_logo.png)
