@@ -1,7 +1,7 @@
 #' Peak Test
 #' 
-#' Detect, separate and count positive peaks, negative peaks and peak-like
-#' noise. In addition, function calculates area of the peaks.
+#' Detect, separate and count positive and negative peaks, as well as peak-like
+#' noise. Additionally, function calculates area of the peaks.
 #' 
 #' The localization of peaks is determined by the
 #' \code{\link[pracma]{findpeaks}} function.  The area under the peak is

@@ -37,8 +37,8 @@ and time resolution.
 The second element contains smoothed data.
 }
 \description{
-Detect, separate and count positive peaks, negative peaks and peak-like
-noise. In addition, function calculates area of the peaks.
+Detect, separate and count positive and negative peaks, as well as peak-like
+noise. Additionally, function calculates area of the peaks.
 }
 \details{
 The localization of peaks is determined by the

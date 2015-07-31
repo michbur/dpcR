@@ -40,7 +40,7 @@
 #' of method} \item{data.name}{description of data}
 #' @author Michael Fay, Michal Burdukiewicz, Stefan Roediger
 #' @seealso See also \code{\link[stats]{poisson.test}}.
-#' @references Fay M.P.  \emph{Two-sided exact tests and matching confidence
+#' @references Fay M.P. \emph{Two-sided exact tests and matching confidence
 #' intervals for discrete data} R Journal 2 (1), 2010.
 #' @keywords compare mean poisson
 #' @examples

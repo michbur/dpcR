@@ -88,7 +88,7 @@ test_ratio(x7, x8)
 Michael Fay, Michal Burdukiewicz, Stefan Roediger
 }
 \references{
-Fay M.P.  \emph{Two-sided exact tests and matching confidence
+Fay M.P. \emph{Two-sided exact tests and matching confidence
 intervals for discrete data} R Journal 2 (1), 2010.
 }
 \seealso{
