@@ -26,8 +26,12 @@ Possible \code{type} values of \code{adpcr} objects:
 \describe{
 \item{\code{.Data}}{\code{"matrix"} containing data from array. See Description.}
 
-\item{\code{n}}{Object of class \code{"integer"} equal to the number of wells in each
+\item{\code{n}}{Object of class \code{"integer"} equal to the number of partitions in each
 experiment.}
+
+\item{\code{exper}}{The id of experiments.}
+
+\item{\code{replicate}}{The id of technical replicates.}
 
 \item{\code{breaks}}{\code{"numeric"} vector giving the number of intervals into which
 \code{.Data} should be cut. The second element in \code{breaks} vector is considered

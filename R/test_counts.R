@@ -9,7 +9,7 @@
 #' @param conf.level confidence level of the intervals and groups.
 #' @details \code{test_counts} fits counts data from different 
 #' digital PCR experiments to Generalized Linear Model (using quasibinomial
-#' or quasipoisson \code{\link[stats]{family}}). Comparisions between single experiments
+#' or quasipoisson \code{\link[stats]{family}}). Comparisons between single experiments
 #' utilize Tukey's contrast and multiple t-tests (as provided by function \code{\link{glht}}).
 #' @note Mean number of template molecules per partitions and its confidence intervals are derived 
 #' from General Linear Models. Their values will vary depending on input.
@@ -132,7 +132,8 @@ test_counts <- function(input, model = "binomial", conf.level = 0.95) {
       group_matrix <- matrix(group_matrix, nrow = 1)
     #name groups using the abc convention and at the same time reorder them along to value
     dimnames(group_matrix) <- list(letters[1L:length(groups)]
-                                   [order(sapply(groups, function(single_group) mean(group_vals[single_group, 1])))], names(positives))
+                                   [order(sapply(groups, function(single_group) 
+                                     mean(group_vals[single_group, 1])))], names(positives))
     
     group_coef <- data.frame(apply(group_matrix, 2, function(i) 
       paste(names(i[which(i)]), collapse = "")), 

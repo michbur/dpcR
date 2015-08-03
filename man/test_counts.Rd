@@ -23,7 +23,7 @@ The test for comparing counts from two or more digital PCR experiments.
 \details{
 \code{test_counts} fits counts data from different
 digital PCR experiments to Generalized Linear Model (using quasibinomial
-or quasipoisson \code{\link[stats]{family}}). Comparisions between single experiments
+or quasipoisson \code{\link[stats]{family}}). Comparisons between single experiments
 utilize Tukey's contrast and multiple t-tests (as provided by function \code{\link{glht}}).
 }
 \note{

@@ -75,7 +75,7 @@ setMethod("bind_dpcr",
             
             res <- cbind_dpcr(all_args)
             create_adpcr(res[["binded_data"]], 
-                         res[["n"]], breaks, type = res[["type"]])
+                         n = res[["n"]], breaks = breaks, type = res[["type"]])
           })
 
 
@@ -103,7 +103,7 @@ setMethod("bind_dpcr",
             thresholds <- slot(all_args[[bigger_thresholds]], "threshold")        
             res <- cbind_dpcr(all_args)
             create_ddpcr(res[["binded_data"]], 
-                         res[["n"]], thresholds, type = res[["type"]])
+                          n = res[["n"]], threshold = thresholds, type = res[["type"]])
           })
 
 

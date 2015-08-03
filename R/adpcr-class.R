@@ -9,8 +9,10 @@
 #' @aliases adpcr-class adpcr
 #' @docType class
 #' @slot .Data \code{"matrix"} containing data from array. See Description.
-#' @slot n Object of class \code{"integer"} equal to the number of wells in each
+#' @slot n Object of class \code{"integer"} equal to the number of partitions in each
 #' experiment.
+#' @slot exper The id of experiments.
+#' @slot replicate The id of technical replicates.
 #' @slot breaks \code{"numeric"} vector giving the number of intervals into which 
 #' \code{.Data} should be cut. The second element in \code{breaks} vector is considered 
 #' a threshold. Partition above or equal to threshold is counted as 
@@ -45,18 +47,31 @@
 #' 
 setClass("adpcr", contains = "matrix", representation(.Data = "matrix",
                                                       n = "integer",
+                                                      exper = "numeric",
+                                                      replicate = "numeric",
                                                       breaks = "numeric",
                                                       type = "character"))
 
 
 #constructor
-create_adpcr <- function(data, n, breaks = NULL, type, models = NULL, 
+create_adpcr <- function(data, n, experiment = NULL, 
+                         repetition = NULL, breaks = NULL, type, models = NULL, 
                          col_names = 1L:ncol(data)) {
   result <- new("adpcr")
   if (!is.null(col_names) && is.null(colnames(data)))
     colnames(data) <- col_names
   slot(result, ".Data") <- data
-  slot(result, "n") <- n
+  if(length(n) != ncol(data)) {
+    if(length(n) == 1) {
+      warning(paste0("Assumed the number of partitions in each experiment is equal to ",
+                     n, "."))
+      slot(result, "n") <- rep(n, ncol(data))
+    } else {
+      stop("Each run must have known number of repetitions.")
+    }
+  } else {
+    slot(result, "n") <- n
+  }
   if (type %in% c("ct", "fluo", "nm", "np", "tnp")) {
     slot(result, "type") <- type
   } else {
