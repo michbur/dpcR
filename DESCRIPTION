@@ -69,6 +69,8 @@ Collate:
     'print_summary.R'
     'qpcr_analyser.R'
     'qpcrpp.R'
+    'read_dcpr.R'
+    'read_dpcr.R'
     'rtadpcr.R'
     'safe_efficiency.R'
     'show_dpcr.R'
