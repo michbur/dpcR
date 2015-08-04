@@ -36,10 +36,9 @@ NeedsCompilation: no
 Repository: CRAN
 Collate:
     'AUCtest.R'
-    'adpcr-class.R'
     'adpcr2ppp.R'
     'binarize.R'
-    'ddpcr-class.R'
+    'classes.R'
     'bind_dpcr.R'
     'bioamp.R'
     'calc_breaks.R'
@@ -71,6 +70,7 @@ Collate:
     'qpcrpp.R'
     'read_dcpr.R'
     'read_dpcr.R'
+    'rename.R'
     'rtadpcr.R'
     'safe_efficiency.R'
     'show_dpcr.R'

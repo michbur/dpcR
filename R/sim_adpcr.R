@@ -95,5 +95,6 @@
 sim_adpcr <- function(m, n, times, n_panels = 1, dube = FALSE, pos_sums = FALSE) {
   n <- num2int(n)
   res <- sim_dpcr(m, n, times, dube, pos_sums, n_panels)
-  create_adpcr(res, rep(n, n_panels), 0L:max(res), type = ifelse(pos_sums, "tnp", "nm"))
+  create_adpcr(res, n = rep(n, n_panels), breaks = 0L:max(res), 
+               type = ifelse(pos_sums, "tnp", "nm"))
 }

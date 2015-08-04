@@ -12,6 +12,8 @@
 #' @param data a \code{"numeric"} vector or matrix of data from dPCR
 #' experiments. Data frames will be converted to matrices.
 #' @param n \code{"integer"} equal to number of partitions.
+#' @param exper The id of experiments.
+#' @param replicate The id of technical replicates.
 #' @param threshold \code{"numeric"} value giving the threshold above which
 #' droplet is counted as positive.  Ignored if \code{adpcr} is \code{TRUE}.
 #' @param breaks \code{"numeric"} vector giving the number of intervals into
@@ -44,31 +46,15 @@
 #' plot_panel(sample_adpcr, 45, 17)
 #' 
 #' @export create_dpcr
-create_dpcr <- function(data, n, threshold = NULL, breaks = NULL, type, adpcr = TRUE) {
-  if(!(type %in% c("nm", "tnp", "fluo", "np", "ct")))
-    stop("Invalid value of 'type' parameter.")
-  
-  if (!(adpcr %in% c(TRUE, FALSE)))
-    stop("'adpcr' parameter must have TRUE or FALSE value.")
-  
-  if (type == "ct" && adpcr == FALSE)
-    stop("'ct' type is not implemented for 'ddpcr' objects.")
-  
-  if (!(is.integer(n))) {
-    warning("'n' converted to integer.")
-    n <- as.integer(n)
-  }
-  
-  if (is.vector(data))
-    data <- as.matrix(data)
-  if (!(is.matrix(data))) {
-    warning("'data' converted to matrix.")
-    data <- as.matrix(data)
-  }
-  
-  if (adpcr) {
-    create_adpcr(data, n = n, breaks = breaks, type = type)
+
+create_dpcr <- function(data, n, exper = "Experiment 1", 
+                           replicate = NULL, type, threshold = NULL,
+                           breaks = NULL, adpcr) {
+  if(adpcr) {
+    create_adpcr(data = data, n = n, exper = exper, 
+                   replicate = replicate, type = type, breaks = breaks)
   } else {
-    create_ddpcr(data, n = n, threshold = threshold, type = type)
+    create_ddpcr(data = data, n = n, exper = exper, 
+                 replicate = replicate, type = type, threshold = threshold)
   }
 }

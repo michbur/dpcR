@@ -29,8 +29,7 @@
 #' @seealso Opposite function: \code{\link{extract_dpcr}}
 #' @keywords manip
 #' @export
-#' @include adpcr-class.R
-#' @include ddpcr-class.R
+#' @include classes.R
 #' @examples
 #' 
 #' bigger_array <- sim_adpcr(400, 765, 1000, pos_sums = FALSE, n_panels = 5)
@@ -74,8 +73,11 @@ setMethod("bind_dpcr",
             breaks <- slot(all_args[[bigger_breaks]], "breaks")
             
             res <- cbind_dpcr(all_args)
-            create_adpcr(res[["binded_data"]], 
-                         n = res[["n"]], breaks = breaks, type = res[["type"]])
+            
+            class(res) <- "adpcr"
+            slot(res, "breaks") <- breaks
+            res
+            
           })
 
 
@@ -102,8 +104,15 @@ setMethod("bind_dpcr",
               max(slot(single_arg, "threshold"))))
             thresholds <- slot(all_args[[bigger_thresholds]], "threshold")        
             res <- cbind_dpcr(all_args)
-            create_ddpcr(res[["binded_data"]], 
-                          n = res[["n"]], threshold = thresholds, type = res[["type"]])
+            
+#             create_ddpcr(res[["binded_data"]], 
+#                          n = res[["n"]], threshold = thresholds, type = res[["type"]])
+            
+            class(res) <- "ddpcr"
+            slot(res, "threshold") <- thresholds
+            res
+            
+            
           })
 
 
@@ -138,9 +147,16 @@ cbind_dpcr <- function(all_args) {
     
   binded_data <- do.call(cbind, all_args)
   
-  col_names <- unlist(lapply(1L:length(all_args), function(i)
-    paste0(i, ".", 1L:ncol(all_args[[i]]))))
+#   col_names <- unlist(lapply(1L:length(all_args), function(i)
+#     paste0(i, ".", 1L:ncol(all_args[[i]]))))
+#   
+#   colnames(binded_data) <- col_names
+#  list(binded_data = binded_data, type = type, n = all_partitions)
   
-  colnames(binded_data) <- col_names
-  list(binded_data = binded_data, type = type, n = all_partitions)
+  res <- construct_dpcr(data = binded_data, n = all_partitions, 
+                        exper = unlist(lapply(all_args, function(single_arg) 
+                          slot(single_arg, "exper"))), 
+                        replicate = unlist(lapply(all_args, function(single_arg) 
+                          slot(single_arg, "replicate"))), 
+                        type = type)
 }

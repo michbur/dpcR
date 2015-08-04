@@ -52,5 +52,7 @@ extract_dpcr <- function(input, id) {
   result <- input
   slot(result, ".Data") <- selected
   slot(result, "n") <- slot(input, "n")[id]
+  slot(result, "exper") <- slot(input, "exper")[id]
+  slot(result, "replicate") <- slot(input, "replicate")[id]
   result
 }

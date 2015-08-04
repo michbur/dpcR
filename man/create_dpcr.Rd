@@ -4,7 +4,8 @@
 \alias{create_dpcr}
 \title{Create dpcR object}
 \usage{
-create_dpcr(data, n, threshold = NULL, breaks = NULL, type, adpcr = TRUE)
+create_dpcr(data, n, exper = "Experiment 1", replicate = NULL, type,
+  threshold = NULL, breaks = NULL, adpcr)
 }
 \arguments{
 \item{data}{a \code{"numeric"} vector or matrix of data from dPCR
@@ -12,17 +13,21 @@ experiments. Data frames will be converted to matrices.}
 
 \item{n}{\code{"integer"} equal to number of partitions.}
 
-\item{threshold}{\code{"numeric"} value giving the threshold above which
-droplet is counted as positive.  Ignored if \code{adpcr} is \code{TRUE}.}
+\item{exper}{The id of experiments.}
 
-\item{breaks}{\code{"numeric"} vector giving the number of intervals into
-which \code{data} should be cut. Ignored if \code{adpcr} is \code{FALSE}.}
+\item{replicate}{The id of technical replicates.}
 
 \item{type}{Object of class \code{"character"} defining type of data. Could
 be \code{"nm"} (number of molecules per partition), \code{"tnp"} (total
 number of positive wells in the panel), \code{"fluo"} (fluorescence), \code{"np"}
 (status (positive (1) or negative(0)) of each droplet) or\code{"ct"}
 (threshold cycle).}
+
+\item{threshold}{\code{"numeric"} value giving the threshold above which
+droplet is counted as positive.  Ignored if \code{adpcr} is \code{TRUE}.}
+
+\item{breaks}{\code{"numeric"} vector giving the number of intervals into
+which \code{data} should be cut. Ignored if \code{adpcr} is \code{FALSE}.}
 
 \item{adpcr}{logical. If \code{TRUE}, function creates
 \code{\linkS4class{adpcr}} object. If \code{FALSE}, function creates
