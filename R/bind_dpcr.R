@@ -64,7 +64,7 @@ setMethod("bind_dpcr",
                 all_args <- c(list(input), Filter(Negate(is.null), list(...)))
               }
             }
-              
+            
             all_classes <- all(sapply(all_args, class) == "adpcr")
             if (!all_classes)
               stop("All binded objects must have the same class.")
@@ -125,6 +125,11 @@ cbind_dpcr <- function(all_args) {
     stop("Input objects must have the same type.")
   type <- unique(all_types)
   
+  all_expers <- unlist(lapply(all_args, function(single_arg) 
+    slot(single_arg, "exper")))
+  
+  all_replicates <- unlist(lapply(all_args, function(single_arg) 
+    slot(single_arg, "replicate")))
   
   #check partitions and add NA values if needed
   all_partitions <- unlist(lapply(all_args, function(single_arg) 
@@ -154,9 +159,7 @@ cbind_dpcr <- function(all_args) {
 #  list(binded_data = binded_data, type = type, n = all_partitions)
   
   res <- construct_dpcr(data = binded_data, n = all_partitions, 
-                        exper = unlist(lapply(all_args, function(single_arg) 
-                          slot(single_arg, "exper"))), 
-                        replicate = unlist(lapply(all_args, function(single_arg) 
-                          slot(single_arg, "replicate"))), 
+                        exper = all_expers, 
+                        replicate = all_replicates, 
                         type = type)
 }

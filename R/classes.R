@@ -68,6 +68,9 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
     }
   } 
   
+  if(class(exper) != "factor")
+    exper <- as.factor(exper)
+  
   # replicate
   if(is.null(replicate)) {
     replicate <- factor(1L:ncol(data))
