@@ -105,8 +105,8 @@ setMethod("bind_dpcr",
             thresholds <- slot(all_args[[bigger_thresholds]], "threshold")        
             res <- cbind_dpcr(all_args)
             
-#             create_ddpcr(res[["binded_data"]], 
-#                          n = res[["n"]], threshold = thresholds, type = res[["type"]])
+            #             create_ddpcr(res[["binded_data"]], 
+            #                          n = res[["n"]], threshold = thresholds, type = res[["type"]])
             
             class(res) <- "ddpcr"
             slot(res, "threshold") <- thresholds
@@ -149,17 +149,17 @@ cbind_dpcr <- function(all_args) {
       }
     }
   }
-    
+  
   binded_data <- do.call(cbind, all_args)
   
-#   col_names <- unlist(lapply(1L:length(all_args), function(i)
-#     paste0(i, ".", 1L:ncol(all_args[[i]]))))
-#   
-#   colnames(binded_data) <- col_names
-#  list(binded_data = binded_data, type = type, n = all_partitions)
+  #   col_names <- unlist(lapply(1L:length(all_args), function(i)
+  #     paste0(i, ".", 1L:ncol(all_args[[i]]))))
+  #   
+  #   colnames(binded_data) <- col_names
+  #  list(binded_data = binded_data, type = type, n = all_partitions)
   
-  res <- construct_dpcr(data = binded_data, n = all_partitions, 
-                        exper = all_expers, 
-                        replicate = all_replicates, 
-                        type = type)
+  construct_dpcr(data = binded_data, n = all_partitions, 
+                 exper = all_expers, 
+                 replicate = all_replicates, 
+                 type = type)
 }

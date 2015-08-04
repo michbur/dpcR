@@ -67,11 +67,11 @@ adpcr2ppp <- function(input, nx_a, ny_a, marks = TRUE) {
              c(1, nx_a), c(1, ny_a)))
     #check if marks are properly assigned
     if (marks) {
-      data_ppp1 <- ppp(data_points[, 2], data_points[, 1], 
-                       c(1, nx_a), c(1, ny_a), marks = array_col[array_col != 0])
+      ppp(data_points[, 2], data_points[, 1], 
+          c(1, nx_a), c(1, ny_a), marks = array_col[array_col != 0])
     } else {
-      data_ppp1 <- ppp(data_points[, 2], data_points[, 1], 
-                       c(1, nx_a), c(1, ny_a))
+      ppp(data_points[, 2], data_points[, 1], 
+          c(1, nx_a), c(1, ny_a))
     }
   })
 }

@@ -79,7 +79,7 @@ test_counts <- function(input, model = "binomial", conf.level = 0.95) {
       test_ids <- as.matrix(test_ids)
     #perform one-against-one multiple proportion tests
     all_combns <- apply(test_ids, 2, function(i)
-      prop.test(positives[i], total[i]))
+      test_function(positives[i], total[i]))
     
     #adjust p-values
     p_vals <- p.adjust(sapply(all_combns, function(i)

@@ -62,4 +62,5 @@ sim_dpcr <- function(m, n, times, dube, pos_sums, n_panels) {
   } else {
     res <- sim_dpcr_multi(m, n, times, pos_sums, n_panels)
   }
+  res
 }
