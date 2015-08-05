@@ -78,6 +78,8 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
   if(length(replicate) != ncol(data)) {
     stop("Each run have replicate id.")
   } 
+  if(class(replicate) != "factor")
+    replicate <- as.factor(replicate)
   
   # type
   if (!(type %in% c("ct", "fluo", "nm", "np", "tnp"))) 
