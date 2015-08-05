@@ -1,19 +1,22 @@
 library(shiny)
 
 shinyUI(navbarPage(title = "dpcReport",
-                   id= "navbar", windowTitle = "dpcraporter", collapsible=TRUE,
+                   id= "navbar", windowTitle = "dpcReport", collapsible=TRUE,
                    tabPanel("Input file",
-                            fileInput("input_file", "Choose CSV File (input should contain Cq data)",
-                                      accept=c("text/csv", "text/comma-separated-values,text/plain", ".csv")),
-                            br(),
-                            p("Lost? Use button below to see an example:"),
-                            actionButton("run_example", "Run example")),
-                   tabPanel("Adjust data",
+                            includeMarkdown("input_file1.md"),
+                            fluidRow(
+                              column(2, fileInput("input_file", 
+                                                  "Choose dPCR data")),
+                              column(3, htmlOutput("input_information"))
+                            ),
+                            includeMarkdown("input_file2.md"),
                             fluidRow(
                               column(3, h3("Experiment name"), htmlOutput("exp_choice")),
                               column(3, h3("Repeat id"), htmlOutput("rep_choice"))
-                            )),
-                   tabPanel("Input data2", verbatimTextOutput("read_exp_names")),
+                            )
+                   ),
+                   tabPanel("Data summary table", dataTableOutput("summary_input"),
+                            includeMarkdown("data_summary_table1.md")),
                    tabPanel("Input data", tableOutput("input_data"))
 ))
 
