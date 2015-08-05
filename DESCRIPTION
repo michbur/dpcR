@@ -29,7 +29,8 @@ Imports:
     shiny,
     spatstat
 Suggests:
-    knitr
+    knitr,
+    ggplot2
 VignetteBuilder: knitr
 Packaged: 2015-04-09 11:09:00 UTC; Mihau
 NeedsCompilation: no
@@ -68,7 +69,6 @@ Collate:
     'print_summary.R'
     'qpcr_analyser.R'
     'qpcrpp.R'
-    'read_dcpr.R'
     'read_dpcr.R'
     'rename.R'
     'rtadpcr.R'

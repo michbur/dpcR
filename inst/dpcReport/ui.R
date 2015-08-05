@@ -6,17 +6,22 @@ shinyUI(navbarPage(title = "dpcReport",
                             includeMarkdown("input_file1.md"),
                             fluidRow(
                               column(2, fileInput("input_file", 
-                                                  "Choose dPCR data")),
+                                                  h4("Choose dPCR data"))),
+                              column(2, selectInput("input_type", label = h4("Select data format"), 
+                                          choices = list("Raw data" = "raw", "Choice 2" = 2))),
                               column(3, htmlOutput("input_information"))
                             ),
                             includeMarkdown("input_file2.md"),
                             fluidRow(
-                              column(3, h3("Experiment name"), htmlOutput("exp_choice")),
-                              column(3, h3("Repeat id"), htmlOutput("rep_choice"))
+                              column(3, h4("Experiment name"), htmlOutput("exp_choice")),
+                              column(3, h4("Technical repeat ID"), htmlOutput("rep_choice"))
                             )
                    ),
                    tabPanel("Data summary table", dataTableOutput("summary_input"),
                             includeMarkdown("data_summary_table1.md")),
+                   tabPanel("Data summary chart", plotOutput("summary_plot", 
+                                                             dblclick = dblclickOpts(id = "plot_dbl")),
+                            verbatimTextOutput("dbl_info")),
                    tabPanel("Input data", tableOutput("input_data"))
 ))
 

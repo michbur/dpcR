@@ -21,5 +21,12 @@ read_dpcr <- function(file, format) {
 #' @export
 
 read_raw <- function(file) {
-  read.csv(file)
+  dat <- read.csv(file)
+  
+  n <- rowSums(!apply(dat, 1, is.na))
+  
+  exp_rep <- matrix(unlist(strsplit(colnames(dat), ".", fixed = TRUE)), ncol = 2, byrow = TRUE)
+  
+  create_dpcr(data = as.matrix(dat), n = n, exper = exp_rep[, 1], replicate = exp_rep[, 2], type = "np",
+              adpcr = TRUE)
 }

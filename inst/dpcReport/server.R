@@ -1,5 +1,21 @@
 library(shiny)
 library(dpcR)
+library(ggplot2)
+
+size_mod <- 4
+cool_theme <- theme(plot.background=element_rect(fill = "transparent",
+                                                 colour = "transparent"),
+                    panel.grid.major = element_line(colour="lightgrey", linetype = "dashed"),
+                    panel.background = element_rect(fill = "white", colour = "black"),
+                    legend.background = element_rect(fill="NA"),
+                    legend.position = "bottom",
+                    axis.text = element_text(size=12 + size_mod),
+                    axis.title.x = element_text(size=16 + size_mod, vjust = -1), 
+                    axis.title.y = element_text(size=16 + size_mod, vjust = 1),
+                    strip.text = element_text(size=17 + size_mod, face = "bold"),
+                    legend.text = element_text(size=13 + size_mod), 
+                    legend.title = element_text(size=17 + size_mod),
+                    plot.title = element_text(size=20 + size_mod))
 
 
 change_data <- function(input_dat, rep_names_new, exp_names_new) {
@@ -23,17 +39,10 @@ shinyServer(function(input, output) {
   input_dat <- reactive({
     #after loading any file it would be possible to start an example
     if(is.null(input[["input_file"]])) {
-      dat <- read.csv("example_data.csv")
+      read_dpcr("example_data.csv", format = "raw")
     } else {
-      dat <- read.csv(input[["input_file"]][["datapath"]])
+      read_dpcr(input[["input_file"]][["datapath"]], format = input[["input_type"]])
     }
-    
-    n <- rowSums(!apply(dat, 1, is.na))
-    
-    exp_rep <- matrix(unlist(strsplit(colnames(dat), ".", fixed = TRUE)), ncol = 2, byrow = TRUE)
-
-    create_dpcr(data = as.matrix(dat), n = n, exper = exp_rep[, 1], replicate = exp_rep[, 2], type = "np",
-                adpcr = TRUE)
   })
   
 
@@ -68,8 +77,25 @@ shinyServer(function(input, output) {
   output[["summary_input"]] <- renderDataTable({
     new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
     #new_dat <- input_dat()
-    summary(new_dat)[["summary"]]
+    summary(new_dat, print = FALSE)[["summary"]]
   })
+  
+  output[["summary_plot"]] <- renderPlot({
+    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+    
+    summ <- summary(new_dat)[["summary"]]
+    summ <- summ[summ[["method"]] == "bhat", c("experiment", "replicate", "method", "lambda", "k", "n")]
+    ggplot(summ, aes(x = experiment, y = lambda, colour = replicate)) +
+      geom_point(size = 4, position = "dodge") + cool_theme +
+      scale_x_discrete("Experiment name") +
+      scale_y_continuous(expression(lambda)) +
+      scale_color_discrete("Replicate ID")
+  })
+  
+  output[["dbl_info"]] <- renderPrint({
+    str(input$plot_dbl)
+  })
+  
   
   output[["exp_choice"]] <- renderUI({
     lapply(1L:length(exp_names()), function(single_exp_id)

@@ -14,7 +14,7 @@ calc_lambda <- function(k, n) {
   res <- data.frame(method = c(rep("dube", length(p)), rep("bhat", length(p))), 
                     lambda = c(l,l), lambda.low = lower, lambda.up = upper, m = l*n,
                     m.low = lower*n, m.up = upper*n, 
-                    n = rep(n, 2), row.names = 1L:(length(l)*2))
+                    k = rep(k, 2), n = rep(n, 2), row.names = 1L:(length(l)*2))
   #reorder
   res[unlist(lapply(1L:(nrow(res)/2), function(i) c(i, i + nrow(res)/2))), ]
 }
