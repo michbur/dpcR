@@ -31,6 +31,8 @@
 #' @references Bretz F, Hothorn T, Westfall P, \emph{Multiple comparisons using R}. 
 #' Boca Raton, Florida, USA: Chapman & Hall/CRC Press (2010).
 #' @examples
+#' #be warned, the examples of test_counts are time-consuming
+#' \dontrun{
 #' adpcr1 <- sim_adpcr(m = 10, n = 765, times = 1000, pos_sums = FALSE, n_panels = 3)
 #' adpcr2 <- sim_adpcr(m = 60, n = 550, times = 1000, pos_sums = FALSE, n_panels = 3)
 #' adpcr2 <- rename(adpcr2, exper = "Experiment2")
@@ -55,6 +57,7 @@
 #' one_group <- test_counts(bind_dpcr(adpcr1, adpcr3))
 #' summary(one_group)
 #' plot(one_group)
+#' }
 
 test_counts <- function(input, model = "binomial", conf.level = 0.95) { 
   if(!(model %in% c("binomial", "poisson", "prop", "ratio")))
@@ -93,11 +96,21 @@ test_counts <- function(input, model = "binomial", conf.level = 0.95) {
     statistics <- sapply(all_combns, function(i)
       i[["statistic"]])
 
-    test_res <- matrix(c(statistics, p_vals), ncol = 2,
-                       dimnames = list(apply(matrix(names(positives)[test_ids], ncol = 2, 
-                                                    byrow= TRUE),1, function(i) 
-                                                      paste(i, collapse = " - ")),
-                                       c("X_squared", "p_value")))
+    #what should be in res, depends on the model
+    test_res <-  if(model == "prop") {
+      matrix(c(statistics, p_vals), ncol = 2,
+             dimnames = list(apply(matrix(names(positives)[test_ids], ncol = 2, 
+                                          byrow= TRUE),1, function(i) 
+                                            paste(i, collapse = " - ")),
+                             c("X_squared", "p_value")))
+    } else {
+      matrix(p_vals, ncol = 1,
+             dimnames = list(apply(matrix(names(positives)[test_ids], ncol = 2, 
+                                          byrow= TRUE),1, function(i) 
+                                            paste(i, collapse = " - ")),
+                             c("p_value")))
+    }
+    
     
     #split data in groups
     #calculate confidence intervals using Sidak's unequality

@@ -31,6 +31,8 @@ Mean number of template molecules per partitions and its confidence intervals ar
 from General Linear Models. Their values will vary depending on input.
 }
 \examples{
+#be warned, the examples of test_counts are time-consuming
+\dontrun{
 adpcr1 <- sim_adpcr(m = 10, n = 765, times = 1000, pos_sums = FALSE, n_panels = 3)
 adpcr2 <- sim_adpcr(m = 60, n = 550, times = 1000, pos_sums = FALSE, n_panels = 3)
 adpcr2 <- rename(adpcr2, exper = "Experiment2")
@@ -55,6 +57,7 @@ plot(two_groups_pois)
 one_group <- test_counts(bind_dpcr(adpcr1, adpcr3))
 summary(one_group)
 plot(one_group)
+}
 }
 \author{
 Michal Burdukiewicz, Stefan Roediger, Piotr Sobczyk.

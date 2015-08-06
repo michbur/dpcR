@@ -142,7 +142,7 @@ shinyServer(function(input, output) {
     
     ggplot(dat, aes(x = experiment, y = lambda, shape = selected,
                     ymax = lambda.up, ymin = lambda.low)) +
-      geom_point(size = 5, alpha = 0.5, lty = 2) + cool_theme +
+      geom_point(size = 6, alpha = 0.5, lty = 2, colour = "lightblue") + cool_theme +
       ggtitle("Experiment scatter chart") +
       scale_x_discrete("Experiment name") +
       scale_y_continuous(expression(lambda)) + 
@@ -196,7 +196,7 @@ shinyServer(function(input, output) {
     
     ggplot(dat, aes(x = exprep, y = lambda, shape = selected, colour = experiment,
                     ymax = lambda.up, ymin = lambda.low, linetype = selected)) +
-      geom_point(size = 5, alpha = 0.5) + cool_theme +
+      geom_point(size = 6, alpha = 0.5) + cool_theme +
       ggtitle("Experiment/replicate scatter chart") +
       scale_x_discrete("Replicate id", labels = dat[["replicate"]] ) +
       scale_y_continuous(expression(lambda)) + 
