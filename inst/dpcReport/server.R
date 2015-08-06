@@ -23,7 +23,7 @@ change_data <- function(input_dat, rep_names_new, exp_names_new) {
   new_dat <- input_dat
   slot(new_dat, "replicate") <- rep_names_new
   slot(new_dat, "exper") <- exp_names_new
-  colnames(new_dat) <- paste0(exp_names_new, ".", rep_names_new)
+  colnames(new_dat) <- paste0(exp_names_new, rep_names_new)
   new_dat
 }
 
@@ -54,6 +54,7 @@ choose_xy_point <- function(db_id, data) {
 
 shinyServer(function(input, output) {
   
+  # Input file panel --------------------------------
   #check if no data is loaded or no example used
   null_input <- reactive({
     is.null(input[["input_file"]]) && input[["run_example"]] == 0
@@ -80,6 +81,19 @@ shinyServer(function(input, output) {
   rep_names_new <- reactive(sapply(1L:length(rep_names()), function(single_rep_id)
     input[[paste0("rep_name", single_rep_id)]]))
   
+  output[["exp_choice"]] <- renderUI({
+    lapply(1L:length(exp_names()), function(single_exp_id)
+      textInput(inputId = paste0("experiment_name", single_exp_id), 
+                label = paste0("Column", single_exp_id), value = exp_names()[single_exp_id]))
+  })
+  
+  
+  output[["rep_choice"]] <- renderUI({
+    lapply(1L:length(rep_names()), function(single_rep_id)
+      textInput(inputId = paste0("rep_name", single_rep_id), 
+                label = paste0("Column", single_rep_id), value = rep_names()[single_rep_id]))
+  })
+  
   #information if input file is loaded
   output[["input_information"]] <- renderPrint({
     if(is.null(input[["input_file"]])) {
@@ -90,20 +104,15 @@ shinyServer(function(input, output) {
   })
   
   
-  output[["input_data"]] <- renderTable({
-    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
-    #new_dat <- input_dat
-    storage.mode(new_dat) <- "integer"
-    #colnames(new_dat) <- paste0(exp_names_new(), "; ", rep_names_new())
-    slot(new_dat, ".Data")
-  })
-  
+  # Data summary table panel --------------------------------
   output[["summary_input"]] <- renderDataTable({
     new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
     #new_dat <- input_dat()
     summary(new_dat, print = FALSE)[["summary"]]
   })
   
+  
+  # Data summary scatter chart panel --------------------------------
   summary_plot_dat <- reactive({
     new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
     
@@ -112,23 +121,7 @@ shinyServer(function(input, output) {
   })
   
   
-  output[["summary_plot"]] <- renderPlot({
-    summ <- summary_plot_dat()
-    dat <- cbind(summ, selected = rep(FALSE, nrow(summary_plot_dat())))
-    dat[as.numeric(summary_point[["selected"]]), "selected"] <- TRUE
-    
-    print(dat)
-    ggplot(dat, aes(x = experiment, y = lambda, colour = selected, shape = selected,
-                    ymax = lambda.up, ymin = lambda.low)) +
-      geom_point(size = 5, alpha = 0.5) + cool_theme +
-      scale_x_discrete("Experiment name") +
-      scale_y_continuous(expression(lambda)) + 
-      scale_color_discrete(guide = FALSE) +
-      scale_shape_discrete(guide = FALSE) #+ geom_errorbar(width = nlevels(dat[["experiment"]])/100)
-  })
-  
-  # summary_point <- NULL
-  
+  #clicking a point in the summary scatter chart
   summary_point <- reactiveValues(
     selected = NULL
   )
@@ -142,33 +135,105 @@ shinyServer(function(input, output) {
                     data = summary_plot_dat()[, c("experiment", "lambda")])
   })
   
+  output[["summary_plot"]] <- renderPlot({
+    summ <- summary_plot_dat()
+    dat <- cbind(summ, selected = rep(FALSE, nrow(summary_plot_dat())))
+    dat[as.numeric(summary_point[["selected"]]), "selected"] <- TRUE
+    
+    ggplot(dat, aes(x = experiment, y = lambda, shape = selected,
+                    ymax = lambda.up, ymin = lambda.low)) +
+      geom_point(size = 5, alpha = 0.5, lty = 2) + cool_theme +
+      ggtitle("Experiment scatter chart") +
+      scale_x_discrete("Experiment name") +
+      scale_y_continuous(expression(lambda)) + 
+      scale_shape_manual(guide = FALSE, values = c(16, 15)) #+ geom_errorbar(width = nlevels(dat[["experiment"]])/100)
+  })
+
   output[["summary_plot_dbl"]] <- renderPrint({
     summ <- summary_plot_dat()
     dat <- cbind(summ, selected = rep(FALSE, nrow(summary_plot_dat())))
     dat[as.numeric(summary_point[["selected"]]), "selected"] <- TRUE
     
-    if(is.null(summary_point[["selected"]])) {
-      p("Double-click point to learn its properties.")
+    prologue <- list(strong("Double-click"), "point on the chart to learn its properties.", br()) 
+    
+    epilogue <- if(is.null(summary_point[["selected"]])) {
+      list()
     } else {
       dat <- dat[dat[["selected"]] == TRUE, ]
-      p("Experiment name: ", as.character(dat[["experiment"]]), ".", br(), 
-        "Lambda: ", round(dat[["lambda"]], app_digits), ".")
+      list("Experiment name: ", as.character(dat[["experiment"]]), br(), 
+        "Lambda: ", round(dat[["lambda"]], app_digits))
     }
     
+    do.call(p, c(prologue, epilogue))
+  })
+  
+  # Data summary experiment-replicate scatter chart panel --------------------------------
+  summary_exprep_plot_dat <- reactive({
+    summ <- summary_plot_dat()
+    summ[["exprep"]] <- factor(paste0(summ[["experiment"]], "\n", summ[["replicate"]]))
+    summ
   })
   
   
-  output[["exp_choice"]] <- renderUI({
-    lapply(1L:length(exp_names()), function(single_exp_id)
-      textInput(inputId = paste0("experiment_name", single_exp_id), 
-                label = paste0("Column", single_exp_id), value = exp_names()[single_exp_id]))
+  #clicking a point in the summary scatter chart
+  summary_exprep_point <- reactiveValues(
+    selected = NULL
+  )
+  
+  observeEvent(input[["summary_exprep_plot_dbl"]], {
+    summary_exprep_point[["selected"]] <- summary_exprep_plot_dbl()[["row"]]
+  })
+  
+  summary_exprep_plot_dbl <- reactive({
+    choose_xy_point(input[["summary_exprep_plot_dbl"]], 
+                    data = summary_exprep_plot_dat()[, c("exprep", "lambda")])
+  })
+  
+  output[["summary_exprep_plot"]] <- renderPlot({
+    summ <- summary_exprep_plot_dat()
+    dat <- cbind(summ, selected = rep(FALSE, nrow(summary_exprep_plot_dat())))
+    dat[as.numeric(summary_exprep_point[["selected"]]), "selected"] <- TRUE
+    
+    ggplot(dat, aes(x = exprep, y = lambda, shape = selected, colour = experiment,
+                    ymax = lambda.up, ymin = lambda.low, linetype = selected)) +
+      geom_point(size = 5, alpha = 0.5) + cool_theme +
+      ggtitle("Experiment/replicate scatter chart") +
+      scale_x_discrete("Replicate id", labels = dat[["replicate"]] ) +
+      scale_y_continuous(expression(lambda)) + 
+      scale_color_discrete("Experiment name") +
+      scale_linetype_manual(guide = FALSE, values = c("solid", "dashed")) + 
+      scale_shape_manual(guide = FALSE, values = c(16, 15)) + 
+      geom_errorbar(alpha = 0.5, size = 1.2, width = nlevels(dat[["experiment"]])/40)
+  })
+  
+  output[["summary_exprep_plot_dbl"]] <- renderPrint({
+    summ <- summary_exprep_plot_dat()
+    dat <- cbind(summ, selected = rep(FALSE, nrow(summary_exprep_plot_dat())))
+    dat[as.numeric(summary_exprep_point[["selected"]]), "selected"] <- TRUE
+    
+    prologue <- list(strong("Double-click"), "point on the chart to learn its properties.", br()) 
+    
+    epilogue <- if(is.null(summary_exprep_point[["selected"]])) {
+      list()
+    } else {
+      dat <- dat[dat[["selected"]] == TRUE, ]
+      list("Experiment name: ", as.character(dat[["experiment"]]), br(), 
+           "Replicate ID: ", as.character(dat[["replicate"]]), br(),
+           "Lambda: ", round(dat[["lambda"]], app_digits))
+    }
+    
+    do.call(p, c(prologue, epilogue))
   })
   
   
-  output[["rep_choice"]] <- renderUI({
-    lapply(1L:length(rep_names()), function(single_rep_id)
-      textInput(inputId = paste0("rep_name", single_rep_id), 
-                label = paste0("Column", single_rep_id), value = rep_names()[single_rep_id]))
+  #input data table, may be scrapped ----------------------------------
+  output[["input_data"]] <- renderTable({
+    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+    #new_dat <- input_dat
+    storage.mode(new_dat) <- "integer"
+    #colnames(new_dat) <- paste0(exp_names_new(), "; ", rep_names_new())
+    slot(new_dat, ".Data")
   })
+  
   
 })
