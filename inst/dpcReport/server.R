@@ -23,7 +23,7 @@ change_data <- function(input_dat, rep_names_new, exp_names_new) {
   new_dat <- input_dat
   slot(new_dat, "replicate") <- rep_names_new
   slot(new_dat, "exper") <- exp_names_new
-  colnames(new_dat) <- paste0(exp_names_new, rep_names_new)
+  colnames(new_dat) <- paste0(exp_names_new, ".", rep_names_new)
   new_dat
 }
 
@@ -136,13 +136,15 @@ shinyServer(function(input, output) {
   })
   
   output[["summary_plot"]] <- renderPlot({
+    set.seed(100)
     summ <- summary_plot_dat()
     dat <- cbind(summ, selected = rep(FALSE, nrow(summary_plot_dat())))
     dat[as.numeric(summary_point[["selected"]]), "selected"] <- TRUE
     
     ggplot(dat, aes(x = experiment, y = lambda, shape = selected,
                     ymax = lambda.up, ymin = lambda.low)) +
-      geom_point(size = 6, alpha = 0.7, lty = 2, colour = "lightblue") + cool_theme +
+      geom_point(size = 4, alpha = 0.6, lty = 2, colour = "blue", 
+                 position = position_jitter(width = nlevels(dat[["experiment"]])/15)) + cool_theme +
       ggtitle("Experiment scatter chart") +
       scale_x_discrete("Experiment name") +
       scale_y_continuous(expression(lambda)) + 
@@ -196,14 +198,14 @@ shinyServer(function(input, output) {
     
     ggplot(dat, aes(x = exprep, y = lambda, shape = selected, colour = experiment,
                     ymax = lambda.up, ymin = lambda.low, linetype = selected)) +
-      geom_point(size = 6, alpha = 0.7) + cool_theme +
+      geom_point(size = 4) + cool_theme +
       ggtitle("Experiment/replicate scatter chart") +
       scale_x_discrete("Replicate id", labels = dat[["replicate"]] ) +
       scale_y_continuous(expression(lambda)) + 
       scale_color_discrete("Experiment name") +
       scale_linetype_manual(guide = FALSE, values = c("solid", "dashed")) + 
       scale_shape_manual(guide = FALSE, values = c(15, 18)) + 
-      geom_errorbar(alpha = 0.5, size = 1.2, width = nlevels(dat[["experiment"]])/40)
+      geom_errorbar(size = 1.2, width = nlevels(dat[["experiment"]])/40)
   })
   
   output[["summary_exprep_plot_dbl"]] <- renderPrint({
@@ -231,8 +233,22 @@ shinyServer(function(input, output) {
     test_counts(new_dat, model = "ratio")
   })
   
-  output[["test_counts_res"]] <- renderPrint({
-    print(test_counts_dat())
+  output[["test_counts_groups"]] <- renderDataTable({
+    dat <- slot(test_counts_dat(), "group_coef")
+    dat[["run"]] <- rownames(dat)
+    rownames(dat) <- NULL
+    dat[, c("run", "group", "lambda", "lambda.low", "lambda.up")]
+  })
+  
+  
+  output[["test_counts_res"]] <- renderDataTable({
+    object <- test_counts_dat()
+    signif_stars <- symnum(slot(object, "test_res")[, "p_value"], corr = FALSE, na = FALSE, 
+                           cutpoints = c(0, 0.001, 0.01, 0.05, 0.1, 1), 
+                           symbols = c("***", "**", "*", ".", " "))
+    data.frame(runs = rownames(slot(object, "test_res")), 
+               slot(object, "test_res"), 
+               signif = as.vector(signif_stars))
   })
   
   #input data table, may be scrapped ----------------------------------

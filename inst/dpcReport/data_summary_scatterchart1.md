@@ -1,3 +1,1 @@
-The scatter chart above describes yadda yadda yadda.
-
-The points belonging to the same experiment and with the same &lambda; value may be overplotted. In this case, consult the replicate/experiment chart below.
+The scatter chart above describes the relationship between the experiment and the &lambda; value. To prevent overplotting, the position of the point on the X axis is randomly jittered. Despite that, points belonging to the same experiment and with the same &lambda; value may be overplotted. In this case, consult the replicate/experiment chart below.

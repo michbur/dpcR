@@ -147,11 +147,10 @@ create_adpcr <- function(data, n, exper = "Experiment1",
                                replicate = replicate, type = type)
   
   if (type == "ct")
-    stop("'ct' type is not implemented for 'ddpcr' objects.")
+    stop("'ct' type is not implemented for 'adpcr' objects.")
   
   if (is.null(breaks))
-    breaks <- 0L:max(data)
-  
+    breaks <- 0L:max(data, na.rm = TRUE)
   class(result) <- "adpcr"
   slot(result, "breaks") <- breaks
   result
