@@ -142,11 +142,11 @@ shinyServer(function(input, output) {
     
     ggplot(dat, aes(x = experiment, y = lambda, shape = selected,
                     ymax = lambda.up, ymin = lambda.low)) +
-      geom_point(size = 6, alpha = 0.5, lty = 2, colour = "lightblue") + cool_theme +
+      geom_point(size = 6, alpha = 0.7, lty = 2, colour = "lightblue") + cool_theme +
       ggtitle("Experiment scatter chart") +
       scale_x_discrete("Experiment name") +
       scale_y_continuous(expression(lambda)) + 
-      scale_shape_manual(guide = FALSE, values = c(16, 15)) #+ geom_errorbar(width = nlevels(dat[["experiment"]])/100)
+      scale_shape_manual(guide = FALSE, values = c(15, 18)) #+ geom_errorbar(width = nlevels(dat[["experiment"]])/100)
   })
 
   output[["summary_plot_dbl"]] <- renderPrint({
@@ -196,13 +196,13 @@ shinyServer(function(input, output) {
     
     ggplot(dat, aes(x = exprep, y = lambda, shape = selected, colour = experiment,
                     ymax = lambda.up, ymin = lambda.low, linetype = selected)) +
-      geom_point(size = 6, alpha = 0.5) + cool_theme +
+      geom_point(size = 6, alpha = 0.7) + cool_theme +
       ggtitle("Experiment/replicate scatter chart") +
       scale_x_discrete("Replicate id", labels = dat[["replicate"]] ) +
       scale_y_continuous(expression(lambda)) + 
       scale_color_discrete("Experiment name") +
       scale_linetype_manual(guide = FALSE, values = c("solid", "dashed")) + 
-      scale_shape_manual(guide = FALSE, values = c(16, 15)) + 
+      scale_shape_manual(guide = FALSE, values = c(15, 18)) + 
       geom_errorbar(alpha = 0.5, size = 1.2, width = nlevels(dat[["experiment"]])/40)
   })
   
@@ -224,7 +224,16 @@ shinyServer(function(input, output) {
     
     do.call(p, c(prologue, epilogue))
   })
+
+  # Test counts --------------------- 
+  test_counts_dat <- reactive({
+    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+    test_counts(new_dat, model = "ratio")
+  })
   
+  output[["test_counts_res"]] <- renderPrint({
+    print(test_counts_dat())
+  })
   
   #input data table, may be scrapped ----------------------------------
   output[["input_data"]] <- renderTable({

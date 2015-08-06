@@ -28,6 +28,7 @@ shinyUI(navbarPage(title = "dpcReport",
                             plotOutput("summary_exprep_plot", 
                                        dblclick = dblclickOpts(id = "summary_exprep_plot_dbl")),
                             htmlOutput("summary_exprep_plot_dbl")),
+                   tabPanel("Test counts", verbatimTextOutput("test_counts_res")),
                    tabPanel("Input data", tableOutput("input_data"))
 ))
 
