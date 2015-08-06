@@ -19,9 +19,10 @@ shinyUI(navbarPage(title = "dpcReport",
                    ),
                    tabPanel("Data summary table", dataTableOutput("summary_input"),
                             includeMarkdown("data_summary_table1.md")),
-                   tabPanel("Data summary chart", plotOutput("summary_plot", 
-                                                             dblclick = dblclickOpts(id = "plot_dbl")),
-                            verbatimTextOutput("dbl_info")),
+                   tabPanel("Data summary scatter charts", 
+                            plotOutput("summary_plot", dblclick = dblclickOpts(id = "summary_plot_dbl")),
+                            br(),
+                            htmlOutput("summary_plot_dbl")),
                    tabPanel("Input data", tableOutput("input_data"))
 ))
 
