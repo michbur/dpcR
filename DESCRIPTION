@@ -48,6 +48,7 @@ Collate:
     'count_test-class.R'
     'create_dpcr.R'
     'dpcR-package.R'
+    'dpcReport_gui.R'
     'dpcr_calculator.R'
     'dpcr_density.R'
     'dpcr_density_gui.R'

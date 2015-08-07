@@ -3,8 +3,7 @@
 #' Launches graphical user interface that allows calculating density of
 #' positive partitions distribution.
 #' 
-#' 
-#' @section Warning : Any ad-blocking software may be cause of malfunctions.
+#' @section Warning : Any ad-blocking software may cause malfunctions.
 #' @author Michal Burdukiewicz, Stefan Roediger.
 #' @seealso \code{\link{dpcr_density}}.
 #' @keywords hplot

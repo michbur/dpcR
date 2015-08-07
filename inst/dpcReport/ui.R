@@ -38,6 +38,8 @@ shinyUI(navbarPage(title = "dpcReport",
                                        dblclick = dblclickOpts(id = "test_count_dbl")),
                             htmlOutput("test_count_dbl"),
                             includeMarkdown("test_counts3.md")),
+                   tabPanel("Download report", downloadButton("report_download_button", 
+                                                              "Download report")),
                    tabPanel("About", includeMarkdown("about.md")),
                    tabPanel("Input data", tableOutput("input_data"))
 ))

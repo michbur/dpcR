@@ -1,0 +1,145 @@
+---
+title: "dpcReport"
+author: "Michal Burdukiewicz, Stefan Roediger"
+date: ""
+output:
+  html_document:
+    css: report.css
+    toc: true
+---
+
+# dpcReport
+
+```{r, echo=FALSE,results='asis'}
+library(xtable)
+
+cool_theme <- theme(plot.background=element_rect(fill = "transparent",
+                                                 colour = "transparent"),
+                    panel.grid.major = element_line(colour="lightgrey", linetype = "dashed"),
+                    panel.background = element_rect(fill = "white", colour = "black"),
+                    legend.background = element_rect(fill="NA"),
+                    legend.position = "bottom",
+                    axis.text = element_text(size=12 + size_mod),
+                    axis.title.x = element_text(size=15 + size_mod, vjust = -0.1), 
+                    axis.title.y = element_text(size=15 + size_mod, vjust = 1),
+                    strip.text = element_text(size=15 + size_mod, face = "bold"),
+                    legend.text = element_text(size=12 + size_mod), 
+                    legend.title = element_text(size=15 + size_mod),
+                    plot.title = element_text(size=20 + size_mod))
+
+print_dpcrtable <- function(x)
+  print(xtable(x), type = "html", sanitize.colnames.function = function(x) x, digits = app_digits)
+```
+
+Report generated on `r Sys.time()` using [dpcR](http://github.com/michbur/dpcR) R package.  
+
+Detected input file: `r ifelse(is.null(input[["input_file"]][["name"]]), "none", input[["input_file"]][["name"]])`.  
+
+## Data summary table
+
+```{r, echo=FALSE,results='asis'}
+new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+#new_dat <- input_dat()
+res <- summary(new_dat, print = FALSE)[["summary"]]
+res <- cbind(run = paste0(res[["experiment"]], ".", res[["replicate"]]), res)
+colnames(res) <- c("Run", "Experiment name", "Replicate ID", "Method", "&lambda;", 
+                   "&lambda; (lower CI)", "&lambda; (upper CI)", "m", "m (lower CI)", 
+                   "m (upper CI)", "k", "n")
+
+
+print_dpcrtable(res)
+```
+
+
+```{r, echo=FALSE,results='asis'}
+cat(readLines("data_summary_table1.md"), sep = "    \n")
+```
+
+## Data summary table
+
+```{r, echo=FALSE,results='asis'}
+summ <- summary_plot_dat()
+dat <- cbind(summ, selected = rep(FALSE, nrow(summary_plot_dat())))
+
+ggplot(dat, aes(x = experiment, y = lambda, shape = selected,
+                ymax = lambda.up, ymin = lambda.low)) +
+  geom_point(size = 4, alpha = 0.6, lty = 2, colour = "blue") + cool_theme +
+  geom_boxplot(outlier.colour = NA, fill = NA, shape = 15) + 
+  ggtitle("Experiment boxplot") +
+  scale_x_discrete("Experiment name") +
+  scale_y_continuous(expression(lambda)) + 
+  scale_shape_manual(guide = FALSE, values = c(15, 18))
+```
+
+```{r, echo=FALSE,results='asis'}
+cat(readLines("data_summary_scatterchart1.md"), sep = "    \n")
+```
+
+```{r, echo=FALSE,results='asis'}
+summ <- summary_exprep_plot_dat()
+dat <- cbind(summ, selected = rep(FALSE, nrow(summary_exprep_plot_dat())))
+
+ggplot(dat, aes(x = exprep, y = lambda, shape = selected, colour = experiment,
+                ymax = lambda.up, ymin = lambda.low, linetype = selected)) +
+  geom_point(size = 4) + cool_theme +
+  ggtitle("Experiment/replicate scatter chart") +
+  scale_x_discrete("Replicate id", labels = dat[["replicate"]] ) +
+  scale_y_continuous(expression(lambda)) + 
+  scale_color_discrete("Experiment name") +
+  scale_linetype_manual(guide = FALSE, values = c("solid", "dashed")) + 
+  scale_shape_manual(guide = FALSE, values = c(15, 18)) + 
+  geom_errorbar(size = 1.2, width = nlevels(dat[["experiment"]])/40)
+```
+
+## Compare runs
+
+```{r, echo=FALSE,results='asis'}
+cat(readLines("test_counts1.md"), sep = "    \n")
+```
+
+```{r, echo=FALSE,results='asis'}
+object <- test_counts_dat()
+signif_stars <- symnum(slot(object, "test_res")[, "p_value"], corr = FALSE, na = FALSE, 
+                       cutpoints = c(0, 0.001, 0.01, 0.05, 0.1, 1), 
+                       symbols = c("***", "**", "*", ".", " "))
+res <- data.frame(runs = rownames(slot(object, "test_res")), 
+                  slot(object, "test_res"), 
+                  signif = as.vector(signif_stars))
+colnames(res) <- c("Compared pair of runs", "p-value", "Significance")
+
+print_dpcrtable(res)
+```
+
+```{r, echo=FALSE,results='asis'}
+cat(readLines("test_counts2.md"), sep = "    \n")
+```
+
+```{r, echo=FALSE,results='asis'}
+dat <- test_counts_groups_summary()
+colnames(dat) <- c("Run", "Experiment name", "Replicate ID", "Assigned group",
+                   "&lambda;", "&lambda; (lower CI)", "&lambda; (upper CI)", "k", "n")
+
+print_dpcrtable(dat)
+```
+
+```{r, echo=FALSE,results='asis'}
+dat <- test_counts_groups_summary()
+    dat[["selected"]] <- rep(FALSE, nrow(dat))
+    dat[as.numeric(test_count_point[["selected"]]), "selected"] <- TRUE
+    
+    ggplot(dat, aes(x = run, y = lambda, shape = selected, colour = experiment,
+                    ymax = lambda.up, ymin = lambda.low, linetype = selected, label = group)) +
+      geom_point(size = 4) + cool_theme +
+      geom_text(size = 7, hjust = nlevels(dat[["run"]])/2, show_guide = FALSE) +
+      ggtitle("Grouped experiments") +
+      scale_x_discrete("Replicate id", labels = dat[["replicate"]] ) +
+      scale_y_continuous(expression(lambda)) + 
+      scale_color_discrete("Experiment name") +
+      scale_linetype_manual(guide = FALSE, values = c("solid", "dashed")) + 
+      scale_shape_manual(guide = FALSE, values = c(15, 18)) + 
+      geom_errorbar(size = 1.2, width = nlevels(dat[["run"]])/40)
+```
+
+```{r, echo=FALSE,results='asis'}
+cat(readLines("test_counts3.md"), sep = "    \n")
+```

@@ -7,7 +7,7 @@ output:
 
 The dpcReport is a part of the [dpcR](http://github.com/michbur/dpcR) R package.
 
-## References
+### References
 
 The application was created using the results derived from following publications: 
 

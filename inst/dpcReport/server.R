@@ -140,7 +140,6 @@ shinyServer(function(input, output) {
   })
   
   output[["summary_plot"]] <- renderPlot({
-    set.seed(100)
     summ <- summary_plot_dat()
     dat <- cbind(summ, selected = rep(FALSE, nrow(summary_plot_dat())))
     dat[as.numeric(summary_point[["selected"]]), "selected"] <- TRUE
@@ -334,5 +333,15 @@ shinyServer(function(input, output) {
     slot(new_dat, ".Data")
   })
   
+  
+  output[["report_download_button"]] <- downloadHandler(
+    filename  = "dpcReport.html",
+    content = function(file) {
+      knitr::knit(input = "report_template.Rmd", 
+                  output = "dpcReport.md", quiet = TRUE)
+      markdown::markdownToHTML("dpcReport.md", file, stylesheet = "report.css", 
+                               options = c('toc', markdown::markdownHTMLOptions(TRUE)))
+    }
+  )
   
 })
