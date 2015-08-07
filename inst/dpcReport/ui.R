@@ -19,6 +19,7 @@ shinyUI(navbarPage(title = "dpcReport",
                    ),
                    tabPanel("Data summary table", dataTableOutput("summary_input"),
                             includeMarkdown("data_summary_table1.md")),
+                   #summary boxplot and stripchart
                    tabPanel("Data summary scatter charts", 
                             plotOutput("summary_plot", 
                                        dblclick = dblclickOpts(id = "summary_plot_dbl")),
@@ -28,10 +29,16 @@ shinyUI(navbarPage(title = "dpcReport",
                             plotOutput("summary_exprep_plot", 
                                        dblclick = dblclickOpts(id = "summary_exprep_plot_dbl")),
                             htmlOutput("summary_exprep_plot_dbl")),
-                   tabPanel("Test counts", includeMarkdown("test_counts1.md"),
+                   #test counts
+                   tabPanel("Compare runs", includeMarkdown("test_counts1.md"),
                             dataTableOutput("test_counts_res"),
                             includeMarkdown("test_counts2.md"),
-                            dataTableOutput("test_counts_groups")),
+                            dataTableOutput("test_counts_groups"),
+                            plotOutput("test_counts_plot", 
+                                       dblclick = dblclickOpts(id = "test_count_dbl")),
+                            htmlOutput("test_count_dbl"),
+                            includeMarkdown("test_counts3.md")),
+                   tabPanel("About", includeMarkdown("about.md")),
                    tabPanel("Input data", tableOutput("input_data"))
 ))
 

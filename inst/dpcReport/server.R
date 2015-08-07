@@ -109,7 +109,8 @@ shinyServer(function(input, output) {
     new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
     #new_dat <- input_dat()
     res <- summary(new_dat, print = FALSE)[["summary"]]
-    colnames(res) <- c("Experiment name", "Replicate ID", "Method", "&lambda;", "&lambda; (lower CI)",
+    res <- cbind(run = paste0(res[["experiment"]], ".", res[["replicate"]]), res)
+    colnames(res) <- c("Run", "Experiment name", "Replicate ID", "Method", "&lambda;", "&lambda; (lower CI)",
                        "&lambda; (upper CI)", "m", "m (lower CI)", "m (upper CI)", "k", "n")
     res
   }, escape = FALSE)
@@ -124,7 +125,7 @@ shinyServer(function(input, output) {
   })
   
   
-  #clicking a point in the summary scatter chart
+  #clicking a point in the summary boxplot
   summary_point <- reactiveValues(
     selected = NULL
   )
@@ -148,10 +149,10 @@ shinyServer(function(input, output) {
                     ymax = lambda.up, ymin = lambda.low)) +
       geom_point(size = 4, alpha = 0.6, lty = 2, colour = "blue") + cool_theme +
       geom_boxplot(outlier.colour = NA, fill = NA, shape = 15) + 
-      ggtitle("Experiment scatter chart") +
+      ggtitle("Experiment boxplot") +
       scale_x_discrete("Experiment name") +
       scale_y_continuous(expression(lambda)) + 
-      scale_shape_manual(guide = FALSE, values = c(15, 18)) #+ geom_errorbar(width = nlevels(dat[["experiment"]])/100)
+      scale_shape_manual(guide = FALSE, values = c(15, 18)) 
   })
 
   output[["summary_plot_dbl"]] <- renderPrint({
@@ -159,14 +160,14 @@ shinyServer(function(input, output) {
     dat <- cbind(summ, selected = rep(FALSE, nrow(summary_plot_dat())))
     dat[as.numeric(summary_point[["selected"]]), "selected"] <- TRUE
     
-    prologue <- list(strong("Double-click"), "point on the chart to learn its properties.", br()) 
+    epilogue <- list(strong("Double-click"), "point on the chart to learn its properties.", br()) 
     
-    epilogue <- if(is.null(summary_point[["selected"]])) {
+    prologue <- if(is.null(summary_point[["selected"]])) {
       list()
     } else {
       dat <- dat[dat[["selected"]] == TRUE, ]
       list("Experiment name: ", as.character(dat[["experiment"]]), br(), 
-        "Lambda: ", round(dat[["lambda"]], app_digits))
+        "Lambda: ", round(dat[["lambda"]], app_digits), br())
     }
     
     do.call(p, c(prologue, epilogue))
@@ -216,21 +217,23 @@ shinyServer(function(input, output) {
     dat <- cbind(summ, selected = rep(FALSE, nrow(summary_exprep_plot_dat())))
     dat[as.numeric(summary_exprep_point[["selected"]]), "selected"] <- TRUE
     
-    prologue <- list(strong("Double-click"), "point on the chart to learn its properties.", br()) 
+    epilogue <- list(strong("Double-click"), "point on the chart to learn its properties.", br()) 
     
-    epilogue <- if(is.null(summary_exprep_point[["selected"]])) {
+    prologue <- if(is.null(summary_exprep_point[["selected"]])) {
       list()
     } else {
       dat <- dat[dat[["selected"]] == TRUE, ]
       list("Experiment name: ", as.character(dat[["experiment"]]), br(), 
            "Replicate ID: ", as.character(dat[["replicate"]]), br(),
-           HTML("&lambda;"), ": ", round(dat[["lambda"]], app_digits))
+           HTML("&lambda;"), ": ", round(dat[["lambda"]], app_digits), br(),
+           HTML("&lambda;"), "(lower confidence interval): ", round(dat[["lambda.low"]], app_digits), br(),
+           HTML("&lambda;"), "(upper confidence interval): ", round(dat[["lambda.up"]], app_digits), br())
     }
     
     do.call(p, c(prologue, epilogue))
   })
 
-  # Test counts --------------------- 
+  # Test counts (compare experiments) --------------------- 
   test_counts_dat <- reactive({
     new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
     test_counts(new_dat, model = "ratio")
@@ -238,7 +241,7 @@ shinyServer(function(input, output) {
   
   test_counts_groups_summary <- reactive({
     dat <- slot(test_counts_dat(), "group_coef")
-    dat[["run"]] <- rownames(dat)
+    dat[["run"]] <- as.factor(rownames(dat))
     rownames(dat) <- NULL
     dat <- cbind(dat, summary_exprep_plot_dat()[, c("experiment", "replicate", "k", "n")])
     dat <- dat[, c("run", "experiment", "replicate", "group", "lambda", 
@@ -264,6 +267,62 @@ shinyServer(function(input, output) {
                       signif = as.vector(signif_stars))
     colnames(res) <- c("Compared pair of runs", "p-value", "Significance")
     res
+  })
+  
+  #clicking a point in the summary experiment-replicate scatter chart
+  test_count_point <- reactiveValues(
+    selected = NULL
+  )
+  
+  observeEvent(input[["test_count_dbl"]], {
+    test_count_point[["selected"]] <- test_count_dbl()[["row"]]
+  })
+  
+  test_count_dbl <- reactive({
+    choose_xy_point(input[["test_count_dbl"]], 
+                    data = test_counts_groups_summary()[, c("run", "lambda")])
+  })
+  
+  
+  output[["test_counts_plot"]] <- renderPlot({
+    dat <- test_counts_groups_summary()
+    dat[["selected"]] <- rep(FALSE, nrow(dat))
+    dat[as.numeric(test_count_point[["selected"]]), "selected"] <- TRUE
+    
+    ggplot(dat, aes(x = run, y = lambda, shape = selected, colour = experiment,
+                    ymax = lambda.up, ymin = lambda.low, linetype = selected, label = group)) +
+      geom_point(size = 4) + cool_theme +
+      geom_text(size = 7, hjust = nlevels(dat[["run"]])/2, show_guide = FALSE) +
+      ggtitle("Grouped experiments") +
+      scale_x_discrete("Replicate id", labels = dat[["replicate"]] ) +
+      scale_y_continuous(expression(lambda)) + 
+      scale_color_discrete("Experiment name") +
+      scale_linetype_manual(guide = FALSE, values = c("solid", "dashed")) + 
+      scale_shape_manual(guide = FALSE, values = c(15, 18)) + 
+      geom_errorbar(size = 1.2, width = nlevels(dat[["run"]])/40)
+    
+  })
+  
+  output[["test_count_dbl"]] <- renderPrint({
+    dat <- test_counts_groups_summary()
+    dat[["selected"]] <- rep(FALSE, nrow(dat))
+    dat[as.numeric(test_count_point[["selected"]]), "selected"] <- TRUE
+    
+    epilogue <- list(strong("Double-click"), "point on the chart to learn its properties.", br()) 
+    
+    prologue <- if(is.null(test_count_point[["selected"]])) {
+      list()
+    } else {
+      dat <- dat[dat[["selected"]] == TRUE, ]
+      list("Experiment name: ", as.character(dat[["experiment"]]), br(), 
+           "Replicate ID: ", as.character(dat[["replicate"]]), br(),
+           "Assigned group: ", as.character(dat[["group"]]), br(),
+           HTML("&lambda;"), ": ", round(dat[["lambda"]], app_digits), br(),
+           HTML("&lambda;"), "(lower confidence interval): ", round(dat[["lambda.low"]], app_digits), br(),
+           HTML("&lambda;"), "(upper confidence interval): ", round(dat[["lambda.up"]], app_digits), br())
+    }
+    
+    do.call(p, c(prologue, epilogue))
   })
   
   #input data table, may be scrapped ----------------------------------

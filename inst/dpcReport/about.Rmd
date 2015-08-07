@@ -1,0 +1,27 @@
+---
+output: 
+  html_document: 
+    keep_md: yes
+---
+## About
+
+The dpcReport is a part of the [dpcR](http://github.com/michbur/dpcR) R package.
+
+## References
+
+The application was created using the results derived from following publications: 
+
+```{r, echo=FALSE,message=FALSE,warning=FALSE,results='asis'}
+library(knitcitations)
+library(RefManageR)
+cleanbib()
+refs <- read.bibtex("dpcr.bib")
+BibOptions(sorting = "none")
+sort(refs, sorting = "ynt")
+```
+
+### Authors
+
+[Michal Burdukiewicz](https://github.com/michbur)  
+
+[Stefan Roediger](http://www.hs-lausitz.de/groups/multiplex-assays/bildbasierte-assays-imagebased-assays/members.html)  
