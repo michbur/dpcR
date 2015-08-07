@@ -108,8 +108,11 @@ shinyServer(function(input, output) {
   output[["summary_input"]] <- renderDataTable({
     new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
     #new_dat <- input_dat()
-    summary(new_dat, print = FALSE)[["summary"]]
-  })
+    res <- summary(new_dat, print = FALSE)[["summary"]]
+    colnames(res) <- c("Experiment name", "Replicate ID", "Method", "&lambda;", "&lambda; (lower CI)",
+                       "&lambda; (upper CI)", "m", "m (lower CI)", "m (upper CI)", "k", "n")
+    res
+  }, escape = FALSE)
   
   
   # Data summary scatter chart panel --------------------------------
@@ -143,8 +146,8 @@ shinyServer(function(input, output) {
     
     ggplot(dat, aes(x = experiment, y = lambda, shape = selected,
                     ymax = lambda.up, ymin = lambda.low)) +
-      geom_point(size = 4, alpha = 0.6, lty = 2, colour = "blue", 
-                 position = position_jitter(width = nlevels(dat[["experiment"]])/15)) + cool_theme +
+      geom_point(size = 4, alpha = 0.6, lty = 2, colour = "blue") + cool_theme +
+      geom_boxplot(outlier.colour = NA, fill = NA, shape = 15) + 
       ggtitle("Experiment scatter chart") +
       scale_x_discrete("Experiment name") +
       scale_y_continuous(expression(lambda)) + 
@@ -177,7 +180,7 @@ shinyServer(function(input, output) {
   })
   
   
-  #clicking a point in the summary scatter chart
+  #clicking a point in the summary experiment-replicate scatter chart
   summary_exprep_point <- reactiveValues(
     selected = NULL
   )
@@ -221,7 +224,7 @@ shinyServer(function(input, output) {
       dat <- dat[dat[["selected"]] == TRUE, ]
       list("Experiment name: ", as.character(dat[["experiment"]]), br(), 
            "Replicate ID: ", as.character(dat[["replicate"]]), br(),
-           "Lambda: ", round(dat[["lambda"]], app_digits))
+           HTML("&lambda;"), ": ", round(dat[["lambda"]], app_digits))
     }
     
     do.call(p, c(prologue, epilogue))
@@ -233,12 +236,22 @@ shinyServer(function(input, output) {
     test_counts(new_dat, model = "ratio")
   })
   
-  output[["test_counts_groups"]] <- renderDataTable({
+  test_counts_groups_summary <- reactive({
     dat <- slot(test_counts_dat(), "group_coef")
     dat[["run"]] <- rownames(dat)
     rownames(dat) <- NULL
-    dat[, c("run", "group", "lambda", "lambda.low", "lambda.up")]
+    dat <- cbind(dat, summary_exprep_plot_dat()[, c("experiment", "replicate", "k", "n")])
+    dat <- dat[, c("run", "experiment", "replicate", "group", "lambda", 
+                   "lambda.low", "lambda.up", "k", "n")]
+    dat
   })
+  
+  output[["test_counts_groups"]] <- renderDataTable({
+    dat <- test_counts_groups_summary()
+    colnames(dat) <- c("Run", "Experiment name", "Replicate ID", "Assigned group",
+                       "&lambda;", "&lambda; (lower CI)", "&lambda; (upper CI)", "k", "n")
+    dat
+  }, escape = FALSE)
   
   
   output[["test_counts_res"]] <- renderDataTable({
@@ -246,9 +259,11 @@ shinyServer(function(input, output) {
     signif_stars <- symnum(slot(object, "test_res")[, "p_value"], corr = FALSE, na = FALSE, 
                            cutpoints = c(0, 0.001, 0.01, 0.05, 0.1, 1), 
                            symbols = c("***", "**", "*", ".", " "))
-    data.frame(runs = rownames(slot(object, "test_res")), 
-               slot(object, "test_res"), 
-               signif = as.vector(signif_stars))
+    res <- data.frame(runs = rownames(slot(object, "test_res")), 
+                      slot(object, "test_res"), 
+                      signif = as.vector(signif_stars))
+    colnames(res) <- c("Compared pair of runs", "p-value", "Significance")
+    res
   })
   
   #input data table, may be scrapped ----------------------------------

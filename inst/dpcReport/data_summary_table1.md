@@ -1,4 +1,4 @@
-Explanation of the column names:
+### Explanation
 
 1. Name of the experiment.
 1. ID of technical replicate.
