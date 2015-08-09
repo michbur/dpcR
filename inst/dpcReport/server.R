@@ -147,13 +147,13 @@ shinyServer(function(input, output) {
     ggplot(dat, aes(x = experiment, y = lambda, shape = selected,
                     ymax = lambda.up, ymin = lambda.low)) +
       geom_point(size = 4, alpha = 0.6, lty = 2, colour = "blue") + cool_theme +
-      geom_boxplot(outlier.colour = NA, fill = NA, shape = 15) + 
+      geom_boxplot(outlier.colour = NA, fill = adjustcolor("lightgrey", alpha.f = 0.25), shape = 15) + 
       ggtitle("Experiment boxplot") +
       scale_x_discrete("Experiment name") +
       scale_y_continuous(expression(lambda)) + 
       scale_shape_manual(guide = FALSE, values = c(15, 18)) 
   })
-
+  
   output[["summary_plot_dbl"]] <- renderPrint({
     summ <- summary_plot_dat()
     dat <- cbind(summ, selected = rep(FALSE, nrow(summary_plot_dat())))
@@ -166,7 +166,7 @@ shinyServer(function(input, output) {
     } else {
       dat <- dat[dat[["selected"]] == TRUE, ]
       list("Experiment name: ", as.character(dat[["experiment"]]), br(), 
-        "Lambda: ", round(dat[["lambda"]], app_digits), br())
+           HTML("&lambda;"), ":", round(dat[["lambda"]], app_digits), br())
     }
     
     do.call(p, c(prologue, epilogue))
@@ -208,7 +208,7 @@ shinyServer(function(input, output) {
       scale_color_discrete("Experiment name") +
       scale_linetype_manual(guide = FALSE, values = c("solid", "dashed")) + 
       scale_shape_manual(guide = FALSE, values = c(15, 18)) + 
-      geom_errorbar(size = 1.2, width = nlevels(dat[["experiment"]])/40)
+      geom_errorbar(size = 1.2, width = nlevels(dat[["exprep"]])/80)
   })
   
   output[["summary_exprep_plot_dbl"]] <- renderPrint({
@@ -231,7 +231,7 @@ shinyServer(function(input, output) {
     
     do.call(p, c(prologue, epilogue))
   })
-
+  
   # Test counts (compare experiments) --------------------- 
   test_counts_dat <- reactive({
     new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
@@ -291,14 +291,20 @@ shinyServer(function(input, output) {
     ggplot(dat, aes(x = run, y = lambda, shape = selected, colour = experiment,
                     ymax = lambda.up, ymin = lambda.low, linetype = selected, label = group)) +
       geom_point(size = 4) + cool_theme +
-      geom_text(size = 7, hjust = nlevels(dat[["run"]])/2, show_guide = FALSE) +
+      geom_text(aes(x = run, y = lambda.up), size = 7, vjust = -0.5, show_guide = FALSE) +
       ggtitle("Grouped experiments") +
       scale_x_discrete("Replicate id", labels = dat[["replicate"]] ) +
       scale_y_continuous(expression(lambda)) + 
+      coord_cartesian(ylim = c(ifelse(min(dat[["lambda.low"]]) > 0,
+                                      min(dat[["lambda.low"]]) * 0.95, 
+                                      min(dat[["lambda.low"]]) * 1.05),
+                               ifelse(max(dat[["lambda.up"]]) < 0,
+                                      max(dat[["lambda.up"]]) * 0.95, 
+                                      max(dat[["lambda.up"]]) * 1.15))) +
       scale_color_discrete("Experiment name") +
       scale_linetype_manual(guide = FALSE, values = c("solid", "dashed")) + 
       scale_shape_manual(guide = FALSE, values = c(15, 18)) + 
-      geom_errorbar(size = 1.2, width = nlevels(dat[["run"]])/40)
+      geom_errorbar(size = 1.2, width = nlevels(dat[["run"]])/80)
     
   })
   
