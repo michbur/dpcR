@@ -2,7 +2,7 @@ citHeader("To cite dpcR in publications, please use:")
 
 citEntry(entry = "Manual",
   author = "Michal Burdukiewicz and Stefan Roediger and Bart Jacobs and Piotr Sobczyk",
-  title = "biogram: analysis of biological sequences using n-grams",
+  title = "dpcR: Digital PCR Analysis",
   year = "2015",
   note = "R package version 0.2",
   url = "http://CRAN.R-project.org/package=dpcR",

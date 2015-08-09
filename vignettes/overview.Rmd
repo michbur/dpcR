@@ -10,7 +10,7 @@ dpcR is an R package designed to perform an analysis of digital PCR experiments.
 
 ## Read data
 
-dpcR does not have built-in tools for reading specific data types. Instead, we advise to use other packages belonging do the pcRuniversum such as [RDML](http://cran.r-project.org/package=RDML) or dedicated packages such as ReadqPCR ([available from bioconductor.org](http://www.bioconductor.org/packages/release/bioc/html/ReadqPCR.html)). Further information can be found in Pabinger et al. 2014 (A survey of tools for the analysis of quantitative PCR (qPCR) data. Biomolecular Detection and Quantification 1, 23--33. doi:10.1016/j.bdq.2014.08.002).
+dpcR does not have built-in tools for reading specific data types. Instead, we advise using other packages belonging do the pcRuniversum such as [RDML](http://cran.r-project.org/package=RDML) or dedicated packages such as ReadqPCR ([available from bioconductor.org](http://www.bioconductor.org/packages/release/bioc/html/ReadqPCR.html)). Further information can be found in Pabinger et al. 2014 (A survey of tools for the analysis of quantitative PCR (qPCR) data. Biomolecular Detection and Quantification 1, 23--33. doi:10.1016/j.bdq.2014.08.002).
 
 
 Before analysis data should be saved using one of the three classes - `adpcr` (end-point array digital PCR experiments), `ddpcr` (droplet digital PCR experiments) and `rtadpcr` (real-time array digital PCR experiments). To do so, use `create_dpcr` function.
