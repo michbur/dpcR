@@ -30,7 +30,8 @@ Imports:
     spatstat
 Suggests:
     knitr,
-    ggplot2
+    ggplot2,
+    shinythemes
 VignetteBuilder: knitr
 Packaged: 2015-04-09 11:09:00 UTC; Mihau
 NeedsCompilation: no

@@ -1,6 +1,8 @@
 library(shiny)
+library(shinythemes)
 
 shinyUI(navbarPage(title = "dpcReport",
+                   theme = shinytheme("cerulean"),
                    id= "navbar", windowTitle = "dpcReport", collapsible=TRUE,
                    tabPanel("Input file",
                             includeMarkdown("input_file1.md"),
