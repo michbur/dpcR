@@ -13,6 +13,7 @@ cool_theme <- theme(plot.background=element_rect(fill = "transparent",
                     axis.title.x = element_text(size=15 + size_mod, vjust = -0.1), 
                     axis.title.y = element_text(size=15 + size_mod, vjust = 1),
                     strip.text = element_text(size=15 + size_mod, face = "bold"),
+                    strip.background = element_rect(fill = "#9ecae1", colour = "black"),
                     legend.text = element_text(size=12 + size_mod), 
                     legend.title = element_text(size=15 + size_mod),
                     plot.title = element_text(size=20 + size_mod))
@@ -31,16 +32,28 @@ change_data <- function(input_dat, rep_names_new, exp_names_new) {
 choose_xy_point <- function(db_id, data) {
   if(!is.null(db_id)) {
     if(is.factor(data[[1]])) {
-      #which experiment was chosen
-      chosen_x <- levels(data[[1]])[round(db_id[["x"]], 0)]
-      #which lambda was chosen
-      #clicked lambda 
-      clicked_y <- db_id[["y"]]
-      diff_order <- order(abs(data[[2]] - clicked_y))
-      row_id <- diff_order[which.max(data[[1]][diff_order] == chosen_x)]
-      chosen_y <- data[row_id, 2]
-      #indirect row_id, because we need the exact location, not relative id of the row
-      #in the subset
+      if(is.factor(data[[2]])) {
+        #which experiment was chosen
+        chosen_x <- levels(data[[1]])[round(db_id[["x"]], 0)]
+        chosen_y <- levels(data[[2]])[round(db_id[["y"]], 0)]
+        
+        row_id <- which(data[[1]] == chosen_x & data[[2]] == chosen_y)
+        
+        #indirect row_id, because we need the exact location, not relative id of the row
+        #in the subset
+      } else {
+        #which experiment was chosen
+        chosen_x <- levels(data[[1]])[round(db_id[["x"]], 0)]
+        #which lambda was chosen
+        #clicked lambda 
+        clicked_y <- db_id[["y"]]
+        diff_order <- order(abs(data[[2]] - clicked_y))
+        row_id <- diff_order[which.max(data[[1]][diff_order] == chosen_x)]
+        chosen_y <- data[row_id, 2]
+        #indirect row_id, because we need the exact location, not relative id of the row
+        #in the subset
+      }
+      
     } else {
       #x and y countinous
       #not implemented yetl, maybe nearPoints
@@ -52,13 +65,26 @@ choose_xy_point <- function(db_id, data) {
 }
 
 
+choose_xy_region <- function(brush_id, data) {
+  if(is.null(brush_id)) {
+    NULL
+  } else {
+    xmin <- levels(data[[1]])[round(brush_id[["xmin"]], 0)]
+    xmax <- levels(data[[1]])[round(brush_id[["xmax"]], 0)]
+    ymin <- levels(data[[2]])[round(brush_id[["ymin"]], 0)]
+    ymax <- levels(data[[2]])[round(brush_id[["ymax"]], 0)]
+    x_range <- as.numeric(xmin):as.numeric(xmax)
+    y_range <- as.numeric(ymin):as.numeric(ymax)
+    x <- data[[1]] %in% as.factor(x_range)
+    y <- data[[2]] %in% as.factor(y_range)
+    x & y
+  }
+}
+
+
 shinyServer(function(input, output) {
   
   # Input file panel --------------------------------
-  #check if no data is loaded or no example used
-  null_input <- reactive({
-    is.null(input[["input_file"]]) && input[["run_example"]] == 0
-  })
   
   #read and process data from different vendors
   input_dat <- reactive({
@@ -274,7 +300,83 @@ shinyServer(function(input, output) {
     do.call(p, c(prologue, epilogue))
   })
   
-  #report download
+  # plot panel --------------------------
+  
+  output[["array_choice"]] <- renderUI({
+    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+    array_names <- colnames(new_dat)
+    names(array_names) <- array_names
+    selectInput("array_choice", label = h4("Select array"), 
+                choices = as.list(array_names))
+  })
+  
+  plot_panel_dat <- reactive({
+    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+    
+    ny_a <- 17
+    nx_a <- 45
+    
+    id_df <- data.frame(which(matrix(TRUE, nrow = ny_a, ncol = nx_a), arr.ind = TRUE))
+    
+    id_df[["col"]] <- as.factor(id_df[["col"]])
+    id_df[["row"]] <- as.factor(id_df[["row"]])
+    
+    
+    exp_run <- input[["array_choice"]]
+    cbind(id_df, value = as.factor(new_dat[, exp_run]), selected = rep(FALSE, ny_a * nx_a),
+          exp_run = rep(exp_run, ny_a * nx_a))
+  })
+  
+  
+  plot_panel_region <- reactiveValues(
+    selected = NULL
+  )
+  
+  observeEvent(input[["plot_panel_brush"]], {
+    plot_panel_region[["selected"]] <- plot_panel_brush()
+  })
+  
+  plot_panel_brush <- reactive({
+    choose_xy_region(input[["plot_panel_brush"]], 
+                     data = plot_panel_dat()[, c("col", "row")])
+  })
+  
+  
+  output[["plot_panel"]] <- renderPlot({
+    df <- plot_panel_dat()
+    df[plot_panel_region[["selected"]], "selected"] <- TRUE
+    
+    ggplot(df, aes(x = col, y = row , fill = value, shape = selected)) +
+      geom_tile(colour = "black", linetype = 2) + cool_theme + ggtitle(df[["exp_run"]][1]) +
+      geom_point(size = 6) +
+      scale_x_discrete("Column") + scale_y_discrete("Row") +
+      scale_fill_discrete("Value") +
+      scale_shape_manual(guide = FALSE, values = c(NA, 18)) +
+      guides(fill = guide_legend(override.aes = list(shape = NA))) +
+      theme(panel.border = element_blank(),
+            panel.background = element_blank())
+  })
+  
+  output[["plot_panel_brush"]] <- renderPrint({
+    dat <- plot_panel_dat()
+    if(!is.null(plot_panel_region[["selected"]]))
+      dat[as.numeric(plot_panel_region[["selected"]]), "selected"] <- TRUE
+    
+    epilogue <- list(strong("Double-click"), "partition on the chart to learn its properties.", br()) 
+    
+    prologue <- if(is.null(plot_panel_region[["selected"]])) {
+      list()
+    } else {
+      dat <- dat[dat[["selected"]] == TRUE, ]
+      list("Row: ", as.character(dat[["row"]]), br(), 
+           "Column: ", as.character(dat[["col"]]), br())
+    }
+    
+    do.call(p, c(prologue, epilogue))
+  })
+  
+  
+  #report download ---------------------------------------------------
   output[["report_download_button"]] <- downloadHandler(
     filename  = "dpcReport.html",
     content = function(file) {
@@ -282,8 +384,9 @@ shinyServer(function(input, output) {
                   output = "dpcReport.md", quiet = TRUE)
       markdown::markdownToHTML("dpcReport.md", file, stylesheet = "report.css", 
                                options = c('toc', markdown::markdownHTMLOptions(TRUE)))
-    }
-  )
+    })
+  
+  
   
   #input data table, may be scrapped ----------------------------------
   output[["input_data"]] <- renderTable({
