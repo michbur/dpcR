@@ -121,10 +121,6 @@ hr {
   img {
     page-break-inside: avoid;
   }
-  img {
-    max-width: 1000% !important;
-    padding: 10px 0em 10px  0em !important; 
-  }
   p,
   h2,
   h3 {

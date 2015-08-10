@@ -106,12 +106,7 @@ shinyServer(function(input, output) {
   
   # Data summary table panel --------------------------------
   output[["summary_input"]] <- renderDataTable({
-    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
-    #new_dat <- input_dat()
-    res <- summary(new_dat, print = FALSE)[["summary"]]
-    res <- cbind(run = paste0(res[["experiment"]], ".", res[["replicate"]]), res)
-    colnames(res) <- c("Run", "Experiment name", "Replicate ID", "Method", "&lambda;", "&lambda; (lower CI)",
-                       "&lambda; (upper CI)", "m", "m (lower CI)", "m (upper CI)", "k", "n")
+    source("./data_summary/summary_input.R", local = TRUE)
     res
   }, escape = FALSE)
   
@@ -140,18 +135,8 @@ shinyServer(function(input, output) {
   })
   
   output[["summary_plot"]] <- renderPlot({
-    summ <- summary_plot_dat()
-    dat <- cbind(summ, selected = rep(FALSE, nrow(summary_plot_dat())))
-    dat[as.numeric(summary_point[["selected"]]), "selected"] <- TRUE
-    
-    ggplot(dat, aes(x = experiment, y = lambda, shape = selected,
-                    ymax = lambda.up, ymin = lambda.low)) +
-      geom_point(size = 4, alpha = 0.6, lty = 2, colour = "blue") + cool_theme +
-      geom_boxplot(outlier.colour = NA, fill = adjustcolor("lightgrey", alpha.f = 0.25), shape = 15) + 
-      ggtitle("Experiment boxplot") +
-      scale_x_discrete("Experiment name") +
-      scale_y_continuous(expression(lambda)) + 
-      scale_shape_manual(guide = FALSE, values = c(15, 18)) 
+    source("./summary_plots/summary_plot.R", local = TRUE)
+    p
   })
   
   output[["summary_plot_dbl"]] <- renderPrint({
@@ -195,20 +180,8 @@ shinyServer(function(input, output) {
   })
   
   output[["summary_exprep_plot"]] <- renderPlot({
-    summ <- summary_exprep_plot_dat()
-    dat <- cbind(summ, selected = rep(FALSE, nrow(summary_exprep_plot_dat())))
-    dat[as.numeric(summary_exprep_point[["selected"]]), "selected"] <- TRUE
-    
-    ggplot(dat, aes(x = exprep, y = lambda, shape = selected, colour = experiment,
-                    ymax = lambda.up, ymin = lambda.low, linetype = selected)) +
-      geom_point(size = 4) + cool_theme +
-      ggtitle("Experiment/replicate scatter chart") +
-      scale_x_discrete("Replicate id", labels = dat[["replicate"]] ) +
-      scale_y_continuous(expression(lambda)) + 
-      scale_color_discrete("Experiment name") +
-      scale_linetype_manual(guide = FALSE, values = c("solid", "dashed")) + 
-      scale_shape_manual(guide = FALSE, values = c(15, 18)) + 
-      geom_errorbar(size = 1.2, width = nlevels(dat[["exprep"]])/80)
+    source("./summary_plots/summary_exprep_plot.R", local = TRUE)
+    p
   })
   
   output[["summary_exprep_plot_dbl"]] <- renderPrint({

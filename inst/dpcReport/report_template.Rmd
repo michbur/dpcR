@@ -10,7 +10,10 @@ toc: true
 
 # dpcReport
 
-```{r, echo=FALSE,results='asis'}
+```{r echo=FALSE, results='asis'}
+library(knitr)
+opts_chunk$set(echo=FALSE, results='asis', fig.align='center', fig.width=14)
+
 library(xtable)
 
 cool_theme <- theme(plot.background=element_rect(fill = "transparent",
@@ -37,102 +40,74 @@ Report generated on `r Sys.time()` using [dpcR](http://github.com/michbur/dpcR) 
 Detected input file: `r ifelse(is.null(input[["input_file"]][["name"]]), "none", input[["input_file"]][["name"]])`.  
 
 
-```{r, echo=FALSE,results='asis'}
+```{r}
 if(input[["data_summary_table_rep"]])
   cat("## Data summary table  ")
 ```
 
-```{r, echo=FALSE,results='asis'}
+```{r}
 if(input[["data_summary_table_rep"]]) {
-  new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
-  #new_dat <- input_dat()
-  res <- summary(new_dat, print = FALSE)[["summary"]]
-  res <- cbind(run = paste0(res[["experiment"]], ".", res[["replicate"]]), res)
-  colnames(res) <- c("Run", "Experiment name", "Replicate ID", "Method", "&lambda;", 
-                     "&lambda; (lower CI)", "&lambda; (upper CI)", "m", "m (lower CI)", 
-                     "m (upper CI)", "k", "n")
-  
-  
+  source("./data_summary/summary_input.R", local = TRUE)
   print_dpcrtable(res)
 }
 ```
 
 
-```{r, echo=FALSE,results='asis'}
+```{r}
 if(input[["data_summary_table_rep"]]) {
-  cat(readLines("data_summary_table1.md"), sep = "    \n")
+  cat(readLines("./data_summary/data_summary_table1.md"), sep = "    \n")
 }
 ```
 
 
 
-```{r, echo=FALSE,results='asis'}
+```{r}
 if(input[["data_summary_scatter_rep"]])
   cat("## Data summary scatter charts  ")
 ```
 
-```{r, echo=FALSE,results='asis'}
+```{r}
 if(input[["data_summary_scatter_rep"]]) {
-  summ <- summary_plot_dat()
-  dat <- cbind(summ, selected = rep(FALSE, nrow(summary_plot_dat())))
-  
-  ggplot(dat, aes(x = experiment, y = lambda, shape = selected,
-                  ymax = lambda.up, ymin = lambda.low)) +
-    geom_point(size = 4, alpha = 0.6, lty = 2, colour = "blue") + cool_theme +
-    geom_boxplot(outlier.colour = NA, fill = NA, shape = 15) + 
-    ggtitle("Experiment boxplot") +
-    scale_x_discrete("Experiment name") +
-    scale_y_continuous(expression(lambda)) + 
-    scale_shape_manual(guide = FALSE, values = c(15, 18))
+  source("./summary_plots/summary_plot.R", local = TRUE)
+  p
 }
 ```
 
-```{r, echo=FALSE,results='asis'}
+```{r}
 if(input[["data_summary_scatter_rep"]])
-  cat(readLines("data_summary_scatterchart1.md"), sep = "    \n")
+  cat(readLines("./summary_plots/data_summary_scatterchart1.md"), sep = "    \n")
 ```
 
-```{r, echo=FALSE,results='asis'}
+```{r}
 if(input[["data_summary_scatter_rep"]]) {
-  summ <- summary_exprep_plot_dat()
-  dat <- cbind(summ, selected = rep(FALSE, nrow(summary_exprep_plot_dat())))
-  
-  ggplot(dat, aes(x = exprep, y = lambda, shape = selected, colour = experiment,
-                  ymax = lambda.up, ymin = lambda.low, linetype = selected)) +
-    geom_point(size = 4) + cool_theme +
-    ggtitle("Experiment/replicate scatter chart") +
-    scale_x_discrete("Replicate id", labels = dat[["replicate"]] ) +
-    scale_y_continuous(expression(lambda)) + 
-    scale_color_discrete("Experiment name") +
-    scale_linetype_manual(guide = FALSE, values = c("solid", "dashed")) + 
-    scale_shape_manual(guide = FALSE, values = c(15, 18)) + 
-    geom_errorbar(size = 1.2, width = nlevels(dat[["experiment"]])/40)
+  source("./summary_plots/summary_exprep_plot.R", local = TRUE)
+    p
 }
 ```
 
-```{r, echo=FALSE,results='asis'}
+```{r}
 if(input[["data_summary_test_counts"]])
   cat("## Compare runs  ")
 ```
 
-```{r, echo=FALSE,results='asis'}
+```{r}
 if(input[["data_summary_test_counts"]])
   cat(readLines("./test_counts/test_counts1.md"), sep = "    \n")
 ```
 
-```{r, echo=FALSE,results='asis'}
+```{r}
 if(input[["data_summary_test_counts"]]) {
   source("./test_counts/test_counts_res.R", local = TRUE)
   print_dpcrtable(res)
 }
 ```
 
-```{r, echo=FALSE,results='asis'}
+```{r}
 if(input[["data_summary_test_counts"]])
   cat(readLines("./test_counts/test_counts2.md"), sep = "    \n")
 ```
 
-```{r, echo=FALSE,results='asis'}
+```{r}
 if(input[["data_summary_test_counts"]]) {
   source("./test_counts/test_counts_group.R", local = TRUE)
   colnames(dat) <- c("Run", "Experiment name", "Replicate ID", "Assigned group",
@@ -142,14 +117,20 @@ if(input[["data_summary_test_counts"]]) {
 }
 ```
 
-```{r, echo=FALSE,results='asis'}
+```{r}
 if(input[["data_summary_test_counts"]]) {
   source("./test_counts/test_counts_plot.R", local = TRUE)
   p
 }
 ```
 
-```{r, echo=FALSE,results='asis'}
+```{r}
 if(input[["data_summary_test_counts"]])
   cat(readLines("./test_counts/test_counts3.md"), sep = "    \n")
+```
+
+# R Session
+
+```{r,results='markup'}
+sessionInfo()
 ```
