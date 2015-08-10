@@ -1,5 +1,5 @@
 body, td {
-   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   line-height: 1.42857143;
   color: #555555;
   background-color: #ffffff;
@@ -39,7 +39,7 @@ a:visited {
 }
 
 pre, img {
-  max-width: 200%;
+  max-width: 1000%;
 }
 pre {
   overflow-x: auto;
@@ -122,7 +122,8 @@ hr {
     page-break-inside: avoid;
   }
   img {
-    max-width: 100% !important;
+    max-width: 1000% !important;
+    padding: 10px 0em 10px  0em !important; 
   }
   p,
   h2,
@@ -165,5 +166,3 @@ TOC {
   height: 100%;
   overflow:auto;
 }
-
-

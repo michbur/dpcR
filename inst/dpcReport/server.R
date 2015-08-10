@@ -249,22 +249,13 @@ shinyServer(function(input, output) {
   })
   
   output[["test_counts_groups"]] <- renderDataTable({
-    dat <- test_counts_groups_summary()
-    colnames(dat) <- c("Run", "Experiment name", "Replicate ID", "Assigned group",
-                       "&lambda;", "&lambda; (lower CI)", "&lambda; (upper CI)", "k", "n")
+    source("./test_counts/test_counts_group.R", local = TRUE)
     dat
   }, escape = FALSE)
   
   
   output[["test_counts_res"]] <- renderDataTable({
-    object <- test_counts_dat()
-    signif_stars <- symnum(slot(object, "test_res")[, "p_value"], corr = FALSE, na = FALSE, 
-                           cutpoints = c(0, 0.001, 0.01, 0.05, 0.1, 1), 
-                           symbols = c("***", "**", "*", ".", " "))
-    res <- data.frame(runs = rownames(slot(object, "test_res")), 
-                      slot(object, "test_res"), 
-                      signif = as.vector(signif_stars))
-    colnames(res) <- c("Compared pair of runs", "p-value", "Significance")
+    source("./test_counts/test_counts_res.R", local = TRUE)
     res
   })
   
@@ -284,28 +275,8 @@ shinyServer(function(input, output) {
   
   
   output[["test_counts_plot"]] <- renderPlot({
-    dat <- test_counts_groups_summary()
-    dat[["selected"]] <- rep(FALSE, nrow(dat))
-    dat[as.numeric(test_count_point[["selected"]]), "selected"] <- TRUE
-    
-    ggplot(dat, aes(x = run, y = lambda, shape = selected, colour = experiment,
-                    ymax = lambda.up, ymin = lambda.low, linetype = selected, label = group)) +
-      geom_point(size = 4) + cool_theme +
-      geom_text(aes(x = run, y = lambda.up), size = 7, vjust = -0.5, show_guide = FALSE) +
-      ggtitle("Grouped experiments") +
-      scale_x_discrete("Replicate id", labels = dat[["replicate"]] ) +
-      scale_y_continuous(expression(lambda)) + 
-      coord_cartesian(ylim = c(ifelse(min(dat[["lambda.low"]]) > 0,
-                                      min(dat[["lambda.low"]]) * 0.95, 
-                                      min(dat[["lambda.low"]]) * 1.05),
-                               ifelse(max(dat[["lambda.up"]]) < 0,
-                                      max(dat[["lambda.up"]]) * 0.95, 
-                                      max(dat[["lambda.up"]]) * 1.15))) +
-      scale_color_discrete("Experiment name") +
-      scale_linetype_manual(guide = FALSE, values = c("solid", "dashed")) + 
-      scale_shape_manual(guide = FALSE, values = c(15, 18)) + 
-      geom_errorbar(size = 1.2, width = nlevels(dat[["run"]])/80)
-    
+    source("./test_counts/test_counts_plot.R", local = TRUE)
+    p
   })
   
   output[["test_count_dbl"]] <- renderPrint({
@@ -330,16 +301,7 @@ shinyServer(function(input, output) {
     do.call(p, c(prologue, epilogue))
   })
   
-  #input data table, may be scrapped ----------------------------------
-  output[["input_data"]] <- renderTable({
-    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
-    #new_dat <- input_dat
-    storage.mode(new_dat) <- "integer"
-    #colnames(new_dat) <- paste0(exp_names_new(), "; ", rep_names_new())
-    slot(new_dat, ".Data")
-  })
-  
-  
+  #report download
   output[["report_download_button"]] <- downloadHandler(
     filename  = "dpcReport.html",
     content = function(file) {
@@ -349,5 +311,15 @@ shinyServer(function(input, output) {
                                options = c('toc', markdown::markdownHTMLOptions(TRUE)))
     }
   )
+  
+  #input data table, may be scrapped ----------------------------------
+  output[["input_data"]] <- renderTable({
+    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+    #new_dat <- input_dat
+    storage.mode(new_dat) <- "integer"
+    #colnames(new_dat) <- paste0(exp_names_new(), "; ", rep_names_new())
+    slot(new_dat, ".Data")
+  })
+  
   
 })
