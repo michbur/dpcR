@@ -28,6 +28,10 @@ change_data <- function(input_dat, rep_names_new, exp_names_new) {
   new_dat
 }
 
+#capitalize first letter
+cap1L <- function(x)
+  paste0(toupper(substr(x, 0, 1)), substr(x, 2, nchar(x)))
+
 #the convention: data is a data frame, this first column is x, the second is y
 choose_xy_point <- function(db_id, data) {
   if(!is.null(db_id)) {
@@ -142,7 +146,7 @@ shinyServer(function(input, output) {
     new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
     
     summ <- summary(new_dat, print = FALSE)[["summary"]]
-    summ[summ[["method"]] == "bhat", ]
+    summ[summ[["method"]] == input[["CI_method"]], ]
   })
   
   
@@ -389,20 +393,10 @@ shinyServer(function(input, output) {
     content = function(file) {
       knitr::knit(input = "report_template.Rmd", 
                   output = "dpcReport.md", quiet = TRUE)
+      on.exit(unlink(c("dpcReport.md", "figure"), recursive = TRUE))
       markdown::markdownToHTML("dpcReport.md", file, stylesheet = "report.css", 
                                options = c('toc', markdown::markdownHTMLOptions(TRUE)))
     })
-  
-  
-  
-  #input data table, may be scrapped ----------------------------------
-  output[["input_data"]] <- renderTable({
-    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
-    #new_dat <- input_dat
-    storage.mode(new_dat) <- "integer"
-    #colnames(new_dat) <- paste0(exp_names_new(), "; ", rep_names_new())
-    slot(new_dat, ".Data")
-  })
   
   
 })
