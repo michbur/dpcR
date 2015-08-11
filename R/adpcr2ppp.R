@@ -12,6 +12,7 @@
 #' @param nx_a Number of columns in a plate.
 #' @param ny_a Number of rows in a plate.
 #' @param marks If \code{TRUE}, marks values for non-empty partitions.
+#' @param plot If \code{TRUE}, array is plotted.
 #' @return A list containing objects with class
 #' \code{\link[spatstat]{ppp.object}} with the length equal to the number of
 #' plates (minimum 1).
@@ -42,7 +43,7 @@
 #' 
 #' 
 #' @export adpcr2ppp
-adpcr2ppp <- function(input, nx_a, ny_a, marks = TRUE) {
+adpcr2ppp <- function(input, nx_a, ny_a, marks = TRUE, plot = FALSE) {
   if (class(input) != "adpcr")
     stop("Input must have 'adpcr' class", call. = TRUE, domain = NA)
   
@@ -63,8 +64,9 @@ adpcr2ppp <- function(input, nx_a, ny_a, marks = TRUE) {
     data_points <- which(matrix(array_col, ncol = nx_a, nrow = ny_a) > 0,
                          arr.ind = TRUE)
     data_points[, "row"] <- ny_a - data_points[, "row"] + 1
-    plot(ppp(data_points[, 2], data_points[, 1], 
-             c(1, nx_a), c(1, ny_a)))
+    if(plot)
+      plot(ppp(data_points[, 2], data_points[, 1], 
+               c(1, nx_a), c(1, ny_a)))
     #check if marks are properly assigned
     if (marks) {
       ppp(data_points[, 2], data_points[, 1], 

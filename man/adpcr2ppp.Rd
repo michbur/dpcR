@@ -4,7 +4,7 @@
 \alias{adpcr2ppp}
 \title{Convert adpcr to ppp}
 \usage{
-adpcr2ppp(input, nx_a, ny_a, marks = TRUE)
+adpcr2ppp(input, nx_a, ny_a, marks = TRUE, plot = FALSE)
 }
 \arguments{
 \item{input}{Object of the \code{\linkS4class{adpcr}} class containing data
@@ -15,6 +15,8 @@ from one or more panels.}
 \item{ny_a}{Number of rows in a plate.}
 
 \item{marks}{If \code{TRUE}, marks values for non-empty partitions.}
+
+\item{plot}{If \code{TRUE}, array is plotted.}
 }
 \value{
 A list containing objects with class

@@ -75,13 +75,13 @@ if(input[["data_summary_scatter_rep"]]) {
 
 ```{r}
 if(input[["data_summary_scatter_rep"]])
-  cat(readLines("./summary_plots/data_summary_scatterchart1.md"), sep = "    \n")
+  cat(readLines("./summary_plots/data_summary_scatterchart2.md"), sep = "    \n")
 ```
 
 ```{r}
 if(input[["data_summary_scatter_rep"]]) {
   source("./summary_plots/summary_exprep_plot.R", local = TRUE)
-    p
+  p
 }
 ```
 
@@ -142,9 +142,20 @@ if(input[["plot_panel"]]) {
     source("./plot_panel/adpcr2panel.R", local = TRUE)
     source("./plot_panel/plot_panel.R", local = TRUE)
     print(p + ggtitle(i))
+    
+    roi <- extract_dpcr(new_dat, exp_run)
+    res <- test_panel(roi, nx_a, ny_a, nx = input[["nx"]], ny = input[["ny"]])[[1]]
+    
+    cat(paste0("Experiment name: ", as.character(slot(roi, "exper")), "<br>    ", 
+               "Replicate ID: ", as.character(slot(roi, "replicate")), "<br>    ",
+               "&Chi;", ": ", round(res[["statistic"]], app_digits), "<br>    ",
+               "Df: ", res[["parameter"]], "<br>    ",
+               "p-value: ", round(res[["p.value"]], app_digits), "<br>    ",
+               "Method: ", res[["method"]], "<br>    ",
+               "Alternative: ", res[["alternative"]], "<br>    "), sep = "")
   }
   
-
+  
 }
 ```
 

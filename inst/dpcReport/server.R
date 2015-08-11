@@ -19,6 +19,8 @@ cool_theme <- theme(plot.background=element_rect(fill = "transparent",
                     plot.title = element_text(size=20 + size_mod))
 
 app_digits <- 4
+nx_a <- 45
+ny_a <- 17
 
 change_data <- function(input_dat, rep_names_new, exp_names_new) {
   new_dat <- input_dat
@@ -362,6 +364,22 @@ shinyServer(function(input, output) {
       list("Number of partitions selected: ", as.character(sum(plot_panel_region[["selected"]])), br())
     }
     do.call(p, c(prologue, epilogue))
+  })
+  
+  output[["plot_panel_stat"]] <- renderPrint({
+    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+    roi <- extract_dpcr(new_dat, input[["array_choice"]])
+    res <- test_panel(roi, nx_a, ny_a, nx = input[["nx"]], ny = input[["ny"]])[[1]]
+    
+    prologue <- list("Experiment name: ", as.character(slot(roi, "exper")), br(), 
+         "Replicate ID: ", as.character(slot(roi, "replicate")), br(),
+         HTML("&Chi;"), ": ", round(res[["statistic"]], app_digits), br(),
+         "Df: ", res[["parameter"]], br(),
+         "p-value: ", round(res[["p.value"]], app_digits), br(),
+         "Method: ", res[["method"]], br(),
+         "Alternative: ", res[["alternative"]], br())
+    
+    do.call(p, prologue)
   })
   
   output[["plot_panel_region_summary"]] <- renderDataTable({
