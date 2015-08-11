@@ -41,6 +41,11 @@
 extract_dpcr <- function(input, id) {
   if (!(class(input) %in% c("adpcr", "ddpcr")))
     stop("Input must have 'adpcr' or 'ddpcr' class.")
+  
+  #when id is a column name
+  if(!is.numeric(id))
+    id <- which(colnames(input) == id) 
+  
   selected <- input[, id]
   
   #because when id is single negative value, usually the

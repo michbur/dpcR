@@ -129,6 +129,26 @@ if(input[["data_summary_test_counts"]])
   cat(readLines("./test_counts/test_counts3.md"), sep = "    \n")
 ```
 
+```{r}
+if(input[["plot_panel"]])
+  cat("## All arrays")
+```
+
+```{r,warning=FALSE}
+if(input[["plot_panel"]]) {
+  new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+  for(i in colnames(new_dat)) {
+    exp_run <- i
+    source("./plot_panel/adpcr2panel.R", local = TRUE)
+    source("./plot_panel/plot_panel.R", local = TRUE)
+    print(p + ggtitle(i))
+  }
+  
+
+}
+```
+
+
 # R Session
 
 ```{r,results='markup'}

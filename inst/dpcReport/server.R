@@ -312,19 +312,11 @@ shinyServer(function(input, output) {
   
   plot_panel_dat <- reactive({
     new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
-    
-    ny_a <- 17
-    nx_a <- 45
-    
-    id_df <- data.frame(which(matrix(TRUE, nrow = ny_a, ncol = nx_a), arr.ind = TRUE))
-    
-    id_df[["col"]] <- as.factor(id_df[["col"]])
-    id_df[["row"]] <- as.factor(id_df[["row"]])
-    
-    
     exp_run <- input[["array_choice"]]
-    cbind(id_df, value = as.factor(new_dat[, exp_run]), selected = rep(FALSE, ny_a * nx_a),
-          exp_run = rep(exp_run, ny_a * nx_a))
+
+    source("./plot_panel/adpcr2panel.R", local = TRUE)
+    
+    df
   })
   
   
@@ -344,36 +336,51 @@ shinyServer(function(input, output) {
   
   output[["plot_panel"]] <- renderPlot({
     df <- plot_panel_dat()
-    df[plot_panel_region[["selected"]], "selected"] <- TRUE
     
-    ggplot(df, aes(x = col, y = row , fill = value, shape = selected)) +
-      geom_tile(colour = "black", linetype = 2) + cool_theme + ggtitle(df[["exp_run"]][1]) +
-      geom_point(size = 6) +
-      scale_x_discrete("Column") + scale_y_discrete("Row") +
-      scale_fill_discrete("Value") +
-      scale_shape_manual(guide = FALSE, values = c(NA, 18)) +
-      guides(fill = guide_legend(override.aes = list(shape = NA))) +
-      theme(panel.border = element_blank(),
-            panel.background = element_blank())
+    if(!is.null(plot_panel_brush())) 
+      df[plot_panel_region[["selected"]], "selected"] <- TRUE
+    
+    source("./plot_panel/plot_panel.R", local = TRUE)
+    p + ggtitle(df[["exp_run"]][1])
   })
   
   output[["plot_panel_brush"]] <- renderPrint({
     dat <- plot_panel_dat()
-    if(!is.null(plot_panel_region[["selected"]]))
-      dat[as.numeric(plot_panel_region[["selected"]]), "selected"] <- TRUE
     
-    epilogue <- list(strong("Double-click"), "partition on the chart to learn its properties.", br()) 
+    dat[plot_panel_region[["selected"]], "selected"] <- TRUE
     
-    prologue <- if(is.null(plot_panel_region[["selected"]])) {
+    epilogue <- list(strong("Click and sweep"), "over the partitions to select them.", br()) 
+    
+    prologue <- if(is.null(plot_panel_brush())) {
       list()
     } else {
       dat <- dat[dat[["selected"]] == TRUE, ]
-      list("Row: ", as.character(dat[["row"]]), br(), 
-           "Column: ", as.character(dat[["col"]]), br())
+      list("Number of partitions selected: ", as.character(sum(plot_panel_region[["selected"]])), br())
     }
-    
     do.call(p, c(prologue, epilogue))
   })
+  
+  output[["plot_panel_region_summary"]] <- renderDataTable({
+    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+    roi <- extract_dpcr(new_dat, input[["array_choice"]])
+    
+    summs <- summary(roi, print = FALSE)[["summary"]]
+    summs <- cbind(region = rep("Whole array", nrow(summs)), summs)
+    
+    if(!is.null(plot_panel_brush())) {
+      slot(roi, ".Data") <- slot(roi, ".Data")[plot_panel_region[["selected"]], , drop = FALSE]
+      slot(roi, "n") <- sum(plot_panel_region[["selected"]])
+      summs <- rbind(summs, cbind(region = rep("Selected region", nrow(summs)), 
+                                  summary(roi, print = FALSE)[["summary"]]))
+    }
+    
+    colnames(summs) <- c("Region", "Experiment name", "Replicate ID", "Method", "&lambda;", 
+                         "&lambda; (lower CI)", "&lambda; (upper CI)", "m", 
+                         "m (lower CI)", "m (upper CI)", "k", "n")
+    
+    summs
+  }, escape = FALSE)
+  
   
   
   #report download ---------------------------------------------------
