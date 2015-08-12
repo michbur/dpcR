@@ -147,12 +147,13 @@ if(input[["plot_panel"]]) {
     res <- test_panel(roi, nx_a, ny_a, nx = input[["nx"]], ny = input[["ny"]])[[1]]
     
     cat(paste0("Experiment name: ", as.character(slot(roi, "exper")), "<br>    ", 
-               "Replicate ID: ", as.character(slot(roi, "replicate")), "<br>    ",
-               "&Chi;", ": ", round(res[["statistic"]], app_digits), "<br>    ",
-               "Df: ", res[["parameter"]], "<br>    ",
-               "p-value: ", round(res[["p.value"]], app_digits), "<br>    ",
-               "Method: ", res[["method"]], "<br>    ",
-               "Alternative: ", res[["alternative"]], "<br>    "), sep = "")
+         "Replicate ID: ", as.character(slot(roi, "replicate")), "<br>    ",
+         "Complete Spatial Randomness test statistic (", HTML("&Chi;"), "): ", 
+         round(res[["statistic"]], app_digits), "<br>    ",
+         "Df: ", res[["parameter"]], "<br>    ",
+         "Complete Spatial Randomness test p-value: ", round(res[["p.value"]], app_digits), "<br>    ",
+         "Method: ", res[["method"]], "<br>    ",
+         "Alternative: ", res[["alternative"]], "<br>    "), sep = "")
   }
   
   
