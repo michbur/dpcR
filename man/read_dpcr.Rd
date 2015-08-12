@@ -4,17 +4,22 @@
 \alias{read_dpcr}
 \title{Read digital PCR data}
 \usage{
-read_dpcr(file, format)
+read_dpcr(file, format, ...)
 }
 \arguments{
 \item{file}{name of the input file.}
 
 \item{format}{of the file.}
+
+\item{...}{additional arguments for the appropriate format.}
 }
 \description{
 Reads digital PCR data in various formats.
 }
 \author{
 Michal Burdukiewcz, Stefan Roediger
+}
+\seealso{
+\code{\link{read_raw}}
 }
 

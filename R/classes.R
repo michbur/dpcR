@@ -167,8 +167,8 @@ create_adpcr <- function(data, n, exper = "Experiment1",
 #' @name ddpcr-class
 #' @aliases ddpcr-class ddpcr
 #' @docType class
-#' @slot threshold \code{"numeric"} value giving the threshold. Droplets equal or
-#' bigger than threshold are counted as positive.
+#' @slot threshold \code{"numeric"} value giving the threshold. Partition with the value equal or 
+#' bigger than threshold are considered positive.
 #' @details
 #' Possible \code{type} values of \code{adpcr} objects:
 #' \enumerate{
@@ -202,6 +202,9 @@ create_ddpcr <- function(data, n, exper = "Experiment1",
                                replicate = replicate, type = type)
   
   class(result) <- "ddpcr"
+  if(is.null(threshold))
+    threshold <- mean(range(data))
+    
   slot(result, "threshold") <- threshold
   result
 }

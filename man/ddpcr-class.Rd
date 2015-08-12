@@ -23,8 +23,8 @@ Possible \code{type} values of \code{adpcr} objects:
 \section{Slots}{
 
 \describe{
-\item{\code{threshold}}{\code{"numeric"} value giving the threshold. Droplets equal or
-bigger than threshold are counted as positive.}
+\item{\code{threshold}}{\code{"numeric"} value giving the threshold. Partition with the value equal or
+bigger than threshold are considered positive.}
 }}
 \examples{
 ddpcr_fluo <- sim_ddpcr(m = 10, n = 20, times = 5, fluo = list(0.1, 0))

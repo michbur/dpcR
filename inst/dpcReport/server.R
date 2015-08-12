@@ -13,12 +13,11 @@ shinyServer(function(input, output) {
   input_dat <- reactive({
     #after loading any file it would be possible to start an example
     if(is.null(input[["input_file"]])) {
-      read_dpcr("example_data.csv", format = "raw")
+      read_dpcr("example_data.csv", format = "raw_adpcr")
     } else {
       read_dpcr(input[["input_file"]][["datapath"]], format = input[["input_type"]])
     }
   })
-  
   
   exp_names <- reactive(slot(input_dat(), "exper"))
   
@@ -225,6 +224,27 @@ shinyServer(function(input, output) {
   
   # plot panel --------------------------
   
+  output[["XXX"]] <- renderUI({
+    if(class(input_dat()) == "adpcr") {
+      list(includeMarkdown("./plot_panel/plot_panel1.md"),
+           htmlOutput("array_choice"),
+           htmlOutput("plot_panel_stat"),
+           numericInput("nx", "Numbers of quadrats in the x direction:", 
+                        5, min = 1, max = NA, step = NA),
+           numericInput("ny", "Numbers of quadrats in the y direction:", 
+                        5, min = 1, max = NA, step = 1),
+           plotOutput("plot_panel", height = 600,
+                      brush  = brushOpts(id = "plot_panel_brush")),
+           br(),
+           includeMarkdown("./plot_panel/plot_panel2.md"),
+           htmlOutput("plot_panel_brush"),
+           dataTableOutput("plot_panel_region_summary"))
+    } else {
+      includeMarkdown("./plot_panel/plot_panel0.md")
+    }
+  })
+  
+  
   output[["array_choice"]] <- renderUI({
     new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
     array_names <- colnames(new_dat)
@@ -236,7 +256,7 @@ shinyServer(function(input, output) {
   plot_panel_dat <- reactive({
     new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
     exp_run <- input[["array_choice"]]
-
+    
     source("./plot_panel/adpcr2panel.R", local = TRUE)
     
     df
@@ -289,13 +309,13 @@ shinyServer(function(input, output) {
     res <- test_panel(roi, nx_a, ny_a, nx = input[["nx"]], ny = input[["ny"]])[[1]]
     
     prologue <- list("Experiment name: ", as.character(slot(roi, "exper")), br(), 
-         "Replicate ID: ", as.character(slot(roi, "replicate")), br(),
-         "Complete Spatial Randomness test statistic (", HTML("&Chi;"), "): ", 
-         round(res[["statistic"]], app_digits), br(),
-         "Df: ", res[["parameter"]], br(),
-         "Complete Spatial Randomness test p-value: ", round(res[["p.value"]], app_digits), br(),
-         "Method: ", res[["method"]], br(),
-         "Alternative: ", res[["alternative"]], br())
+                     "Replicate ID: ", as.character(slot(roi, "replicate")), br(),
+                     "Complete Spatial Randomness test statistic (", HTML("&Chi;"), "): ", 
+                     round(res[["statistic"]], app_digits), br(),
+                     "Df: ", res[["parameter"]], br(),
+                     "Complete Spatial Randomness test p-value: ", round(res[["p.value"]], app_digits), br(),
+                     "Method: ", res[["method"]], br(),
+                     "Alternative: ", res[["alternative"]], br())
     
     do.call(p, prologue)
   })

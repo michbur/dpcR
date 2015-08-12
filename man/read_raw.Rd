@@ -4,10 +4,14 @@
 \alias{read_raw}
 \title{Read digital PCR raw data}
 \usage{
-read_raw(file)
+read_raw(file, adpcr)
 }
 \arguments{
 \item{file}{name of the input file.}
+
+\item{adpcr}{logical. If \code{TRUE}, function creates
+\code{\linkS4class{adpcr}} object. If \code{FALSE}, function creates
+\code{\linkS4class{ddpcr}} object.}
 }
 \description{
 Reads digital PCR data in raw format.
