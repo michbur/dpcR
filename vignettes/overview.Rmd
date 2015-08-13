@@ -15,6 +15,27 @@ vignette: >
 ```{r eval=TRUE,echo=FALSE}
 library(knitr)
 opts_chunk$set(fig.width=6, fig.height=6)
+
+library(ggplot2)
+library(xtable)
+
+size_mod <- -2
+cool_theme <- theme(plot.background=element_rect(fill = "transparent",
+                                                 colour = "transparent"),
+                    panel.grid.major = element_line(colour="lightgrey", linetype = "dashed"),
+                    panel.background = element_rect(fill = "white", colour = "black"),
+                    legend.background = element_rect(fill="NA"),
+                    legend.position = "bottom",
+                    axis.text = element_text(size=12 + size_mod),
+                    axis.title.x = element_text(size=15 + size_mod, vjust = -0.1), 
+                    axis.title.y = element_text(size=15 + size_mod, vjust = 1),
+                    strip.text = element_text(size=15 + size_mod, face = "bold"),
+                    strip.background = element_rect(fill = "#9ecae1", colour = "black"),
+                    legend.text = element_text(size=12 + size_mod), 
+                    legend.title = element_text(size=15 + size_mod),
+                    plot.title = element_text(size=20 + size_mod))
+
+load("vig.RData")
 ```
 
 dpcR is an R package designed to perform an analysis of digital PCR experiments.
@@ -67,8 +88,8 @@ Generalized Linear Models (GLM) are linear models for data, where the response v
 Estimated means copies per partitions obtained from the model are compared each other using multiple t-test.
 
 ```{r eval=TRUE}
-#comparim seedson of the experiments using GLM
-#set a ran
+#compare experiments using GLM
+#set a random seed for simulations
 set.seed(54321)
 
 #1. Simulate results of three different experiments with two repetitions each
@@ -81,7 +102,7 @@ adpcr3 <- rename(adpcr3, exper = "Experiment3")
 #2. Join results for convenience
 adpcrs <- bind_dpcr(adpcr1, adpcr2, adpcr3)
 
-#3. Perform test.
+#3. Perform test
 comp <- test_counts(adpcrs)
 
 #4. See summary of the test
@@ -93,7 +114,7 @@ plot(comp, aggregate = FALSE)
 #6. Aggregate runs to their groups
 plot(comp, aggregate = TRUE)
 
-#extract coefficients for the further usage
+#7. extract coefficients for the further usage
 coef(comp)
 ```
 
@@ -101,23 +122,97 @@ The Poisson regression on binary data (positive/negative partition) can be used 
 
 ## Multiple tests
 
-The dPCR experimentes are compared pairwise using the uniformly most powerful (UMP) ratio test [@fay_2010]. Furthermore, computed p-values are adjusted using Benjamini & Hochberg correction [@benjamini_1995] to control family-wise error rate.
+The dPCR experimentes may be also compared pairwise using the uniformly most powerful (UMP) ratio test [@fay_2010]. Furthermore, computed p-values are adjusted using Benjamini & Hochberg correction [@benjamini_1995] to control family-wise error rate.
 
 The UMP ratio test has following null-hypothesis:
+
 $$
 H_0: \frac{\lambda_1}{\lambda_2} = 1
 $$
 
-
-The generally advices Wilson's confidence intervals [@brown_2001] are computed independently for every dPCR experiment. To ensure that all confidence intervals simultaneously contain true value of lambda 
-
-and adjusted using Dunn -- &#352;id&#225;k correction, where:
+The generally adviced Wilson's confidence intervals [@brown_2001] are computed independently for every dPCR experiment. The confidence intervals are adjusted using Dunn -- &#352;id&#225;k correction to ensure that they simultaneously contain true value of $lambda$:
 
 $$
 \alpha_{\text{adj}} = 1 - (1 - \alpha)^\frac{1}{T}
 $$
 
-Such intervals are wider, but ensure that confidence intervals simultaneously contain true value of lambda.
+For example, the 0.95 significance levels means, that probability of the all real values being in the range of its respective confidence intervals is 0.95.
+
+```{r eval=TRUE}
+#1. Perform multiple test comparison using data from the previous example
+comp_ratio <- test_counts(adpcrs, model = "ratio")
+
+#2. See summary of the test
+summary(comp_ratio)
+
+#3. Plot results of the test 
+plot(comp_ratio, aggregate = FALSE)
+
+#4. Aggregate runs to their groups
+plot(comp_ratio, aggregate = TRUE)
+
+#5. extract coefficients for the further usage
+coef(comp)
+
+#compare results of two methods
+par(mfrow=c(2,1))
+plot(comp, aggregate = FALSE)
+title("GLM")
+plot(comp_ratio, aggregate = FALSE)
+title("Ratio")
+par(mfrow=c(1,1))
 
 
+```
+
+
+## Comparision of frameworks
+Two approaches presented above were compared in a simulation approach over 150 000 simulated array dPCR experiments. Each simulation contained six reactions. Three of them had roughly the same amount of molecules per plate and other three had experiments with 10 to 50 molecules more.
+Experiments were compared using GLM and MT frameworks.
+
+```{r eval=TRUE,echo=FALSE}
+ggplot(data=madpcr_comp,aes(x = value, fill = method)) +
+  geom_density(alpha = 0.3) + 
+  scale_fill_discrete("Confidence intervals:") + 
+  scale_y_continuous("Density") + 
+  scale_x_continuous("Fraction of wrongly assigned experiments") + 
+  cool_theme
+```
+
+On average, 2.03 and 1.98 reactions were assessed to a wrong group by respectively GLM and MT.
+
+A single GLM comparison took roughly 183 times longer than MT (on average 1.10 seconds versus 0.006 seconds on the Intel i7-2600 processor). The difference growths with the number of experiments and number of partitions (data not shown).
+
+
+## Probability coverage of confidence intervals
+
+  Average covarage probability is the proportion of the time that the interval contains the true value of $\lambda$.
+  
+  In the example below, we simulated 1\e{6} droplet dPCR experiments (2\e{4} droplets each) for each level of $\lambda$ (1.2\e{7} experiments total). We computed average probability coverage of CI obtained by three methods: Dube's[@dube_mathematical_2008], Bhat's[@bhat_single_2009] and by MT ($\alpha = 0.95$).
+  
+  To assess simultaneous coverage probability, we randomly divided experiments into 2000 groups (500 experiments each) for each possible value of $\lambda$. We counted frequency of groups in which all confidence intervals contain the true value of $\lambda$.
+  
+  
+```{r eval=TRUE,echo=FALSE}
+ggplot(m_coverage2, aes(x = prop, y = value, fill = method)) +
+  geom_bar(stat="identity", position = "dodge") +
+  scale_y_continuous("Probability coverage") + 
+  scale_x_discrete(expression(lambda)) +
+  scale_fill_discrete("Confidence intervals:") + 
+  geom_hline(y = 0.95, colour = "black", size = 1, linetype = 5) +
+  facet_wrap(~ coverage, nrow = 2) + 
+  cool_theme
+```
+
+The dashed black line marks 0.95 border.
+
+```{r eval=TRUE,echo=FALSE,results="asis"}
+dat <- as.data.frame(aggregate(value ~ method + coverage, m_coverage2, mean))
+
+colnames(dat) <- c("Method name", "Type of coverage", "Value")
+print(xtable(dat), 
+      include.rownames = FALSE, type = "html")
+```
+  
+  
 # References
