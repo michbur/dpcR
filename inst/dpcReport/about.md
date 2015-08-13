@@ -1,6 +1,8 @@
 ## About
 
-The dpcReport is a part of the [dpcR](http://github.com/michbur/dpcR) R package.
+The dpcReport is a part of the [dpcR](http://cran.r-project.org/web/packages/dpcR/index.html) R package.
+
+<img src="dpcR_logo.png" alt="HTML5 Icon" style="width:224px;height:120px">
 
 ### References
 
