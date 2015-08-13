@@ -199,8 +199,8 @@ test_counts <- function(input, model = "binomial", conf.level = 0.95) {
                                   coefs[, 1] - coefs[, 2], 
                                   coefs[, 1] + coefs[, 2]), ncol = 3))
     
-    summ_mc <- summary(multi_comp, level = conf.level)
-    groups <- cld(multi_comp)[["mcletters"]][["LetterMatrix"]]
+    summ_mc <- suppressWarnings(summary(multi_comp))
+    groups <- suppressWarnings(cld(multi_comp)[["mcletters"]][["LetterMatrix"]])
     if(is.matrix(groups)) {
       #more than one group
       groups_vector <- apply(groups, 1, function(i)

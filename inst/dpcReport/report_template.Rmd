@@ -3,9 +3,9 @@ title: "dpcReport"
 author: "Michal Burdukiewicz, Stefan Roediger"
 date: ""
 output:
-html_document:
-css: report.css
-toc: true
+  html_document:
+    css: report.css
+    toc: true
 ---
 
 # dpcReport
@@ -38,6 +38,8 @@ print_dpcrtable <- function(x)
 Report generated on `r Sys.time()` using [dpcR](http://github.com/michbur/dpcR) R package.  
 
 Detected input file: `r ifelse(is.null(input[["input_file"]][["name"]]), "none", input[["input_file"]][["name"]])`.  
+
+File format: `r ifelse(is.null(input[["input_file"]][["name"]]), "none", input[["input_type"]])`.  
 
 
 ```{r}

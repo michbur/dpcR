@@ -1,17 +1,31 @@
-<!--
-%\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{dpcR - package overview}
--->
-`r library("knitr")`
+---
+title: "dpcR package - an overview"
+author: "Micha&#322; Burdukiewicz, Stefan R&ouml;diger"
+date: "2015-08-13"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+bibliography: "dpcr.bib"
+vignette: >
+  %\VignetteIndexEntry{dpcR package - an overview}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
 
-# dpcR package
+```{r eval=TRUE,echo=FALSE}
+library(knitr)
+opts_chunk$set(fig.width=6, fig.height=6)
+```
 
 dpcR is an R package designed to perform an analysis of digital PCR experiments.
 
-## Read data
+# Read data
 
-dpcR does not have built-in tools for reading specific data types. Instead, we advise using other packages belonging do the pcRuniversum such as [RDML](http://cran.r-project.org/package=RDML) or dedicated packages such as ReadqPCR ([available from bioconductor.org](http://www.bioconductor.org/packages/release/bioc/html/ReadqPCR.html)). Further information can be found in Pabinger et al. 2014 (A survey of tools for the analysis of quantitative PCR (qPCR) data. Biomolecular Detection and Quantification 1, 23--33. doi:10.1016/j.bdq.2014.08.002).
+The `read_dpcr` function is responsible for importing data into R working space. The additional parameters allow specification of the format type.
 
+MORE WORDS
+
+Additionally, we advise using other packages belonging do the pcRuniversum such as [RDML](http://cran.r-project.org/package=RDML) or dedicated packages such as ReadqPCR ([available from bioconductor.org](http://www.bioconductor.org/packages/release/bioc/html/ReadqPCR.html)). Further information can be found in @pabinger_survey_2014.
 
 Before analysis data should be saved using one of the three classes - `adpcr` (end-point array digital PCR experiments), `ddpcr` (droplet digital PCR experiments) and `rtadpcr` (real-time array digital PCR experiments). To do so, use `create_dpcr` function.
 
@@ -28,7 +42,7 @@ adpcr_experiments <- create_dpcr(sample_runs, n = c(240L, 240L), type = "nm", ad
 class(adpcr_experiments)
 ```
 
-## Data visualisation
+# Data visualisation
 
 Data can be easily visualized using `plot_panel` function.
 
@@ -44,7 +58,7 @@ plot_panel(binarize(extract_dpcr(adpcr_experiments, 1)), nx_a = 15, ny_a = 16, m
 ```
 
 
-## Comparison of the experiments
+# Comparison of the experiments
 
 Generalized Linear Models (GLM) are linear models for data, where the response variables may have non-normal distributions (as for example binomially distributed positive partitions in digital PCR experiments). Using GLM we can describe relationships between results of digital PCR:
   
@@ -82,3 +96,5 @@ coef(comp)
 ```
 
 The Poisson regression on binary data (positive/negative partition) can be used only when the concentration of template molecules in samples is small (positive partitions contain very rarely more than 1 template particle). Higher concentrations requires binomial regression.
+
+# References
