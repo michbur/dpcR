@@ -1,8 +1,10 @@
 ## About
 
-The dpcReport is a part of the [dpcR](http://github.com/michbur/dpcR) R package.
+The dpcReport is a part of the [dpcR](http://cran.r-project.org/web/packages/dpcR/index.html) R package.
 
-## References
+<img src="dpcR_logo.png" alt="HTML5 Icon" style="width:224px;height:120px">
+
+### References
 
 The application was created using the results derived from following publications: 
 
@@ -16,6 +18,10 @@ detection in nanofluidic digital array enables accurate
 measurement of DNA copy number". Eng. In: _Analytical and
 bioanalytical chemistry_ 394.2 (2009), pp. 457-467. ISSN:
 1618-2650. DOI: 10.1007/s00216-009-2729-5.
+
+[3] S. Rödiger, M. Burdukiewicz, K. Blagodatskikh, et al. "R as an
+Environment for the Reproducible Analysis of DNA Amplification
+Experiments". In: _The R Journal_ 7.2 (2015), pp. 127-150.
 
 ### Authors
 
