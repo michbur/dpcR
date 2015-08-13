@@ -117,7 +117,7 @@ $$
 \alpha_{\text{adj}} = 1 - (1 - \alpha)^\frac{1}{T}
 $$
 
-Such intervals are wider then usual, but ensure that confidence intervals simultaneously contain true value of lambda.
+Such intervals are wider, but ensure that confidence intervals simultaneously contain true value of lambda.
 
 
 # References
