@@ -23,13 +23,9 @@ dpcR is an R package designed to perform an analysis of digital PCR experiments.
 
 The `read_dpcr` function is responsible for importing data into R working space. The additional parameters allow specification of the format type.
 
-MORE WORDS
-
 Additionally, we advise using other packages belonging do the pcRuniversum such as [RDML](http://cran.r-project.org/package=RDML) or dedicated packages such as ReadqPCR ([available from bioconductor.org](http://www.bioconductor.org/packages/release/bioc/html/ReadqPCR.html)). Further information can be found in @pabinger_survey_2014.
 
 Before analysis data should be saved using one of the three classes - `adpcr` (end-point array digital PCR experiments), `ddpcr` (droplet digital PCR experiments) and `rtadpcr` (real-time array digital PCR experiments). To do so, use `create_dpcr` function.
-
- 
 
 ```{r eval=TRUE}
 library(dpcR)
@@ -60,6 +56,8 @@ plot_panel(binarize(extract_dpcr(adpcr_experiments, 1)), nx_a = 15, ny_a = 16, m
 
 # Comparison of the experiments
 
+## GLM
+
 Generalized Linear Models (GLM) are linear models for data, where the response variables may have non-normal distributions (as for example binomially distributed positive partitions in digital PCR experiments). Using GLM we can describe relationships between results of digital PCR:
   
   $$\log{Y} = \beta^T X$$
@@ -69,14 +67,16 @@ Generalized Linear Models (GLM) are linear models for data, where the response v
 Estimated means copies per partitions obtained from the model are compared each other using multiple t-test.
 
 ```{r eval=TRUE}
-#comparison of the experiments using GLM
+#comparim seedson of the experiments using GLM
+#set a ran
+set.seed(54321)
 
 #1. Simulate results of three different experiments with two repetitions each
 #experiment 2 differs significantly from others
 adpcr1 <- sim_adpcr(m = 20, n = 765, times = 1e5, pos_sums = FALSE, n_panels = 2)
-adpcr2 <- sim_adpcr(m = 100, n = 765, times = 1e5, pos_sums = FALSE, n_panels = 2)
+adpcr2 <- sim_adpcr(m = 130, n = 765, times = 1e5, pos_sums = FALSE, n_panels = 2)
 adpcr2 <- rename(adpcr2, exper = "Experiment2")
-adpcr3 <- sim_adpcr(m = 20, n = 765, times = 1e5, pos_sums = FALSE, n_panels = 2)
+adpcr3 <- sim_adpcr(m = 50, n = 765, times = 1e5, pos_sums = FALSE, n_panels = 2)
 adpcr3 <- rename(adpcr3, exper = "Experiment3")
 #2. Join results for convenience
 adpcrs <- bind_dpcr(adpcr1, adpcr2, adpcr3)
@@ -89,12 +89,35 @@ summary(comp)
 
 #5. Plot results of the test 
 plot(comp, aggregate = FALSE)
-#plot(comp, aggregate = TRUE)
+
+#6. Aggregate runs to their groups
+plot(comp, aggregate = TRUE)
 
 #extract coefficients for the further usage
 coef(comp)
 ```
 
 The Poisson regression on binary data (positive/negative partition) can be used only when the concentration of template molecules in samples is small (positive partitions contain very rarely more than 1 template particle). Higher concentrations requires binomial regression.
+
+## Multiple tests
+
+The dPCR experimentes are compared pairwise using the uniformly most powerful (UMP) ratio test [@fay_2010]. Furthermore, computed p-values are adjusted using Benjamini & Hochberg correction [@benjamini_1995] to control family-wise error rate.
+
+The UMP ratio test has following null-hypothesis:
+$$
+H_0: \frac{\lambda_1}{\lambda_2} = 1
+$$
+
+
+The generally advices Wilson's confidence intervals [@brown_2001] are computed independently for every dPCR experiment. To ensure that all confidence intervals simultaneously contain true value of lambda 
+
+and adjusted using Dunn -- &#352;id&#225;k correction, where:
+
+$$
+\alpha_{\text{adj}} = 1 - (1 - \alpha)^\frac{1}{T}
+$$
+
+Such intervals are wider then usual, but ensure that confidence intervals simultaneously contain true value of lambda.
+
 
 # References
