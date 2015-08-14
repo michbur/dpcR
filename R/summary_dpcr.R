@@ -88,8 +88,10 @@ setMethod("summary", signature(object = "ddpcr"), function(object, print = TRUE)
   if (type %in% c("fluo")) 
     k <- apply(data, 2, function(x) get_k_n(x, slot(object, "threshold")))
   
-  invisible(print_summary(k, col_dat, type, n, print, colnames(data), slot(object, "exper"),
-                          slot(object, "replicate")))
+  invisible(print_summary(k = as.vector(k), col_dat = col_dat, n = as.vector(n), 
+                          print = print, run_names = colnames(data), 
+                          exper_names = slot(object, "exper"),
+                          replicate_names = slot(object, "replicate")))
 })
 
 setMethod("summary", signature(object = "adpcr"), function(object, print = TRUE) {
