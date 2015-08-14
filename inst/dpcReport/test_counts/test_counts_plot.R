@@ -5,7 +5,7 @@ dat[as.numeric(test_count_point[["selected"]]), "selected"] <- TRUE
 p <- ggplot(dat, aes(x = run, y = lambda, shape = selected, colour = experiment,
                 ymax = lambda.up, ymin = lambda.low, linetype = selected, label = group)) +
   geom_point(size = 4) + cool_theme +
-  geom_text(aes(x = run, y = lambda.up), size = 7, vjust = -0.5, show_guide = FALSE) +
+  geom_text(aes(x = run, y = lambda.up), size = 7, vjust = 0, hjust = -3, show_guide = FALSE, angle = 90) +
   ggtitle("Grouped experiments") +
   scale_x_discrete("Replicate id", labels = dat[["replicate"]] ) +
   scale_y_continuous(expression(lambda)) + 

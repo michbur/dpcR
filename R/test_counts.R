@@ -146,18 +146,17 @@ test_counts <- function(input, model = "binomial", conf.level = 0.95) {
     if(is.null(dim(group_matrix)))
       group_matrix <- matrix(group_matrix, nrow = 1)
     #name groups using the abc convention and at the same time reorder them along to value
-    dimnames(group_matrix) <- list(letters[1L:length(groups)]
-                                   [order(sapply(groups, function(single_group) 
-                                     mean(group_vals[single_group, 1])))], names(positives))
+    dimnames(group_matrix) <- list((1L:length(groups))[order(sapply(groups, function(single_group) 
+                                     mean(group_vals[single_group, 1])))], 
+                                   names(positives))
     
     group_coef <- data.frame(apply(group_matrix, 2, function(i) 
-      paste(names(i[which(i)]), collapse = "")), 
+      paste(names(i[which(i)]), collapse = ".")), 
       group_vals)
     colnames(group_coef) <- c("group", "lambda", "lambda.low", "lambda.up")
     
   } else {
     
-    #
     if(slot(input, "type") == "tnp")
       stop("GLM does not work with 'tnp' type.")
     
