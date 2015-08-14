@@ -5,9 +5,11 @@
 \alias{summary}
 \alias{summary,adpcr-method}
 \alias{summary,ddpcr-method}
+\alias{summary,dpcr-method}
 \alias{summary-methods}
 \alias{summary.adpcr}
 \alias{summary.ddpcr}
+\alias{summary.dpcr}
 \title{Methods for Function \code{summary}}
 \arguments{
 \item{object}{an object of class \code{\linkS4class{adpcr}} or

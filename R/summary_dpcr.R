@@ -11,7 +11,7 @@
 #' 
 #' @name summary-methods
 #' @aliases summary-methods summary,adpcr-method summary,ddpcr-method summary
-#' summary.adpcr summary.ddpcr
+#' summary.adpcr summary.ddpcr summary,dpcr-method summary.dpcr
 #' @docType methods
 #' @param object an object of class \code{\linkS4class{adpcr}} or
 #' \code{\linkS4class{ddpcr}}.
@@ -73,38 +73,22 @@
 NULL
 
 
-setMethod("summary", signature(object = "ddpcr"), function(object, print = TRUE) {
-  data <- slot(object, ".Data")
-  col_dat <-ncol(data)
-  type <- slot(object, "type")
-  n <- slot(object, "n")
-  
-  if (type %in% c("nm", "np")) 
-    k <- colSums(data > 0, na.rm = TRUE)
-  
-  if (type %in% c("tnp")) 
-    k <- data
-  
-  if (type %in% c("fluo")) 
-    k <- apply(data, 2, function(x) get_k_n(x, slot(object, "threshold")))
-  
-  invisible(print_summary(k = as.vector(k), col_dat = col_dat, n = as.vector(n), 
-                          print = print, run_names = colnames(data), 
-                          exper_names = slot(object, "exper"),
-                          replicate_names = slot(object, "replicate")))
-})
-
-setMethod("summary", signature(object = "adpcr"), function(object, print = TRUE) {
+setMethod("summary", signature(object = "dpcr"), function(object, print = TRUE) {
   data <- slot(object, ".Data")
   
   col_dat <- ncol(data)
   type <- slot(object, "type")
   n <- slot(object, "n")
   
-  if (type %in% c("fluo", "ct")) 
-    stop(paste0("Summary not currently implemented for data type ", type, "."))
+  if(class(object) == "adpcr")
+    if (type %in% c("fluo", "ct")) 
+      stop(paste0("Summary not currently implemented for data type ", type, "."))
   
-  if (type %in% c("nm", "np")) 
+  if(class(object) == "ddpcr")
+    if (type %in% c("fluo")) 
+      k <- apply(data, 2, function(x) get_k_n(x, slot(object, "threshold")))
+  
+  if (type %in% c("nm", "np"))
     k <- colSums(data > 0, na.rm = TRUE)
   
   if (type %in% c("tnp")) 
