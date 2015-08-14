@@ -64,7 +64,7 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
     if(length(exper) == 1) {
       exper <- as.factor(rep(exper, ncol(data)))
     } else {
-      stop("Each run be assigned to an experiment.")
+      stop("Each run must be assigned to an experiment.")
     }
   } 
   

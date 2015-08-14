@@ -50,10 +50,10 @@ read_raw <- function(file, adpcr) {
 read_QX100 <- function(file) {
   dat <- read.csv(file)
   
-  n <- dat[["Positives"]] + dat[["Negatives"]]
+  n <- dat[["AcceptedDroplets"]]
   counts <- matrix(dat[["Positives"]], nrow = 1)
   exper <- dat[["TypeAssay"]]
-  replicate <- dat[["Sample"]]
+  replicate <- paste0(dat[["Well"]], ".", dat[["Sample"]])
   
   create_dpcr(data = matrix(dat[["Positives"]], nrow = 1), n = n, 
               exper = exper, replicate = replicate, type = "tnp",

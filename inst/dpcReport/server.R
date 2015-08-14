@@ -225,7 +225,7 @@ shinyServer(function(input, output) {
   
   # plot panel --------------------------
   
-  output[["XXX"]] <- renderUI({
+  output[["plot_panel_tab"]] <- renderUI({
     if(class(input_dat()) == "adpcr") {
       list(includeMarkdown("./plot_panel/plot_panel1.md"),
            htmlOutput("array_choice"),

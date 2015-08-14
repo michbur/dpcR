@@ -12,4 +12,5 @@ p <- ggplot(dat, aes(x = exprep, y = lambda, shape = selected, colour = experime
   scale_color_discrete("Experiment name") +
   scale_linetype_manual(guide = FALSE, values = c("solid", "dashed")) + 
   scale_shape_manual(guide = FALSE, values = c(15, 18)) + 
-  geom_errorbar(size = 1.2, width = nlevels(dat[["exprep"]])/80)
+  geom_errorbar(size = 1.2, width = nlevels(dat[["exprep"]])/80) + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))

@@ -1,6 +1,6 @@
 # SUMMARY - droplet, array ------------------------------
 #summary workhorse + plot, should be not called directly by user
-print_summary <- function(k, col_dat, type, n, print, run_names, exper_names, replicate_names) {
+print_summary <- function(k, col_dat, n, print, run_names, exper_names, replicate_names) {
   
   sums <- cbind(do.call(rbind, lapply(1L:length(exper_names), function(single_id) 
     data.frame(experiment = rep(exper_names[single_id], 2), 
