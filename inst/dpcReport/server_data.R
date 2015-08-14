@@ -1,6 +1,6 @@
 #functions and constants for server
 
-size_mod <- 4
+size_mod <- 2
 cool_theme <- theme(plot.background=element_rect(fill = "transparent",
                                                  colour = "transparent"),
                     panel.grid.major = element_line(colour="lightgrey", linetype = "dashed"),
@@ -47,20 +47,20 @@ choose_xy_point <- function(db_id, data) {
         #in the subset
       } else {
         #which experiment was chosen
-        chosen_x <- levels(data[[1]])[round(db_id[["x"]], 0)]
+        chosen_y <- levels(data[[1]])[round(db_id[["y"]], 0)]
         #which lambda was chosen
         #clicked lambda 
-        clicked_y <- db_id[["y"]]
-        diff_order <- order(abs(data[[2]] - clicked_y))
-        row_id <- diff_order[which.max(data[[1]][diff_order] == chosen_x)]
-        chosen_y <- data[row_id, 2]
+        clicked_x <- db_id[["x"]]
+        diff_order <- order(abs(data[[2]] - clicked_x))
+        row_id <- diff_order[which.max(data[[1]][diff_order] == chosen_y)]
+        chosen_x <- data[row_id, 2]
         #indirect row_id, because we need the exact location, not relative id of the row
         #in the subset
       }
       
     } else {
       #x and y countinous
-      #not implemented yetl, maybe nearPoints
+      #not implemented yet, maybe nearPoints
     }
     c(x = chosen_x, y = chosen_y, row = row_id)
   } else {

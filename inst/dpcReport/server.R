@@ -80,7 +80,7 @@ shinyServer(function(input, output) {
   
   summary_plot_dbl <- reactive({
     choose_xy_point(input[["summary_plot_dbl"]], 
-                    data = summary_plot_dat()[, c("experiment", "lambda")])
+                    data = summary_plot_dat()[, c("lambda", "experiment")])
   })
   
   output[["summary_plot"]] <- renderPlot({
