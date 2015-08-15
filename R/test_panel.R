@@ -14,8 +14,6 @@
 #' 
 #' @param X Object of the \code{\linkS4class{adpcr}} class containing data from
 #' one or more panels.
-#' @param nx_a Number of columns in a plate.
-#' @param ny_a Number of rows in a plate.
 #' @param nx Numbers of quadrats in the x direction.
 #' @param ny Numbers of quadrats in the y direction.
 #' @param alternative Character string (partially matched) specifying the
@@ -40,21 +38,21 @@
 #' 
 #' many_panels <- sim_adpcr(m = 400, n = 765, times = 1000, pos_sums = FALSE, 
 #'                    n_panels = 5)
-#' test_panel(many_panels, nx_a = 45, ny_a = 17)
+#' test_panel(many_panels)
 #' 
 #' #test only one plate
-#' test_panel(extract_dpcr(many_panels, 3), nx_a = 45, ny_a = 17)
+#' test_panel(extract_dpcr(many_panels, 3))
 #' 
 #' #do test_panel manually
 #' require(spatstat)
-#' ppp_data <- adpcr2ppp(many_panels, nx_a = 45, ny_a = 17)
+#' ppp_data <- adpcr2ppp(many_panels)
 #' lapply(ppp_data, function(single_panel) quadrat.test(single_panel))
 #' 
 #' 
 #' @export test_panel
-test_panel <- function(X, nx_a, ny_a, nx = 5, ny = 5, alternative = c("two.sided", "regular", "clustered"), 
+test_panel <- function(X, nx = 5, ny = 5, alternative = c("two.sided", "regular", "clustered"), 
                        method = c("Chisq", "MonteCarlo"), conditional = TRUE, nsim = 1999) {
-  ppp_data <- adpcr2ppp(X, nx_a, ny_a)
+  ppp_data <- adpcr2ppp(X)
   lapply(ppp_data, function(single_panel)
     quadrat.test(single_panel, nx, ny, alternative, method, conditional, nsim = 1999))
 }

@@ -5,17 +5,13 @@
 \title{Dispersion Test for Spatial Point Pattern in Array dPCR Based on Quadrat
 Counts}
 \usage{
-test_panel(X, nx_a, ny_a, nx = 5, ny = 5, alternative = c("two.sided",
-  "regular", "clustered"), method = c("Chisq", "MonteCarlo"),
-  conditional = TRUE, nsim = 1999)
+test_panel(X, nx = 5, ny = 5, alternative = c("two.sided", "regular",
+  "clustered"), method = c("Chisq", "MonteCarlo"), conditional = TRUE,
+  nsim = 1999)
 }
 \arguments{
 \item{X}{Object of the \code{\linkS4class{adpcr}} class containing data from
 one or more panels.}
-
-\item{nx_a}{Number of columns in a plate.}
-
-\item{ny_a}{Number of rows in a plate.}
 
 \item{nx}{Numbers of quadrats in the x direction.}
 
@@ -59,14 +55,14 @@ A similar result can be achived by using \code{\link{adpcr2ppp}} and
 \examples{
 many_panels <- sim_adpcr(m = 400, n = 765, times = 1000, pos_sums = FALSE,
                    n_panels = 5)
-test_panel(many_panels, nx_a = 45, ny_a = 17)
+test_panel(many_panels)
 
 #test only one plate
-test_panel(extract_dpcr(many_panels, 3), nx_a = 45, ny_a = 17)
+test_panel(extract_dpcr(many_panels, 3))
 
 #do test_panel manually
 require(spatstat)
-ppp_data <- adpcr2ppp(many_panels, nx_a = 45, ny_a = 17)
+ppp_data <- adpcr2ppp(many_panels)
 lapply(ppp_data, function(single_panel) quadrat.test(single_panel))
 }
 \author{

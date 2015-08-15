@@ -57,5 +57,5 @@ read_QX100 <- function(file) {
   
   create_dpcr(data = matrix(dat[["Positives"]], nrow = 1), n = n, 
               exper = exper, replicate = replicate, type = "tnp",
-              adpcr = TRUE)
+              adpcr = TRUE, col_names = c(LETTERS[1L:8], LETTERS[1L:8]), row_names = as.character(1L:4))
 }

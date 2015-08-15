@@ -9,8 +9,6 @@
 #' 
 #' @param input Object of the \code{\linkS4class{adpcr}} class containing data
 #' from one or more panels.
-#' @param nx_a Number of columns in a plate.
-#' @param ny_a Number of rows in a plate.
 #' @param marks If \code{TRUE}, marks values for non-empty partitions.
 #' @param plot If \code{TRUE}, array is plotted.
 #' @return A list containing objects with class
@@ -25,14 +23,13 @@
 #'                    n_panels = 5)
 #' 
 #' # Convert all plates to ppp objects
-#' adpcr2ppp(many_panels, nx_a = 45, ny_a = 17)
+#' adpcr2ppp(many_panels)
 #' 
 #' # Convert all plates to ppp objects and get third plate
-#' third_plate <- adpcr2ppp(many_panels, nx_a = 45, ny_a = 17)[[3]]
+#' third_plate <- adpcr2ppp(many_panels)[[3]]
 #' 
 #' # Convert only third plate to ppp object
-#' third_plate2 <- adpcr2ppp(extract_dpcr(many_panels, 3), nx_a = 45, ny_a = 
-#' 17)
+#' third_plate2 <- adpcr2ppp(extract_dpcr(many_panels, 3))
 #' 
 #' # Check the class of a new object
 #' class(third_plate2)
@@ -43,16 +40,19 @@
 #' 
 #' 
 #' @export adpcr2ppp
-adpcr2ppp <- function(input, nx_a, ny_a, marks = TRUE, plot = FALSE) {
+adpcr2ppp <- function(input, marks = TRUE, plot = FALSE) {
   if (class(input) != "adpcr")
     stop("Input must have 'adpcr' class", call. = TRUE, domain = NA)
   
   array_data <- slot(input, ".Data")
   nrow_array <- nrow(array_data)
   
+  nx_a <- length(slot(input, "col_names"))
+  ny_a <- length(slot(input, "row_names"))
+  
   if (nrow_array != nx_a * ny_a)
     stop (paste0("Can not process with conversion since the input 
-                 legnth (", length(input) ,
+                 length (", length(input) ,
                  ") differs from the size of nx_a * ny_a (", nx_a * ny_a, ").
                  \n Change nx_a * ny_a to have the same number of elements."))  
   

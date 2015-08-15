@@ -254,8 +254,13 @@ shinyServer(function(input, output) {
                 choices = as.list(array_names))
   })
   
+  
+  nx_a <- reactive({length(slot(input_dat(), "col_names"))})
+  ny_a <- reactive({length(slot(input_dat(), "row_names"))})
+  
   plot_panel_dat <- reactive({
     new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+    
     exp_run <- input[["array_choice"]]
     
     source("./plot_panel/adpcr2panel.R", local = TRUE)
@@ -307,7 +312,10 @@ shinyServer(function(input, output) {
   output[["plot_panel_stat"]] <- renderPrint({
     new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
     roi <- extract_dpcr(new_dat, input[["array_choice"]])
-    res <- test_panel(roi, nx_a, ny_a, nx = input[["nx"]], ny = input[["ny"]])[[1]]
+    res <- test_panel(roi, 
+                      length(slot(new_dat, "col_names")), 
+                      length(slot(new_dat, "row_names")), 
+                      nx = input[["nx"]], ny = input[["ny"]])[[1]]
     
     prologue <- list("Experiment name: ", as.character(slot(roi, "exper")), br(), 
                      "Replicate ID: ", as.character(slot(roi, "replicate")), br(),

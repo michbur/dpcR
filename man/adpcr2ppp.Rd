@@ -4,15 +4,11 @@
 \alias{adpcr2ppp}
 \title{Convert adpcr to ppp}
 \usage{
-adpcr2ppp(input, nx_a, ny_a, marks = TRUE, plot = FALSE)
+adpcr2ppp(input, marks = TRUE, plot = FALSE)
 }
 \arguments{
 \item{input}{Object of the \code{\linkS4class{adpcr}} class containing data
 from one or more panels.}
-
-\item{nx_a}{Number of columns in a plate.}
-
-\item{ny_a}{Number of rows in a plate.}
 
 \item{marks}{If \code{TRUE}, marks values for non-empty partitions.}
 
@@ -37,14 +33,13 @@ many_panels <- sim_adpcr(m = 400, n = 765, times = 1000, pos_sums = FALSE,
                    n_panels = 5)
 
 # Convert all plates to ppp objects
-adpcr2ppp(many_panels, nx_a = 45, ny_a = 17)
+adpcr2ppp(many_panels)
 
 # Convert all plates to ppp objects and get third plate
-third_plate <- adpcr2ppp(many_panels, nx_a = 45, ny_a = 17)[[3]]
+third_plate <- adpcr2ppp(many_panels)[[3]]
 
 # Convert only third plate to ppp object
-third_plate2 <- adpcr2ppp(extract_dpcr(many_panels, 3), nx_a = 45, ny_a =
-17)
+third_plate2 <- adpcr2ppp(extract_dpcr(many_panels, 3))
 
 # Check the class of a new object
 class(third_plate2)
