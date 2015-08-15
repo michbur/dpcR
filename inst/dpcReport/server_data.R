@@ -17,8 +17,8 @@ cool_theme <- theme(plot.background=element_rect(fill = "transparent",
                     plot.title = element_text(size=20 + size_mod))
 
 app_digits <- 4
-nx_a <- 45
-ny_a <- 17
+# nx_a <- 45
+# ny_a <- 17
 
 change_data <- function(input_dat, rep_names_new, exp_names_new) {
   new_dat <- input_dat

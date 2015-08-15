@@ -29,6 +29,10 @@ Possible \code{type} values of \code{adpcr} objects:
 a threshold. Partition above or equal to threshold is counted as
 positive.}
 
+\item{\code{col_names}}{\code{"character"} vector naming the columns in the array.}
+
+\item{\code{row_names}}{\code{"character"} vector naming the rows in the array.}
+
 \item{\code{type}}{Object of class \code{"character"} defining type of data. See Details.}
 }}
 \examples{

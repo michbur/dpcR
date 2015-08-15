@@ -26,6 +26,10 @@
 #' @param adpcr logical. If \code{TRUE}, function creates
 #' \code{\linkS4class{adpcr}} object. If \code{FALSE}, function creates
 #' \code{\linkS4class{ddpcr}} object.
+#' @param col_names \code{"character"} vector of column names in array. Ignored if not
+#' \code{adcpr}.
+#' @param row_names \code{"character"} vector of row names in array. Ignored if not
+#' \code{adcpr}.
 #' @return An \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} object.
 #' @note Currently only end-point measurements are supported.
 #' @author Michal Burdukiewicz, Stefan Roediger.
@@ -48,11 +52,12 @@
 #' @export create_dpcr
 
 create_dpcr <- function(data, n, exper = "Experiment 1", 
-                           replicate = NULL, type, threshold = NULL,
-                           breaks = NULL, adpcr) {
+                        replicate = NULL, type, threshold = NULL,
+                        breaks = NULL, adpcr, col_names = NULL, row_names = NULL) {
   if(adpcr) {
     create_adpcr(data = data, n = n, exper = exper, 
-                   replicate = replicate, type = type, breaks = breaks)
+                 replicate = replicate, type = type, breaks = breaks,
+                 col_names = col_names, row_names = row_names)
   } else {
     create_ddpcr(data = data, n = n, exper = exper, 
                  replicate = replicate, type = type, threshold = threshold)

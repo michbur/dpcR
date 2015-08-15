@@ -109,6 +109,8 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
 #' \code{.Data} should be cut. The second element in \code{breaks} vector is considered 
 #' a threshold. Partition above or equal to threshold is counted as 
 #' positive.
+#' @slot col_names \code{"character"} vector naming the columns in the array.
+#' @slot row_names \code{"character"} vector naming the rows in the array.
 #' @slot type Object of class \code{"character"} defining type of data. See Details.
 #' @details
 #' Possible \code{type} values of \code{adpcr} objects:
@@ -137,12 +139,14 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
 #' one_rand_array <- extract_dpcr(rand_array, 1)
 #' plot_panel(one_rand_array, 40, 40)
 #' 
-setClass("adpcr", contains = "dpcr", representation(breaks = "numeric"))
+setClass("adpcr", contains = "dpcr", representation(breaks = "numeric",
+                                                    col_names = "character",
+                                                    row_names = "character"))
 
 
 #constructor
 create_adpcr <- function(data, n, exper = "Experiment1", 
-                         replicate = NULL, type, breaks) {
+                         replicate = NULL, type, breaks, col_names = NULL, row_names = NULL) {
   result <- construct_dpcr(data = data, n = n, exper = exper, 
                                replicate = replicate, type = type)
   
@@ -151,8 +155,32 @@ create_adpcr <- function(data, n, exper = "Experiment1",
   
   if (is.null(breaks))
     breaks <- 0L:max(data, na.rm = TRUE)
+  
+  if(is.null(col_names) & is.null(row_names)) {
+    #access .Data slot, because its already in the matrix form
+    if(type == "tnp") {
+      #in case of tnp the whole apcr object represents one array
+      total <- ncol(slot(result, ".Data"))
+    } else {
+      total <- nrow(slot(result, ".Data"))
+    }
+    #nice proportion of the rows to columns is 0.37
+    edge_a <- round(sqrt(total/0.37), 0)
+    egde_b_range <- round(edge_a*0.95, 0):round(edge_a*1.1, 0)
+    edge_b <- round(total/egde_b_range, 0)[which.min(abs(total/egde_b_range - 
+                                                           round(total/egde_b_range, 0)))]
+    col_names <- as.character(1L:edge_a)
+    row_names <- as.character(1L:edge_b)
+  }
+  
+  if(xor(is.null(col_names), is.null(row_names))) {
+    stop("Both 'col_names' and 'row_names' must be either NULL or specified.")
+  }
+  
   class(result) <- "adpcr"
   slot(result, "breaks") <- breaks
+  slot(result, "col_names") <- col_names
+  slot(result, "row_names") <- row_names
   result
 }
 

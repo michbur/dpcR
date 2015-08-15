@@ -5,7 +5,8 @@
 \title{Create dpcR object}
 \usage{
 create_dpcr(data, n, exper = "Experiment 1", replicate = NULL, type,
-  threshold = NULL, breaks = NULL, adpcr)
+  threshold = NULL, breaks = NULL, adpcr, col_names = NULL,
+  row_names = NULL)
 }
 \arguments{
 \item{data}{a \code{"numeric"} vector or matrix of data from dPCR
@@ -32,6 +33,12 @@ which \code{data} should be cut. Ignored if \code{adpcr} is \code{FALSE}.}
 \item{adpcr}{logical. If \code{TRUE}, function creates
 \code{\linkS4class{adpcr}} object. If \code{FALSE}, function creates
 \code{\linkS4class{ddpcr}} object.}
+
+\item{col_names}{\code{"character"} vector of column names in array. Ignored if not
+\code{adcpr}.}
+
+\item{row_names}{\code{"character"} vector of row names in array. Ignored if not
+\code{adcpr}.}
 }
 \value{
 An \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} object.
