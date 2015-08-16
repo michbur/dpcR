@@ -17,8 +17,6 @@
 #' interval of the input, with the brightest colors for the lowest values.
 #' 
 #' @param input object of the \code{\linkS4class{adpcr}} class. See Details.
-#' @param nx_a Number of columns in a plate.
-#' @param ny_a Number of rows in a plate.
 #' @param col A single color or vector of colors for each level of input.
 #' @param legend If \code{TRUE}, a built-in legend is added to the plot.
 #' @param half If \code{left} or \code{right}, every well is represented only
@@ -27,9 +25,13 @@
 #' \code{breaks} slot. If \code{FALSE}, input is converted to factor using
 #' \code{\link[base]{as.factor}}. Ignored if data has \code{"tp"} type (see 
 #' possible types of \code{\linkS4class{adpcr}} objects).
+#' @param plot \code{"logical"}, if \code{FALSE}, only plot data is returned
+#' invisibly.
 #' @param ... Arguments to be passed to \code{plot} function.
-#' @return Invisibly returns a list of coordinates of each microfluidic well 
-#' and an assigned color.
+#' @return Invisibly returns two sets of coordinates of each microfluidic well:
+#' \code{coords} is a list of coordinates suitable for usage with functions from
+#' \code{\link{graphics}} package. The second element is a data frame of coordinates 
+#' useful for users utilizing ggplot2 package.
 #' @author Michal Burdukiewicz, Stefan Roediger.
 #' @seealso \code{\link{extract_dpcr}}.
 #' @keywords hplot
@@ -87,20 +89,22 @@
 #' par(mfcol = c(1, 1))
 #' 
 #' @export plot_panel
-plot_panel <- function(input, nx_a, ny_a, col = "red", legend = TRUE, 
-                       half = "none", use_breaks = TRUE, ...) {  
+plot_panel <- function(input, col = "red", legend = TRUE, 
+                       half = "none", use_breaks = TRUE, plot = TRUE, ...) {  
   if (class(input) == "adpcr") {
-    if (!(slot(input, "type") %in% c("nm", "np", "ct")))
-      stop("Input must contain data of type 'nm', 'np' or 'ct'.", 
-           call. = TRUE, domain = NA) 
-    if (ncol(input) > 1)
-      stop("Input must contain only one panel.", call. = TRUE, domain = NA)    
-    if (nrow(input) == 1)
-      stop("Input cannot contain total number of positive chambers.", call. = TRUE, 
-           domain = NA)    
+    if (!(slot(input, "type") %in% c("nm", "np", "ct", "tnp")))
+      stop("Input must contain data of type 'nm', 'np', 'tnp' or 'ct'.") 
+    if (ncol(input) > 1 && slot(input, "type") != "tnp")
+      stop("Input must contain only one run.")    
   } else {
-    stop("Input must have the 'adpcr' class", call. = TRUE, domain = NA)
+    stop("Input must have the 'adpcr' class")
   }
+  
+  
+  nx_a <- length(slot(input, "col_names"))
+  ny_a <- length(slot(input, "row_names"))
+  
+  
   if (slot(input, "n") != nx_a * ny_a)
     stop (paste0("Can not process with plot since the input 
                  length (", slot(input, "n"),
@@ -117,43 +121,61 @@ plot_panel <- function(input, nx_a, ny_a, col = "red", legend = TRUE,
     cutted_input <- factor(slot(input, ".Data"))
   }
   
-  plot(NA, NA, xlim = c(1, nx_a), ylim = c(1, ny_a), axes = FALSE, xlab = "", 
-       ylab = "", ...)
   half <- tolower(half)
+  #half value for normal plot data
   half_val <- switch(half,
                      none =  c(0.25, 0.25),
                      left = c(0.25, 0),
                      right = c(0, 0.25))
+  #half value for ggplot data
+  half_val_ggplot <- switch(half,
+                            none =  0,
+                            left = -0.5,
+                            right = 0.5)
+  
+  ggplot_coords <- data.frame(t(do.call(cbind, lapply(1L:nx_a, function(x) 
+    sapply(ny_a:1L, function(y) 
+      c(x = x + half_val_ggplot, y = y))))))
+  
   
   coords <- unlist(lapply(1L:nx_a, function(x) 
     lapply(ny_a:1L, function(y) 
       c(xleft = x - half_val[1], ybottom = y - 0.25, xright = x + half_val[2], 
         ytop = y + 0.25))), recursive = FALSE)
-  cols <- cutted_input
-  ncols <- nlevels(cutted_input)
-  if (length(col) == 1) {   
-    levels(cols) <- sapply(0:ncols/ncols, function(x) 
-      adjustcolor(col, alpha.f = x))
-  } else {
-    if (length(col) != ncols) {
-      stop("The vector of colors must have length equal to the number of levels of 
-           the input.")    
-    }
-    levels(cols) <- col
-  }
-  if (legend)
-    legend(x = -0.085 * nx_a, 
-           y = ny_a/1.6, 
-           legend = levels(cutted_input),
-           fill = levels(cols), 
-           bty = "n", 
-           xpd = TRUE, 
-           x.intersp = 0.5)
   
-  cols <- as.character(cols)
-  args <- lapply(1L:length(input), function(i) 
-    c(coords[[i]], list(col = cols[i])))
-  sapply(1L:length(input), function(i) 
-    do.call(rect, args[[i]]))
-  invisible(args)
+  if(plot) {
+    cols <- cutted_input
+    ncols <- nlevels(cutted_input)
+    if (length(col) == 1) {   
+      levels(cols) <- sapply(0:ncols/ncols, function(x) 
+        adjustcolor(col, alpha.f = x))
+    } else {
+      if (length(col) != ncols) {
+        stop("The vector of colors must have length equal to the number of levels of 
+             the input.")    
+      }
+      levels(cols) <- col
+    }
+    
+    plot(NA, NA, xlim = c(1, nx_a), ylim = c(1, ny_a), axes = FALSE, xlab = "", 
+         ylab = "", ...)
+    
+    if (legend)
+      legend(x = -0.085 * nx_a, 
+             y = ny_a/1.6, 
+             legend = levels(cutted_input),
+             fill = levels(cols), 
+             bty = "n", 
+             xpd = TRUE, 
+             x.intersp = 0.5)
+    
+    cols <- as.character(cols)
+    args <- lapply(1L:length(input), function(i) 
+      c(coords[[i]], list(col = cols[i])))
+    
+    sapply(1L:length(input), function(i) 
+      do.call(rect, args[[i]]))
+  }
+  
+  invisible(list(coords = coords, ggplot_coords = ggplot_coords))
 }

@@ -4,15 +4,11 @@
 \alias{plot_panel}
 \title{Plot Panel}
 \usage{
-plot_panel(input, nx_a, ny_a, col = "red", legend = TRUE, half = "none",
-  use_breaks = TRUE, ...)
+plot_panel(input, col = "red", legend = TRUE, half = "none",
+  use_breaks = TRUE, plot = TRUE, ...)
 }
 \arguments{
 \item{input}{object of the \code{\linkS4class{adpcr}} class. See Details.}
-
-\item{nx_a}{Number of columns in a plate.}
-
-\item{ny_a}{Number of rows in a plate.}
 
 \item{col}{A single color or vector of colors for each level of input.}
 
@@ -26,11 +22,16 @@ by the adequate half of the rectangle.}
 \code{\link[base]{as.factor}}. Ignored if data has \code{"tp"} type (see
 possible types of \code{\linkS4class{adpcr}} objects).}
 
+\item{plot}{\code{"logical"}, if \code{FALSE}, only plot data is returned
+invisibly.}
+
 \item{...}{Arguments to be passed to \code{plot} function.}
 }
 \value{
-Invisibly returns a list of coordinates of each microfluidic well
-and an assigned color.
+Invisibly returns two sets of coordinates of each microfluidic well:
+\code{coords} is a list of coordinates suitable for usage with functions from
+\code{\link{graphics}} package. The second element is a data frame of coordinates
+useful for users utilizing ggplot2 package.
 }
 \description{
 The \code{plot_panel} function takes objects of the class

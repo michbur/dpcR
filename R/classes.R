@@ -166,9 +166,13 @@ create_adpcr <- function(data, n, exper = "Experiment1",
     }
     #nice proportion of the rows to columns is 0.37
     edge_a <- round(sqrt(total/0.37), 0)
-    egde_b_range <- round(edge_a*0.95, 0):round(edge_a*1.1, 0)
-    edge_b <- round(total/egde_b_range, 0)[which.min(abs(total/egde_b_range - 
-                                                           round(total/egde_b_range, 0)))]
+    edge_b <- floor(total/edge_a)
+    
+    while(edge_a * edge_b != total) {
+      edge_a <- edge_a - 1
+      edge_b <- floor(total/edge_a)
+    }
+      
     col_names <- as.character(1L:edge_a)
     row_names <- as.character(1L:edge_b)
   }
