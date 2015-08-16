@@ -58,22 +58,30 @@ adpcr2ppp <- function(input, marks = TRUE, plot = FALSE) {
   
   #apply in case input contains more than 1 array
   #here list of?
-  apply(array_data, 2, function(array_col) { 
-    #strange syntax, because spatstat use different localizations
-    #than dpcR.
-    data_points <- which(matrix(array_col, ncol = nx_a, nrow = ny_a) > 0,
-                         arr.ind = TRUE)
-    data_points[, "row"] <- ny_a - data_points[, "row"] + 1
-    if(plot)
-      plot(ppp(data_points[, 2], data_points[, 1], 
-               c(1, nx_a), c(1, ny_a)))
-    #check if marks are properly assigned
-    if (marks) {
-      ppp(data_points[, 2], data_points[, 1], 
-          c(1, nx_a), c(1, ny_a), marks = array_col[array_col != 0])
-    } else {
-      ppp(data_points[, 2], data_points[, 1], 
-          c(1, nx_a), c(1, ny_a))
-    }
-  })
+  if(slot(input, "type") == "tnp") {
+    create_ppp(as.vector(array_data), nx_a, ny_a, plot, marks)
+  } else {
+    apply(array_data, 2, function(array_col) 
+      create_ppp(array_col, nx_a, ny_a, plot, marks))
+  }
+}
+
+
+create_ppp <- function(data_vector, nx_a, ny_a, plot, marks) {
+  #strange syntax, because spatstat use different localizations
+  #than dpcR.
+  data_points <- which(matrix(data_vector, ncol = nx_a, nrow = ny_a) > 0,
+                       arr.ind = TRUE)
+  data_points[, "row"] <- ny_a - data_points[, "row"] + 1
+  if(plot)
+    plot(ppp(data_points[, 2], data_points[, 1], 
+             c(1, nx_a), c(1, ny_a)))
+  #check if marks are properly assigned
+  if (marks) {
+    ppp(data_points[, 2], data_points[, 1], 
+        c(1, nx_a), c(1, ny_a), marks = data_vector[data_vector != 0])
+  } else {
+    ppp(data_points[, 2], data_points[, 1], 
+        c(1, nx_a), c(1, ny_a))
+  }
 }
