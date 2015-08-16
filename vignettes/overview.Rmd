@@ -61,7 +61,7 @@ class(adpcr_experiments)
 
 # Data visualisation
 
-Data can be easily visualized using `plot_panel` function.
+Data from digital PCR arrays can be easily visualized using `plot_panel` function.
 
 ```{r eval=TRUE}
 #remember, you can plot only single panel at once 
@@ -72,6 +72,19 @@ The same data can be visualized easily in binarized form (positive/negative part
 ```{r eval=TRUE}
 #remember, you can plot only single panel at once 
 plot_panel(binarize(extract_dpcr(adpcr_experiments, 1)), main = "Experiment 1")
+```
+
+The `plot_panel` function returns invisibly coordinates, that are compatibile with graphics and ggplot packages.
+```{r eval=TRUE}
+#extract graphical coordinates
+panel_data <- plot_panel(extract_dpcr(adpcr_experiments, 1), plot = FALSE)
+ggplot_coords <- cbind(panel_data[["ggplot_coords"]], value = as.vector(extract_dpcr(adpcr_experiments, 1)))
+
+#plot panel using different graphics package
+library(ggplot2)
+ggplot(ggplot_coords, aes(x = x, y = y, fill = value)) +
+  geom_tile()
+
 ```
 
 
