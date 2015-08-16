@@ -255,9 +255,6 @@ shinyServer(function(input, output) {
   })
   
   
-  nx_a <- reactive({length(slot(input_dat(), "col_names"))})
-  ny_a <- reactive({length(slot(input_dat(), "row_names"))})
-  
   plot_panel_dat <- reactive({
     new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
     
@@ -279,7 +276,7 @@ shinyServer(function(input, output) {
   
   plot_panel_brush <- reactive({
     choose_xy_region(input[["plot_panel_brush"]], 
-                     data = plot_panel_dat()[, c("col", "row")])
+                     data = plot_panel_dat()[, c("x", "y")])
   })
   
   
@@ -311,10 +308,9 @@ shinyServer(function(input, output) {
   
   output[["plot_panel_stat"]] <- renderPrint({
     new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+    
     roi <- extract_dpcr(new_dat, input[["array_choice"]])
-    res <- test_panel(roi, 
-                      length(slot(new_dat, "col_names")), 
-                      length(slot(new_dat, "row_names")), 
+    res <- test_panel(roi,
                       nx = input[["nx"]], ny = input[["ny"]])[[1]]
     
     prologue <- list("Experiment name: ", as.character(slot(roi, "exper")), br(), 
