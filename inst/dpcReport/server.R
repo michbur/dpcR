@@ -235,7 +235,7 @@ shinyServer(function(input, output) {
            numericInput("ny", "Numbers of quadrats in the y direction:", 
                         5, min = 1, max = NA, step = 1),
            plotOutput("plot_panel", height = 600,
-                      brush  = brushOpts(id = "plot_panel_brush")),
+                      brush  = brushOpts(id = "plot_panel_brush", delay = 300)),
            br(),
            includeMarkdown("./plot_panel/plot_panel2.md"),
            htmlOutput("plot_panel_brush"),
@@ -265,26 +265,19 @@ shinyServer(function(input, output) {
     df
   })
   
-  
-  plot_panel_region <- reactiveValues(
-    selected = NULL
-  )
-  
-  observeEvent(input[["plot_panel_brush"]], {
-    plot_panel_region[["selected"]] <- plot_panel_brush()
-  })
-  
   plot_panel_brush <- reactive({
+    #print(input[["plot_panel_brush"]])
     choose_xy_region(input[["plot_panel_brush"]], 
                      data = plot_panel_dat()[, c("x", "y")])
   })
   
-  
   output[["plot_panel"]] <- renderPlot({
     df <- plot_panel_dat()
     
-    if(!is.null(plot_panel_brush())) 
-      df[plot_panel_region[["selected"]], "selected"] <- TRUE
+    if(!is.null(plot_panel_brush())) {
+      if(any(plot_panel_brush() != df[, "selected"]))
+        df[plot_panel_brush(), "selected"] <- TRUE
+    }
     
     source("./plot_panel/plot_panel.R", local = TRUE)
     p + ggtitle(df[["exp_run"]][1])
@@ -293,7 +286,7 @@ shinyServer(function(input, output) {
   output[["plot_panel_brush"]] <- renderPrint({
     dat <- plot_panel_dat()
     
-    dat[plot_panel_region[["selected"]], "selected"] <- TRUE
+    dat[plot_panel_brush(), "selected"] <- TRUE
     
     epilogue <- list(strong("Click and sweep"), "over the partitions to select them.", br()) 
     
@@ -301,7 +294,7 @@ shinyServer(function(input, output) {
       list()
     } else {
       dat <- dat[dat[["selected"]] == TRUE, ]
-      list("Number of partitions selected: ", as.character(sum(plot_panel_region[["selected"]])), br())
+      list("Number of partitions selected: ", as.character(sum(plot_panel_brush())), br())
     }
     do.call(p, c(prologue, epilogue))
   })
@@ -333,8 +326,8 @@ shinyServer(function(input, output) {
     summs <- cbind(region = rep("Whole array", nrow(summs)), summs)
     
     if(!is.null(plot_panel_brush())) {
-      slot(roi, ".Data") <- slot(roi, ".Data")[plot_panel_region[["selected"]], , drop = FALSE]
-      slot(roi, "n") <- sum(plot_panel_region[["selected"]])
+      slot(roi, ".Data") <- slot(roi, ".Data")[plot_panel_brush(), , drop = FALSE]
+      slot(roi, "n") <- sum(plot_panel_brush())
       summs <- rbind(summs, cbind(region = rep("Selected region", nrow(summs)), 
                                   summary(roi, print = FALSE)[["summary"]]))
     }
