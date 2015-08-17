@@ -40,9 +40,11 @@ of a chamber-based digital PCR experiments (e.g., Digital Array (R) IFCs
 (integrated fluidic circuits) of the BioMark (R) and EP1 (R)).
 }
 \details{
-Currently only objects containing just one column of data (one panel) can be
-plotted (see Examples how easily plot multipanel objects). Moreover the
-object must contain fluorescence intensities or exact number of molecules or
+Currently, only objects containing \code{tnp} data can be plotted as
+a whole. For the any other type of the \code{adpcr} data, only just one column
+of data (one panel) can be plotted at the same time (see Examples how easily
+plot multipanel objects). Moreover the object must contain fluorescence
+intensities or exact number of molecules or
 the positive hits derived from the Cq values for each well. The Cq values
 can be obtained by custom made functions (see example in
 \code{\link{dpcr_density}})) or the yet to implement "qpcr_analyser function

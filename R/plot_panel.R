@@ -5,9 +5,11 @@
 #' of a chamber-based digital PCR experiments (e.g., Digital Array (R) IFCs
 #' (integrated fluidic circuits) of the BioMark (R) and EP1 (R)).
 #' 
-#' Currently only objects containing just one column of data (one panel) can be
-#' plotted (see Examples how easily plot multipanel objects). Moreover the
-#' object must contain fluorescence intensities or exact number of molecules or
+#' @details Currently, only objects containing \code{tnp} data can be plotted as
+#' a whole. For the any other type of the \code{adpcr} data, only just one column 
+#' of data (one panel) can be plotted at the same time (see Examples how easily 
+#' plot multipanel objects). Moreover the object must contain fluorescence 
+#' intensities or exact number of molecules or
 #' the positive hits derived from the Cq values for each well. The Cq values
 #' can be obtained by custom made functions (see example in
 #' \code{\link{dpcr_density}})) or the yet to implement "qpcr_analyser function
@@ -104,10 +106,13 @@ plot_panel <- function(input, col = "red", legend = TRUE,
   nx_a <- length(slot(input, "col_names"))
   ny_a <- length(slot(input, "row_names"))
   
+  #in case of tnp, we analyze all experiments (all columns)
+  #in the all other case, we analyze only a single value of n
+  len_n <- ifelse(slot(input, "type") == "tnp", length(slot(input, "n")), slot(input, "n"))
   
-  if (slot(input, "n") != nx_a * ny_a)
+  if (len_n != nx_a * ny_a)
     stop (paste0("Can not process with plot since the input 
-                 length (", slot(input, "n"),
+                 length (", len_n,
                  ") differs from the size of nx_a * ny_a (", nx_a * ny_a, ")."))
   
   if (slot(input, "type") == "np")
