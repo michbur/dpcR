@@ -11,6 +11,7 @@
 #' experiment.
 #' @slot exper \code{"factor"} representing the id or name of experiments.
 #' @slot replicate \code{"factor"} representing the id or name of replicate.
+#' @slot assay \code{"factor"} representing the id or name of the assay.
 #' @slot type Object of class \code{"character"} defining type of data. See Details.
 #' @details
 #' Possible \code{type} values of \code{dpcr} objects:
@@ -31,10 +32,11 @@ setClass("dpcr", contains = "matrix", representation(.Data = "matrix",
                                                      n = "integer",
                                                      exper = "factor",
                                                      replicate = "factor",
+                                                     assay = "factor",
                                                      type = "character"))
 
 construct_dpcr <- function(data, n, exper = "Experiment1", 
-                           replicate = NULL, type) {
+                           replicate = NULL, assay = "Unknown", type) {
   
   # data
   if (is.vector(data))
@@ -62,24 +64,38 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
   # exper
   if(length(exper) != ncol(data)) {
     if(length(exper) == 1) {
-      exper <- as.factor(rep(exper, ncol(data)))
+      exper <- rep(exper, ncol(data))
     } else {
       stop("Each run must be assigned to an experiment.")
     }
   } 
-  
   if(class(exper) != "factor")
     exper <- as.factor(exper)
   
+  
   # replicate
   if(is.null(replicate)) {
-    replicate <- factor(1L:ncol(data))
+    replicate <- 1L:ncol(data)
   }
   if(length(replicate) != ncol(data)) {
     stop("Each run have replicate id.")
   } 
   if(class(replicate) != "factor")
     replicate <- as.factor(replicate)
+  
+  
+  # assay
+  if(length(assay) != ncol(data)) {
+    if(length(assay) == 1) {
+      assay <- rep(assay, ncol(data))
+    } else {
+      stop("Each run must be assigned to an assay.")
+    }
+  } 
+  
+  if(class(assay) != "factor")
+    assay <- as.factor(assay)
+  
   
   # type
   if (!(type %in% c("ct", "fluo", "nm", "np", "tnp"))) 
@@ -146,15 +162,21 @@ setClass("adpcr", contains = "dpcr", representation(breaks = "numeric",
 
 #constructor
 create_adpcr <- function(data, n, exper = "Experiment1", 
-                         replicate = NULL, type, breaks, col_names = NULL, row_names = NULL) {
+                         replicate = NULL, assay = "Unknown", type, breaks, 
+                         col_names = NULL, row_names = NULL) {
   result <- construct_dpcr(data = data, n = n, exper = exper, 
-                               replicate = replicate, type = type)
+                               replicate = replicate, assay = assay, type = type)
   
   if (type == "ct")
     stop("'ct' type is not implemented for 'adpcr' objects.")
   
-  if (is.null(breaks))
+  if (is.null(breaks)) {
     breaks <- 0L:max(data, na.rm = TRUE)
+    #if data range is too big, add smaller breaks
+    if(length(breaks) > 5) {
+      breaks <- hist(data, 5, plot = FALSE)[["breaks"]]
+    }
+  }  
   
   if(is.null(col_names) & is.null(row_names)) {
     #access .Data slot, because its already in the matrix form
@@ -228,10 +250,10 @@ setClass("ddpcr", contains = "dpcr", representation(threshold = "numeric"))
 
 #constructor
 create_ddpcr <- function(data, n, exper = "Experiment1", 
-                         replicate = NULL, type, threshold) {
+                         replicate = NULL, assay = "Unknown", type, threshold) {
   
   result <- construct_dpcr(data = data, n = n, exper = exper, 
-                               replicate = replicate, type = type)
+                               replicate = replicate, assay = assay, type = type)
   
   class(result) <- "ddpcr"
   if(is.null(threshold))

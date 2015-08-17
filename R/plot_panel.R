@@ -121,10 +121,12 @@ plot_panel <- function(input, col = "red", legend = TRUE,
   # Use breaks points to split input 
   if(use_breaks) {
     cutted_input <- cut(slot(input, ".Data"), breaks = slot(input, "breaks"), 
-                        include.lowest = TRUE, right = FALSE)
+                        include.lowest = TRUE, right = FALSE, dig.lab = 5)
   } else {
     cutted_input <- factor(slot(input, ".Data"))
   }
+  
+  
   
   half <- tolower(half)
   #half value for normal plot data
@@ -135,18 +137,28 @@ plot_panel <- function(input, col = "red", legend = TRUE,
   #half value for ggplot data
   half_val_ggplot <- switch(half,
                             none =  0,
-                            left = -0.5,
-                            right = 0.5)
+                            left = -0.25,
+                            right = 0.25)
   
   ggplot_coords <- data.frame(t(do.call(cbind, lapply(1L:nx_a, function(x) 
     sapply(ny_a:1L, function(y) 
-      c(x = x + half_val_ggplot, y = y))))))
+      c(x = x + half_val_ggplot, y = y))))), value = cutted_input)
   
   
   coords <- unlist(lapply(1L:nx_a, function(x) 
     lapply(ny_a:1L, function(y) 
       c(xleft = x - half_val[1], ybottom = y - 0.25, xright = x + half_val[2], 
         ytop = y + 0.25))), recursive = FALSE)
+  
+  
+  #two or more experiments in one well
+  if(length(slot(input, "col_names")) > length(unique(slot(input, "col_names")))) {
+    ids <- ggplot_coords[, "x"] %in% 1L:length(unique(slot(input, "col_names")))
+    ggplot_coords[ids, "x"] <- ggplot_coords[ids, "x"] - 0.25
+    ggplot_coords[!ids, "x"] <- ggplot_coords[!ids, "x"] + 0.25
+    #do here something about coords
+  }
+  
   
   if(plot) {
     cols <- cutted_input

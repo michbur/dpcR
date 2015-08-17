@@ -31,6 +31,8 @@ experiment.}
 
 \item{\code{replicate}}{\code{"factor"} representing the id or name of replicate.}
 
+\item{\code{assay}}{\code{"factor"} representing the id or name of the assay.}
+
 \item{\code{type}}{Object of class \code{"character"} defining type of data. See Details.}
 }}
 \note{

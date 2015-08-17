@@ -4,9 +4,9 @@
 \alias{create_dpcr}
 \title{Create dpcR object}
 \usage{
-create_dpcr(data, n, exper = "Experiment 1", replicate = NULL, type,
-  threshold = NULL, breaks = NULL, adpcr, col_names = NULL,
-  row_names = NULL)
+create_dpcr(data, n, exper = "Experiment 1", replicate = NULL,
+  assay = "Unknown", type, threshold = NULL, breaks = NULL, adpcr,
+  col_names = NULL, row_names = NULL)
 }
 \arguments{
 \item{data}{a \code{"numeric"} vector or matrix of data from dPCR
@@ -17,6 +17,8 @@ experiments. Data frames will be converted to matrices.}
 \item{exper}{The id of experiments.}
 
 \item{replicate}{The id of technical replicates.}
+
+\item{assay}{The name or id of assays.}
 
 \item{type}{Object of class \code{"character"} defining type of data. Could
 be \code{"nm"} (number of molecules per partition), \code{"tnp"} (total
