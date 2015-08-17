@@ -46,7 +46,7 @@ extract_dpcr <- function(input, id) {
   if(!is.numeric(id))
     id <- which(colnames(input) == id) 
   
-  selected <- input[, id]
+  selected <- input[, id, drop = FALSE]
   
   #because when id is single negative value, usually the
   #result has more than one column
@@ -54,6 +54,7 @@ extract_dpcr <- function(input, id) {
     selected <- matrix(selected, ncol = 1)
     colnames(selected) <- colnames(input)[id]
   }
+  
   result <- input
   slot(result, ".Data") <- selected
   slot(result, "n") <- slot(input, "n")[id]
@@ -61,10 +62,10 @@ extract_dpcr <- function(input, id) {
   slot(result, "replicate") <- slot(input, "replicate")[id]
   slot(result, "assay") <- slot(input, "assay")[id]
   
-#   if(class(input) == "adpcr") {
-#     slot(result, "row_names") <- slot(input, "row_names")[id]
-#     slot(result, "col_names") <- slot(input, "col_names")[id]
-#   }
+  #in case of tnp type extract also columns names
+  if(class(input) == "adpcr" && slot(input, "type") == "tnp") {
+    slot(result, "col_names") <- slot(input, "col_names")[id]
+  }
 
   result
 }

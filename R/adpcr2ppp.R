@@ -35,7 +35,7 @@
 #' class(third_plate2)
 #' 
 #' # It's a list with the length 1. The third plate is a first element on this 
-#' list
+#' #list
 #' class(third_plate2[[1]])
 #' 
 #' 
@@ -45,21 +45,30 @@ adpcr2ppp <- function(input, marks = TRUE, plot = FALSE) {
     stop("Input must have 'adpcr' class", call. = TRUE, domain = NA)
   
   array_data <- slot(input, ".Data")
-  nrow_array <- nrow(array_data)
   
   nx_a <- length(slot(input, "col_names"))
   ny_a <- length(slot(input, "row_names"))
   
-  if (nrow_array != nx_a * ny_a)
-    stop (paste0("Can not process with conversion since the input 
-                 length (", length(input) ,
-                 ") differs from the size of nx_a * ny_a (", nx_a * ny_a, ").
-                 \n Change nx_a * ny_a to have the same number of elements."))  
+  nx_a <- length(slot(input, "col_names"))
+  ny_a <- length(slot(input, "row_names"))
+  
+  #in case of tnp, we analyze all experiments (all columns)
+  #in the all other case, we analyze only a single value of n
+  #assumption - number of experiments in each assay is the same
+  len_n <- ifelse(slot(input, "type") == "tnp", table(slot(input, "assay"))[1], slot(input, "n"))
+  
+  if (len_n != nx_a * ny_a)
+    stop (paste0("Can not process with plot since the input 
+                 length (", len_n,
+                 ") differs from the size of nx_a * ny_a (", nx_a * ny_a, ")."))
   
   #apply in case input contains more than 1 array
   #here list of?
   if(slot(input, "type") == "tnp") {
-    create_ppp(as.vector(array_data), nx_a, ny_a, plot, marks)
+    lapply(levels(slot(input, "assay")), function(single_level)
+      create_ppp(as.vector(extract_dpcr(input, which(slot(input, "assay") == single_level))),
+                 nx_a, ny_a, plot, marks))
+    
   } else {
     apply(array_data, 2, function(array_col) 
       create_ppp(array_col, nx_a, ny_a, plot, marks))

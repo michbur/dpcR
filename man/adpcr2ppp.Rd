@@ -45,7 +45,7 @@ third_plate2 <- adpcr2ppp(extract_dpcr(many_panels, 3))
 class(third_plate2)
 
 # It's a list with the length 1. The third plate is a first element on this
-list
+#list
 class(third_plate2[[1]])
 }
 \author{
