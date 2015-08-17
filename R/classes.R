@@ -83,7 +83,7 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
   if(class(replicate) != "factor")
     replicate <- as.factor(replicate)
   
-  
+
   # assay
   if(length(assay) != ncol(data)) {
     if(length(assay) == 1) {
@@ -104,7 +104,7 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
   colnames(data) <- paste0(exper, ".", replicate)
   
   result <- new("dpcr", .Data = data, exper = exper, 
-                replicate = replicate, type = type)
+                replicate = replicate, assay = assay, type = type)
   #since n cannot be defined in new(), because of some strange error
   slot(result, "n") <- n
   result

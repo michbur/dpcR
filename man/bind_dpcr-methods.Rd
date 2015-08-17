@@ -31,8 +31,8 @@ A convinient wrapper around \code{\link[base]{cbind}} and
 containing results from digital PCR experiments.
 }
 \details{
-In case of \code{adpcr} or \code{ddpcr} objects, \code{bind_dpcr} can works
-analogously to \code{\link[base]{cbind}}), but without recycling. In case on
+In case of \code{adpcr} or \code{ddpcr} objects, \code{bind_dpcr} works
+analogously to \code{\link[base]{cbind}}, but without recycling. In case on
 unequal length, shorter objects will be filled in with additional \code{NA}
 values. The original length is always preserved in \code{n} slot.
 

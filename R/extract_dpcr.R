@@ -59,5 +59,12 @@ extract_dpcr <- function(input, id) {
   slot(result, "n") <- slot(input, "n")[id]
   slot(result, "exper") <- slot(input, "exper")[id]
   slot(result, "replicate") <- slot(input, "replicate")[id]
+  slot(result, "assay") <- slot(input, "assay")[id]
+  
+#   if(class(input) == "adpcr") {
+#     slot(result, "row_names") <- slot(input, "row_names")[id]
+#     slot(result, "col_names") <- slot(input, "col_names")[id]
+#   }
+
   result
 }

@@ -4,8 +4,8 @@
 #' \code{\link[base]{rbind}} tailored specially for binding multiple objects
 #' containing results from digital PCR experiments.
 #' 
-#' In case of \code{adpcr} or \code{ddpcr} objects, \code{bind_dpcr} can works
-#' analogously to \code{\link[base]{cbind}}), but without recycling. In case on
+#' In case of \code{adpcr} or \code{ddpcr} objects, \code{bind_dpcr} works
+#' analogously to \code{\link[base]{cbind}}, but without recycling. In case on
 #' unequal length, shorter objects will be filled in with additional \code{NA}
 #' values. The original length is always preserved in \code{n} slot.
 #' 
@@ -74,8 +74,24 @@ setMethod("bind_dpcr",
             
             res <- cbind_dpcr(all_args)
             
+            lapply(all_args, function(single_arg) 
+              slot(single_arg, "col_names"))
+            
+            
             class(res) <- "adpcr"
+            
+            longer_colnames <- which.max(lapply(all_args, function(single_arg) 
+              length(slot(single_arg, "col_names"))))
+            col_names <- slot(all_args[[longer_colnames]], "col_names")
+            
+            longer_rownames <- which.max(lapply(all_args, function(single_arg) 
+              length(slot(single_arg, "row_names"))))
+            row_names <- slot(all_args[[longer_rownames]], "row_names")
+            
+            
             slot(res, "breaks") <- breaks
+            slot(res, "col_names") <- col_names
+            slot(res, "row_names") <- row_names
             res
             
           })
@@ -131,6 +147,9 @@ cbind_dpcr <- function(all_args) {
   all_replicates <- unlist(lapply(all_args, function(single_arg) 
     slot(single_arg, "replicate")))
   
+  all_assays <- unlist(lapply(all_args, function(single_arg) 
+    slot(single_arg, "assay")))
+  
   #check partitions and add NA values if needed
   all_partitions <- unlist(lapply(all_args, function(single_arg) 
     slot(single_arg, "n")))
@@ -160,6 +179,7 @@ cbind_dpcr <- function(all_args) {
   
   construct_dpcr(data = binded_data, n = all_partitions, 
                  exper = all_expers, 
-                 replicate = all_replicates, 
+                 replicate = all_replicates,
+                 assay = all_assays,
                  type = type)
 }
