@@ -82,7 +82,7 @@ setMethod("summary", signature(object = "dpcr"), function(object, print = TRUE) 
   
   if(class(object) == "adpcr")
     if (type %in% c("fluo", "ct")) 
-      stop(paste0("Summary not currently implemented for data type ", type, "."))
+      stop(paste0("'summary' is currently not implemented for data type ", type, "."))
   
   if(class(object) == "ddpcr")
     if (type %in% c("fluo")) 

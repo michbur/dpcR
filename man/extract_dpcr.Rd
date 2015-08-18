@@ -10,7 +10,7 @@ extract_dpcr(input, id)
 \item{input}{object of the class \code{\linkS4class{adpcr}} or
 \code{\linkS4class{ddpcr}}.}
 
-\item{id}{vector of indices or names of experiments or panels.}
+\item{id}{vector of indices or names of runs.}
 }
 \value{
 The object of the input's class (\code{\linkS4class{adpcr}} or

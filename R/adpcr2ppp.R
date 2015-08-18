@@ -1,9 +1,10 @@
 #' Convert adpcr to ppp
 #' 
-#' Quick conversion of \code{\linkS4class{adpcr}} object to the list of
-#' \code{\link[spatstat]{ppp.object}}s.
+#' Converts \code{\linkS4class{adpcr}} object to the list of
+#' \code{\link[spatstat]{ppp.object}}s allowing spatial analysis.
 #' 
-#' Each plate is independently converted by \code{\link[spatstat]{ppp}}
+#' @details 
+#' Each array is independently converted by \code{\link[spatstat]{ppp}}
 #' function. \code{marks} attached to each point represent values contained by
 #' the \code{\linkS4class{adpcr}} object.
 #' 
@@ -13,7 +14,7 @@
 #' @param plot If \code{TRUE}, array is plotted.
 #' @return A list containing objects with class
 #' \code{\link[spatstat]{ppp.object}} with the length equal to the number of
-#' plates (minimum 1).
+#' arrays (minimum 1).
 #' @author Michal Burdukiewcz, Stefan Roediger.
 #' @seealso \code{\link[spatstat]{ppp.object}}, \code{\link[spatstat]{ppp}}.
 #' @keywords manip panel
@@ -22,10 +23,10 @@
 #' many_panels <- sim_adpcr(m = 400, n = 765, times = 1000, pos_sums = FALSE, 
 #'                    n_panels = 5)
 #' 
-#' # Convert all plates to ppp objects
+#' # Convert all arrays to ppp objects
 #' adpcr2ppp(many_panels)
 #' 
-#' # Convert all plates to ppp objects and get third plate
+#' # Convert all arrays to ppp objects and get third plate
 #' third_plate <- adpcr2ppp(many_panels)[[3]]
 #' 
 #' # Convert only third plate to ppp object

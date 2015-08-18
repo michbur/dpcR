@@ -8,28 +8,28 @@
 \description{
 The dpcR package is a collection of functions for a digital Polymerase Chain
 Reaction (dPCR) analysis. dPCR comprises methods to quantify nucleic acids,
-copy number variations (CNV), homo-/heterozygosity, and rare mutations
+copy number variations (CNV), homo- and heterozygosity, as well as rare mutations
 (including single nucleotide polymorphisms (SNP)). The chemical basis of
 dPCR is similar to conventional PCR but the reaction-mix is divided into
 hundredths to thousands of small compartments with parallel amplifications
 reactions. The analysis is based on counting the number of positive
-compartments and to relate it to the total number of compartments be means
+compartments and relating it to the total number of compartments by means
 of Poission statistics which enables an absolute quantification.
 }
 \details{
 The package includes plot functions, summary functions, data sets and simulations
-for dPCR and customizable GUI creators for droplet digital PCRs and
-chamber-based digital PCRs. The authors of the package aim to include all
+for dPCR and customizable GUI for droplet digital PCRs and
+array-based digital PCRs. We aim to include all
 statistical approaches published in peer-review literature and additional
-selected sources of expertise currently available and to make them available
-to the scientific community in an open and cross-platform environment. As
-such the dpcR packages has a list of expressions/functions and may serve in
-future a reference to a unified nomenclature in dpcR. The package is
-primarily targeted at researchers who which to use it with an existing
+selected sources of expertise currently available. We intent to make these methods
+available to the scientific community in an open and cross-platform environment. Using
+the naming convention derived from the MIQUE Guidelines for digital PCR, we hope to
+become a reference to a unified nomenclature in dpcR.
+
+The package is primarily targeted at researchers who wish to use it with an existing
 technology or during the development of novel digital PCR systems. In
-addition the dpcR package provides interactive tools that can be used in
-classes or by individuals to better learn about digital PCR concepts and
-data interpretation.
+addition the dpcR package provides interactive tools that can be used to
+better learn about digital PCR concepts and data interpretation.
 }
 \examples{
 adpcr <- sim_adpcr(m = 400, n = 765, times = 20, pos_sums = FALSE, n_panels = 1)

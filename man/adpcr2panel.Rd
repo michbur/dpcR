@@ -10,29 +10,39 @@ adpcr2panel(input, use_breaks = FALSE)
 \item{input}{object of the \code{\linkS4class{adpcr}} class.}
 
 \item{use_breaks}{if \code{TRUE}, input is cutted into intervals using the
-\code{breaks} slot. If \code{FALSE}, input is converted to factor using
-\code{\link[base]{as.factor}}. Ignored if data has \code{"np"} type (see
-possible types of \code{\linkS4class{adpcr}} objects).}
+\code{breaks} slot. If \code{FALSE}, the \code{integer} class of the input is
+preserved. Ignored if data has \code{"np"} type (see possible types of
+\code{\linkS4class{adpcr}} objects).}
 }
 \value{
 A named list of length equal to the number of arrays in the \code{input}.
 Each element is a single array in matrix-like form, where dimensions are set
 exactly as in case of the real plate. Names of the list corresponds to the names
-of assays (\code{tnp} data) or runs (any other type of \code{\linkS4class{adpcr}}
+of assays (\code{"tnp"} data) or runs (any other type of \code{\linkS4class{adpcr}}
 data).
 
 The matrices contain values from array, either integers (when \code{use_break} is
 \code{FALSE}) or characters (when \code{use_break} is \code{TRUE}).
 }
 \description{
-\code{\linkS4class{adpcr}} objects contains all data from array-based digital
-PCR experiments. This function converts them into matrices, where rows and
-columns represent rows and columns in a real array.
+Converts \code{\linkS4class{adpcr}} object into the list of array-like matrices.
+}
+\examples{
+#generate data
+ttest <- sim_adpcr(m = 400, n = 765, times = 20, pos_sums = FALSE,
+                   n_panels = 3)
+#convert object into three arrays
+arrays <- adpcr2panel(ttest)
+length(arrays)
+#see the first array
+arrays[[1]]
+
+#convert the object using breaks
+arrays <- adpcr2panel(ttest, use_breaks = TRUE)
+arrays[[1]]
 }
 \author{
 Michal Burdukiewicz.
 }
-\seealso{
-\code{\link{extract_dpcr}}.
-}
+\keyword{manip}
 

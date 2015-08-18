@@ -35,8 +35,8 @@ customize) version of the plot is created.}
 Objects of this class are created by \code{\link{test_counts}}.
 }
 \details{
-In case of aggregated plot, mean confidence intervals for groups are presented
-as dashed lines.
+In case of the aggregated plot, mean confidence intervals for groups are
+presented as dashed lines.
 }
 \section{Methods (by generic)}{
 \itemize{
@@ -46,7 +46,8 @@ as dashed lines.
 
 \item \code{show}: Print both \code{group_coef} and \code{test_res}.
 
-\item \code{plot}: plots mean number of molecules per partition and its confidence intervals.
+\item \code{plot}: plots mean number of molecules per partition and its
+confidence intervals.
 }}
 \section{Slots}{
 

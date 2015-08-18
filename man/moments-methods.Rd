@@ -32,9 +32,8 @@ directly from a distribution of the data. Theoretical moments from a Poisson
 distribution with \eqn{\lambda}{lambda} parameter taken from the data.
 }
 \description{
-The function allows user to quickly calculate moments of a Poisson
-distributions. The calculations are based on values of positive and total
-partitions or the theoretical lambda value.
+Computes moments of a Poisson distribution. The calculations are based on
+values of positive and total partitions or the theoretical lambda value.
 }
 \note{
 Four first moments of a Poisson distribution.

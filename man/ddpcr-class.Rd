@@ -23,7 +23,7 @@ Possible \code{type} values of \code{adpcr} objects:
 \section{Slots}{
 
 \describe{
-\item{\code{threshold}}{\code{"numeric"} value giving the threshold. Partition with the value equal or
+\item{\code{threshold}}{\code{numeric} value giving the threshold. Partition with the value equal or
 bigger than threshold are considered positive.}
 }}
 \examples{

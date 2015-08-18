@@ -32,8 +32,6 @@ positive.}
 \item{\code{col_names}}{\code{"character"} vector naming the columns in the array.}
 
 \item{\code{row_names}}{\code{"character"} vector naming the rows in the array.}
-
-\item{\code{type}}{Object of class \code{"character"} defining type of data. See Details.}
 }}
 \examples{
 rand_array <- sim_adpcr(400, 1600, 100, pos_sums = FALSE, n_panels = 5)
@@ -44,8 +42,10 @@ plot_panel(one_rand_array, 40, 40)
 Michal Burdukiewicz.
 }
 \seealso{
-Ploting and management: \code{\link{bind_dpcr}},
-\code{\link{extract_dpcr}}, \code{\link{plot_panel}}.
+Data management: \code{\link{adpcr2panel}}, \code{\link{bind_dpcr}},
+\code{\link{extract_dpcr}}.
+
+Plotting: \code{\link{plot_panel}}.
 
 Tests: \code{\link{test_panel}}.
 

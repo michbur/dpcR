@@ -9,7 +9,7 @@ read_raw(file, adpcr)
 \arguments{
 \item{file}{name of the input file.}
 
-\item{adpcr}{logical. If \code{TRUE}, function creates
+\item{adpcr}{\code{logical}. If \code{TRUE}, function creates
 \code{\linkS4class{adpcr}} object. If \code{FALSE}, function creates
 \code{\linkS4class{ddpcr}} object.}
 }

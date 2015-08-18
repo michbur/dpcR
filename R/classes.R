@@ -6,12 +6,12 @@
 #' @name dpcr-class
 #' @aliases dpcr-class dpcr
 #' @docType class
-#' @slot .Data \code{"matrix"} containing data from array. See Description.
-#' @slot n \code{"integer"} equal to the number of partitions in each
+#' @slot .Data \code{matrix} containing data from array. See Description.
+#' @slot n \code{integer} equal to the number of partitions in each
 #' experiment.
-#' @slot exper \code{"factor"} representing the id or name of experiments.
-#' @slot replicate \code{"factor"} representing the id or name of replicate.
-#' @slot assay \code{"factor"} representing the id or name of the assay.
+#' @slot exper \code{factor} representing the id or name of experiments.
+#' @slot replicate \code{factor} representing the id or name of replicate.
+#' @slot assay \code{factor} representing the id or name of the assay.
 #' @slot type Object of class \code{"character"} defining type of data. See Details.
 #' @details
 #' Possible \code{type} values of \code{dpcr} objects:
@@ -127,7 +127,6 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
 #' positive.
 #' @slot col_names \code{"character"} vector naming the columns in the array.
 #' @slot row_names \code{"character"} vector naming the rows in the array.
-#' @slot type Object of class \code{"character"} defining type of data. See Details.
 #' @details
 #' Possible \code{type} values of \code{adpcr} objects:
 #' \enumerate{
@@ -138,8 +137,10 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
 #'  \item{\code{"tnp"}: total number of positive wells in the panel (single value per each 
 #'  panel, not per well).}}
 #' @author Michal Burdukiewicz.
-#' @seealso Ploting and management: \code{\link{bind_dpcr}},
-#' \code{\link{extract_dpcr}}, \code{\link{plot_panel}}.
+#' @seealso Data management: \code{\link{adpcr2panel}}, \code{\link{bind_dpcr}},
+#' \code{\link{extract_dpcr}}.
+#' 
+#' Plotting: \code{\link{plot_panel}}.
 #' 
 #' Tests: \code{\link{test_panel}}.
 #' 
@@ -221,7 +222,7 @@ create_adpcr <- function(data, n, exper = "Experiment1",
 #' @name ddpcr-class
 #' @aliases ddpcr-class ddpcr
 #' @docType class
-#' @slot threshold \code{"numeric"} value giving the threshold. Partition with the value equal or 
+#' @slot threshold \code{numeric} value giving the threshold. Partition with the value equal or 
 #' bigger than threshold are considered positive.
 #' @details
 #' Possible \code{type} values of \code{adpcr} objects:

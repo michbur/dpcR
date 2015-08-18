@@ -9,10 +9,10 @@ create_dpcr(data, n, exper = "Experiment 1", replicate = NULL,
   col_names = NULL, row_names = NULL)
 }
 \arguments{
-\item{data}{a \code{"numeric"} vector or matrix of data from dPCR
+\item{data}{a \code{numeric} vector or matrix of data from dPCR
 experiments. Data frames will be converted to matrices.}
 
-\item{n}{\code{"integer"} equal to number of partitions.}
+\item{n}{\code{integer} equal to number of partitions.}
 
 \item{exper}{The id of experiments.}
 
@@ -26,37 +26,40 @@ number of positive wells in the panel), \code{"fluo"} (fluorescence), \code{"np"
 (status (positive (1) or negative(0)) of each droplet) or\code{"ct"}
 (threshold cycle).}
 
-\item{threshold}{\code{"numeric"} value giving the threshold above which
+\item{threshold}{\code{numeric} value giving the threshold above which
 droplet is counted as positive.  Ignored if \code{adpcr} is \code{TRUE}.}
 
-\item{breaks}{\code{"numeric"} vector giving the number of intervals into
+\item{breaks}{\code{numeric} vector giving the number of intervals into
 which \code{data} should be cut. Ignored if \code{adpcr} is \code{FALSE}.}
 
-\item{adpcr}{logical. If \code{TRUE}, function creates
+\item{adpcr}{\code{logical}. If \code{TRUE}, function creates
 \code{\linkS4class{adpcr}} object. If \code{FALSE}, function creates
 \code{\linkS4class{ddpcr}} object.}
 
-\item{col_names}{\code{"character"} vector of column names in array. Ignored if not
+\item{col_names}{\code{character} vector of column names in array. Ignored if not
 \code{adcpr}.}
 
-\item{row_names}{\code{"character"} vector of row names in array. Ignored if not
+\item{row_names}{\code{character} vector of row names in array. Ignored if not
 \code{adcpr}.}
 }
 \value{
 An \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} object.
 }
 \description{
-Quick creation of \code{\linkS4class{adpcr}} and \code{\linkS4class{ddpcr}}
-objects.
+Creates \code{\linkS4class{adpcr}} and \code{\linkS4class{ddpcr}}
+objects from data.
 }
 \details{
-This function assists in creation of objects used by other functions of the
-package. Its inbuilt capabilities include checking the correctness of
+This constructor function assists in creation of objects used by other
+functions of the package. It is also responsible for checking the correctness of
 arguments.
 
 A warning is prompted whenever any of arguments is converted to other type.
 }
 \note{
+\code{create_dpcr} is a preferred to calling directly
+\code{\link[methods]{new}}.
+
 Currently only end-point measurements are supported.
 }
 \examples{

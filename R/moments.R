@@ -1,8 +1,7 @@
 #' Calculate Moments of Poisson Distribution
 #' 
-#' The function allows user to quickly calculate moments of a Poisson
-#' distributions. The calculations are based on values of positive and total
-#' partitions or the theoretical lambda value.
+#' Computes moments of a Poisson distribution. The calculations are based on 
+#' values of positive and total partitions or the theoretical lambda value.
 #' 
 #' 
 #' @name moments-methods

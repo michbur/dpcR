@@ -1,10 +1,9 @@
 #' Calculate Density of Digital PCR
 #' 
-#' A function, which calculates and plots the density of the number of positive
+#' @details 
+#' Calculates and plots the density of the number of positive
 #' molecules or the average number of molecules per partition. Can be used for
 #' both array digital PCR and droplet digital PCR.
-#' 
-#' Confidence interval is calculated by \link[binom]{binom.confint}.
 #' 
 #' @param k Total number of positive molecules.
 #' @param n Total number of partitions.
@@ -23,10 +22,10 @@
 #' @param ... Additional arguments send to \code{plot} function.
 #' @return A data frame with one row containing bounds of the confidence
 #' intervals and a name of the method used to calculate them.
-#' @note The browser-based graphical user interface for this function is
-#' accessible as \link{dpcr_density_gui}.
 #' @author Michal Burdukiewicz, Stefan Roediger.
-#' @seealso \link[binom]{binom.confint}, \link{dpcr_density_gui}.
+#' @seealso Computation of confidence intervals: \link[binom]{binom.confint}, 
+#' 
+#' The browser-based graphical user interface for this function: \link{dpcr_density_gui}.
 #' @references Brown, Lawrence D., T. Tony Cai, and Anirban DasGupta.
 #' \emph{Confidence Intervals for a Binomial Proportion and Asymptotic
 #' Expansions.} The Annals of Statistics 30, no. 1 (February 2002): 160--201.

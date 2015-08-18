@@ -11,9 +11,9 @@ plot_panel(input, use_breaks = TRUE, col = "red", legend = TRUE,
 \item{input}{object of the \code{\linkS4class{adpcr}} class.}
 
 \item{use_breaks}{if \code{TRUE}, input is cutted into intervals using the
-\code{breaks} slot. If \code{FALSE}, input is converted to factor using
-\code{\link[base]{as.factor}}. Ignored if data has \code{"np"} type (see
-possible types of \code{\linkS4class{adpcr}} objects).}
+\code{breaks} slot. If \code{FALSE}, the \code{integer} class of the input is
+preserved. Ignored if data has \code{"np"} type (see possible types of
+\code{\linkS4class{adpcr}} objects).}
 
 \item{col}{A single color or vector of colors for each level of input.}
 

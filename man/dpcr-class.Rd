@@ -22,16 +22,16 @@ Possible \code{type} values of \code{dpcr} objects:
 \section{Slots}{
 
 \describe{
-\item{\code{.Data}}{\code{"matrix"} containing data from array. See Description.}
+\item{\code{.Data}}{\code{matrix} containing data from array. See Description.}
 
-\item{\code{n}}{\code{"integer"} equal to the number of partitions in each
+\item{\code{n}}{\code{integer} equal to the number of partitions in each
 experiment.}
 
-\item{\code{exper}}{\code{"factor"} representing the id or name of experiments.}
+\item{\code{exper}}{\code{factor} representing the id or name of experiments.}
 
-\item{\code{replicate}}{\code{"factor"} representing the id or name of replicate.}
+\item{\code{replicate}}{\code{factor} representing the id or name of replicate.}
 
-\item{\code{assay}}{\code{"factor"} representing the id or name of the assay.}
+\item{\code{assay}}{\code{factor} representing the id or name of the assay.}
 
 \item{\code{type}}{Object of class \code{"character"} defining type of data. See Details.}
 }}

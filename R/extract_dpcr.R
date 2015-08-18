@@ -15,7 +15,7 @@
 #' 
 #' @param input object of the class \code{\linkS4class{adpcr}} or
 #' \code{\linkS4class{ddpcr}}.
-#' @param id vector of indices or names of experiments or panels.
+#' @param id vector of indices or names of runs.
 #' @return The object of the input's class (\code{\linkS4class{adpcr}} or
 #' \code{\linkS4class{ddpcr}}).
 #' @note The standard \code{\link[base]{Extract}} operator \code{x[i]} treats

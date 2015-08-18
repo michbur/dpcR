@@ -36,16 +36,12 @@ A data frame with one row containing bounds of the confidence
 intervals and a name of the method used to calculate them.
 }
 \description{
-A function, which calculates and plots the density of the number of positive
-molecules or the average number of molecules per partition. Can be used for
-both array digital PCR and droplet digital PCR.
+Calculate Density of Digital PCR
 }
 \details{
-Confidence interval is calculated by \link[binom]{binom.confint}.
-}
-\note{
-The browser-based graphical user interface for this function is
-accessible as \link{dpcr_density_gui}.
+Calculates and plots the density of the number of positive
+molecules or the average number of molecules per partition. Can be used for
+both array digital PCR and droplet digital PCR.
 }
 \examples{
 # Calculate the average number of molecules per partition and show the area
@@ -126,7 +122,9 @@ Brown, Lawrence D., T. Tony Cai, and Anirban DasGupta.
 Expansions.} The Annals of Statistics 30, no. 1 (February 2002): 160--201.
 }
 \seealso{
-\link[binom]{binom.confint}, \link{dpcr_density_gui}.
+Computation of confidence intervals: \link[binom]{binom.confint},
+
+The browser-based graphical user interface for this function: \link{dpcr_density_gui}.
 }
 \keyword{dplot}
 \keyword{hplot}
