@@ -18,6 +18,7 @@
 #' @author Michal Burdukiewcz, Stefan Roediger.
 #' @seealso \code{\link[spatstat]{ppp.object}}, \code{\link[spatstat]{ppp}}.
 #' @keywords manip panel
+#' @export adpcr2ppp
 #' @examples
 #' 
 #' many_panels <- sim_adpcr(m = 400, n = 765, times = 1000, pos_sums = FALSE, 
@@ -40,7 +41,6 @@
 #' class(third_plate2[[1]])
 #' 
 #' 
-#' @export adpcr2ppp
 adpcr2ppp <- function(input, marks = TRUE, plot = FALSE) {
   arrays <- adpcr2panel(input)
   
@@ -48,9 +48,6 @@ adpcr2ppp <- function(input, marks = TRUE, plot = FALSE) {
     create_ppp(data_vector = single_array, nx_a = ncol(single_array), ny_a = nrow(single_array),
                marks = marks, plot = plot))
 }
-
-
-
 
 
 create_ppp <- function(data_vector, nx_a, ny_a, plot, marks) {
@@ -61,14 +58,12 @@ create_ppp <- function(data_vector, nx_a, ny_a, plot, marks) {
   data_points[, "row"] <- ny_a - data_points[, "row"] + 1
   
   if (plot)
-    plot(ppp(data_points[, 2], data_points[, 1], 
-             c(1, nx_a), c(1, ny_a)))
+    plot(ppp(data_points[, 2], data_points[, 1], c(1, nx_a), c(1, ny_a)))
   #check if marks are properly assigned
   if (marks) {
-    ppp(data_points[, 2], data_points[, 1], 
-        c(1, nx_a), c(1, ny_a), marks = data_vector[data_vector != 0])
+    ppp(data_points[, 2], data_points[, 1], c(1, nx_a), c(1, ny_a), 
+        marks = data_vector[data_vector != 0])
   } else {
-    ppp(data_points[, 2], data_points[, 1], 
-        c(1, nx_a), c(1, ny_a))
+    ppp(data_points[, 2], data_points[, 1], c(1, nx_a), c(1, ny_a))
   }
 }

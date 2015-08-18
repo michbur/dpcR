@@ -239,36 +239,39 @@ shinyServer(function(input, output) {
            br(),
            includeMarkdown("./plot_panel/plot_panel2.md"),
            htmlOutput("plot_panel_brush"),
-           dataTableOutput("plot_panel_region_summary"))
+           dataTableOutput("plot_panel_region_summary")
+      )
     } else {
       includeMarkdown("./plot_panel/plot_panel0.md")
     }
   })
   
   
-  output[["array_choice"]] <- renderUI({
+  array_dat <- reactive({
     new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
-    array_names <- colnames(new_dat)
-    names(array_names) <- array_names
+    adpcr2panel(new_dat, use_breaks = TRUE)
+  })
+  
+  
+  output[["array_choice"]] <- renderUI({
+    choices <- names(array_dat())
+    names(choices) <- choices
+    
     selectInput("array_choice", label = h4("Select array"), 
-                choices = as.list(array_names))
+                choices = as.list(choices))
   })
   
   
   plot_panel_dat <- reactive({
-    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
-    
-    exp_run <- input[["array_choice"]]
-    
-    source("./plot_panel/adpcr2panel.R", local = TRUE)
-    
+    df <- dpcR:::calc_coordinates(array_dat()[[input[["array_choice"]]]], 
+                                  half = "none")[["ggplot_coords"]]
+    df[["selected"]] <- rep(FALSE, nrow(df))
     df
   })
   
   plot_panel_brush <- reactive({
     #print(input[["plot_panel_brush"]])
-    choose_xy_region(input[["plot_panel_brush"]], 
-                     data = plot_panel_dat()[, c("x", "y")])
+    choose_xy_region(input[["plot_panel_brush"]], data = plot_panel_dat()[, c("col", "row")])
   })
   
   output[["plot_panel"]] <- renderPlot({
@@ -278,7 +281,7 @@ shinyServer(function(input, output) {
       if(any(plot_panel_brush() != df[, "selected"]))
         df[plot_panel_brush(), "selected"] <- TRUE
     }
-    
+
     source("./plot_panel/plot_panel.R", local = TRUE)
     p + ggtitle(df[["exp_run"]][1])
   })
@@ -300,18 +303,20 @@ shinyServer(function(input, output) {
   })
   
   output[["plot_panel_stat"]] <- renderPrint({
-    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+    single_array <- array_dat()[[input[["array_choice"]]]]
     
-    roi <- extract_dpcr(new_dat, input[["array_choice"]])
-    res <- test_panel(roi,
-                      nx = input[["nx"]], ny = input[["ny"]])[[1]]
+    ppp_data <- dpcR:::create_ppp(data_vector = single_array, nx_a = ncol(single_array), 
+                                  ny_a = nrow(single_array), marks = TRUE, plot = FALSE)
     
-    prologue <- list("Experiment name: ", as.character(slot(roi, "exper")), br(), 
-                     "Replicate ID: ", as.character(slot(roi, "replicate")), br(),
+    res <- spatstat::quadrat.test(ppp_data, nx = input[["nx"]], ny = input[["ny"]],
+                                  "two.sided", "Chisq", TRUE, nsim = 1999)
+    
+    prologue <- list("Run name: ", input[["array_choice"]], br(), 
                      "Complete Spatial Randomness test statistic (", HTML("&Chi;"), "): ", 
                      round(res[["statistic"]], app_digits), br(),
                      "Df: ", res[["parameter"]], br(),
-                     "Complete Spatial Randomness test p-value: ", round(res[["p.value"]], app_digits), br(),
+                     "Complete Spatial Randomness test p-value: ", 
+                     round(res[["p.value"]], app_digits), br(),
                      "Method: ", res[["method"]], br(),
                      "Alternative: ", res[["alternative"]], br())
     

@@ -93,38 +93,17 @@ plot_panel <- function(input, use_breaks = TRUE, col = "red", legend = TRUE,
   
   array <- adpcr2panel(input, use_breaks = use_breaks)
   
-  if(length(array) > 1) {
+  if(length(array) > 1) 
     warning("Only the first array will be processed.")
-    array <- array[1]
-  }
-  
-  nx_a <- ncol(array[[1]]) 
-  ny_a <- nrow(array[[1]])
 
-  half <- tolower(half)
-  #half value for normal plot data
-  half_val <- switch(half,
-                     none =  c(0.25, 0.25),
-                     left = c(0.25, 0),
-                     right = c(0, 0.25))
-  #half value for ggplot data
-  half_val_ggplot <- switch(half,
-                            none =  0,
-                            left = -0.25,
-                            right = 0.25)
-
-  ggplot_coords <- data.frame(t(do.call(cbind, lapply(1L:nx_a, function(x) 
-    sapply(ny_a:1L, function(y) 
-      c(x = x + half_val_ggplot, y = y))))), value = as.vector(array[[1]]))
-  
-  
-  coords <- unlist(lapply(1L:nx_a, function(x) 
-    lapply(ny_a:1L, function(y) 
-      c(xleft = x - half_val[1], ybottom = y - 0.25, xright = x + half_val[2], 
-        ytop = y + 0.25))), recursive = FALSE)
+  array <- array[[1]]
+  all_coords <- calc_coordinates(array, half = half)
 
   if(plot) {
-    cutted_input <- factor(array[[1]])
+    nx_a <- ncol(array) 
+    ny_a <- nrow(array)
+    
+    cutted_input <- factor(array)
     cols <- cutted_input
     ncols <- nlevels(cutted_input)
     if (length(col) == 1) {   
@@ -152,11 +131,41 @@ plot_panel <- function(input, use_breaks = TRUE, col = "red", legend = TRUE,
     
     cols <- as.character(cols)
     args <- lapply(1L:length(input), function(i) 
-      c(coords[[i]], list(col = cols[i])))
+      c(all_coords[["coords"]][[i]], list(col = cols[i])))
     
     sapply(1L:length(input), function(i) 
       do.call(rect, args[[i]]))
   }
   
-  invisible(list(coords = coords, ggplot_coords = ggplot_coords))
+  invisible(list(coords = all_coords[["coords"]], ggplot_coords = all_coords[["ggplot_coords"]]))
+}
+
+
+calc_coordinates <- function(array, half) {
+  nx_a <- ncol(array) 
+  ny_a <- nrow(array)
+  
+  half <- tolower(half)
+  #half value for normal plot data
+  half_val <- switch(half,
+                     none =  c(0.25, 0.25),
+                     left = c(0.25, 0),
+                     right = c(0, 0.25))
+  #half value for ggplot data
+  half_val_ggplot <- switch(half,
+                            none =  0,
+                            left = -0.25,
+                            right = 0.25)
+
+  ggplot_coords <- data.frame(t(do.call(cbind, lapply(1L:nx_a, function(x) 
+    sapply(ny_a:1L, function(y) 
+      c(x = x + half_val_ggplot, y = y))))), value = as.vector(array))
+  ggplot_coords[["col"]] <- factor(ggplot_coords[["x"]], levels = colnames(array))
+  ggplot_coords[["row"]] <- factor(ggplot_coords[["y"]], levels = rownames(array))
+  
+  coords <- unlist(lapply(1L:nx_a, function(x) 
+    lapply(ny_a:1L, function(y) 
+      c(xleft = x - half_val[1], ybottom = y - 0.25, xright = x + half_val[2], 
+        ytop = y + 0.25))), recursive = FALSE)
+  list(coords = coords, ggplot_coords = ggplot_coords)
 }
