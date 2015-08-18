@@ -41,46 +41,14 @@
 #' 
 #' @export adpcr2ppp
 adpcr2ppp <- function(input, marks = TRUE, plot = FALSE) {
-  arrays <- extract_arrays(input)
+  arrays <- adpcr2panel(input)
   
-  lapply(arrays[["array_data"]], function(single_array)
-    create_ppp(data_vector = single_array, nx_a = arrays[["nx_a"]], ny_a = arrays[["ny_a"]],
+  lapply(arrays, function(single_array)
+    create_ppp(data_vector = single_array, nx_a = ncol(single_array), ny_a = nrow(single_array),
                marks = marks, plot = plot))
 }
 
-#extract data from array, returns named list of arrays and their dimensions
-extract_arrays <- function(input) {
-  if (class(input) != "adpcr")
-    stop("Input must have 'adpcr' class")
-  
-  array_data <- slot(input, ".Data")
-  
-  nx_a <- length(slot(input, "col_names"))
-  ny_a <- length(slot(input, "row_names"))
-  
-  #in case of tnp, we analyze all experiments (all columns)
-  #in the all other case, we analyze only a single value of n
-  #assumption - number of experiments in each assay is the same
-  len_n <- ifelse(slot(input, "type") == "tnp", table(slot(input, "assay"))[1], slot(input, "n"))
-  
-  if (len_n != nx_a * ny_a)
-    stop(paste0("Input length (", len_n, ") differs from the array size (", 
-                 nx_a * ny_a, ")."))
-  
-  #apply in case input contains more than 1 array
-  #here list of?
-  if(slot(input, "type") == "tnp") {
-    array_data <- lapply(levels(slot(input, "assay")), function(single_level)
-      as.vector(extract_dpcr(input, which(slot(input, "assay") == single_level))))
-    names(array_data) <- levels(slot(input, "assay"))
-  } else {
-    array_data <- lapply(1L:ncol(input), function(single_run)
-      input[, single_run])
-    names(array_data) <- colnames(input)
-  }
-  
-  list(array_data = array_data, nx_a = nx_a, ny_a = ny_a)
-}
+
 
 
 
@@ -90,7 +58,8 @@ create_ppp <- function(data_vector, nx_a, ny_a, plot, marks) {
   data_points <- which(matrix(data_vector, ncol = nx_a, nrow = ny_a) > 0,
                        arr.ind = TRUE)
   data_points[, "row"] <- ny_a - data_points[, "row"] + 1
-  if(plot)
+  
+  if (plot)
     plot(ppp(data_points[, 2], data_points[, 1], 
              c(1, nx_a), c(1, ny_a)))
   #check if marks are properly assigned

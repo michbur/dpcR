@@ -4,11 +4,16 @@
 \alias{plot_panel}
 \title{Plot Panel}
 \usage{
-plot_panel(input, col = "red", legend = TRUE, half = "none",
-  use_breaks = TRUE, plot = TRUE, ...)
+plot_panel(input, use_breaks = TRUE, col = "red", legend = TRUE,
+  half = "none", plot = TRUE, ...)
 }
 \arguments{
-\item{input}{object of the \code{\linkS4class{adpcr}} class. See Details.}
+\item{input}{object of the \code{\linkS4class{adpcr}} class.}
+
+\item{use_breaks}{if \code{TRUE}, input is cutted into intervals using the
+\code{breaks} slot. If \code{FALSE}, input is converted to factor using
+\code{\link[base]{as.factor}}. Ignored if data has \code{"np"} type (see
+possible types of \code{\linkS4class{adpcr}} objects).}
 
 \item{col}{A single color or vector of colors for each level of input.}
 
@@ -16,11 +21,6 @@ plot_panel(input, col = "red", legend = TRUE, half = "none",
 
 \item{half}{If \code{left} or \code{right}, every well is represented only
 by the adequate half of the rectangle.}
-
-\item{use_breaks}{if \code{TRUE}, input is cutted into intervals using
-\code{breaks} slot. If \code{FALSE}, input is converted to factor using
-\code{\link[base]{as.factor}}. Ignored if data has \code{"tp"} type (see
-possible types of \code{\linkS4class{adpcr}} objects).}
 
 \item{plot}{\code{"logical"}, if \code{FALSE}, only plot data is returned
 invisibly.}
@@ -59,25 +59,25 @@ interval of the input, with the brightest colors for the lowest values.
 ttest <- sim_adpcr(m = 400, n = 765, times = 20, pos_sums = FALSE,
                    n_panels = 1)
 # Plot the dPCR experiment results with default settings
-plot_panel(ttest, nx_a = 45, ny_a = 17)
+plot_panel(ttest)
 
 #do it without breaks
-plot_panel(ttest, nx_a = 45, ny_a = 17, use_breaks = FALSE)
+plot_panel(ttest, use_breaks = FALSE)
 
 # Apply a binary color code with blue as positive
 slot(ttest, "breaks") <- c(0, 2, 4)
-plot_panel(ttest, nx_a = 45, ny_a = 17, col = "blue")
+plot_panel(ttest, col = "blue")
 
 # Apply a two color code for number of copies per compartment
-plot_panel(ttest, nx_a = 45, ny_a = 17, col = c("blue", "red"))
+plot_panel(ttest, col = c("blue", "red"))
 
 
 
 # supply customized breaks and compare
 par(mfcol = c(2, 1))
-plot_panel(ttest, nx_a = 45, ny_a = 17)
+plot_panel(ttest)
 slot(ttest, "breaks") <- c(0, 1, 2, (max(slot(ttest, "breaks")) + 1))
-plot_panel(ttest, nx_a = 45, ny_a = 17)
+plot_panel(ttest)
 par(mfcol = c(1, 1))
 
 # plot few panels
@@ -85,15 +85,15 @@ ttest2 <- sim_adpcr(m = 400, n = 765, times = 40, pos_sums = FALSE,
                     n_panels = 4)
 par(mfcol = c(2, 2))
 four_panels <- lapply(1:ncol(ttest2), function(i)
-       plot_panel(extract_dpcr(ttest2, i), nx_a = 45, ny_a = 17, legend = FALSE,
+       plot_panel(extract_dpcr(ttest2, i), legend = FALSE,
          main = paste("Panel", LETTERS[i], sep = " ")))
 par(mfcol = c(1, 1))
 
 # two different channels
-plot_panel(extract_dpcr(ttest2, 1), nx_a = 45, ny_a = 17, legend = FALSE,
+plot_panel(extract_dpcr(ttest2, 1), legend = FALSE,
            half = "left")
 par(new = TRUE)
-plot_panel(extract_dpcr(ttest2, 2), nx_a = 45, ny_a = 17, col = "blue",
+plot_panel(extract_dpcr(ttest2, 2), col = "blue",
            legend = FALSE, half = "right")
 
 # plot two panels with every well as only the half of the rectangle
@@ -101,7 +101,7 @@ ttest3 <- sim_adpcr(m = 400, n = 765, times = 40, pos_sums = FALSE,
                     n_panels = 2)
 par(mfcol = c(1, 2))
 two_panels <- lapply(1:ncol(ttest3), function(i)
-       plot_panel(extract_dpcr(ttest3, i), nx_a = 45, ny_a = 17, legend = FALSE,
+       plot_panel(extract_dpcr(ttest3, i), legend = FALSE,
          main = paste("Panel", LETTERS[i], sep = " ")))
 par(mfcol = c(1, 1))
 }
@@ -109,7 +109,8 @@ par(mfcol = c(1, 1))
 Michal Burdukiewicz, Stefan Roediger.
 }
 \seealso{
-\code{\link{extract_dpcr}}.
+\code{\link{extract_dpcr}} - extract experiments.
+\code{\link{adpcr2panel}} - convert \code{\linkS4class{adpcr}} object to arrays.
 }
 \keyword{hplot}
 

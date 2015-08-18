@@ -18,15 +18,11 @@
 #' If the \code{col} argument has length one, a color is assigned for each
 #' interval of the input, with the brightest colors for the lowest values.
 #' 
-#' @param input object of the \code{\linkS4class{adpcr}} class. See Details.
+#' @inheritParams adpcr2panel
 #' @param col A single color or vector of colors for each level of input.
 #' @param legend If \code{TRUE}, a built-in legend is added to the plot.
 #' @param half If \code{left} or \code{right}, every well is represented only
 #' by the adequate half of the rectangle.
-#' @param use_breaks if \code{TRUE}, input is cutted into intervals using 
-#' \code{breaks} slot. If \code{FALSE}, input is converted to factor using
-#' \code{\link[base]{as.factor}}. Ignored if data has \code{"tp"} type (see 
-#' possible types of \code{\linkS4class{adpcr}} objects).
 #' @param plot \code{"logical"}, if \code{FALSE}, only plot data is returned
 #' invisibly.
 #' @param ... Arguments to be passed to \code{plot} function.
@@ -35,7 +31,8 @@
 #' \code{\link{graphics}} package. The second element is a data frame of coordinates 
 #' useful for users utilizing ggplot2 package.
 #' @author Michal Burdukiewicz, Stefan Roediger.
-#' @seealso \code{\link{extract_dpcr}}.
+#' @seealso \code{\link{extract_dpcr}} - extract experiments.
+#' \code{\link{adpcr2panel}} - convert \code{\linkS4class{adpcr}} object to arrays.
 #' @keywords hplot
 #' @examples
 #' 
@@ -44,25 +41,25 @@
 #' ttest <- sim_adpcr(m = 400, n = 765, times = 20, pos_sums = FALSE, 
 #'                    n_panels = 1)
 #' # Plot the dPCR experiment results with default settings
-#' plot_panel(ttest, nx_a = 45, ny_a = 17)
+#' plot_panel(ttest)
 #' 
 #' #do it without breaks
-#' plot_panel(ttest, nx_a = 45, ny_a = 17, use_breaks = FALSE)
+#' plot_panel(ttest, use_breaks = FALSE)
 #' 
 #' # Apply a binary color code with blue as positive
 #' slot(ttest, "breaks") <- c(0, 2, 4)
-#' plot_panel(ttest, nx_a = 45, ny_a = 17, col = "blue")
+#' plot_panel(ttest, col = "blue")
 #' 
 #' # Apply a two color code for number of copies per compartment
-#' plot_panel(ttest, nx_a = 45, ny_a = 17, col = c("blue", "red"))
+#' plot_panel(ttest, col = c("blue", "red"))
 #' 
 #' 
 #' 
 #' # supply customized breaks and compare
 #' par(mfcol = c(2, 1))
-#' plot_panel(ttest, nx_a = 45, ny_a = 17)
+#' plot_panel(ttest)
 #' slot(ttest, "breaks") <- c(0, 1, 2, (max(slot(ttest, "breaks")) + 1))
-#' plot_panel(ttest, nx_a = 45, ny_a = 17)
+#' plot_panel(ttest)
 #' par(mfcol = c(1, 1))
 #' 
 #' # plot few panels
@@ -70,15 +67,15 @@
 #'                     n_panels = 4)
 #' par(mfcol = c(2, 2))
 #' four_panels <- lapply(1:ncol(ttest2), function(i) 
-#'        plot_panel(extract_dpcr(ttest2, i), nx_a = 45, ny_a = 17, legend = FALSE, 
+#'        plot_panel(extract_dpcr(ttest2, i), legend = FALSE, 
 #'          main = paste("Panel", LETTERS[i], sep = " ")))
 #' par(mfcol = c(1, 1))
 #' 
 #' # two different channels 
-#' plot_panel(extract_dpcr(ttest2, 1), nx_a = 45, ny_a = 17, legend = FALSE, 
+#' plot_panel(extract_dpcr(ttest2, 1), legend = FALSE, 
 #'            half = "left")
 #' par(new = TRUE)
-#' plot_panel(extract_dpcr(ttest2, 2), nx_a = 45, ny_a = 17, col = "blue", 
+#' plot_panel(extract_dpcr(ttest2, 2), col = "blue", 
 #'            legend = FALSE, half = "right")
 #' 
 #' # plot two panels with every well as only the half of the rectangle
@@ -86,48 +83,24 @@
 #'                     n_panels = 2)
 #' par(mfcol = c(1, 2))
 #' two_panels <- lapply(1:ncol(ttest3), function(i) 
-#'        plot_panel(extract_dpcr(ttest3, i), nx_a = 45, ny_a = 17, legend = FALSE, 
+#'        plot_panel(extract_dpcr(ttest3, i), legend = FALSE, 
 #'          main = paste("Panel", LETTERS[i], sep = " ")))
 #' par(mfcol = c(1, 1))
 #' 
 #' @export plot_panel
-plot_panel <- function(input, col = "red", legend = TRUE, 
-                       half = "none", use_breaks = TRUE, plot = TRUE, ...) {  
-  if (class(input) == "adpcr") {
-    if (!(slot(input, "type") %in% c("nm", "np", "ct", "tnp")))
-      stop("Input must contain data of type 'nm', 'np', 'tnp' or 'ct'.") 
-    if (ncol(input) > 1 && slot(input, "type") != "tnp")
-      stop("Input must contain only one run.")    
-  } else {
-    stop("Input must have the 'adpcr' class")
+plot_panel <- function(input, use_breaks = TRUE, col = "red", legend = TRUE, 
+                       half = "none", plot = TRUE, ...) {  
+  
+  array <- adpcr2panel(input, use_breaks = use_breaks)
+  
+  if(length(array) > 1) {
+    warning("Only the first array will be processed.")
+    array <- array[1]
   }
   
-  
-  nx_a <- length(slot(input, "col_names"))
-  ny_a <- length(slot(input, "row_names"))
-  
-  #in case of tnp, we analyze all experiments (all columns)
-  #in the all other case, we analyze only a single value of n
-  len_n <- ifelse(slot(input, "type") == "tnp", length(slot(input, "n")), slot(input, "n"))
-  
-  if (len_n != nx_a * ny_a)
-    stop (paste0("Can not process with plot since the input 
-                 length (", len_n,
-                 ") differs from the size of nx_a * ny_a (", nx_a * ny_a, ")."))
-  
-  if (slot(input, "type") == "np")
-    use_breaks = FALSE
-  
-  # Use breaks points to split input 
-  if(use_breaks) {
-    cutted_input <- cut(slot(input, ".Data"), breaks = slot(input, "breaks"), 
-                        include.lowest = TRUE, right = FALSE, dig.lab = 5)
-  } else {
-    cutted_input <- factor(slot(input, ".Data"))
-  }
-  
-  
-  
+  nx_a <- ncol(array[[1]]) 
+  ny_a <- nrow(array[[1]])
+
   half <- tolower(half)
   #half value for normal plot data
   half_val <- switch(half,
@@ -139,28 +112,19 @@ plot_panel <- function(input, col = "red", legend = TRUE,
                             none =  0,
                             left = -0.25,
                             right = 0.25)
-  
+
   ggplot_coords <- data.frame(t(do.call(cbind, lapply(1L:nx_a, function(x) 
     sapply(ny_a:1L, function(y) 
-      c(x = x + half_val_ggplot, y = y))))), value = cutted_input)
+      c(x = x + half_val_ggplot, y = y))))), value = as.vector(array[[1]]))
   
   
   coords <- unlist(lapply(1L:nx_a, function(x) 
     lapply(ny_a:1L, function(y) 
       c(xleft = x - half_val[1], ybottom = y - 0.25, xright = x + half_val[2], 
         ytop = y + 0.25))), recursive = FALSE)
-  
-  
-  #two or more experiments in one well
-  if(length(slot(input, "col_names")) > length(unique(slot(input, "col_names")))) {
-    ids <- ggplot_coords[, "x"] %in% 1L:length(unique(slot(input, "col_names")))
-    ggplot_coords[ids, "x"] <- ggplot_coords[ids, "x"] - 0.25
-    ggplot_coords[!ids, "x"] <- ggplot_coords[!ids, "x"] + 0.25
-    #do here something about coords
-  }
-  
-  
+
   if(plot) {
+    cutted_input <- factor(array[[1]])
     cols <- cutted_input
     ncols <- nlevels(cutted_input)
     if (length(col) == 1) {   
