@@ -57,6 +57,10 @@ moments <- function (input) {
 }
 
 setMethod("moments", signature(input = "numeric"), function(input) {
+  if (length(input) == 1) {
+    #input contains only number of positive partitions and total number of partitions
+    moms(input)
+  }
   if (length(input) == 2) {
     #input contains only number of positive partitions and total number of partitions
     moms(fl(input[1]/input[2]))
