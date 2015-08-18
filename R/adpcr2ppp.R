@@ -41,13 +41,19 @@
 #' 
 #' @export adpcr2ppp
 adpcr2ppp <- function(input, marks = TRUE, plot = FALSE) {
+  arrays <- extract_arrays(input)
+  
+  lapply(arrays[["array_data"]], function(single_array)
+    create_ppp(data_vector = single_array, nx_a = arrays[["nx_a"]], ny_a = arrays[["ny_a"]],
+               marks = marks, plot = plot))
+}
+
+#extract data from array, returns named list of arrays and their dimensions
+extract_arrays <- function(input) {
   if (class(input) != "adpcr")
-    stop("Input must have 'adpcr' class", call. = TRUE, domain = NA)
+    stop("Input must have 'adpcr' class")
   
   array_data <- slot(input, ".Data")
-  
-  nx_a <- length(slot(input, "col_names"))
-  ny_a <- length(slot(input, "row_names"))
   
   nx_a <- length(slot(input, "col_names"))
   ny_a <- length(slot(input, "row_names"))
@@ -58,22 +64,24 @@ adpcr2ppp <- function(input, marks = TRUE, plot = FALSE) {
   len_n <- ifelse(slot(input, "type") == "tnp", table(slot(input, "assay"))[1], slot(input, "n"))
   
   if (len_n != nx_a * ny_a)
-    stop (paste0("Can not process with plot since the input 
-                 length (", len_n,
-                 ") differs from the size of nx_a * ny_a (", nx_a * ny_a, ")."))
+    stop(paste0("Input length (", len_n, ") differs from the array size (", 
+                 nx_a * ny_a, ")."))
   
   #apply in case input contains more than 1 array
   #here list of?
   if(slot(input, "type") == "tnp") {
-    lapply(levels(slot(input, "assay")), function(single_level)
-      create_ppp(as.vector(extract_dpcr(input, which(slot(input, "assay") == single_level))),
-                 nx_a, ny_a, plot, marks))
-    
+    array_data <- lapply(levels(slot(input, "assay")), function(single_level)
+      as.vector(extract_dpcr(input, which(slot(input, "assay") == single_level))))
+    names(array_data) <- levels(slot(input, "assay"))
   } else {
-    apply(array_data, 2, function(array_col) 
-      create_ppp(array_col, nx_a, ny_a, plot, marks))
+    array_data <- lapply(1L:ncol(input), function(single_run)
+      input[, single_run])
+    names(array_data) <- colnames(input)
   }
+  
+  list(array_data = array_data, nx_a = nx_a, ny_a = ny_a)
 }
+
 
 
 create_ppp <- function(data_vector, nx_a, ny_a, plot, marks) {
