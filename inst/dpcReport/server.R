@@ -278,35 +278,31 @@ shinyServer(function(input, output) {
     df
   })
   
-  plot_panel_brush <- reactive({
-    #print(input[["plot_panel_brush"]])
-    choose_xy_region(input[["plot_panel_brush"]], data = plot_panel_dat()[, c("col", "row")])
+  array_val <- reactiveValues(selected = NULL)
+  
+  observeEvent(input[["plot_panel_brush"]], {
+    array_val[["selected"]] <- choose_xy_region(input[["plot_panel_brush"]], 
+                                                data = plot_panel_dat()[, c("col", "row")])
   })
+
   
   output[["plot_panel"]] <- renderPlot({
     df <- plot_panel_dat()
-    
-    if(!is.null(plot_panel_brush())) {
-      if(any(plot_panel_brush() != df[, "selected"]))
-        df[plot_panel_brush(), "selected"] <- TRUE
-    }
+
+    df[array_val[["selected"]], "selected"] <- TRUE
     
     source("./plot_panel/plot_panel.R", local = TRUE)
     p + ggtitle(df[["exp_run"]][1])
   })
   
   output[["plot_panel_brush"]] <- renderPrint({
-    dat <- plot_panel_dat()
-    
-    dat[plot_panel_brush(), "selected"] <- TRUE
-    
+
     epilogue <- list(strong("Click and sweep"), "over the partitions to select them.", br()) 
     
-    prologue <- if(is.null(plot_panel_brush())) {
+    prologue <- if(is.null(array_val[["selected"]])) {
       list()
     } else {
-      dat <- dat[dat[["selected"]] == TRUE, ]
-      list("Number of partitions selected: ", as.character(sum(plot_panel_brush())), br())
+      list("Number of partitions selected: ", as.character(sum(array_val[["selected"]])), br())
     }
     do.call(p, c(prologue, epilogue))
   })
@@ -335,9 +331,9 @@ shinyServer(function(input, output) {
     summs <- summary(roi, print = FALSE)[["summary"]]
     summs <- cbind(region = rep("Whole array", nrow(summs)), summs)
     
-    if(!is.null(plot_panel_brush())) {
-      slot(roi, ".Data") <- slot(roi, ".Data")[plot_panel_brush(), , drop = FALSE]
-      slot(roi, "n") <- sum(plot_panel_brush())
+    if(!is.null(array_val[["selected"]])) {
+      slot(roi, ".Data") <- slot(roi, ".Data")[array_val[["selected"]], , drop = FALSE]
+      slot(roi, "n") <- sum(array_val[["selected"]])
       summs <- rbind(summs, cbind(region = rep("Selected region", nrow(summs)), 
                                   summary(roi, print = FALSE)[["summary"]]))
     }
