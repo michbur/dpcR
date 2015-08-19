@@ -342,7 +342,7 @@ shinyServer(function(input, output) {
                                   summary(roi, print = FALSE)[["summary"]]))
     }
     
-    colnames(summs) <- c("Region", "Experiment name", "Replicate ID", "Method", "&lambda;", 
+    colnames(summs) <- c("Region", "Experiment name", "Replicate ID", "Assay", "Method", "&lambda;", 
                          "&lambda; (lower CI)", "&lambda; (upper CI)", "m", 
                          "m (lower CI)", "m (upper CI)", "k", "n")
     
