@@ -160,8 +160,10 @@ calc_coordinates <- function(array, half) {
   ggplot_coords <- data.frame(t(do.call(cbind, lapply(1L:nx_a, function(x) 
     sapply(ny_a:1L, function(y) 
       c(x = x + half_val_ggplot, y = y))))), value = as.vector(array))
-  ggplot_coords[["col"]] <- factor(ggplot_coords[["x"]], levels = colnames(array))
-  ggplot_coords[["row"]] <- factor(ggplot_coords[["y"]], levels = rownames(array))
+  ggplot_coords[["col"]] <- factor(ggplot_coords[["x"]])
+  levels(ggplot_coords[["col"]]) <- colnames(array)
+  ggplot_coords[["row"]] <- factor(ggplot_coords[["y"]])
+  levels(ggplot_coords[["row"]]) <- rownames(array)
   
   coords <- unlist(lapply(1L:nx_a, function(x) 
     lapply(ny_a:1L, function(y) 

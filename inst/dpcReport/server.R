@@ -234,12 +234,16 @@ shinyServer(function(input, output) {
                         5, min = 1, max = NA, step = NA),
            numericInput("ny", "Numbers of quadrats in the y direction:", 
                         5, min = 1, max = NA, step = 1),
-           plotOutput("plot_panel", height = 600,
-                      brush  = brushOpts(id = "plot_panel_brush", delay = 300)),
-           br(),
-           includeMarkdown("./plot_panel/plot_panel2.md"),
-           htmlOutput("plot_panel_brush"),
-           dataTableOutput("plot_panel_region_summary")
+           if(slot(input_dat(), "type") == "tnp") {
+             plotOutput("plot_panel", height = 600)
+           } else {
+             list(plotOutput("plot_panel", height = 600,
+                             brush  = brushOpts(id = "plot_panel_brush")),
+                  br(),
+                  includeMarkdown("./plot_panel/plot_panel2.md"),
+                  htmlOutput("plot_panel_brush"),
+                  dataTableOutput("plot_panel_region_summary"))
+           }
       )
     } else {
       includeMarkdown("./plot_panel/plot_panel0.md")
@@ -250,6 +254,11 @@ shinyServer(function(input, output) {
   array_dat <- reactive({
     new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
     adpcr2panel(new_dat, use_breaks = TRUE)
+  })
+  
+  array_dat_unbroken <- reactive({
+    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+    adpcr2panel(new_dat, use_breaks = FALSE)
   })
   
   
@@ -281,7 +290,7 @@ shinyServer(function(input, output) {
       if(any(plot_panel_brush() != df[, "selected"]))
         df[plot_panel_brush(), "selected"] <- TRUE
     }
-
+    
     source("./plot_panel/plot_panel.R", local = TRUE)
     p + ggtitle(df[["exp_run"]][1])
   })
@@ -303,13 +312,9 @@ shinyServer(function(input, output) {
   })
   
   output[["plot_panel_stat"]] <- renderPrint({
-    single_array <- array_dat()[[input[["array_choice"]]]]
+    single_array <- array_dat_unbroken()[[input[["array_choice"]]]]
     
-    ppp_data <- dpcR:::create_ppp(data_vector = single_array, nx_a = ncol(single_array), 
-                                  ny_a = nrow(single_array), marks = TRUE, plot = FALSE)
-    
-    res <- spatstat::quadrat.test(ppp_data, nx = input[["nx"]], ny = input[["ny"]],
-                                  "two.sided", "Chisq", TRUE, nsim = 1999)
+    source("./plot_panel/test_panel.R", local = TRUE)
     
     prologue <- list("Run name: ", input[["array_choice"]], br(), 
                      "Complete Spatial Randomness test statistic (", HTML("&Chi;"), "): ", 
