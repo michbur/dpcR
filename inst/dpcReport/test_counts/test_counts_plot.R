@@ -6,7 +6,7 @@ p <- ggplot(dat, aes(y = run, x = lambda, shape = selected, colour = experiment,
                      linetype = selected, label = group)) +
   geom_point(size = 4) + cool_theme +
   geom_text(aes(x = lambda.up, y = run, size = selected), 
-            show_guide = FALSE, hjust = -0.15, vjust = 0) +
+            show_guide = FALSE, hjust = -0.25, vjust = 0) +
   ggtitle("Grouped experiments") +
   scale_y_discrete("Replicate id", labels = dat[["replicate"]] ) +
   scale_x_continuous(expression(lambda)) + 

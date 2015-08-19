@@ -114,6 +114,8 @@ shinyServer(function(input, output) {
   })
   
   
+  
+  
   #clicking a point in the summary experiment-replicate scatter chart
   summary_exprep_point <- reactiveValues(
     selected = NULL
@@ -131,6 +133,12 @@ shinyServer(function(input, output) {
   output[["summary_exprep_plot"]] <- renderPlot({
     source("./summary_plots/summary_exprep_plot.R", local = TRUE)
     p
+  })
+  
+  output[["summary_exprep_plot_ui"]] <- renderUI({
+    plotOutput("summary_exprep_plot",
+               dblclick = dblclickOpts(id = "summary_exprep_plot_dbl"),
+               height = 260 + 40 * nrow(summary_exprep_plot_dat()))
   })
   
   output[["summary_exprep_plot_dbl"]] <- renderPrint({
@@ -199,6 +207,12 @@ shinyServer(function(input, output) {
   output[["test_counts_plot"]] <- renderPlot({
     source("./test_counts/test_counts_plot.R", local = TRUE)
     p
+  })
+  
+  output[["test_counts_plot_ui"]] <- renderUI({
+    plotOutput("test_counts_plot", 
+               dblclick = dblclickOpts(id = "test_count_dbl"),
+               height = 260 + nrow(test_counts_groups_summary()) * 40)
   })
   
   output[["test_count_dbl"]] <- renderPrint({
@@ -284,7 +298,6 @@ shinyServer(function(input, output) {
     array_val[["selected"]] <- choose_xy_region(input[["plot_panel_brush"]], 
                                                 data = plot_panel_dat()[, c("col", "row")])
   })
-
   
   output[["plot_panel"]] <- renderPlot({
     df <- plot_panel_dat()
