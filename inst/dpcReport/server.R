@@ -322,7 +322,7 @@ shinyServer(function(input, output) {
                      "Df: ", res[["parameter"]], br(),
                      "Complete Spatial Randomness test p-value: ", 
                      round(res[["p.value"]], app_digits), br(),
-                     "Method: ", res[["method"]], br(),
+                     "Method: ", res[["method"]][1], br(),
                      "Alternative: ", res[["alternative"]], br())
     
     do.call(p, prologue)

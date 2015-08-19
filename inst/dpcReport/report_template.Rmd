@@ -3,9 +3,9 @@ title: "dpcReport"
 author: "Michal Burdukiewicz, Stefan Roediger"
 date: ""
 output:
-  html_document:
-    css: report.css
-    toc: true
+html_document:
+css: report.css
+toc: true
 ---
 
 # dpcReport
@@ -139,27 +139,33 @@ if(input[["plot_panel"]])
 ```{r,warning=FALSE}
 if(input[["plot_panel"]]) {
   new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
-  for(i in colnames(new_dat)) {
-    exp_run <- i
-    source("./plot_panel/adpcr2panel.R", local = TRUE)
+  
+  arrays <- adpcr2panel(new_dat, use_breaks = TRUE)
+  arrays_unbroken <- adpcr2panel(new_dat, use_breaks = FALSE)
+  
+  for (i in names(arrays)) {
+    single_array <- arrays_unbroken[[i]]
+    
+    df <- dpcR:::calc_coordinates(arrays[[i]], 
+                                  half = "none")[["ggplot_coords"]]
+    df[["selected"]] <- rep(FALSE, nrow(df))
+    
     source("./plot_panel/plot_panel.R", local = TRUE)
     print(p + ggtitle(i))
     
-    roi <- extract_dpcr(new_dat, exp_run)
-    res <- test_panel(roi, nx_a, ny_a, nx = input[["nx"]], ny = input[["ny"]])[[1]]
-    
-    cat(paste0("Experiment name: ", as.character(slot(roi, "exper")), "<br>    ", 
-         "Replicate ID: ", as.character(slot(roi, "replicate")), "<br>    ",
-         "Complete Spatial Randomness test statistic (", HTML("&Chi;"), "): ", 
-         round(res[["statistic"]], app_digits), "<br>    ",
-         "Df: ", res[["parameter"]], "<br>    ",
-         "Complete Spatial Randomness test p-value: ", round(res[["p.value"]], app_digits), "<br>    ",
-         "Method: ", res[["method"]], "<br>    ",
-         "Alternative: ", res[["alternative"]], "<br>    "), sep = "")
+    source("./plot_panel/test_panel.R", local = TRUE)
+
+    cat(paste0("Array name: ", i, "<br>    ",
+               "Complete Spatial Randomness test statistic (", HTML("&Chi;"), "): ", 
+               round(res[["statistic"]], app_digits), "<br>    ",
+               "Df: ", res[["parameter"]], "<br>    ",
+               "Complete Spatial Randomness test p-value: ", round(res[["p.value"]], app_digits), "<br>    ",
+               "Method: ", res[["method"]][1], "<br>    ",
+               "Alternative: ", res[["alternative"]], "<br>    "), sep = "")
   }
-  
-  
+
 }
+
 ```
 
 
