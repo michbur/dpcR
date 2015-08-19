@@ -4,4 +4,4 @@ To start work, just upload your data using the button below. If you just want to
 
 Accepted data formats:
 * raw data - comma-separated .csv file (for array digital PCR and droplet digital PCR).
-* QX100 - data from Droplet Digital PCR System (Life Technologies).
+* QX100 - data from QX100 Droplet Digital PCR System (Life Technologies).
