@@ -13,7 +13,7 @@ toc: true
 ```{r echo=FALSE, results='asis'}
 library(knitr)
 opts_chunk$set(echo=FALSE, results='asis', fig.align='center', fig.width=14)
-
+# TO DO add warning = FALSE later
 library(xtable)
 
 cool_theme <- theme(plot.background=element_rect(fill = "transparent",
@@ -80,7 +80,7 @@ if(input[["data_summary_scatter_rep"]])
   cat(readLines("./summary_plots/data_summary_scatterchart2.md"), sep = "    \n")
 ```
 
-```{r}
+```{r, fig.height=(5 + 0.3*nrow(summary_exprep_plot_dat()))}
 if(input[["data_summary_scatter_rep"]]) {
   source("./summary_plots/summary_exprep_plot.R", local = TRUE)
   p
@@ -119,7 +119,7 @@ if(input[["data_summary_test_counts"]]) {
 }
 ```
 
-```{r}
+```{r, fig.height=(5 + 0.3*nrow(summary_exprep_plot_dat()))}
 if(input[["data_summary_test_counts"]]) {
   source("./test_counts/test_counts_plot.R", local = TRUE)
   p
