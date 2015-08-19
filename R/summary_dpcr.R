@@ -97,5 +97,6 @@ setMethod("summary", signature(object = "dpcr"), function(object, print = TRUE) 
   invisible(print_summary(k = as.vector(k), col_dat = col_dat, n = as.vector(n), 
                           print = print, run_names = colnames(data), 
                           exper_names = slot(object, "exper"),
-                          replicate_names = slot(object, "replicate")))
+                          replicate_names = slot(object, "replicate"),
+                          assay_names = slot(object, "assay")))
 })
