@@ -2,7 +2,7 @@
 #' 
 #' These are the results data from the \code{White} data as measured by the
 #' UT digital PCR on Fluidigm 12.765 digital Array. The data were digtilized
-#' from a supplementory figure "1471-2164-10-116-S1.pdf" 
+#' from a supplementary figure "1471-2164-10-116-S1.pdf" 
 #' by White et al. (2009) BMC Genomics
 #' 
 #' Setup: Experimental details were described be White et al. (2009) BMC 
@@ -10,12 +10,30 @@
 #' "MicroArray Profile" plugin by Bob Dougherty (rpd@@optinav.com) and 
 #' Wayne Rasband.
 #'
-#' Annotation: TBD
+#' Annotation: See the White et al. (2009) BMC Genomics paper for details.
 #' 
 #' @name White
 #' @docType data
 #' @format A data frame with some observations on some variables.
-#' \describe{ Here is nothing to describe }
+#' \describe{ A dataframe with 9180 rows and 10 columns.
+#'  \item{Image_position}{Position of an array in the figure 
+#'  1471-2164-10-116-S1.pdf from White et al. (2009) BMC Genomics (e.g., 
+#'  11 is the image in the first colum and the first row, 24 is second column 
+#'  and fourth image)}
+#'  \item{Sample}{is the sample (e.g., "Ace 1:100") as described by White et 
+#'                al. (2009) BMC Genomics}
+#'  \item{X.1}{Running index for *all* samples}
+#'  \item{Index}{Index within an array}
+#'  \item{Row}{Row within an array}
+#'  \item{Column}{Column within an array}
+#'  \item{Area}{is the area that was measured with "MicroArray Profile"}
+#'  \item{Min}{is the minimum intensity of an area that was measured with 
+#'             "MicroArray Profile"}
+#'  \item{Max}{is the maximum intensity of an area that was measured with
+#'             "MicroArray Profile"}
+#'  \item{Mean}{is the mean intensity of an area that was measured with
+#'             "MicroArray Profile"}
+#' }
 #' @author Stefan Roediger, Michal Burdukiewcz, White et al. (2009) BMC Genomics
 #' @references White RA, Blainey PC, Fan HC, Quake SR. Digital PCR provides 
 #' sensitive and absolute calibration for high throughput sequencing. 
@@ -29,6 +47,33 @@
 #' @keywords datasets
 #' @examples
 #' 
-#' #str(White)
+#' str(White)
+#' par(mfrow = c(2,2))
+#'
+#'# Samples to analyze from the White data set
+#'samples <- c("Ace 1:100", "Ace 1:10000")
+#'
+#'# Create the ECDF of the image scan data to define
+#'# a cut-off for positive and negative partitions
+#'for(i in 1L:2) {
+#'  
+#'  # Use the signal intensity of the partitions
+#'  sub.data <- White[White["Sample"] == samples[i], "Mean"]
+#'
+#'  # Plot the panels of the arrays (similar to the supplementary figure 
+#'  # in White et al. (2009) BMC Genomics).
+#'  # adpcr2panel(create_dpcr(sub.data, n = 765, type = "fluo", adpcr = TRUE))
+#'  # plot_panel()
+#'
+#'  # Plot the ECDF of the image scan data an define a cut-off
+#'  plot(ecdf(sub.data), main = paste0("ECDF of Image Scan Data\n", samples[i]), 
+#'       xlab = "Grey value", ylab = "Density of Grey values")
+#'  abline(v = 115, col = 2, cex = 2)
+#'  text(80, 0.5, "User defined cut-off", col = 2, cex = 1.5)
+#'  
+#'  # Plot the density of the dPCR experiment
+#'  dpcr_density(k = sum(sub.data >= 115), n = length(sub.data), bars = TRUE)
+#'}
+#'par(mfrow = c(1,1))
 #' 
 NULL
