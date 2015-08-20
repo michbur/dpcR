@@ -7,7 +7,7 @@
 #' 
 #' Setup: Experimental details were described be White et al. (2009) BMC 
 #' Genomics. The digitalization of the figure was done with imageJ and the 
-#' "MicroArray Profile" plugin by Bob Dougherty (rpd@optinav.com) and 
+#' "MicroArray Profile" plugin by Bob Dougherty (rpd@@optinav.com) and 
 #' Wayne Rasband.
 #'
 #' Annotation: TBD

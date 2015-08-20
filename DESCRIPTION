@@ -41,6 +41,7 @@ NeedsCompilation: no
 Repository: CRAN
 Collate:
     'AUCtest.R'
+    'White.R'
     'adpcr2panel.R'
     'adpcr2ppp.R'
     'binarize.R'
@@ -91,5 +92,4 @@ Collate:
     'test_peaks.R'
     'test_ratio.R'
     'valid_amp.R'
-    'White.R'
     'y_val_conf.R'
