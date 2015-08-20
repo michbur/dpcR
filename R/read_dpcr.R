@@ -54,9 +54,10 @@ read_QX100 <- function(file) {
   counts <- matrix(dat[["Positives"]], nrow = 1)
   exper <- dat[["TypeAssay"]]
   replicate <- paste0(dat[["Well"]], ".", dat[["Sample"]])
-  
+
   create_dpcr(data = matrix(dat[["Positives"]], nrow = 1), n = n, 
               exper = exper, replicate = replicate, type = "tnp",
               assay = dat[["Assay"]], adpcr = TRUE, 
-              col_names = LETTERS[1L:8], row_names = as.character(1L:4))
+              col_names = LETTERS[1L:8], row_names = as.character(1L:4),
+              panel_id = dat[["Assay"]])
 }

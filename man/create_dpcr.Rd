@@ -6,7 +6,7 @@
 \usage{
 create_dpcr(data, n, exper = "Experiment 1", replicate = NULL,
   assay = "Unknown", type, threshold = NULL, breaks = NULL, adpcr,
-  col_names = NULL, row_names = NULL)
+  col_names = NULL, row_names = NULL, panel_id = NULL)
 }
 \arguments{
 \item{data}{a \code{numeric} vector or matrix of data from dPCR
@@ -40,6 +40,9 @@ which \code{data} should be cut. Ignored if \code{adpcr} is \code{FALSE}.}
 \code{adcpr}.}
 
 \item{row_names}{\code{character} vector of row names in array. Ignored if not
+\code{adcpr}.}
+
+\item{panel_id}{\code{factor} vector of panel IDs (or names). Ignored if not
 \code{adcpr}.}
 }
 \value{

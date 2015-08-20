@@ -38,6 +38,8 @@
 #' \code{adcpr}.
 #' @param row_names \code{character} vector of row names in array. Ignored if not
 #' \code{adcpr}.
+#' @param panel_id \code{factor} vector of panel IDs (or names). Ignored if not
+#' \code{adcpr}.
 #' @return An \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} object.
 #' @author Michal Burdukiewicz, Stefan Roediger.
 #' @keywords ddPCR adPCR
@@ -60,11 +62,11 @@
 
 create_dpcr <- function(data, n, exper = "Experiment 1", 
                         replicate = NULL, assay = "Unknown", type, threshold = NULL,
-                        breaks = NULL, adpcr, col_names = NULL, row_names = NULL) {
+                        breaks = NULL, adpcr, col_names = NULL, row_names = NULL, panel_id = NULL) {
   if(adpcr) {
     create_adpcr(data = data, n = n, exper = exper, 
                  replicate = replicate, assay = assay, type = type, breaks = breaks,
-                 col_names = col_names, row_names = row_names)
+                 col_names = col_names, row_names = row_names, panel_id = panel_id)
   } else {
     create_ddpcr(data = data, n = n, exper = exper, replicate = replicate, 
                  assay = assay, type = type, threshold = threshold)
