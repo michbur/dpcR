@@ -91,4 +91,5 @@ Collate:
     'test_peaks.R'
     'test_ratio.R'
     'valid_amp.R'
+    'White.R'
     'y_val_conf.R'
