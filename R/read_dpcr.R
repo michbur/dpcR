@@ -40,8 +40,7 @@ read_raw <- function(file, adpcr) {
 
 #' Read QX100
 #' 
-#' Reads digital PCR data from the QX100 Droplet Digital PCR System (Life 
-#' Technologies)
+#' Reads digital PCR data from the QX100 Droplet Digital PCR System (Bio-Rad)
 #' 
 #' @inheritParams create_dpcr
 #' @param file name of the input file.
