@@ -7,21 +7,29 @@
 #' @aliases qpcrpp-class qpcrpp show.qpcrpp show,qpcrpp-method summary.qpcrpp
 #' summary,qpcrpp-method
 #' @docType class
-#' @section Slots: \describe{ \item{list(".Data")}{\code{"matrix"} with three
+#' @section Slots: \describe{ 
+#' \item{list(".Data")}{\code{"matrix"} with three
 #' columns containing: number of cycles, amplification curves and cumulative
-#' sum of events.}\item{:}{\code{"matrix"} with three columns containing:
+#' sum of events.}
+#' \item{:}{\code{"matrix"} with three columns containing:
 #' number of cycles, amplification curves and cumulative sum of events.}
 #' \item{list("mu")}{\code{"numeric"} of the expected number of events in
-#' defined interval.}\item{:}{\code{"numeric"} of the expected number of events
-#' in defined interval.} \item{list("CT")}{\code{"numeric"} value of the
+#' defined interval.}
+#' \item{:}{\code{"numeric"} of the expected number of events
+#' in defined interval.} 
+#' \item{list("CT")}{\code{"numeric"} value of the
 #' "average time" between the occurrence of a positive reaction and another
-#' positive reaction.}\item{:}{\code{"numeric"} value of the "average time"
+#' positive reaction.}
+#' \item{:}{\code{"numeric"} value of the "average time"
 #' between the occurrence of a positive reaction and another positive reaction.}
 #' \item{list("partitions")}{\code{"integer"} value equal to the number of
-#' partitions.}\item{:}{\code{"integer"} value equal to the number of
-#' partitions.} \item{list("events")}{\code{"integer"} value equal number of
+#' partitions.}
+#' \item{:}{\code{"integer"} value equal to the number of
+#' partitions.} 
+#' \item{list("events")}{\code{"integer"} value equal number of
 #' events (positive partitions taken to further
-#' analysis)}\item{:}{\code{"integer"} value equal number of events (positive
+#' analysis)}
+#' \item{:}{\code{"integer"} value equal number of events (positive
 #' partitions taken to further analysis)} }
 #' @author Stefan Roediger, Michal Burdukiewicz.
 #' @seealso \code{\link{plot.qpcrpp}},
@@ -36,6 +44,9 @@ setClass("qpcrpp", contains = "matrix", representation(.Data = "matrix", mu = "n
 
 #' qPCR to Poisson Process
 #' 
+#' Describes qPCR as Poisson process.
+#' 
+#' @details 
 #' Selected platforms (e.g., Open Array) are real-time platforms. dPCR can be
 #' described by Poisson statistics. The function \code{qpcr2pp} takes a step
 #' further and interprets the dPCR as a Poisson process if it is analyzed as a

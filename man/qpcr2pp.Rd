@@ -23,12 +23,14 @@ column.}
 An object of \code{\linkS4class{qpcrpp}} class.
 }
 \description{
+Describes qPCR as Poisson process.
+}
+\details{
 Selected platforms (e.g., Open Array) are real-time platforms. dPCR can be
 described by Poisson statistics. The function \code{qpcr2pp} takes a step
 further and interprets the dPCR as a Poisson process if it is analyzed as a
 "time" based process.
-}
-\details{
+
 The dPCR Technology breaks fundamentally with the previous concept of
 nucleic acid quantification. dPCR can be seen as a next generation nucleic
 acid quantification method based on PCR. The key difference between dPCR and
