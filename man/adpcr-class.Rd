@@ -32,6 +32,8 @@ positive.}
 \item{\code{col_names}}{\code{"character"} vector naming the columns in the array.}
 
 \item{\code{row_names}}{\code{"character"} vector naming the rows in the array.}
+
+\item{\code{panel_id}}{\code{"factor"} naming the panel to which experiment belong.}
 }}
 \examples{
 rand_array <- sim_adpcr(400, 1600, 100, pos_sums = FALSE, n_panels = 5)

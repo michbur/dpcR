@@ -45,8 +45,8 @@ adpcr2panel <- function(input, use_breaks = FALSE) {
   
   #in case of tnp, we analyze all experiments (all columns)
   #in the all other case, we analyze only a single value of n
-  #assumption - number of experiments in each assay is the same
-  len_n <- ifelse(slot(input, "type") == "tnp", table(slot(input, "assay"))[1], slot(input, "n"))
+  #assumption - number of experiments in each panel is the same
+  len_n <- ifelse(slot(input, "type") == "tnp", table(slot(input, "panel_id"))[1], slot(input, "n"))
   
   if (len_n != nx_a * ny_a)
     stop(paste0("Input length (", len_n, ") differs from the array size (", 
@@ -54,35 +54,26 @@ adpcr2panel <- function(input, use_breaks = FALSE) {
   
   #apply in case input contains more than 1 array
   #here list of?
+  
+  array_data <- lapply(levels(slot(input, "panel_id")), function(single_level) {
+    #data for a single assay
+    single_panel <- extract_dpcr(input, which(slot(input, "panel_id") == single_level))
+    # Use breaks points to split input 
+    
+    if (slot(input, "type") == "np")
+      use_breaks = FALSE
+    
+    if(use_breaks)
+      single_panel <- as.character(cut(as.vector(single_panel), breaks = slot(input, "breaks"), 
+                                       include.lowest = TRUE, right = FALSE, dig.lab = 5))
+    
+    matrix(single_panel, ncol = nx_a, 
+           dimnames = list(slot(input, "row_names"), slot(input, "col_names")))
+  })
+  
   if(slot(input, "type") == "tnp") {
-    array_data <- lapply(levels(slot(input, "assay")), function(single_level) {
-      #data for a single assay
-      assay_data <- extract_dpcr(input, which(slot(input, "assay") == single_level))
-      # Use breaks points to split input 
-      if(use_breaks)
-        assay_data <- as.character(cut(as.vector(assay_data), breaks = slot(input, "breaks"), 
-                          include.lowest = TRUE, right = FALSE, dig.lab = 5))
-      
-      matrix(assay_data, ncol = nx_a, 
-             dimnames = list(slot(input, "row_names"), slot(input, "col_names")))
-    })
-    names(array_data) <- levels(slot(input, "assay"))
+    names(array_data) <- levels(slot(input, "panel_id"))
   } else {
-    array_data <- lapply(1L:ncol(input), function(single_run) {
-      run_data <- input[, single_run]
-      
-      if (slot(input, "type") == "np")
-        use_breaks = FALSE
-      
-      # Use breaks points to split input 
-      if(use_breaks)
-        run_data <- as.character(cut(as.vector(run_data), breaks = slot(input, "breaks"), 
-                        include.lowest = TRUE, right = FALSE, dig.lab = 5))
-      
-      matrix(run_data, ncol = nx_a, dimnames = list(slot(input, "row_names"), 
-                                                    slot(input, "col_names")))
-      
-    })
     names(array_data) <- colnames(input)
   }
   

@@ -83,7 +83,7 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
   if(class(replicate) != "factor")
     replicate <- as.factor(replicate)
   
-
+  
   # assay
   if(length(assay) != ncol(data)) {
     if(length(assay) == 1) {
@@ -127,6 +127,7 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
 #' positive.
 #' @slot col_names \code{"character"} vector naming the columns in the array.
 #' @slot row_names \code{"character"} vector naming the rows in the array.
+#' @slot panel_id \code{"factor"} naming the panel to which experiment belong.
 #' @details
 #' Possible \code{type} values of \code{adpcr} objects:
 #' \enumerate{
@@ -158,15 +159,16 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
 #' 
 setClass("adpcr", contains = "dpcr", representation(breaks = "numeric",
                                                     col_names = "character",
-                                                    row_names = "character"))
+                                                    row_names = "character",
+                                                    panel_id = "factor"))
 
 
 #constructor
 create_adpcr <- function(data, n, exper = "Experiment1", 
                          replicate = NULL, assay = "Unknown", type, breaks, 
-                         col_names = NULL, row_names = NULL) {
+                         col_names = NULL, row_names = NULL, panel_id = NULL) {
   result <- construct_dpcr(data = data, n = n, exper = exper, 
-                               replicate = replicate, assay = assay, type = type)
+                           replicate = replicate, assay = assay, type = type)
   
   if (type == "ct")
     stop("'ct' type is not implemented for 'adpcr' objects.")
@@ -195,7 +197,7 @@ create_adpcr <- function(data, n, exper = "Experiment1",
       edge_a <- edge_a - 1
       edge_b <- floor(total/edge_a)
     }
-      
+    
     col_names <- as.character(1L:edge_a)
     row_names <- as.character(1L:edge_b)
   }
@@ -204,10 +206,19 @@ create_adpcr <- function(data, n, exper = "Experiment1",
     stop("Both 'col_names' and 'row_names' must be either NULL or specified.")
   }
   
+  if(is.null(panel_id)) {
+#   if(type != "tnp") {
+      panel_id <- as.factor(1L:ncol(slot(result, ".Data")))
+#     } else {
+#       stop("'tnp' data require specified panel_id.")
+#     }
+  }
+  
   class(result) <- "adpcr"
   slot(result, "breaks") <- breaks
   slot(result, "col_names") <- col_names
   slot(result, "row_names") <- row_names
+  slot(result, "panel_id") <- panel_id
   result
 }
 
@@ -254,12 +265,12 @@ create_ddpcr <- function(data, n, exper = "Experiment1",
                          replicate = NULL, assay = "Unknown", type, threshold) {
   
   result <- construct_dpcr(data = data, n = n, exper = exper, 
-                               replicate = replicate, assay = assay, type = type)
+                           replicate = replicate, assay = assay, type = type)
   
   class(result) <- "ddpcr"
   if(is.null(threshold))
     threshold <- mean(range(data))
-    
+  
   slot(result, "threshold") <- threshold
   result
 }

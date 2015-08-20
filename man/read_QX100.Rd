@@ -10,7 +10,8 @@ read_QX100(file)
 \item{file}{name of the input file.}
 }
 \description{
-Reads digital PCR data from the QX100 machine.
+Reads digital PCR data from the QX100 Droplet Digital PCR System (Life
+Technologies)
 }
 \author{
 Michal Burdukiewcz, Stefan Roediger

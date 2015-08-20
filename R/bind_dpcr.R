@@ -88,10 +88,14 @@ setMethod("bind_dpcr",
               length(slot(single_arg, "row_names"))))
             row_names <- slot(all_args[[longer_rownames]], "row_names")
             
+            panel_ids <- bind_factor(lapply(all_args, function(single_arg) 
+              slot(single_arg, "panel_id")))
+            
             
             slot(res, "breaks") <- breaks
             slot(res, "col_names") <- col_names
             slot(res, "row_names") <- row_names
+            slot(res, "panel_id") <- panel_ids
             res
             
           })
@@ -127,8 +131,6 @@ setMethod("bind_dpcr",
             class(res) <- "ddpcr"
             slot(res, "threshold") <- thresholds
             res
-            
-            
           })
 
 
@@ -182,4 +184,18 @@ cbind_dpcr <- function(all_args) {
                  replicate = all_replicates,
                  assay = all_assays,
                  type = type)
+}
+
+# binds factors (for example panel_id), but keeps unique values unique
+# i.e. when in both factors levels have value 1, after binding the elements
+# with level 1 in both factors would have different levels
+bind_factor <- function(fact_list) {
+  levs <- lapply(1L:length(fact_list), function(i) paste0(levels(fact_list[[i]]), "_", i))
+  fact_vec <- unlist(lapply(1L:length(fact_list), function(i) {
+    res <- fact_list[[i]]
+    levels(res) <- levs[[i]]
+    res
+  }))
+  levels(fact_vec) <- 1L:length(levels(fact_vec))
+  fact_vec
 }

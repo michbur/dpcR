@@ -58,14 +58,17 @@ extract_dpcr <- function(input, id) {
   result <- input
   slot(result, ".Data") <- selected
   slot(result, "n") <- slot(input, "n")[id]
-  slot(result, "exper") <- slot(input, "exper")[id]
-  slot(result, "replicate") <- slot(input, "replicate")[id]
-  slot(result, "assay") <- slot(input, "assay")[id]
+  slot(result, "exper") <- droplevels(slot(input, "exper")[id])
+  slot(result, "replicate") <- droplevels(slot(input, "replicate")[id])
+  slot(result, "assay") <- droplevels(slot(input, "assay")[id])
+  
   
   #in case of tnp type extract also columns names
-  if(class(input) == "adpcr" && slot(input, "type") == "tnp") {
-    slot(result, "col_names") <- slot(input, "col_names")[id]
+  if (class(input) == "adpcr") {
+    slot(result, "panel_id") <- droplevels(slot(input, "panel_id")[id])
+    if (slot(input, "type") == "tnp")
+      slot(result, "col_names") <- slot(input, "col_names")[id]
   }
-
+  
   result
 }
