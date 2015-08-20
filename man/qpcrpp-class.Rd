@@ -13,21 +13,29 @@
 An object representing digital PCR reaction depicted as Poisson process.
 }
 \section{Slots}{
- \describe{ \item{list(".Data")}{\code{"matrix"} with three
+ \describe{
+\item{list(".Data")}{\code{"matrix"} with three
 columns containing: number of cycles, amplification curves and cumulative
-sum of events.}\item{:}{\code{"matrix"} with three columns containing:
+sum of events.}
+\item{:}{\code{"matrix"} with three columns containing:
 number of cycles, amplification curves and cumulative sum of events.}
 \item{list("mu")}{\code{"numeric"} of the expected number of events in
-defined interval.}\item{:}{\code{"numeric"} of the expected number of events
-in defined interval.} \item{list("CT")}{\code{"numeric"} value of the
+defined interval.}
+\item{:}{\code{"numeric"} of the expected number of events
+in defined interval.}
+\item{list("CT")}{\code{"numeric"} value of the
 "average time" between the occurrence of a positive reaction and another
-positive reaction.}\item{:}{\code{"numeric"} value of the "average time"
+positive reaction.}
+\item{:}{\code{"numeric"} value of the "average time"
 between the occurrence of a positive reaction and another positive reaction.}
 \item{list("partitions")}{\code{"integer"} value equal to the number of
-partitions.}\item{:}{\code{"integer"} value equal to the number of
-partitions.} \item{list("events")}{\code{"integer"} value equal number of
+partitions.}
+\item{:}{\code{"integer"} value equal to the number of
+partitions.}
+\item{list("events")}{\code{"integer"} value equal number of
 events (positive partitions taken to further
-analysis)}\item{:}{\code{"integer"} value equal number of events (positive
+analysis)}
+\item{:}{\code{"integer"} value equal number of events (positive
 partitions taken to further analysis)} }
 }
 \author{
