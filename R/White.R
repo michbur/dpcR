@@ -42,41 +42,45 @@
 #' Dougherty B, Rasband W. MicroArray Profile ImageJ Plugin n.d. 
 #' http://www.optinav.com/imagej.html (accessed August 20, 2015).
 #'
-#' @source Data were digitalized from the supplement material 
-#' "1471-2164-10-116-S1.pdf" by White et al. (2009) BMC Genomics
+#' @source Data were digitalized from the supplement material (Additional file 
+#' 1. dPCR analysis of mock library control.) "1471-2164-10-116-S1.pdf" 
+#' by White et al. (2009) BMC Genomics
 #' @keywords datasets
 #' @examples
 #' 
-#' str(White)
-#' par(mfrow = c(2,2))
+#'str(White)
+#'par(mfrow = c(3,3))
 #'
-#'# Samples to analyze from the White data set
-#'samples <- c("Ace 1:100", "Ace 1:10000")
+# Plot the panels of the arrays (similar to the supplementary figure
+# in White et al. (2009) BMC Genomics).
 #'
-#'# Create the ECDF of the image scan data to define
-#'# a cut-off for positive and negative partitions
+#'White_data <- sapply(unique(White[["Image_position"]]), function(i)
+#'		     White[White[["Image_position"]] == i, "Mean"])
 #'
+#'assays <- sapply(unique(White[["Image_position"]]), function(i)
+#'		 unique(White[White[["Image_position"]] == i, "Sample"]))
 #'
+#'White_adpcr <- create_dpcr(White_data > 115, n = 765, assay = assays, 
+#'			   type = "np", adpcr = TRUE)
 #'
-#'# Plot the panels of the arrays (similar to the supplementary figure 
-#'# in White et al. (2009) BMC Genomics).
+#'White_k <- colSums(White_data > 115)
 #'
-#' white_data <- sapply(unique(White[["Image_position"]]), function(i)
-#' White[White[["Image_position"]] == i, "Mean"]) > 115
-#' assays <- sapply(unique(White[["Image_position"]]), function(i)
-#'   unique(White[White[["Image_position"]] == i, "Sample"]))
-#' white_adpcr <- create_dpcr(white_data, n = 765, assay = assays, type = "np", adpcr = TRUE)
-#' plot_panel(extract_dpcr(white_adpcr, 1))
+#'sapply(2:4, function(i) {
+#'    plot_panel(extract_dpcr(White_adpcr, i))
+#'
+#'    # Create the ECDF of the image scan data to define
+#'    # a cut-off for positive and negative partitions
+#'    # Plot the ECDF of the image scan data an define a cut-off
+#'    plot(ecdf(White_data[, i]), main = paste0("ECDF of Image Scan Data\n", assays[i]),
+#'	xlab = "Grey value", ylab = "Density of Grey values")
+#'    abline(v = 115, col = 2, cex = 2)
+#'    text(80, 0.5, "User defined cut-off", col = 2, cex = 1.5)
+#'
+#'    # Plot the density of the dPCR experiment
+#'    dpcr_density(k = White_k[i], n = 765, bars = TRUE)
+#' }
+#')
 #' 
-#'  # Plot the ECDF of the image scan data an define a cut-off
-#'  plot(ecdf(sub.data), main = paste0("ECDF of Image Scan Data\n", samples[i]), 
-#'       xlab = "Grey value", ylab = "Density of Grey values")
-#'  abline(v = 115, col = 2, cex = 2)
-#'  text(80, 0.5, "User defined cut-off", col = 2, cex = 1.5)
-#'  
-#'  # Plot the density of the dPCR experiment
-#'  dpcr_density(k = sum(sub.data >= 115), n = length(sub.data), bars = TRUE)
-#'
 #'par(mfrow = c(1,1))
 #' 
 NULL
