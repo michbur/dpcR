@@ -55,7 +55,7 @@ read_QX100 <- function(file) {
   counts <- matrix(dat[["Positives"]], nrow = 1)
   exper <- dat[["TypeAssay"]]
   replicate <- paste0(dat[["Well"]], ".", dat[["Sample"]])
-
+  
   create_dpcr(data = matrix(dat[["Positives"]], nrow = 1), n = n, 
               exper = exper, replicate = replicate, type = "tnp",
               assay = dat[["Assay"]], adpcr = TRUE, 
@@ -74,45 +74,42 @@ read_QX100 <- function(file) {
 #' @export
 
 read_BioMark <- function(file) {
-  sheets <- lapply(excel_sheets(file), read_excel, path = file)
+  dat <- read.csv(file)
   
   data_range <- 10L:57
   
-  #single_sheet[apply(single_sheet, 1, function(row) sum(is.na(row))) == 0, ]
+  #dat[apply(dat, 1, function(row) sum(is.na(row))) == 0, ]
   
-  res <- do.call(bind_dpcr, lapply(1L:length(sheets), function(single_sheet_id) {
-    single_sheet <- sheets[[single_sheet_id]]
-    names1 <- as.vector(single_sheet[8, ])
-    names2 <- as.vector(single_sheet[9, ])
-    
-    #exper
-    exper <- rep(paste0(single_sheet[data_range, names1 == "Sample Information" & names2 == "Name"], "_",
-                        single_sheet[data_range, names1 == "Sample Information" & names2 == "Type"]), 2)
-    
-    #replicate
-    replicate <- paste0(rep(single_sheet[data_range, names1 == "Panel" & names2 == "ID"], 2),
-                        unlist(lapply(c("VIC-TAMRA", "FAM-MGB"), function(channel_name)
-                          single_sheet[data_range, names1 == channel_name & names2 == "Type"])))
-    
-    #single_sheet[data_range, names1 == "Sample Information" & names2 == "rConc."]
-    
-    #assay
-    assay <- unlist(lapply(c("VIC-TAMRA", "FAM-MGB"), function(channel_name)
-      paste0(single_sheet[data_range, names1 == channel_name & names2 == "Name"], "_",
-             single_sheet_id)
-    ))
-    
-    #data
-    count_data <- unlist(lapply(c("VIC-TAMRA", "FAM-MGB"), function(channel_name)
-      as.numeric(single_sheet[data_range, names1 == channel_name & names2 == "Count"])))
-    
-    
-    create_dpcr(data = matrix(count_data, nrow = 1), n = rep(765, length(count_data)), 
-                exper = exper, replicate = replicate, type = "tnp",
-                assay = assay, adpcr = TRUE, row_names = as.character(1L:4), 
-                col_names = as.character(1L:12), 
-                panel_id = factor(c(rep(1, length(exper)/2), rep(2, length(exper)/2))))
-  }))
+  names1 <- as.vector(dat[8, ])
+  names2 <- as.vector(dat[9, ])
+  
+  #exper
+  exper <- rep(paste0(dat[data_range, names1 == "Sample Information" & names2 == "Name"], "_",
+                      dat[data_range, names1 == "Sample Information" & names2 == "Type"]), 2)
+  
+  #replicate
+  replicate <- paste0(rep(dat[data_range, names1 == "Panel" & names2 == "ID"], 2),
+                      unlist(lapply(c("VIC-TAMRA", "FAM-MGB"), function(channel_name)
+                        dat[data_range, names1 == channel_name & names2 == "Type"])))
+  
+  #dat[data_range, names1 == "Sample Information" & names2 == "rConc."]
+  
+  #assay
+  assay <- unlist(lapply(c("VIC-TAMRA", "FAM-MGB"), function(channel_name)
+    paste0(dat[data_range, names1 == channel_name & names2 == "Name"], "_",
+           dat_id)
+  ))
+  
+  #data
+  count_data <- unlist(lapply(c("VIC-TAMRA", "FAM-MGB"), function(channel_name)
+    as.numeric(dat[data_range, names1 == channel_name & names2 == "Count"])))
+  
+  
+  res <- create_dpcr(data = matrix(count_data, nrow = 1), n = rep(765, length(count_data)), 
+                     exper = exper, replicate = replicate, type = "tnp",
+                     assay = assay, adpcr = TRUE, row_names = as.character(1L:4), 
+                     col_names = as.character(1L:12), 
+                     panel_id = factor(c(rep(1, length(exper)/2), rep(2, length(exper)/2))))
   
   names_df <- data.frame(table(slot(res, "panel_id"), slot(res, "assay")))
   levels(slot(res, "panel_id")) <- as.character(sapply(levels(names_df[["Var1"]]), 
@@ -121,4 +118,12 @@ read_BioMark <- function(file) {
                                                          sub_data[which.max(sub_data[["Freq"]]), "Var2"]
                                                        }))
   res
+  
+}
+
+
+read_file <- function(file) {
+  ext <- strsplit(file, ".", fixed = TRUE)
+  switch(ext[[length(ext)]],
+         csv = read.csv)
 }
