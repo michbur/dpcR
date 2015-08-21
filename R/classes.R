@@ -42,7 +42,7 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
   if (is.vector(data))
     data <- as.matrix(data)
   if (!(is.matrix(data))) {
-    warning("'data' converted to matrix.")
+    message("'data' converted to matrix.")
     data <- as.matrix(data)
   }
   
@@ -53,7 +53,7 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
   
   if(length(n) != ncol(data)) {
     if(length(n) == 1) {
-      warning(paste0("Assumed the number of partitions in each experiment is equal to ",
+      message(paste0("Assumed the number of partitions in each experiment is equal to ",
                      n, "."))
       n <- rep(n, ncol(data))
     } else {

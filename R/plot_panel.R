@@ -130,7 +130,7 @@ plot_panel <- function(input, use_breaks = TRUE, col = "red", legend = TRUE,
              x.intersp = 0.5)
     
     cols <- as.character(cols)
-    args <- lapply(1L:length(input), function(i) 
+    args <- lapply(1L:length(all_coords[["coords"]]), function(i) 
       c(all_coords[["coords"]][[i]], list(col = cols[i])))
     
     sapply(1L:length(input), function(i) 

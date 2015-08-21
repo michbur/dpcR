@@ -4,8 +4,7 @@
 \name{White}
 \alias{White}
 \title{Digitalized Data from a Fluidigm Array}
-\format{A data frame with some observations on some variables.
-\describe{ A dataframe with 9180 rows and 10 columns.
+\format{\describe{ A dataframe with 9180 rows and 10 columns.
  \item{Image_position}{Position of an array in the figure
  1471-2164-10-116-S1.pdf from White et al. (2009) BMC Genomics (e.g.,
  11 is the image in the first colum and the first row, 24 is second column
@@ -51,15 +50,18 @@ samples <- c("Ace 1:100", "Ace 1:10000")
 
 # Create the ECDF of the image scan data to define
 # a cut-off for positive and negative partitions
-for(i in 1L:2) {
 
- # Use the signal intensity of the partitions
- sub.data <- White[White["Sample"] == samples[i], "Mean"]
 
- # Plot the panels of the arrays (similar to the supplementary figure
- # in White et al. (2009) BMC Genomics).
- # adpcr2panel(create_dpcr(sub.data, n = 765, type = "fluo", adpcr = TRUE))
- # plot_panel()
+
+# Plot the panels of the arrays (similar to the supplementary figure
+# in White et al. (2009) BMC Genomics).
+
+white_data <- sapply(unique(White[["Image_position"]]), function(i)
+White[White[["Image_position"]] == i, "Mean"]) > 115
+assays <- sapply(unique(White[["Image_position"]]), function(i)
+  unique(White[White[["Image_position"]] == i, "Sample"]))
+white_adpcr <- create_dpcr(white_data, n = 765, assay = assays, type = "np", adpcr = TRUE)
+plot_panel(extract_dpcr(white_adpcr, 1))
 
  # Plot the ECDF of the image scan data an define a cut-off
  plot(ecdf(sub.data), main = paste0("ECDF of Image Scan Data\\n", samples[i]),
@@ -69,7 +71,7 @@ for(i in 1L:2) {
 
  # Plot the density of the dPCR experiment
  dpcr_density(k = sum(sub.data >= 115), n = length(sub.data), bars = TRUE)
-}
+
 par(mfrow = c(1,1))
 }
 \author{
