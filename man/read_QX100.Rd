@@ -15,4 +15,7 @@ Reads digital PCR data from the QX100 Droplet Digital PCR System (Bio-Rad)
 \author{
 Michal Burdukiewcz, Stefan Roediger
 }
+\seealso{
+See \code{\link{read_dpcr}} for detailed description of input files.
+}
 

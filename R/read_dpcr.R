@@ -6,6 +6,8 @@
 #' @param format of the file.
 #' @param ... additional arguments for the appropriate format.
 #' @author Michal Burdukiewcz, Stefan Roediger
+#' @details Input files may be in .csv, .xls or .xlsx format. In case of Excel files with 
+#' multiple sheets, only the first sheet will be analyzed.
 #' @export
 #' @seealso 
 #' \code{\link{read_raw}}
@@ -46,6 +48,7 @@ read_raw <- function(file, adpcr) {
 #' @inheritParams create_dpcr
 #' @param file name of the input file.
 #' @author Michal Burdukiewcz, Stefan Roediger
+#' @seealso See \code{\link{read_dpcr}} for detailed description of input files.
 #' @export
 
 read_QX100 <- function(file) {
@@ -71,6 +74,7 @@ read_QX100 <- function(file) {
 #' @inheritParams create_dpcr
 #' @param file name of the input file.
 #' @author Michal Burdukiewcz, Stefan Roediger
+#' @seealso See \code{\link{read_dpcr}} for detailed description of input files.
 #' @export
 
 read_BioMark <- function(file) {

@@ -16,6 +16,10 @@ read_dpcr(file, format, ...)
 \description{
 Reads digital PCR data in various formats.
 }
+\details{
+Input files may be in .csv, .xls or .xlsx format. In case of Excel files with
+multiple sheets, only the first sheet will be analyzed.
+}
 \author{
 Michal Burdukiewcz, Stefan Roediger
 }

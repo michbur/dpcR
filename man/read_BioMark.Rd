@@ -15,4 +15,7 @@ Reads digital PCR data from the BioMark (Fluidigm) (Summary Table results)
 \author{
 Michal Burdukiewcz, Stefan Roediger
 }
+\seealso{
+See \code{\link{read_dpcr}} for detailed description of input files.
+}
 
