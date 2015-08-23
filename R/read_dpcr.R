@@ -28,7 +28,7 @@ read_dpcr <- function(file, format, ...) {
 #' @export
 
 read_raw <- function(file, adpcr) {
-  dat <- read.csv(file)
+  dat <- read_file(file)
   
   n <- rowSums(!apply(dat, 1, is.na))
   
@@ -49,7 +49,7 @@ read_raw <- function(file, adpcr) {
 #' @export
 
 read_QX100 <- function(file) {
-  dat <- read.csv(file)
+  dat <- read_file(file)
   
   n <- dat[["AcceptedDroplets"]]
   counts <- matrix(dat[["Positives"]], nrow = 1)
@@ -74,7 +74,7 @@ read_QX100 <- function(file) {
 #' @export
 
 read_BioMark <- function(file) {
-  dat <- read.csv(file)
+  dat <- read_file(file)
   
   data_range <- 10L:57
   
@@ -96,8 +96,7 @@ read_BioMark <- function(file) {
   
   #assay
   assay <- unlist(lapply(c("VIC-TAMRA", "FAM-MGB"), function(channel_name)
-    paste0(dat[data_range, names1 == channel_name & names2 == "Name"], "_",
-           dat_id)
+    dat[data_range, names1 == channel_name & names2 == "Name"]
   ))
   
   #data
@@ -122,8 +121,15 @@ read_BioMark <- function(file) {
 }
 
 
+#checks the extension and returns proper read function
 read_file <- function(file) {
-  ext <- strsplit(file, ".", fixed = TRUE)
-  switch(ext[[length(ext)]],
-         csv = read.csv)
+  ext <- strsplit(file, ".", fixed = TRUE)[[1]]
+  
+  #add multisheet excel
+  
+  fun <- switch(ext[[length(ext)]],
+         csv = read.csv,
+         xls = read_excel,
+         xlsx = read_excel)
+  fun(file)
 }
