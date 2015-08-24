@@ -16,7 +16,14 @@ shinyServer(function(input, output) {
     if(is.null(input[["input_file"]])) {
       read_dpcr("example_data.csv", format = "raw_adpcr")
     } else {
-      read_dpcr(input[["input_file"]][["datapath"]], format = input[["input_type"]])
+      read_function <- switch(input[["input_type"]],
+                     raw_adpcr = function(x) read_dpcr(x, format = "raw_adpcr"),
+                     raw_ddpcr = function(x) read_dpcr(x, format = "raw_ddpcr"),
+                     QX100 = read_dpcr(x, format = "QX100"),
+                     BioMark_det = read_dpcr(x, format = "BioMark", detailed = TRUE),
+                     BioMark_sum = read_dpcr(x, format = "BioMark", detailed = FALSE)
+      )
+      read_function(input[["input_file"]][["datapath"]])
     }
   })
   
@@ -301,7 +308,7 @@ shinyServer(function(input, output) {
   
   output[["plot_panel"]] <- renderPlot({
     df <- plot_panel_dat()
-
+    
     df[array_val[["selected"]], "selected"] <- TRUE
     
     source("./plot_panel/plot_panel.R", local = TRUE)
@@ -309,7 +316,7 @@ shinyServer(function(input, output) {
   })
   
   output[["plot_panel_brush"]] <- renderPrint({
-
+    
     epilogue <- list(strong("Click and sweep"), "over the partitions to select them.", br()) 
     
     prologue <- if(is.null(array_val[["selected"]])) {

@@ -17,7 +17,7 @@ read_dpcr <- function(file, format, ...) {
          raw_adpcr = read_raw(file, adpcr = TRUE, ...),
          raw_ddpcr = read_raw(file, adpcr = FALSE, ...),
          QX100 = read_QX100(file),
-         BioMark = read_BioMark(file))
+         BioMark = read_BioMark(file, ...))
 }
 
 #' Read digital PCR raw data
@@ -45,7 +45,6 @@ read_raw <- function(file, adpcr) {
 #' 
 #' Reads digital PCR data from the QX100 Droplet Digital PCR System (Bio-Rad)
 #' 
-#' @inheritParams create_dpcr
 #' @param file name of the input file.
 #' @author Michal Burdukiewcz, Stefan Roediger
 #' @seealso See \code{\link{read_dpcr}} for detailed description of input files.
@@ -69,15 +68,17 @@ read_QX100 <- function(file) {
 
 #' Read BioMark
 #' 
-#' Reads digital PCR data from the BioMark (Fluidigm) (Summary Table results)
+#' Reads digital PCR data from the BioMark (Fluidigm).
 #' 
-#' @inheritParams create_dpcr
 #' @param file name of the input file.
+#' @param detailed logical, if \code{TRUE}, the input file is processed as if it was 
+#' 'Detailed Table Results'. In the other case, the expected input file structure is
+#' 'Summary Table Results'.
 #' @author Michal Burdukiewcz, Stefan Roediger
 #' @seealso See \code{\link{read_dpcr}} for detailed description of input files.
 #' @export
 
-read_BioMark <- function(file) {
+read_BioMark <- function(file, detailed = FALSE) {
   dat <- read_file(file)
   
   data_range <- 10L:57

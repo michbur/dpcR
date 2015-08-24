@@ -4,13 +4,17 @@
 \alias{read_BioMark}
 \title{Read BioMark}
 \usage{
-read_BioMark(file)
+read_BioMark(file, detailed = FALSE)
 }
 \arguments{
 \item{file}{name of the input file.}
+
+\item{detailed}{logical, if \code{TRUE}, the input file is processed as if it was
+'Detailed Table Results'. In the other case, the expected input file structure is
+'Summary Table Results'.}
 }
 \description{
-Reads digital PCR data from the BioMark (Fluidigm) (Summary Table results)
+Reads digital PCR data from the BioMark (Fluidigm).
 }
 \author{
 Michal Burdukiewcz, Stefan Roediger
