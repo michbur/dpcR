@@ -14,14 +14,14 @@ shinyServer(function(input, output) {
   input_dat <- reactive({
     #after loading any file it would be possible to start an example
     if(is.null(input[["input_file"]])) {
-      read_dpcr("example_data.csv", format = "raw_adpcr")
+      read_dpcr("example_data.csv", format = "raw", adpcr = TRUE)
     } else {
       read_function <- switch(input[["input_type"]],
-                     raw_adpcr = function(x) read_dpcr(x, format = "raw_adpcr"),
-                     raw_ddpcr = function(x) read_dpcr(x, format = "raw_ddpcr"),
-                     QX100 = read_dpcr(x, format = "QX100"),
-                     BioMark_det = read_dpcr(x, format = "BioMark", detailed = TRUE),
-                     BioMark_sum = read_dpcr(x, format = "BioMark", detailed = FALSE)
+                              raw_adpcr = function(x) read_dpcr(x, format = "raw", adpcr = TRUE),
+                              raw_ddpcr = function(x) read_dpcr(x, format = "raw", adpcr = FALSE),
+                              QX100 = function(x) read_dpcr(x, format = "QX100"),
+                              BioMark_det = function(x) read_dpcr(x, format = "BioMark", detailed = TRUE),
+                              BioMark_sum = function(x) read_dpcr(x, format = "BioMark", detailed = FALSE)
       )
       read_function(input[["input_file"]][["datapath"]])
     }

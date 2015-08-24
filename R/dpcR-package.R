@@ -49,7 +49,6 @@
 #' @importFrom qpcR efficiency pcrfit modlist
 #' @importFrom pracma findpeaks
 #' @importFrom rateratio.test rateratio.test
-#' @importFrom readxl excel_sheets read_excel
 #' @importFrom shiny runApp
 #' @importFrom signal sgolayfilt
 #' @importFrom spatstat ppp quadrat.test

@@ -26,7 +26,6 @@ Imports:
     qpcR,
     pracma,
     rateratio.test,
-    readxl,
     signal,
     shiny,
     spatstat
