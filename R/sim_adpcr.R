@@ -8,7 +8,7 @@
 #' independently in each chamber, the chambers with the fluorescence level
 #' below certain threshold are treated as negative. From differences between
 #' amplification curves of positive chambers it is possible to calculate both
-#' total number of template molecules as well as their approximate number in a
+#' total number of template molecules and their approximate number in a
 #' single chamber.
 #' 
 #' The function contains two implementations of the array digital PCR
@@ -46,7 +46,7 @@
 #' molecules in a given chamber.
 #' @return If the \code{pos_sums} argument has value \code{FALSE}, the function
 #' returns a matrix with \eqn{n} rows and \eqn{n_panels} columns. Each column
-#' represents one plate. Type of such simulation would be \code{"nm"}. If the
+#' represents one plate. The type of such simulation would be \code{"nm"}. If the
 #' \code{pos_sums} argument has value \code{TRUE}, the function returns a
 #' matrix with one row and \eqn{n_panels} columns. Each column contains the
 #' total number of positive chambers in each plate and type of simulation would

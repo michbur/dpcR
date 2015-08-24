@@ -11,7 +11,7 @@
 #' The \code{qpcRanalyzer} is a functions to automatize the analysis of
 #' amplification curves from conventional quantitative real-time PCR (qPCR)
 #' experiments and is adapted for the needs in dPCR.  This function calls
-#' instances of the the \code{qpcR} package to calculate the quantification
+#' instances of the \code{qpcR} package to calculate the quantification
 #' points (cpD1, cpD2, Cy0 (default), TOP (optional)), the amplification
 #' efficiency, fluorescence at the quantification point (Cq), the absolute
 #' change of fluorescence and the take-off point (TOP). Most of the central

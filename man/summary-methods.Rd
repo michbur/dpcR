@@ -27,7 +27,7 @@ objects of the class \code{\linkS4class{adpcr}} to or
 \code{\linkS4class{ddpcr}}.
 }
 \details{
-The function prints summary of the dPCR reaction, including k (number of
+The function prints a summary of the dPCR reaction, including k (number of
 positive chambers), n (total number of chambers), estimated lambda and m
 (number of molecules per plate), as well as confidence intervals for the
 last two variables.
