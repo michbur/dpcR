@@ -23,7 +23,7 @@ array-based digital PCRs. We aim to include all
 statistical approaches published in peer-review literature and additional
 selected sources of expertise currently available. We intent to make these methods
 available to the scientific community in an open and cross-platform environment. Using
-the naming convention derived from the MIQUE Guidelines for digital PCR, we hope to
+the naming convention derived from the MIQE Guidelines for digital PCR, we hope to
 become a reference to a unified nomenclature in dpcR.
 
 The package is primarily targeted at researchers who wish to use it with an existing
