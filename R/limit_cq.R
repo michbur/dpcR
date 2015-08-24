@@ -64,12 +64,13 @@ l5 <- structure(list(expr = "Fluo ~ c + (d - c)/((1 + exp(b * (log(Cycles) - log
 
 #' Limit Cy0 values
 #' 
-#' The function \code{limit_cq} calculates the Cq values of a qPCR experiment
+#' Calculates the Cq values of a qPCR experiment
 #' within a defined range of cycles. The function can be used to extract Cq
 #' values of a chamber based qPCR for conversion into a dPCR experiment. All Cq
 #' values are obtained by Second Derivative Maximum or by Cy0 method (Guescini
 #' et al. (2008)).
 #' 
+#' @details 
 #' The \code{Cq_range} for this function an be defined be the user. The default
 #' is to take all amplification curves into consideration. However, under
 #' certain circumstances it is recommended to define a range. For example if

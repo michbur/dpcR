@@ -31,7 +31,7 @@ column \code{in.range} contains adequate logical constant if given Cy0 value
 is in user-defined \code{Cq_range}.
 }
 \description{
-The function \code{limit_cq} calculates the Cq values of a qPCR experiment
+Calculates the Cq values of a qPCR experiment
 within a defined range of cycles. The function can be used to extract Cq
 values of a chamber based qPCR for conversion into a dPCR experiment. All Cq
 values are obtained by Second Derivative Maximum or by Cy0 method (Guescini
