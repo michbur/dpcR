@@ -5,14 +5,22 @@
 #' @aliases test_counts
 #' @param input adpcr or dpcr object with with "nm" type.
 #' @param model may have one of following values: \code{binomial}, \code{poisson},
-#' \code{prop}, \code{ratio}.
+#' \code{prop}, \code{ratio}. See Details.
 #' @param conf.level confidence level of the intervals and groups.
-#' @details \code{test_counts} fits counts data from different 
-#' digital PCR experiments to Generalized Linear Model (using quasibinomial
-#' or quasipoisson \code{\link[stats]{family}}). Comparisons between single experiments
-#' utilize Tukey's contrast and multiple t-tests (as provided by function \code{\link{glht}}).
-#' @note Mean number of template molecules per partitions and its confidence intervals are derived 
-#' from General Linear Models. Their values will vary depending on input.
+#' @details 
+#' \code{test_counts} incorporates two different approaches to models: GLM (General Linear 
+#' Model) and multiple pair-wise tests. The GLM fits counts data from different 
+#' digital PCR experiments using quasibinomial or quasipoisson \code{\link[stats]{family}}. 
+#' Comparisons between single experiments utilize Tukey's contrast and multiple t-tests 
+#' (as provided by function \code{\link{glht}}).
+#' 
+#' In case of pair-wise tests, (\code{\link[rateratio.test]{rateratio.test}} or 
+#' \code{\link[stats]{prop.test}}) are used to compare all pairs of experiments. The 
+#' p-values are adjusted using the Benjamini & Hochberg method (\code{\link[stats]{p.adjust}}).
+#' Furthermore, confidence intervals are simultaneous.
+#' 
+#' @note Mean number of template molecules per partitions and its confidence intervals will 
+#' vary depending on input.
 #' @export
 #' @seealso
 #' Functions used by \code{test_counts}: 
@@ -151,7 +159,7 @@ test_counts <- function(input, model = "binomial", conf.level = 0.95) {
                                    names(positives))
     
     group_coef <- data.frame(apply(group_matrix, 2, function(i) 
-      paste(names(i[which(i)]), collapse = ".")), 
+      paste(sort(as.numeric(names(i[which(i)]))), collapse = ".")), 
       group_vals)
     colnames(group_coef) <- c("group", "lambda", "lambda.low", "lambda.up")
     

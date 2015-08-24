@@ -10,7 +10,7 @@ test_counts(input, model = "binomial", conf.level = 0.95)
 \item{input}{adpcr or dpcr object with with "nm" type.}
 
 \item{model}{may have one of following values: \code{binomial}, \code{poisson},
-\code{prop}, \code{ratio}.}
+\code{prop}, \code{ratio}. See Details.}
 
 \item{conf.level}{confidence level of the intervals and groups.}
 }
@@ -21,14 +21,20 @@ an object of class \code{\linkS4class{count_test}}.
 The test for comparing counts from two or more digital PCR experiments.
 }
 \details{
-\code{test_counts} fits counts data from different
-digital PCR experiments to Generalized Linear Model (using quasibinomial
-or quasipoisson \code{\link[stats]{family}}). Comparisons between single experiments
-utilize Tukey's contrast and multiple t-tests (as provided by function \code{\link{glht}}).
+\code{test_counts} incorporates two different approaches to models: GLM (General Linear
+Model) and multiple pair-wise tests. The GLM fits counts data from different
+digital PCR experiments using quasibinomial or quasipoisson \code{\link[stats]{family}}.
+Comparisons between single experiments utilize Tukey's contrast and multiple t-tests
+(as provided by function \code{\link{glht}}).
+
+In case of pair-wise tests, (\code{\link[rateratio.test]{rateratio.test}} or
+\code{\link[stats]{prop.test}}) are used to compare all pairs of experiments. The
+p-values are adjusted using the Benjamini & Hochberg method (\code{\link[stats]{p.adjust}}).
+Furthermore, confidence intervals are simultaneous.
 }
 \note{
-Mean number of template molecules per partitions and its confidence intervals are derived
-from General Linear Models. Their values will vary depending on input.
+Mean number of template molecules per partitions and its confidence intervals will
+vary depending on input.
 }
 \examples{
 #be warned, the examples of test_counts are time-consuming
