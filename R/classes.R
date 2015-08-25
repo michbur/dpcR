@@ -22,8 +22,21 @@
 #'  \item{\code{"np"}: status (positive (1) or negative(0)) of each partition,}
 #'  \item{\code{"tnp"}: total number of positive partitions in the run (single 
 #'  value per each run, not per partition).}}
+#'  
+#' Digital PCR data is always a matrix, where the column and rows represent 
+#' respectively runs and data points. For example, matrix with 2 columns and 765 rows
+#' means two runs with 765 data points each. In case of \code{"tnp"} data, each run is
+#' represented by only one measurement, the count of all positive partitions.
+#' 
+#' The number of partitions is defined in slot \code{n}. In the previous example, two 
+#' runs have 765 data points, but they can have different real number of partitions 
+#' (for example some reads are not avaible). In this case, the data point will have 
+#' value NA. 
+#' 
+#' The structure of \code{dpcr} class is thoroughly described in the vignette.
 #' @author Michal Burdukiewicz.
-#' @note This class should not be directly used. Instead, users should use more 
+#' @note 
+#' This class should not be directly used. Instead, users should use more 
 #' specific class: \code{\linkS4class{adpcr}}, \code{\linkS4class{ddpcr}} or
 #' \code{\linkS4class{rtadpcr}}
 #' @keywords classes
@@ -137,6 +150,9 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
 #'  \item{\code{"np"}: status (positive (1) or negative(0)) of each well,}
 #'  \item{\code{"tnp"}: total number of positive wells in the panel (single value per each 
 #'  panel, not per well).}}
+#'  
+#' For more in-depth explanation of digital PCR data structure, see 
+#' \code{\linkS4class{dpcr}}.
 #' @author Michal Burdukiewicz.
 #' @seealso Data management: \code{\link{adpcr2panel}}, \code{\link{bind_dpcr}},
 #' \code{\link{extract_dpcr}}.
@@ -243,6 +259,8 @@ create_adpcr <- function(data, n, exper = "Experiment1",
 #'  \item{\code{"np"}: status (positive (1) or negative(0)) of each droplet,}
 #'  \item{\code{"tnp"}: total number of positive droplets in the reaction 
 #'  (single value per each reaction, not per droplet).}}
+#' For more in-depth explanation of digital PCR data structure, see 
+#' \code{\linkS4class{dpcr}}.
 #' @author Michal Burdukiewicz.
 #' @seealso Ploting and managment: \code{\link{bind_dpcr}},
 #' \code{\link{extract_dpcr}}, \code{\link{plot_vic_fam}}.

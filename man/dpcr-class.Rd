@@ -18,6 +18,18 @@ Possible \code{type} values of \code{dpcr} objects:
  \item{\code{"np"}: status (positive (1) or negative(0)) of each partition,}
  \item{\code{"tnp"}: total number of positive partitions in the run (single
  value per each run, not per partition).}}
+
+Digital PCR data is always a matrix, where the column and rows represent
+respectively runs and data points. For example, matrix with 2 columns and 765 rows
+means two runs with 765 data points each. In case of \code{"tnp"} data, each run is
+represented by only one measurement, the count of all positive partitions.
+
+The number of partitions is defined in slot \code{n}. In the previous example, two
+runs have 765 data points, but they can have different real number of partitions
+(for example some reads are not avaible). In this case, the data point will have
+value NA.
+
+The structure of \code{dpcr} class is thoroughly described in the vignette.
 }
 \section{Slots}{
 

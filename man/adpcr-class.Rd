@@ -20,6 +20,9 @@ Possible \code{type} values of \code{adpcr} objects:
  \item{\code{"np"}: status (positive (1) or negative(0)) of each well,}
  \item{\code{"tnp"}: total number of positive wells in the panel (single value per each
  panel, not per well).}}
+
+For more in-depth explanation of digital PCR data structure, see
+\code{\linkS4class{dpcr}}.
 }
 \section{Slots}{
 
