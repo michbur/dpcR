@@ -6,7 +6,8 @@
 #' @name dpcr-class
 #' @aliases dpcr-class dpcr
 #' @docType class
-#' @slot .Data \code{matrix} containing data from array. See Description.
+#' @slot .Data \code{matrix} containing data from digital PCR experiments. See 
+#' Details.
 #' @slot n \code{integer} equal to the number of partitions in each
 #' experiment.
 #' @slot exper \code{factor} representing the id or name of experiments.
@@ -23,7 +24,7 @@
 #'  \item{\code{"tnp"}: total number of positive partitions in the run (single 
 #'  value per each run, not per partition).}}
 #'  
-#' Digital PCR data is always a matrix, where the column and rows represent 
+#' Digital PCR data is always a matrix, where columns and rows represent 
 #' respectively runs and data points. For example, matrix with 2 columns and 765 rows
 #' means two runs with 765 data points each. In case of \code{"tnp"} data, each run is
 #' represented by only one measurement, the count of all positive partitions.

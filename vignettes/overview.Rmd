@@ -59,6 +59,57 @@ adpcr_experiments <- create_dpcr(sample_runs, n = c(240L, 240L), type = "nm", ad
 class(adpcr_experiments)
 ```
 
+The `read_dpcr` function is responsible for importing data into R working space. The additional parameters allow specification of the format type.
+
+Additionally, we advise using other packages belonging do the pcRuniversum such as [RDML](http://cran.r-project.org/package=RDML) or dedicated packages such as ReadqPCR ([available from bioconductor.org](http://www.bioconductor.org/packages/release/bioc/html/ReadqPCR.html)). Further information can be found in @pabinger_survey_2014.
+
+Before analysis data should be saved using one of the three classes - `adpcr` (end-point array digital PCR experiments), `ddpcr` (droplet digital PCR experiments) and `rtadpcr` (real-time array digital PCR experiments). To do so, use `create_dpcr` function.
+
+```{r eval=TRUE}
+library(dpcR)
+#generate some data from 15x16 array. Let's presume, that we have results from two plates
+sample_runs <- matrix(rpois(480, lambda = 1.5), ncol = 2)
+#check its class - it's a typical R structure
+class(sample_runs)
+#save it to adpcr object
+adpcr_experiments <- create_dpcr(sample_runs, n = c(240L, 240L), type = "nm", adpcr = TRUE)
+class(adpcr_experiments)
+```
+
+# Data structure
+
+The key class of dpcR package is `dpcr`. It has following slots:  
+* *.Data* - matrix containing data from digital PCR runs. Its type is further specified by the *type* slot (see below).  
+* *n* - number of partitions read in each run.
+* *exper* - name of the experiment.
+* *replicate* - name (or more conviniently ID) of the replicate.
+* *assay* - name of the assay.
+* *type* - type of data.
+
+Digital PCR data is always a matrix (see `?matrix` in R). Columns and rows represent respectively individual runs and their data points. The data points are not equivalent to partitons. The number of partitions for each run is defined in slot *n*.  
+
+```{r eval=TRUE}
+#create two array digital PCR experiments. Mind the difference in the n parameter.
+sample_adpcr <- bind_dpcr(sim_adpcr(m = 100, n = 765, times = 1000, pos_sums = FALSE, n_panels = 1), 
+                          rename(sim_adpcr(m = 100, n = 763, times = 1000, pos_sums = FALSE, n_panels = 1), 
+                                 exper = "Experiment2"))
+```
+
+In the code chunk above we created two array digital PCR experiments with respectively 765 and 763 partitions. See the last five data points:
+
+```{r eval=TRUE}
+#it's possible to manipulate data points from dpcr object using all functions that work for matrices
+tail(sample_adpcr)
+```
+
+Both experiments have 765 data points. We see that in case of shorter experiment, 2 data points has value NA. If we analyze the *n* slot:
+```{r eval=TRUE}
+slot(sample_adpcr, "n")
+```
+
+we see the expected number of partitions.
+
+
 # Data visualisation
 
 Data from digital PCR arrays can be easily visualized using `plot_panel` function.
