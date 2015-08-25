@@ -3,8 +3,7 @@
 \docType{methods}
 \name{show-methods}
 \alias{show}
-\alias{show,adpcr-method}
-\alias{show,ddpcr-method}
+\alias{show,dpcr-method}
 \alias{show-methods}
 \title{Methods for Function \code{show}}
 \arguments{

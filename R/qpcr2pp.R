@@ -48,9 +48,15 @@
 #' thus better suited for Poisson process.
 #' 
 #' @inheritParams limit_cq
-#' @param NuEvents NuEvents is "number of expected events" within a time frame
+#' @param NuEvents "number of expected events" within a time frame
 #' (interval).
-#' @param delta is the difference "time (cycles) points" e.g., Cycle 18 and 25.
+#' @param delta difference "time (cycles) points" e.g., Cycle 18 and 25.
+#' @param exper The id of experiments.
+#' @param replicate The id of technical replicates.
+#' @param assay The name or id of assays.
+#' @param type object of class \code{"character"} defining type of data. Could
+#' be \code{"np"} (status (positive (1) or negative(0)) of each droplet) or\code{"ct"} 
+#' (threshold cycle).
 #' @return An object of \code{\linkS4class{qdpcr}} class.
 #' @author Stefan Roediger, Michal Burdukiewicz.
 #' @keywords Poisson Process qPCR
@@ -62,17 +68,21 @@
 #' 	      reps3[1L:45, 2L:ncol(reps3)])
 #' 
 #' # before interpolation qPCR experiment must be converted into dPCR
-#' Cq.range <- c(20, 30)
-#' qpcr2pp(data = test, cyc = 1, fluo = NULL, Cq_range = Cq.range, model = l5, delta = 5)
+#' qpcrpp <- qpcr2pp(data = test, cyc = 1, fluo = NULL, Cq_range = c(20, 30), model = l5, delta = 5)
+#' summary(qpcrpp)
 
 
 qpcr2pp <- function(data, cyc = 1, fluo = NULL,
-                    Cq_range = c(1, max(data[cyc])), model = l5, SDM = TRUE, NuEvents = 1, delta = 1) {
+                    Cq_range = c(6, max(data[cyc]) - 6), model = l5, SDM = TRUE, NuEvents = 1, delta = 1,
+                    exper = "qPCR1", replicate = 1, assay = "Unknown", type = "np") {
   
-  res_qPCR <- limit_cq(data = data, cyc = cyc, fluo = fluo, 
+  if(!(type %in% c("np", "ct")))
+    stop("'type' must have value 'ct' or 'np'.")
+  
+  cq_dat <- limit_cq(data = data, cyc = cyc, fluo = fluo, 
                         Cq_range = Cq_range, model = model, SDM = SDM)
   
-  res_qPCR <- res_qPCR[order(res_qPCR[[1]]), ]
+  res_qPCR <- cq_dat[order(cq_dat[[1]]), ]
   res_qPCR <- cbind(res_qPCR, cumsum(res_qPCR[, 2]))
   colnames(res_qPCR) <- c("Cycles", "result", "lambda") 
   
@@ -96,6 +106,13 @@ qpcr2pp <- function(data, cyc = 1, fluo = NULL,
   } else cyc.occ <- "too large"
   # END WIP
   
-  new("qdpcr", .Data = data.matrix(res_qPCR), mu = mu, CT = cycle.time, CO = cyc.occ, 
-      partitions = dens.tmp[["n"]], events = dens.tmp[["k"]])
+  res <- construct_dpcr(data = cq_dat[, ifelse(type == "np", 2, 1)], n = nrow(cq_dat), exper = exper, 
+                 replicate = replicate, assay = assay, type = type)
+  class(res) <- "qdpcr"
+  slot(res, "qpcr") <- data.matrix(res_qPCR)
+  slot(res, "mu") <- mu
+  slot(res, "CT") <- cycle.time
+  slot(res, "CO") <- cyc.occ
+  
+  res
 }

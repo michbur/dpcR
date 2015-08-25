@@ -1,6 +1,7 @@
 #' Class \code{"qdpcr"}
 #' 
-#' An object representing digital PCR reaction depicted as Poisson process.
+#' An object representing digital PCR reaction depicted as Poisson process. Inherits 
+#' from \code{\linkS4class{dpcr}}.
 #' 
 #' 
 #' @name qdpcr-class
@@ -8,30 +9,22 @@
 #' summary,qdpcr-method
 #' @docType class
 #' @section Slots: \describe{ 
-#' \item{list(".Data")}{\code{"matrix"} with three
-#' columns containing: number of cycles, amplification curves and cumulative
-#' sum of events.}
-#' \item{list("mu")}{\code{"numeric"} of the expected number of events in
+#' \item{list("mu")}{\code{"numeric"} of the expected number of events in a
 #' defined interval.}
+#' \item{list("C0")}{\code{"numeric"} the occurrence in a defined interval.}
 #' \item{list("CT")}{\code{"numeric"} value of the
 #' "average time" between the occurrence of a positive reaction and another
 #' positive reaction.}
-#' \item{list("partitions")}{\code{"integer"} value equal to the number of
-#' partitions.}
-#' \item{list("events")}{\code{"integer"} value equal number of
-#' events (positive partitions taken to further
-#' analysis)}
 #' }
 #' @author Stefan Roediger, Michal Burdukiewicz.
 #' @seealso \code{\link{plot.qdpcr}},
 #' @keywords classes
 NULL
 
-setClass("qdpcr", contains = "matrix", representation(.Data = "matrix", mu = "numeric", 
-                                                       CO = "numeric",
-                                                       CT = "numeric", 
-                                                       partitions = "integer",
-                                                       events = "integer"))
+setClass("qdpcr", contains = "dpcr", representation(qpcr = "matrix", 
+                                                    mu = "numeric", 
+                                                    CO = "numeric",
+                                                    CT = "numeric"))
 
 
 
@@ -66,16 +59,16 @@ setClass("qdpcr", contains = "matrix", representation(.Data = "matrix", mu = "nu
 NULL
 
 setMethod("plot", signature(x = "qdpcr"), function(x, mincyc = 1, maxcyc = 45, rug = TRUE,
-                                                    digits = getOption("digits") - 3) {
+                                                   digits = getOption("digits") - 3) {
   # Plot the calculated qPCR data as Poisson processes
-  res_qPCR <- slot(x, ".Data")
+  res_qPCR <- slot(x, "qpcr")
   plot(res_qPCR[, 1], res_qPCR[,3], xlim = c(mincyc, maxcyc), 
        ylim = c(0, nrow(res_qPCR)), xlab = "Cycle", 
        ylab = expression(paste(lambda,
                                " (cycles)")), type = "S", lwd = 1.5)
   abline(h = nrow(res_qPCR) * 0.5, col = "grey")
-  legend_texts <- c(paste0("Partitions: ", slot(x, "partitions")),
-                    paste0("Events: ", slot(x, "events")),
+  legend_texts <- c(paste0("n: ", slot(x, "n")),
+                    paste0("k: ", sum(slot(x, "qpcr")[, "result"])),
                     as.expression(bquote(paste(mu, ": ", .(slot(x, "mu"))))),
                     paste0("CT: ", format(slot(x, "CT"), digits = digits)),
                     paste0("CO: ", format(slot(x, "CO"), digits = digits)))
@@ -87,16 +80,16 @@ setMethod("plot", signature(x = "qdpcr"), function(x, mincyc = 1, maxcyc = 45, r
 
 
 
-setMethod("show", signature(object = "qdpcr"), function(object) {
-  print(slot(object, ".Data"))    
-})
+# setMethod("show", signature(object = "qdpcr"), function(object) {
+#   print(slot(object, ".Data"))    
+# })
 
 
-setMethod("summary", signature(object = "qdpcr"), function(object, print = TRUE) {
-  cat("\nmu: ", slot(object, "mu"), "\n")
-  cat("C0: ", format(slot(object, "CO")), "\n")
-  cat("Cycle time: ", format(slot(object, "CT")), "\n")
-  cat("Number of partitions: ", slot(object, "partitions"), "\n")
-  cat("Number of events: ", slot(object, "events"), "\n")
-  cat("\n")
-})
+# setMethod("summary", signature(object = "qdpcr"), function(object, print = TRUE) {
+#   cat("\nmu: ", slot(object, "mu"), "\n")
+#   cat("C0: ", format(slot(object, "CO")), "\n")
+#   cat("Cycle time: ", format(slot(object, "CT")), "\n")
+#   cat("Number of partitions: ", slot(object, "n"), "\n")
+#   cat("Number of events: ", slot(object, "events"), "\n")
+#   cat("\n")
+# })

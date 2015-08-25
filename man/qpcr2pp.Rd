@@ -4,8 +4,9 @@
 \alias{qpcr2pp}
 \title{qPCR to Poisson Process}
 \usage{
-qpcr2pp(data, cyc = 1, fluo = NULL, Cq_range = c(1, max(data[cyc])),
-  model = l5, SDM = TRUE, NuEvents = 1, delta = 1)
+qpcr2pp(data, cyc = 1, fluo = NULL, Cq_range = c(6, max(data[cyc]) - 6),
+  model = l5, SDM = TRUE, NuEvents = 1, delta = 1, exper = "qPCR1",
+  replicate = 1, assay = "Unknown", type = "np")
 }
 \arguments{
 \item{data}{a dataframe containing the qPCR data.}
@@ -24,10 +25,20 @@ to 'l5' (see \code{\link[qpcR]{pcrfit}}).}
 \item{SDM}{if \code{TRUE}, Cq is approximated by the second derivative
 method.  If \code{FALSE}, Cy0 method is used instead.}
 
-\item{NuEvents}{NuEvents is "number of expected events" within a time frame
+\item{NuEvents}{"number of expected events" within a time frame
 (interval).}
 
-\item{delta}{is the difference "time (cycles) points" e.g., Cycle 18 and 25.}
+\item{delta}{difference "time (cycles) points" e.g., Cycle 18 and 25.}
+
+\item{exper}{The id of experiments.}
+
+\item{replicate}{The id of technical replicates.}
+
+\item{assay}{The name or id of assays.}
+
+\item{type}{object of class \code{"character"} defining type of data. Could
+be \code{"np"} (status (positive (1) or negative(0)) of each droplet) or\code{"ct"}
+(threshold cycle).}
 }
 \value{
 An object of \code{\linkS4class{qdpcr}} class.
@@ -86,8 +97,8 @@ test <- cbind(reps[1L:45, ], reps2[1L:45, 2L:ncol(reps2)],
 	      reps3[1L:45, 2L:ncol(reps3)])
 
 # before interpolation qPCR experiment must be converted into dPCR
-Cq.range <- c(20, 30)
-qpcr2pp(data = test, cyc = 1, fluo = NULL, Cq_range = Cq.range, model = l5, delta = 5)
+qpcrpp <- qpcr2pp(data = test, cyc = 1, fluo = NULL, Cq_range = c(20, 30), model = l5, delta = 5)
+summary(qpcrpp)
 }
 \author{
 Stefan Roediger, Michal Burdukiewicz.

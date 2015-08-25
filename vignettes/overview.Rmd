@@ -91,7 +91,8 @@ Digital PCR data is always a matrix (see `?matrix` in R). Columns and rows repre
 ```{r eval=TRUE}
 #create two array digital PCR experiments. Mind the difference in the n parameter.
 sample_adpcr <- bind_dpcr(sim_adpcr(m = 100, n = 765, times = 1000, pos_sums = FALSE, n_panels = 1), 
-                          rename(sim_adpcr(m = 100, n = 763, times = 1000, pos_sums = FALSE, n_panels = 1), 
+                          rename(sim_adpcr(m = 100, n = 763, times = 1000, pos_sums = FALSE, 
+                                           n_panels = 1), 
                                  exper = "Experiment2"))
 ```
 

@@ -80,8 +80,12 @@ setMethod("summary", signature(object = "dpcr"), function(object, print = TRUE) 
   type <- slot(object, "type")
   n <- slot(object, "n")
   
+  if (type %in% c("ct"))
+    stop(paste0("'summary' is currently not implemented for data type ", type, "."))
+  
+  
   if(class(object) == "adpcr")
-    if (type %in% c("fluo", "ct")) 
+    if (type %in% c("fluo"))
       stop(paste0("'summary' is currently not implemented for data type ", type, "."))
   
   if(class(object) == "ddpcr")

@@ -38,8 +38,8 @@
 #' @author Michal Burdukiewicz.
 #' @note 
 #' This class should not be directly used. Instead, users should use more 
-#' specific class: \code{\linkS4class{adpcr}}, \code{\linkS4class{ddpcr}} or
-#' \code{\linkS4class{rtadpcr}}
+#' specific class: \code{\linkS4class{adpcr}}, \code{\linkS4class{ddpcr}},
+#' \code{\linkS4class{qdpcr}} or \code{\linkS4class{rtadpcr}}.
 #' @keywords classes
 
 setClass("dpcr", contains = "matrix", representation(.Data = "matrix",
@@ -186,9 +186,6 @@ create_adpcr <- function(data, n, exper = "Experiment1",
                          col_names = NULL, row_names = NULL, panel_id = NULL) {
   result <- construct_dpcr(data = data, n = n, exper = exper, 
                            replicate = replicate, assay = assay, type = type)
-  
-  if (type == "ct")
-    stop("'ct' type is not implemented for 'adpcr' objects.")
   
   if (is.null(breaks)) {
     breaks <- 0L:max(data, na.rm = TRUE)

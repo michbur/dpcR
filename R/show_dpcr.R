@@ -5,7 +5,7 @@
 #' 
 #' 
 #' @name show-methods
-#' @aliases show-methods show-methods show,adpcr-method show,ddpcr-method show
+#' @aliases show-methods show-methods show,dpcr-method show,dpcr-method show
 #' @docType methods
 #' @param object an object of class \code{\linkS4class{adpcr}} or
 #' \code{\linkS4class{ddpcr}}.
@@ -32,12 +32,7 @@
 NULL
 
 # Special method declared to hide slots other than .Data
-setMethod("show", signature(object = "adpcr"), function(object) {
+setMethod("show", signature(object = "dpcr"), function(object) {
   print(slot(object, ".Data"))
   cat(paste0("\nType: '", slot(object, "type"), "'"))
-})
-
-setMethod("show", signature(object = "ddpcr"), function(object) {
-  print(slot(object, ".Data"))
-  cat(paste0("\nType: '", slot(object, "type"), "'"))     
 })

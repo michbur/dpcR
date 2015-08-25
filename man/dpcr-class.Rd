@@ -50,8 +50,8 @@ experiment.}
 }}
 \note{
 This class should not be directly used. Instead, users should use more
-specific class: \code{\linkS4class{adpcr}}, \code{\linkS4class{ddpcr}} or
-\code{\linkS4class{rtadpcr}}
+specific class: \code{\linkS4class{adpcr}}, \code{\linkS4class{ddpcr}},
+\code{\linkS4class{qdpcr}} or \code{\linkS4class{rtadpcr}}.
 }
 \author{
 Michal Burdukiewicz.

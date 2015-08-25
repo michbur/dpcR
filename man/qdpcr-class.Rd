@@ -10,23 +10,17 @@
 \alias{summary.qdpcr}
 \title{Class \code{"qdpcr"}}
 \description{
-An object representing digital PCR reaction depicted as Poisson process.
+An object representing digital PCR reaction depicted as Poisson process. Inherits
+from \code{\linkS4class{dpcr}}.
 }
 \section{Slots}{
  \describe{
-\item{list(".Data")}{\code{"matrix"} with three
-columns containing: number of cycles, amplification curves and cumulative
-sum of events.}
-\item{list("mu")}{\code{"numeric"} of the expected number of events in
+\item{list("mu")}{\code{"numeric"} of the expected number of events in a
 defined interval.}
+\item{list("C0")}{\code{"numeric"} the occurrence in a defined interval.}
 \item{list("CT")}{\code{"numeric"} value of the
 "average time" between the occurrence of a positive reaction and another
 positive reaction.}
-\item{list("partitions")}{\code{"integer"} value equal to the number of
-partitions.}
-\item{list("events")}{\code{"integer"} value equal number of
-events (positive partitions taken to further
-analysis)}
 }
 }
 \author{
