@@ -49,7 +49,7 @@ setClass("qdpcr", contains = "matrix", representation(.Data = "matrix", mu = "nu
 #' @aliases plot.qdpcr plot,qdpcr-method plot,qdpcr,ANY-method
 #' @param x is a \code{\linkS4class{qdpcr}} object.
 #' @param mincyc is the first cycle to start the plot from.
-#' @param maxcyc the the last cycle for the plot.
+#' @param maxcyc the last cycle for the plot.
 #' @param rug Adds a rug representation of the data to the plot.
 #' @param digits how many significant digits are to be used in plot.
 #' @author Stefan Roediger, Michal Burdukiewicz
@@ -80,7 +80,7 @@ setMethod("plot", signature(x = "qdpcr"), function(x, mincyc = 1, maxcyc = 45, r
                     paste0("CT: ", format(slot(x, "CT"), digits = digits)),
                     paste0("CO: ", format(slot(x, "CO"), digits = digits)))
   legend(mincyc, nrow(res_qPCR), legend_texts)
-  # Add rug to the the plot the illustrate the density of events
+  # Add rug to the plot to illustrate the density of events
   if (rug) 
     rug(res_qPCR[, 1])
 })

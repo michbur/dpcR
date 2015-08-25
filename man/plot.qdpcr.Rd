@@ -10,7 +10,7 @@
 
 \item{mincyc}{is the first cycle to start the plot from.}
 
-\item{maxcyc}{the the last cycle for the plot.}
+\item{maxcyc}{the last cycle for the plot.}
 
 \item{rug}{Adds a rug representation of the data to the plot.}
 
