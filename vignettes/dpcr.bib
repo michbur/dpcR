@@ -544,6 +544,24 @@
   Pmid                     = {24003063}
 }
 
+@Article{dobnik_multiplex_2015,
+  Title                    = {Multiplex {Quantification} of 12 {European} {Union} {Authorized} {Genetically} {Modified} {Maize} {Lines} with {Droplet} {Digital} {Polymerase} {Chain} {Reaction}},
+  Author                   = {Dobnik, David and Spilsberg, Bjørn and Bogožalec Košir, Alexandra and Holst-Jensen, Arne and Žel, Jana},
+  Journal                  = {Analytical Chemistry},
+  Year                     = {2015},
+
+  Month                    = aug,
+  Number                   = {16},
+  Pages                    = {8218--8226},
+  Volume                   = {87},
+
+  Abstract                 = {Presence of genetically modified organisms (GMO) in food and feed products is regulated in many countries. The European Union (EU) has implemented a threshold for labeling of products containing more than 0.9\% of authorized GMOs per ingredient. As the number of GMOs has increased over time, standard-curve based simplex quantitative polymerase chain reaction (qPCR) analyses are no longer sufficiently cost-effective, despite widespread use of initial PCR based screenings. Newly developed GMO detection methods, also multiplex methods, are mostly focused on screening and detection but not quantification. On the basis of droplet digital PCR (ddPCR) technology, multiplex assays for quantification of all 12 EU authorized GM maize lines (per April first 2015) were developed. Because of high sequence similarity of some of the 12 GM targets, two separate multiplex assays were needed. In both assays (4-plex and 10-plex), the transgenes were labeled with one fluorescence reporter and the endogene with another (GMO concentration = transgene/endogene ratio). It was shown that both multiplex assays produce specific results and that performance parameters such as limit of quantification, repeatability, and trueness comply with international recommendations for GMO quantification methods. Moreover, for samples containing GMOs, the throughput and cost-effectiveness is significantly improved compared to qPCR. Thus, it was concluded that the multiplex ddPCR assays could be applied for routine quantification of 12 EU authorized GM maize lines. In case of new authorizations, the events can easily be added to the existing multiplex assays. The presented principle of quantitative multiplexing can be applied to any other domain.},
+  Doi                      = {10.1021/acs.analchem.5b01208},
+  ISSN                     = {0003-2700},
+  Url                      = {http://dx.doi.org/10.1021/acs.analchem.5b01208},
+  Urldate                  = {2015-08-24}
+}
+
 @Article{dodd_digital_2013,
   Title                    = {Digital quantitation of potential therapeutic target {RNAs}},
   Author                   = {Dodd, David W and Gagnon, Keith T and Corey, David R},
@@ -600,6 +618,27 @@
   Keywords                 = {Bacteriophage lambda, Chromatography, Liquid, {DNA}, Viral, Genomics, Indicator Dilution Techniques, Mass Spectrometry, Sensitivity and Specificity, Ultrasonics},
   Language                 = {eng},
   Pmid                     = {22218463}
+}
+
+@Article{dreo_optimising_2014,
+  Title                    = {Optimising droplet digital {PCR} analysis approaches for detection and quantification of bacteria: a case study of fire blight and potato brown rot},
+  Author                   = {Dreo, Tanja and Pirc, Manca and Ramšak, Živa and Pavšič, Jernej and Milavec, Mojca and Žel, Jana and Gruden, Kristina},
+  Journal                  = {Analytical and Bioanalytical Chemistry},
+  Year                     = {2014},
+
+  Month                    = aug,
+  Number                   = {26},
+  Pages                    = {6513--6528},
+  Volume                   = {406},
+
+  Abstract                 = {Here we report on the first assessment of droplet digital PCR (ddPCR) for detection and absolute quantification of two quarantine plant pathogenic bacteria that infect many species of the Rosaceae and Solanaceae families: Erwinia amylovora and Ralstonia solanacearum. An open-source R script was written for the ddPCR data analysis. Analysis of a set of samples with known health status aided the assessment and selection of different threshold settings (QuantaSoft analysis, definetherain pipeline and manual threshold), which led to optimal diagnostic specificity. The interpretation of the E. amylovora ddPCR was straightforward, and the analysis approach had little influence on the final results and the concentrations determined. The sensitivity and linear range were similar to those for real-time PCR (qPCR), for the analysis of both bacterial suspensions and plant material, making ddPCR a viable choice when both detection and quantification are desired. With the R. solanacearum ddPCR, the use of a high global threshold was necessary to exclude false-positive reactions that are sometimes observed in healthy plant material. ddPCR significantly improved the analytical sensitivity over that of qPCR, and improved the detection of low concentrations of R. solanacearum in potato tuber samples. Accurate and rapid absolute quantification of both of these bacteria in pure culture was achieved by direct ddPCR. Our data confirm the suitability of these ddPCR assays for routine detection and quantification of plant pathogens and for preparation of defined in-house reference materials with known target concentrations.},
+  Doi                      = {10.1007/s00216-014-8084-1},
+  ISSN                     = {1618-2642, 1618-2650},
+  Keywords                 = {Analytical Chemistry, Bioanalytical methods, Biochemistry, general, Characterization and Evaluation of Materials, Droplet digital PCR, Environmental Monitoring/Analysis, Food Science, Laboratory Medicine, Molecular diagnostics, Plant pathogenic bacteria},
+  Language                 = {en},
+  Shorttitle               = {Optimising droplet digital {PCR} analysis approaches for detection and quantification of bacteria},
+  Url                      = {http://link.springer.com/article/10.1007/s00216-014-8084-1},
+  Urldate                  = {2015-08-24}
 }
 
 @Article{dube_mathematical_2008,
@@ -2170,6 +2209,21 @@ Our comprehensive survey showed that most tools use their own file format and on
   Pmid                     = {21509397}
 }
 
+@Article{roediger2015chippcr,
+  Title                    = {{chipPCR: an R package to pre-process raw data of amplification curves}},
+  Author                   = {R{\"o}diger, Stefan and Burdukiewicz, Micha{\l} and Schierack, Peter},
+  Journal                  = {Bioinformatics},
+  Year                     = {2015},
+  Number                   = {17},
+  Pages                    = {2900-2902},
+  Volume                   = {31},
+
+  Abstract                 = {Motivation: Both the quantitative real-time polymerase chain reaction (qPCR) and quantitative isothermal amplification (qIA) are standard methods for nucleic acid quantification. Numerous real-time read-out technologies have been developed. Despite the continuous interest in amplification-based techniques, there are only few tools for pre-processing of amplification data. However, a transparent tool for precise control of raw data is indispensable in several scenarios, for example, during the development of new instruments.Results: chipPCR is an R package for the pre-processing and quality analysis of raw data of amplification curves. The package takes advantage of R’s S4 object model and offers an extensible environment. chipPCR contains tools for raw data exploration: normalization, baselining, imputation of missing values, a powerful wrapper for amplification curve smoothing and a function to detect the start and end of an amplification curve. The capabilities of the software are enhanced by the implementation of algorithms unavailable in R, such as a 5-point stencil for derivative interpolation. Simulation tools, statistical tests, plots for data quality management, amplification efficiency/quantification cycle calculation, and datasets from qPCR and qIA experiments are part of the package. Core functionalities are integrated in GUIs (web-based and standalone shiny applications), thus streamlining analysis and report generation.Availability and implementation: http://cran.r-project.org/web/packages/chipPCR. Source code: https://github.com/michbur/chipPCR.Contact: stefan.roediger@b-tu.deSupplementary information: Supplementary data are available at Bioinformatics online.},
+  Doi                      = {10.1093/bioinformatics/btv205},
+  Eprint                   = {http://bioinformatics.oxfordjournals.org/content/31/17/2900.full.pdf+html},
+  Url                      = {http://bioinformatics.oxfordjournals.org/content/31/17/2900.abstract}
+}
+
 @Article{rodiger_rkward_2012,
   Title                    = {{{RKWard:} A Comprehensive Graphical User Interface and Integrated Development Environment for Statistical Analysis with {R}}},
   Author                   = {Stefan R{\"o}diger and Thomas Friedrichsmeier and Prasenjit Kapat and Meik Michalke},
@@ -2208,21 +2262,6 @@ Our comprehensive survey showed that most tools use their own file format and on
 
   Url                      = {http://journal.r-project.org/archive/2015-1/RJ-2015-1.pdf}
 }
-
-@article{roediger2015chippcr,
-author = {R{\"o}diger, Stefan and Burdukiewicz, Micha{\l} and Schierack, Peter}, 
-title = {{chipPCR: an R package to pre-process raw data of amplification curves}},
-volume = {31}, 
-number = {17}, 
-pages = {2900-2902}, 
-year = {2015}, 
-doi = {10.1093/bioinformatics/btv205}, 
-abstract ={Motivation: Both the quantitative real-time polymerase chain reaction (qPCR) and quantitative isothermal amplification (qIA) are standard methods for nucleic acid quantification. Numerous real-time read-out technologies have been developed. Despite the continuous interest in amplification-based techniques, there are only few tools for pre-processing of amplification data. However, a transparent tool for precise control of raw data is indispensable in several scenarios, for example, during the development of new instruments.Results: chipPCR is an R package for the pre-processing and quality analysis of raw data of amplification curves. The package takes advantage of R’s S4 object model and offers an extensible environment. chipPCR contains tools for raw data exploration: normalization, baselining, imputation of missing values, a powerful wrapper for amplification curve smoothing and a function to detect the start and end of an amplification curve. The capabilities of the software are enhanced by the implementation of algorithms unavailable in R, such as a 5-point stencil for derivative interpolation. Simulation tools, statistical tests, plots for data quality management, amplification efficiency/quantification cycle calculation, and datasets from qPCR and qIA experiments are part of the package. Core functionalities are integrated in GUIs (web-based and standalone shiny applications), thus streamlining analysis and report generation.Availability and implementation: http://cran.r-project.org/web/packages/chipPCR. Source code: https://github.com/michbur/chipPCR.Contact: stefan.roediger@b-tu.deSupplementary information: Supplementary data are available at Bioinformatics online.}, 
-URL = {http://bioinformatics.oxfordjournals.org/content/31/17/2900.abstract}, 
-eprint = {http://bioinformatics.oxfordjournals.org/content/31/17/2900.full.pdf+html}, 
-journal = {Bioinformatics} 
-}
-
 
 @Article{rodiger_nucleic_2014,
   Title                    = {Nucleic acid detection based on the use of microbeads: a review},
@@ -2947,6 +2986,25 @@ CONCLUSIONS: The selection of a smoothing algorithm is an important step in deve
   Pmid                     = {19850629}
 }
 
+@Article{trypsteen_ddpcrquant_2015,
+  Title                    = {{ddpcRquant}: threshold determination for single channel droplet digital {PCR} experiments},
+  Author                   = {Trypsteen, Wim and Vynck, Matthijs and De Neve, Jan and Bonczkowski, Pawel and Kiselinova, Maja and Malatinkova, Eva and Vervisch, Karen and Thas, Olivier and Vandekerckhove, Linos and De Spiegelaere, Ward},
+  Journal                  = {Analytical and Bioanalytical Chemistry},
+  Year                     = {2015},
+
+  Month                    = jul,
+  Number                   = {19},
+  Pages                    = {5827--5834},
+  Volume                   = {407},
+
+  Doi                      = {10.1007/s00216-015-8773-4},
+  ISSN                     = {1618-2642, 1618-2650},
+  Language                 = {en},
+  Shorttitle               = {{ddpcRquant}},
+  Url                      = {http://link.springer.com/10.1007/s00216-015-8773-4},
+  Urldate                  = {2015-08-24}
+}
+
 @Article{tsui_synergy_2010,
   Title                    = {Synergy of total {PLAC}4 {RNA} concentration and measurement of the {RNA} single-nucleotide polymorphism allelic ratio for the noninvasive prenatal detection of trisomy 21},
   Author                   = {Tsui, Nancy B Y and Akolekar, Ranjit and Chiu, Rossa W K and Chow, Katherine C K and Leung, Tak Y and Lau, Tze K and Nicolaides, Kypros H and Lo, Y M Dennis},
@@ -3476,55 +3534,3 @@ CONCLUSIONS: The selection of a smoothing algorithm is an important step in deve
   Pmid                     = {19003785}
 }
 
-
-@article{trypsteen_ddpcrquant_2015,
-	title = {{ddpcRquant}: threshold determination for single channel droplet digital {PCR} experiments},
-	volume = {407},
-	issn = {1618-2642, 1618-2650},
-	shorttitle = {{ddpcRquant}},
-	url = {http://link.springer.com/10.1007/s00216-015-8773-4},
-	doi = {10.1007/s00216-015-8773-4},
-	language = {en},
-	number = {19},
-	urldate = {2015-08-24},
-	journal = {Analytical and Bioanalytical Chemistry},
-	author = {Trypsteen, Wim and Vynck, Matthijs and De Neve, Jan and Bonczkowski, Pawel and Kiselinova, Maja and Malatinkova, Eva and Vervisch, Karen and Thas, Olivier and Vandekerckhove, Linos and De Spiegelaere, Ward},
-	month = jul,
-	year = {2015},
-	pages = {5827--5834}
-}
-
-@article{dreo_optimising_2014,
-	title = {Optimising droplet digital {PCR} analysis approaches for detection and quantification of bacteria: a case study of fire blight and potato brown rot},
-	volume = {406},
-	issn = {1618-2642, 1618-2650},
-	shorttitle = {Optimising droplet digital {PCR} analysis approaches for detection and quantification of bacteria},
-	url = {http://link.springer.com/article/10.1007/s00216-014-8084-1},
-	doi = {10.1007/s00216-014-8084-1},
-	abstract = {Here we report on the first assessment of droplet digital PCR (ddPCR) for detection and absolute quantification of two quarantine plant pathogenic bacteria that infect many species of the Rosaceae and Solanaceae families: Erwinia amylovora and Ralstonia solanacearum. An open-source R script was written for the ddPCR data analysis. Analysis of a set of samples with known health status aided the assessment and selection of different threshold settings (QuantaSoft analysis, definetherain pipeline and manual threshold), which led to optimal diagnostic specificity. The interpretation of the E. amylovora ddPCR was straightforward, and the analysis approach had little influence on the final results and the concentrations determined. The sensitivity and linear range were similar to those for real-time PCR (qPCR), for the analysis of both bacterial suspensions and plant material, making ddPCR a viable choice when both detection and quantification are desired. With the R. solanacearum ddPCR, the use of a high global threshold was necessary to exclude false-positive reactions that are sometimes observed in healthy plant material. ddPCR significantly improved the analytical sensitivity over that of qPCR, and improved the detection of low concentrations of R. solanacearum in potato tuber samples. Accurate and rapid absolute quantification of both of these bacteria in pure culture was achieved by direct ddPCR. Our data confirm the suitability of these ddPCR assays for routine detection and quantification of plant pathogens and for preparation of defined in-house reference materials with known target concentrations.},
-	language = {en},
-	number = {26},
-	urldate = {2015-08-24},
-	journal = {Analytical and Bioanalytical Chemistry},
-	author = {Dreo, Tanja and Pirc, Manca and Ramšak, Živa and Pavšič, Jernej and Milavec, Mojca and Žel, Jana and Gruden, Kristina},
-	month = aug,
-	year = {2014},
-	keywords = {Analytical Chemistry, Bioanalytical methods, Biochemistry, general, Characterization and Evaluation of Materials, Droplet digital PCR, Environmental Monitoring/Analysis, Food Science, Laboratory Medicine, Molecular diagnostics, Plant pathogenic bacteria},
-	pages = {6513--6528}
-}
-
-@article{dobnik_multiplex_2015,
-	title = {Multiplex {Quantification} of 12 {European} {Union} {Authorized} {Genetically} {Modified} {Maize} {Lines} with {Droplet} {Digital} {Polymerase} {Chain} {Reaction}},
-	volume = {87},
-	issn = {0003-2700},
-	url = {http://dx.doi.org/10.1021/acs.analchem.5b01208},
-	doi = {10.1021/acs.analchem.5b01208},
-	abstract = {Presence of genetically modified organisms (GMO) in food and feed products is regulated in many countries. The European Union (EU) has implemented a threshold for labeling of products containing more than 0.9\% of authorized GMOs per ingredient. As the number of GMOs has increased over time, standard-curve based simplex quantitative polymerase chain reaction (qPCR) analyses are no longer sufficiently cost-effective, despite widespread use of initial PCR based screenings. Newly developed GMO detection methods, also multiplex methods, are mostly focused on screening and detection but not quantification. On the basis of droplet digital PCR (ddPCR) technology, multiplex assays for quantification of all 12 EU authorized GM maize lines (per April first 2015) were developed. Because of high sequence similarity of some of the 12 GM targets, two separate multiplex assays were needed. In both assays (4-plex and 10-plex), the transgenes were labeled with one fluorescence reporter and the endogene with another (GMO concentration = transgene/endogene ratio). It was shown that both multiplex assays produce specific results and that performance parameters such as limit of quantification, repeatability, and trueness comply with international recommendations for GMO quantification methods. Moreover, for samples containing GMOs, the throughput and cost-effectiveness is significantly improved compared to qPCR. Thus, it was concluded that the multiplex ddPCR assays could be applied for routine quantification of 12 EU authorized GM maize lines. In case of new authorizations, the events can easily be added to the existing multiplex assays. The presented principle of quantitative multiplexing can be applied to any other domain.},
-	number = {16},
-	urldate = {2015-08-24},
-	journal = {Analytical Chemistry},
-	author = {Dobnik, David and Spilsberg, Bjørn and Bogožalec Košir, Alexandra and Holst-Jensen, Arne and Žel, Jana},
-	month = aug,
-	year = {2015},
-	pages = {8218--8226}
-}
