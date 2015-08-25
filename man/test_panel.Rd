@@ -21,8 +21,8 @@ one or more panels.}
 alternative hypothesis.}
 
 \item{method}{Character string (partially matched) specifying the test to
-use: either method="Chisq" for the chi-squared test (the default), or
-method="MonteCarlo" for a Monte Carlo test.}
+use: either \code{"Chisq"} for the chi-squared test (the default), or
+\code{"MonteCarlo"} for a Monte Carlo test.}
 
 \item{conditional}{Logical. Should the Monte Carlo test be conducted
 conditionally upon the observed number of points of the pattern? Ignored if
@@ -32,7 +32,7 @@ method="Chisq".}
 method="MonteCarlo".}
 }
 \value{
-An list of objects of class "htest" with the length equal to the
+An list of objects of class \code{"htest"} with the length equal to the
 number of plates (minimum 1).
 }
 \description{

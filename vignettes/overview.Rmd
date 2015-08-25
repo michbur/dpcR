@@ -76,7 +76,7 @@ adpcr_experiments <- create_dpcr(sample_runs, n = c(240L, 240L), type = "nm", ad
 class(adpcr_experiments)
 ```
 
-# Data structure
+# `dpcr` object
 
 The key class of dpcR package is `dpcr`. It has following slots:  
 * *.Data* - matrix containing data from digital PCR runs. Its type is further specified by the *type* slot (see below).  
@@ -85,6 +85,26 @@ The key class of dpcR package is `dpcr`. It has following slots:
 * *replicate* - name (or more conviniently ID) of the replicate.
 * *assay* - name of the assay.
 * *type* - type of data.
+
+## `dpcr` objects managment
+
+All `dpcr` objects should be managed using special functions provided by the package: `bind_dpcr` and `extract_dpcr`. The former binds `dpcr` objects, the latter extracts parts of the `dpcr` object. It is important to use this functions, because they preserve other attributes importantant for `dpcr` objects as number of partitions, names of experiments, assays and technical replicates.
+
+```{r eval=TRUE}
+#create single adpcr object. The following code is also true for 
+#other objects inhering from dpcr, as ddpcr or qdpcr
+single_run <- sim_adpcr(m = 100, n = 765, times = 1000, pos_sums = FALSE, n_panels = 1)
+two_runs <- bind_dpcr(single_run, single_run)
+three_runs <- bind_dpcr(single_run, single_run, single_run)
+#it is alsop possible to bind a list of dpcr objects... 
+bind_dpcr(list(single_run, single_run, single_run))
+#... which may be useful in loops
+do.call(bind_dpcr, lapply(5L:10*10, function(n_template)
+  sim_adpcr(m = n_template, n = 765, times = 1000, pos_sums = FALSE, n_panels = 1)))
+
+```
+
+## *.Data* slot
 
 Digital PCR data is always a matrix (see `?matrix` in R). Columns and rows represent respectively individual runs and their data points. The data points are not equivalent to partitons. The number of partitions for each run is defined in slot *n*.  
 
@@ -104,11 +124,15 @@ tail(sample_adpcr)
 ```
 
 Both experiments have 765 data points. We see that in case of shorter experiment, 2 data points has value NA. If we analyze the *n* slot:
+
 ```{r eval=TRUE}
 slot(sample_adpcr, "n")
 ```
 
 we see the expected number of partitions.
+
+It is especially important in case of fluorescence digital PCR data, where one droplet may have assigned few data points.
+
 
 
 # Data visualisation

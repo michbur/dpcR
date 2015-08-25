@@ -19,14 +19,14 @@
 #' @param alternative Character string (partially matched) specifying the
 #' alternative hypothesis.
 #' @param method Character string (partially matched) specifying the test to
-#' use: either method="Chisq" for the chi-squared test (the default), or
-#' method="MonteCarlo" for a Monte Carlo test.
+#' use: either \code{"Chisq"} for the chi-squared test (the default), or
+#' \code{"MonteCarlo"} for a Monte Carlo test.
 #' @param conditional Logical. Should the Monte Carlo test be conducted
 #' conditionally upon the observed number of points of the pattern? Ignored if
 #' method="Chisq".
 #' @param nsim The number of simulated samples to generate when
 #' method="MonteCarlo".
-#' @return An list of objects of class "htest" with the length equal to the
+#' @return An list of objects of class \code{"htest"} with the length equal to the
 #' number of plates (minimum 1).
 #' @note A similar result can be achived by using \code{\link{adpcr2ppp}} and
 #' \code{\link[spatstat]{quadrat.test}}. See Examples.
