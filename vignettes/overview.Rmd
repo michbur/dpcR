@@ -40,42 +40,6 @@ load("vig.RData")
 
 dpcR is an R package designed to perform an analysis of digital PCR experiments.
 
-# Read data
-
-The `read_dpcr` function is responsible for importing data into R working space. The additional parameters allow specification of the format type.
-
-Additionally, we advise using other packages belonging do the pcRuniversum such as [RDML](http://cran.r-project.org/package=RDML) or dedicated packages such as ReadqPCR ([available from bioconductor.org](http://www.bioconductor.org/packages/release/bioc/html/ReadqPCR.html)). Further information can be found in @pabinger_survey_2014.
-
-Before analysis data should be saved using one of the three classes - `adpcr` (end-point array digital PCR experiments), `ddpcr` (droplet digital PCR experiments) and `rtadpcr` (real-time array digital PCR experiments). To do so, use `create_dpcr` function.
-
-```{r eval=TRUE}
-library(dpcR)
-#generate some data from 15x16 array. Let's presume, that we have results from two plates
-sample_runs <- matrix(rpois(480, lambda = 1.5), ncol = 2)
-#check its class - it's a typical R structure
-class(sample_runs)
-#save it to adpcr object
-adpcr_experiments <- create_dpcr(sample_runs, n = c(240L, 240L), type = "nm", adpcr = TRUE)
-class(adpcr_experiments)
-```
-
-The `read_dpcr` function is responsible for importing data into R working space. The additional parameters allow specification of the format type.
-
-Additionally, we advise using other packages belonging do the pcRuniversum such as [RDML](http://cran.r-project.org/package=RDML) or dedicated packages such as ReadqPCR ([available from bioconductor.org](http://www.bioconductor.org/packages/release/bioc/html/ReadqPCR.html)). Further information can be found in @pabinger_survey_2014.
-
-Before analysis data should be saved using one of the three classes - `adpcr` (end-point array digital PCR experiments), `ddpcr` (droplet digital PCR experiments) and `rtadpcr` (real-time array digital PCR experiments). To do so, use `create_dpcr` function.
-
-```{r eval=TRUE}
-library(dpcR)
-#generate some data from 15x16 array. Let's presume, that we have results from two plates
-sample_runs <- matrix(rpois(480, lambda = 1.5), ncol = 2)
-#check its class - it's a typical R structure
-class(sample_runs)
-#save it to adpcr object
-adpcr_experiments <- create_dpcr(sample_runs, n = c(240L, 240L), type = "nm", adpcr = TRUE)
-class(adpcr_experiments)
-```
-
 # `dpcr` object
 
 The key class of dpcR package is `dpcr`. It has following slots:  
@@ -97,12 +61,42 @@ single_run <- sim_adpcr(m = 100, n = 765, times = 1000, pos_sums = FALSE, n_pane
 two_runs <- bind_dpcr(single_run, single_run)
 three_runs <- bind_dpcr(single_run, single_run, single_run)
 #it is alsop possible to bind a list of dpcr objects... 
-bind_dpcr(list(single_run, single_run, single_run))
+three_runs_list <- bind_dpcr(list(single_run, single_run, single_run))
 #... which may be useful in loops
-do.call(bind_dpcr, lapply(5L:10*10, function(n_template)
+dpcr_list <- do.call(bind_dpcr, lapply(5L:10*10, function(n_template)
   sim_adpcr(m = n_template, n = 765, times = 1000, pos_sums = FALSE, n_panels = 1)))
-
 ```
+
+`bind_dpcr` may be seen as the analogue of the R function [cbind](https://stat.ethz.ch/R-manual/R-devel/library/base/html/cbind.html). The main difference is the lack of recycling. If two objects with uneven number of data points are bound together, the shorter is completed with NA values.
+
+```{r eval=TRUE}
+longer_run <- sim_adpcr(m = 10, n = 25, times = 1000, pos_sums = FALSE, n_panels = 1)
+shorter_run <- sim_adpcr(m = 10, n = 20, times = 1000, pos_sums = FALSE, n_panels = 1)
+shortest_run <- sim_adpcr(m = 10, n = 15, times = 1000, pos_sums = FALSE, n_panels = 1)
+#expect informative message after binding
+bind_dpcr(longer_run, shorter_run, shortest_run)
+```
+
+`extract_dpcr` is an equivalent of [Extract](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Extract.html). It extracts one or more runs from the `dpcr` objects preserving the other properties.
+
+
+## Read data
+
+The `read_dpcr` function is responsible for importing data into R working space. The additional parameters allow specification of the format type.
+
+Additionally, we advise using other packages belonging do the pcRuniversum such as [RDML](http://cran.r-project.org/package=RDML) or dedicated packages such as ReadqPCR ([available from bioconductor.org](http://www.bioconductor.org/packages/release/bioc/html/ReadqPCR.html)). Further information can be found in @pabinger_survey_2014.
+
+```{r eval=TRUE}
+library(dpcR)
+#generate some data from 15x16 array. Let's presume, that we have results from two plates
+sample_runs <- matrix(rpois(480, lambda = 1.5), ncol = 2)
+#check its class - it's a typical R structure
+class(sample_runs)
+#save it to adpcr object
+adpcr_experiments <- create_dpcr(sample_runs, n = c(240L, 240L), type = "nm", adpcr = TRUE)
+class(adpcr_experiments)
+```
+
 
 ## *.Data* slot
 
