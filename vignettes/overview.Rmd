@@ -1,4 +1,4 @@
-  ---
+---
 title: "dpcR package - an overview"
 author: "Micha&#322; Burdukiewicz, Stefan R&ouml;diger"
 date: "2015-08-13"
@@ -57,7 +57,7 @@ This class is designed to contain results from all possible digital PCR experime
 
 All `dpcr` objects should be managed using special functions provided by the package: `bind_dpcr` and `extract_dpcr`. The former binds `dpcr` objects, the latter extracts parts of the `dpcr` object. It is important to use this functions, because they preserve other attributes importantant for `dpcr` objects as number of partitions, names of experiments, assays and technical replicates.
 
-```{r eval=FALSE}
+```{r eval=TRUE}
 #create single adpcr object. The following code is also true for 
 #other objects inhering from dpcr, as ddpcr or qdpcr
 single_run <- sim_adpcr(m = 100, n = 765, times = 1000, pos_sums = FALSE, n_panels = 1)
@@ -72,7 +72,7 @@ dpcr_list <- do.call(bind_dpcr, lapply(5L:10*10, function(n_template)
 
 `bind_dpcr` may be seen as the analogue of the R function [cbind](https://stat.ethz.ch/R-manual/R-devel/library/base/html/cbind.html). The main difference is the lack of recycling. If two objects with uneven number of data points are bound together, the shorter is completed with NA values.
 
-```{r eval=FALSE}
+```{r eval=TRUE}
 longer_run <- sim_adpcr(m = 10, n = 25, times = 1000, pos_sums = FALSE, n_panels = 1)
 shorter_run <- sim_adpcr(m = 10, n = 20, times = 1000, pos_sums = FALSE, n_panels = 1)
 shortest_run <- sim_adpcr(m = 10, n = 15, times = 1000, pos_sums = FALSE, n_panels = 1)
@@ -152,9 +152,39 @@ sample_data <- sim_adpcr(m = 5, n = 20, times = 1000, pos_sums = FALSE, n_panels
 #quickly count positive partitions
 colSums(sample_data > 0)
 #baseline fluorescence data
-sim_ddpcr(m = 3, n = 2, times = 5, fluo = list(0.1, 0)) - 0.05
+bl_data <- sim_ddpcr(m = 3, n = 2, times = 5, fluo = list(0.1, 0)) - 0.05
 ```
 
+
+## *type* slot
+
+Data from digital PCR experiments may have several types:  
+* `ct` (**c**ycle **t**hreshold): cycle threshold of each partition.  
+* `fluo`: fluorescence intensity of each partition.  
+* `nm` (**n**umber of **m**olecules): number of molecules in each partition (usually such exact data comes only from simulations).  
+* `np` (**n**umber of **p**ositives): status (positive (1) or negative(0)) of each partition.  
+* `tnp` (**t**otal **n**umber of **p**ositives): total number of positive partitions in the run (*.Data* in this case is matrix with single row and number of columns equal to the number of runs).  
+
+```{r eval=TRUE}
+#see all types of data
+
+#ct
+#load library with qPCR data
+library(chipPCR)
+qpcr2pp(data = C127EGHP[, 1L:6], type = "ct")
+
+#fluo
+head(sim_ddpcr(m = 3, n = 2, times = 5, fluo = list(0.1, 0)) - 0.05)
+
+#nm
+sim_adpcr(m = 5, n = 5, times = 1000, pos_sums = FALSE, n_panels = 3)
+
+#np
+binarize(sim_adpcr(m = 5, n = 5, times = 1000, pos_sums = FALSE, n_panels = 3))
+
+#tnp
+sim_adpcr(m = 5, n = 5, times = 1000, pos_sums = TRUE, n_panels = 3)
+```
 
 # Data visualisation
 

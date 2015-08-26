@@ -73,14 +73,14 @@
 
 
 qpcr2pp <- function(data, cyc = 1, fluo = NULL,
-                    Cq_range = c(6, max(data[cyc]) - 6), model = l5, SDM = TRUE, NuEvents = 1, delta = 1,
+                    Cq_range = c(min(data[cyc]) + 6, max(data[cyc]) - 6), model = l5, SDM = TRUE, NuEvents = 1, delta = 1,
                     exper = "qPCR1", replicate = 1, assay = "Unknown", type = "np") {
   
   if(!(type %in% c("np", "ct")))
     stop("'type' must have value 'ct' or 'np'.")
   
   cq_dat <- limit_cq(data = data, cyc = cyc, fluo = fluo, 
-                        Cq_range = Cq_range, model = model, SDM = SDM)
+                     Cq_range = Cq_range, model = model, SDM = SDM, pb = FALSE)
   
   res_qPCR <- cq_dat[order(cq_dat[[1]]), ]
   res_qPCR <- cbind(res_qPCR, cumsum(res_qPCR[, 2]))
@@ -107,7 +107,7 @@ qpcr2pp <- function(data, cyc = 1, fluo = NULL,
   # END WIP
   
   res <- construct_dpcr(data = cq_dat[, ifelse(type == "np", 2, 1)], n = nrow(cq_dat), exper = exper, 
-                 replicate = replicate, assay = assay, type = type)
+                        replicate = replicate, assay = assay, type = type)
   class(res) <- "qdpcr"
   slot(res, "qpcr") <- data.matrix(res_qPCR)
   slot(res, "mu") <- mu

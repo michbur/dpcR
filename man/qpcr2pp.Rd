@@ -4,9 +4,9 @@
 \alias{qpcr2pp}
 \title{qPCR to Poisson Process}
 \usage{
-qpcr2pp(data, cyc = 1, fluo = NULL, Cq_range = c(6, max(data[cyc]) - 6),
-  model = l5, SDM = TRUE, NuEvents = 1, delta = 1, exper = "qPCR1",
-  replicate = 1, assay = "Unknown", type = "np")
+qpcr2pp(data, cyc = 1, fluo = NULL, Cq_range = c(min(data[cyc]) + 6,
+  max(data[cyc]) - 6), model = l5, SDM = TRUE, NuEvents = 1, delta = 1,
+  exper = "qPCR1", replicate = 1, assay = "Unknown", type = "np")
 }
 \arguments{
 \item{data}{a dataframe containing the qPCR data.}

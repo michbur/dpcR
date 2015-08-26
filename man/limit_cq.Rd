@@ -5,7 +5,7 @@
 \title{Limit Cy0 values}
 \usage{
 limit_cq(data, cyc = 1, fluo = NULL, Cq_range = c(1, max(data[cyc])),
-  model = l5, SDM = TRUE)
+  model = l5, SDM = TRUE, pb = FALSE)
 }
 \arguments{
 \item{data}{a dataframe containing the qPCR data.}
@@ -23,6 +23,8 @@ to 'l5' (see \code{\link[qpcR]{pcrfit}}).}
 
 \item{SDM}{if \code{TRUE}, Cq is approximated by the second derivative
 method.  If \code{FALSE}, Cy0 method is used instead.}
+
+\item{pb}{if \code{TRUE}, progress bar is shown.}
 }
 \value{
 A data frame with two columns and number of rows equal to the number
