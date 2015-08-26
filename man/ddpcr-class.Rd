@@ -12,13 +12,6 @@ different experiment. Type of data in all columns is specified in
 slot \code{"type"}. Inherits from \code{\linkS4class{dpcr}}.
 }
 \details{
-Possible \code{type} values of \code{adpcr} objects:
-\enumerate{
- \item{\code{"fluo"}: fluorescence of each droplet,}
- \item{\code{"nm"}: number of molecules in each droplet,}
- \item{\code{"np"}: status (positive (1) or negative(0)) of each droplet,}
- \item{\code{"tnp"}: total number of positive droplets in the reaction
- (single value per each reaction, not per droplet).}}
 For more in-depth explanation of digital PCR data structure, see
 \code{\linkS4class{dpcr}}.
 }

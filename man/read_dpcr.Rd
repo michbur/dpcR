@@ -13,6 +13,9 @@ read_dpcr(file, format, ...)
 
 \item{...}{additional arguments for the appropriate format.}
 }
+\value{
+Always an object of \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} type.
+}
 \description{
 Reads digital PCR data in various formats.
 }

@@ -13,6 +13,9 @@ read_BioMark(file, detailed = FALSE)
 'Detailed Table Results'. In the other case, the expected input file structure is
 'Summary Table Results'.}
 }
+\value{
+An object of \code{\linkS4class{adpcr}} class.
+}
 \description{
 Reads digital PCR data from the BioMark (Fluidigm).
 }

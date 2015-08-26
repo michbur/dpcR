@@ -8,6 +8,7 @@
 #' @author Michal Burdukiewcz, Stefan Roediger
 #' @details Input files may be in .csv, .xls or .xlsx format. In case of Excel files with 
 #' multiple sheets, only the first sheet will be analyzed.
+#' @return Always an object of \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} type.
 #' @export
 #' @seealso 
 #' \code{\link{read_raw}}
@@ -25,6 +26,8 @@ read_dpcr <- function(file, format, ...) {
 #' 
 #' @inheritParams create_dpcr
 #' @inheritParams read_dpcr
+#' @return An object of \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} type, 
+#' depends on the value of \code{adpcr} parameter. 
 #' @author Michal Burdukiewcz, Stefan Roediger
 #' @export
 
@@ -47,6 +50,7 @@ read_raw <- function(file, adpcr) {
 #' @param file name of the input file.
 #' @author Michal Burdukiewcz, Stefan Roediger
 #' @seealso See \code{\link{read_dpcr}} for detailed description of input files.
+#' @return An object of \code{\linkS4class{adpcr}} class.
 #' @export
 
 read_QX100 <- function(file) {
@@ -74,6 +78,7 @@ read_QX100 <- function(file) {
 #' 'Detailed Table Results'. In the other case, the expected input file structure is
 #' 'Summary Table Results'.
 #' @author Michal Burdukiewcz, Stefan Roediger
+#' @return An object of \code{\linkS4class{adpcr}} class.
 #' @seealso See \code{\link{read_dpcr}} for detailed description of input files.
 #' @export
 

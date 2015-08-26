@@ -143,15 +143,6 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
 #' @slot row_names \code{"character"} vector naming the rows in the array.
 #' @slot panel_id \code{"factor"} naming the panel to which experiment belong.
 #' @details
-#' Possible \code{type} values of \code{adpcr} objects:
-#' \enumerate{
-#'  \item{\code{"ct"}: cycle threshold of each well,}
-#'  \item{\code{"fluo"}: fluorescence of each well,}
-#'  \item{\code{"nm"}: number of molecules in each well,}
-#'  \item{\code{"np"}: status (positive (1) or negative(0)) of each well,}
-#'  \item{\code{"tnp"}: total number of positive wells in the panel (single value per each 
-#'  panel, not per well).}}
-#'  
 #' For more in-depth explanation of digital PCR data structure, see 
 #' \code{\linkS4class{dpcr}}.
 #' @author Michal Burdukiewicz.
@@ -250,13 +241,6 @@ create_adpcr <- function(data, n, exper = "Experiment1",
 #' @slot threshold \code{numeric} value giving the threshold. Partition with the value equal or 
 #' bigger than threshold are considered positive.
 #' @details
-#' Possible \code{type} values of \code{adpcr} objects:
-#' \enumerate{
-#'  \item{\code{"fluo"}: fluorescence of each droplet,}
-#'  \item{\code{"nm"}: number of molecules in each droplet,}
-#'  \item{\code{"np"}: status (positive (1) or negative(0)) of each droplet,}
-#'  \item{\code{"tnp"}: total number of positive droplets in the reaction 
-#'  (single value per each reaction, not per droplet).}}
 #' For more in-depth explanation of digital PCR data structure, see 
 #' \code{\linkS4class{dpcr}}.
 #' @author Michal Burdukiewicz.

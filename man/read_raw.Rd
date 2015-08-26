@@ -13,6 +13,10 @@ read_raw(file, adpcr)
 \code{\linkS4class{adpcr}} object. If \code{FALSE}, function creates
 \code{\linkS4class{ddpcr}} object.}
 }
+\value{
+An object of \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} type,
+depends on the value of \code{adpcr} parameter.
+}
 \description{
 Reads digital PCR data in raw format.
 }

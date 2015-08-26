@@ -87,23 +87,23 @@ qpcr2pp <- function(data, cyc = 1, fluo = NULL,
   colnames(res_qPCR) <- c("Cycles", "result", "lambda") 
   
   # do not know if this is correct, WIP
-  # cycle.time should give the "average time" between the occurrence of a 
+  # cycle_time should give the "average time" between the occurrence of a 
   # positive reaction and another positive reaction
-  dens.tmp <- dpcr_density(sum(res_qPCR[, 2]), nrow(res_qPCR), plot = FALSE)
-  cycle.time <- exp(1/dens.tmp[["k"]])
+  dens_tmp <- dpcr_density(sum(res_qPCR[, 2]), nrow(res_qPCR), plot = FALSE)
+  cycle_time <- exp(1/dens_tmp[["k"]])
   # Determine probaility how often a events occur according to Poisson process 
   # with a certia rate per time frame (interval).
   # NuEvents is "number of expected events" within a time frame (interval)
-  # dens.tmp$k gives the rate of the process according to dpcr_density()
+  # dens_tmp$k gives the rate of the process according to dpcr_density()
   # delta is the difference "time (cycles) points" e.g., Cycle 18 and 25
   # mu is the expected number of events in defined interval (but this is somewhat
   # stupid since the intervals are discrete ... and so on)
-  # cyc.occ gives the occurrence in an interval
-  mu <- dens.tmp[["k"]] * delta
-  fact.NuEvents <- factorial(NuEvents)
-  if (fact.NuEvents != "Inf") {
-    cyc.occ <- (exp(-mu) * mu^NuEvents)/fact.NuEvents
-  } else cyc.occ <- "too large"
+  # cyc_occ gives the occurrence in an interval
+  mu <- dens_tmp[["k"]] * delta
+  fact_NuEvents <- factorial(NuEvents)
+  if (fact_NuEvents != "Inf") {
+    cyc_occ <- (exp(-mu) * mu^NuEvents)/fact_NuEvents
+  } else cyc_occ <- "too large"
   # END WIP
   
   res <- construct_dpcr(data = cq_dat[, ifelse(type == "np", 2, 1)], n = nrow(cq_dat), exper = exper, 
@@ -111,8 +111,8 @@ qpcr2pp <- function(data, cyc = 1, fluo = NULL,
   class(res) <- "qdpcr"
   slot(res, "qpcr") <- data.matrix(res_qPCR)
   slot(res, "mu") <- mu
-  slot(res, "CT") <- cycle.time
-  slot(res, "CO") <- cyc.occ
+  slot(res, "CT") <- cycle_time
+  slot(res, "CO") <- cyc_occ
   
   res
 }

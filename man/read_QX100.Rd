@@ -9,6 +9,9 @@ read_QX100(file)
 \arguments{
 \item{file}{name of the input file.}
 }
+\value{
+An object of \code{\linkS4class{adpcr}} class.
+}
 \description{
 Reads digital PCR data from the QX100 Droplet Digital PCR System (Bio-Rad).
 }

@@ -12,15 +12,6 @@ describes different experiment. Type of data in all columns is specified in
 slot \code{"type"}. Inherits from \code{\linkS4class{dpcr}}.
 }
 \details{
-Possible \code{type} values of \code{adpcr} objects:
-\enumerate{
- \item{\code{"ct"}: cycle threshold of each well,}
- \item{\code{"fluo"}: fluorescence of each well,}
- \item{\code{"nm"}: number of molecules in each well,}
- \item{\code{"np"}: status (positive (1) or negative(0)) of each well,}
- \item{\code{"tnp"}: total number of positive wells in the panel (single value per each
- panel, not per well).}}
-
 For more in-depth explanation of digital PCR data structure, see
 \code{\linkS4class{dpcr}}.
 }
