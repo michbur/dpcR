@@ -12,8 +12,8 @@
 \alias{summary.dpcr}
 \title{Methods for Function \code{summary}}
 \arguments{
-\item{object}{an object of class \code{\linkS4class{adpcr}} or
-\code{\linkS4class{ddpcr}}.}
+\item{object}{an object of class \code{\linkS4class{adpcr}},
+\code{\linkS4class{ddpcr}} or \code{\linkS4class{qdpcr}}.}
 
 \item{print}{if \code{FALSE}, no output is printed.}
 }

@@ -1,14 +1,13 @@
 #' Methods for Function \code{show}
 #' 
 #' Expands function \code{\link[methods]{show}} allowing showing objects of the
-#' class \code{\linkS4class{adpcr}} to or \code{\linkS4class{ddpcr}}.
+#' class \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}.
 #' 
 #' 
 #' @name show-methods
 #' @aliases show-methods show-methods show,dpcr-method show,dpcr-method show
 #' @docType methods
-#' @param object an object of class \code{\linkS4class{adpcr}} or
-#' \code{\linkS4class{ddpcr}}.
+#' @param object an object of class \code{\linkS4class{dpcr}}.
 #' @author Michal Burdukiewicz.
 #' @keywords methods utilities
 #' @examples
@@ -33,6 +32,11 @@ NULL
 
 # Special method declared to hide slots other than .Data
 setMethod("show", signature(object = "dpcr"), function(object) {
-  print(slot(object, ".Data"))
+  if(nrow(slot(object, ".Data")) > 5) {
+    print(slot(object, ".Data")[1L:5, , drop = FALSE])
+    cat(paste0("\n", nrow(slot(object, ".Data")) - 5, " data points ommited.\n"))
+  } else {
+    print(slot(object, ".Data"))
+  }
   cat(paste0("\nType: '", slot(object, "type"), "'"))
 })

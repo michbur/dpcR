@@ -7,12 +7,11 @@
 \alias{show-methods}
 \title{Methods for Function \code{show}}
 \arguments{
-\item{object}{an object of class \code{\linkS4class{adpcr}} or
-\code{\linkS4class{ddpcr}}.}
+\item{object}{an object of class \code{\linkS4class{dpcr}}.}
 }
 \description{
 Expands function \code{\link[methods]{show}} allowing showing objects of the
-class \code{\linkS4class{adpcr}} to or \code{\linkS4class{ddpcr}}.
+class \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}.
 }
 \examples{
 #array dpcr

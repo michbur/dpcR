@@ -51,21 +51,34 @@ The key class of dpcR package is `dpcr`. It has following slots:
 * *assay* - name of the assay.  
 * *type* - name of the data (see '*type* slot' subsection)  
 
-This class is designed to contain results from all possible digital PCR experiments.
+Although, this class is designed to contain results from all possible digital PCR experiments, user will interacts mostly with its inheritors as `adpcr` or `ddpcr`.
+
+`dpcr` is S4 object. If you are not familiar with this object system, learn below how to extract elements from the slots of S4 object:
+
+```{r eval=TRUE}
+# below we have S4 objecty
+s4 <- sim_adpcr(m = 100, n = 496, times = 1000, pos_sums = FALSE, n_panels = 3)
+# is it a dpcr object?
+class(s4)
+# yes, it is. Let's see what we have in type slot
+slot(s4, "type")
+# we can use also shorter notation
+s4@type
+```
 
 ## `dpcr` objects managment (`bind_dpcr`, `extract_dpcr`)
 
 All `dpcr` objects should be managed using special functions provided by the package: `bind_dpcr` and `extract_dpcr`. The former binds `dpcr` objects, the latter extracts parts of the `dpcr` object. It is important to use this functions, because they preserve other attributes importantant for `dpcr` objects as number of partitions, names of experiments, assays and technical replicates.
 
 ```{r eval=TRUE}
-#create single adpcr object. The following code is also true for 
-#other objects inhering from dpcr, as ddpcr or qdpcr
+# create single adpcr object. The following code is also true for 
+# other objects inhering from dpcr, as ddpcr or qdpcr
 single_run <- sim_adpcr(m = 100, n = 765, times = 1000, pos_sums = FALSE, n_panels = 1)
 two_runs <- bind_dpcr(single_run, single_run)
 three_runs <- bind_dpcr(single_run, single_run, single_run)
-#it is also possible to bind a list of dpcr objects... 
+# it is also possible to bind a list of dpcr objects... 
 three_runs_list <- bind_dpcr(list(single_run, single_run, single_run))
-#... which may be useful in do.call statements
+# ... which may be useful in do.call statements
 dpcr_list <- do.call(bind_dpcr, lapply(5L:10*10, function(n_template)
   sim_adpcr(m = n_template, n = 765, times = 1000, pos_sums = FALSE, n_panels = 1)))
 ```
@@ -73,11 +86,13 @@ dpcr_list <- do.call(bind_dpcr, lapply(5L:10*10, function(n_template)
 `bind_dpcr` may be seen as the analogue of the R function [cbind](https://stat.ethz.ch/R-manual/R-devel/library/base/html/cbind.html). The main difference is the lack of recycling. If two objects with uneven number of data points are bound together, the shorter is completed with NA values.
 
 ```{r eval=TRUE}
-longer_run <- sim_adpcr(m = 10, n = 25, times = 1000, pos_sums = FALSE, n_panels = 1)
-shorter_run <- sim_adpcr(m = 10, n = 20, times = 1000, pos_sums = FALSE, n_panels = 1)
-shortest_run <- sim_adpcr(m = 10, n = 15, times = 1000, pos_sums = FALSE, n_panels = 1)
-#expect informative message after binding
-bind_dpcr(longer_run, shorter_run, shortest_run)
+longer_run <- sim_adpcr(m = 10, n = 15, times = 1000, pos_sums = FALSE, n_panels = 1)
+shorter_run <- sim_adpcr(m = 10, n = 10, times = 1000, pos_sums = FALSE, n_panels = 1)
+shortest_run <- sim_adpcr(m = 10, n = 5, times = 1000, pos_sums = FALSE, n_panels = 1)
+# expect informative message after binding
+res <- bind_dpcr(longer_run, shorter_run, shortest_run)
+# print the whole data
+slot(res, ".Data")
 ```
 
 `extract_dpcr` is an equivalent of [Extract](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Extract.html). It extracts one or more runs from the `dpcr` objects preserving other properties (as an adequate replicate ID and so on).
@@ -86,14 +101,14 @@ bind_dpcr(longer_run, shorter_run, shortest_run)
 five_runs <- sim_adpcr(m = 2, n = 10, times = 1000, pos_sums = FALSE, n_panels = 5)
 print(five_runs)
 
-#extract runs by the index
+# extract runs by the index
 only_first_run <- extract_dpcr(five_runs, 1)
 only_first_and_second_run <- extract_dpcr(five_runs, c(1, 2))
-#see if proper replicated were extracted
+# see if proper replicated were extracted
 slot(only_first_and_second_run, "replicate")
 no_first_run <- extract_dpcr(five_runs, -1)
 slot(no_first_run, "replicate")
-#extract runs by the name
+# extract runs by the name
 run_Experiment1.3 <- extract_dpcr(five_runs, "Experiment1.3")
 slot(run_Experiment1.3, "replicate")
 run_Experiment1.3and5 <- extract_dpcr(five_runs, c("Experiment1.3", "Experiment1.5"))
@@ -104,16 +119,16 @@ Since the `dpcr` object *.Data* slot inherits from the matrix class, it is possi
 
 ## Read data
 
-The `read_dpcr` function is responsible for importing data from external file sources into R working space. The additional parameters allow specification of the format type and other parameters.
+The `read_dpcr` function is responsible for importing data from external file sources into R working space. The additional parameters allow specification of the format type and other details.
 
 Additionally, we advise using other packages belonging do the pcRuniversum such as [RDML](http://cran.r-project.org/package=RDML) or dedicated packages such as ReadqPCR ([available from bioconductor.org](http://www.bioconductor.org/packages/release/bioc/html/ReadqPCR.html)). Further information can be found in @pabinger_survey_2014.
 
 ```{r eval=TRUE}
-#generate some data from 15x16 array. Let's presume, that we have results from two plates
+# generate some data from 15x16 array. Let's presume, that we have results from two plates
 sample_runs <- matrix(rpois(480, lambda = 1.5), ncol = 2)
-#check its class - it's a typical R structure
+# check its class - it's a typical R structure
 class(sample_runs)
-#save it to adpcr object
+# save it to adpcr object
 adpcr_experiments <- create_dpcr(sample_runs, n = c(240L, 240L), type = "nm", adpcr = TRUE)
 class(adpcr_experiments)
 ```
@@ -121,10 +136,10 @@ class(adpcr_experiments)
 
 ## *.Data* slot
 
-Digital PCR data is always a matrix (see `?matrix` in R). Columns and rows represent respectively individual runs and their data points. The data points are not equivalent to partitons. The number of partitions for each run is defined in slot *n*.  
+Digital PCR data is always a matrix (see `?matrix` in R). Columns and rows represent respectively individual runs and their data points. The data points are not always equivalent to partitons, but the true number of partitions for each run is always defined in slot *n*.  
 
 ```{r eval=TRUE}
-#create two array digital PCR experiments. Mind the difference in the n parameter.
+# create two array digital PCR experiments. Mind the difference in the n parameter.
 sample_adpcr <- bind_dpcr(sim_adpcr(m = 100, n = 765, times = 1000, pos_sums = FALSE, n_panels = 1), 
                           rename(sim_adpcr(m = 100, n = 763, times = 1000, pos_sums = FALSE, 
                                            n_panels = 1), 
@@ -134,7 +149,7 @@ sample_adpcr <- bind_dpcr(sim_adpcr(m = 100, n = 765, times = 1000, pos_sums = F
 In the code chunk above we created two array digital PCR experiments with respectively 765 and 763 partitions. See the last five data points:
 
 ```{r eval=TRUE}
-#it's possible to manipulate data points from dpcr object using all functions that work for matrices
+# it's possible to manipulate data points from dpcr object using all functions that work for matrices
 tail(sample_adpcr)
 ```
 
@@ -148,42 +163,78 @@ we see the expected number of partitions. It is especially important in case of 
 
 The important feature of *.Data* is inheritance from `matrix` class, which opens numerous possibilities for data manipulation. 
 ```{r eval=TRUE}
-sample_data <- sim_adpcr(m = 5, n = 20, times = 1000, pos_sums = FALSE, n_panels = 2)
-#quickly count positive partitions
-colSums(sample_data > 0)
-#baseline fluorescence data
-bl_data <- sim_ddpcr(m = 3, n = 2, times = 5, fluo = list(0.1, 0)) - 0.05
+# quickly count positive partitions
+colSums(sample_adpcr > 0)
+# baseline fluorescence data
+sim_ddpcr(m = 3, n = 2, times = 5, fluo = list(0.1, 0)) - 0.05
 ```
 
 
 ## *type* slot
 
 Data from digital PCR experiments may have several types:  
-* `ct` (**c**ycle **t**hreshold): cycle threshold of each partition.  
-* `fluo`: fluorescence intensity of each partition.  
-* `nm` (**n**umber of **m**olecules): number of molecules in each partition (usually such exact data comes only from simulations).  
-* `np` (**n**umber of **p**ositives): status (positive (1) or negative(0)) of each partition.  
-* `tnp` (**t**otal **n**umber of **p**ositives): total number of positive partitions in the run (*.Data* in this case is matrix with single row and number of columns equal to the number of runs).  
+* **ct** (**c**ycle **t**hreshold): cycle threshold of each partition.  
+* **fluo**: fluorescence intensity of each partition.  
+* **nm** (**n**umber of **m**olecules): number of molecules in each partition (usually such precise data come only from simulations).  
+* **np** (**n**umber of **p**ositives): status (positive (1) or negative(0)) of each partition.  
+* **tnp** (**t**otal **n**umber of **p**ositives): total number of positive partitions in the run (*.Data* in this case is matrix with single row and number of columns equal to the number of runs).  
+
+In case of **fluo** and **tnp** types, the number of data points in *.Data* slot is almost never equal to the real number of paritions `dpcr`.
 
 ```{r eval=TRUE}
-#see all types of data
+# inspect all types of data
 
-#ct
-#load library with qPCR data
+# ct
+# load package with qPCR data
 library(chipPCR)
 qpcr2pp(data = C127EGHP[, 1L:6], type = "ct")
 
-#fluo
-head(sim_ddpcr(m = 3, n = 2, times = 5, fluo = list(0.1, 0)) - 0.05)
+# fluo
+sim_ddpcr(m = 3, n = 2, times = 5, fluo = list(0.1, 0)) - 0.05
 
-#nm
-sim_adpcr(m = 5, n = 5, times = 1000, pos_sums = FALSE, n_panels = 3)
+# nm
+sim_adpcr(m = 235, n = 765, times = 1000, pos_sums = FALSE, n_panels = 3)
 
-#np
-binarize(sim_adpcr(m = 5, n = 5, times = 1000, pos_sums = FALSE, n_panels = 3))
+# np
+binarize(sim_adpcr(m = 235, n = 765, times = 1000, pos_sums = FALSE, n_panels = 3))
 
-#tnp
-sim_adpcr(m = 5, n = 5, times = 1000, pos_sums = TRUE, n_panels = 3)
+# tnp
+sim_adpcr(m = 235, n = 765, times = 1000, pos_sums = TRUE, n_panels = 3)
+```
+
+## Summary method
+
+`Summary` method produces a tabelarized summary of any `dpcr` object. It calculates &#955; and its confidence intervals using both Dube's and Bhat's method. The estimated number of template molecules (m) is also computed using the following relationship:
+
+$$
+m = n \lambda
+$$
+
+```{r eval=TRUE}
+summary(sample_adpcr)
+
+# save summary data without printing it
+summ <- summary(sample_adpcr, print = FALSE)
+# print only the summary table
+summ[["summary"]]
+
+# extract results for Dube's method
+summ[["summary"]][summ[["summary"]][["method"]] == "dube", ]
+```
+
+## Show method
+
+Since the `dpcr` objects tends to have many data points and quickly clutter the console, the `show` function prints only first 5 rows of *.Data*, number of ommited rows and the type of the object.
+
+```{r eval=TRUE}
+
+sample_ddpcr <- sim_ddpcr(m = 3, n = 10, times = 5)
+# standard show method...
+show(sample_ddpcr)
+# ... which is an equivalent of:
+sample_ddpcr
+# If you want to see all data points:
+slot(sample_ddpcr, ".Data")
 ```
 
 # Data visualisation
@@ -191,23 +242,22 @@ sim_adpcr(m = 5, n = 5, times = 1000, pos_sums = TRUE, n_panels = 3)
 Data from digital PCR arrays can be easily visualized using `plot_panel` function.
 
 ```{r eval=TRUE}
-#remember, you can plot only single panel at once 
+# remember, you can plot only single panel at once 
 plot_panel(extract_dpcr(adpcr_experiments, 1), main = "Experiment 1")
 ```
 
 The same data can be visualized easily in binarized form (positive/negative partitions).
 ```{r eval=TRUE}
-#remember, you can plot only single panel at once 
 plot_panel(binarize(extract_dpcr(adpcr_experiments, 1)), main = "Experiment 1")
 ```
 
 The `plot_panel` function returns invisibly coordinates, that are compatibile with graphics and ggplot packages.
 ```{r eval=TRUE}
-#extract graphical coordinates
+# extract graphical coordinates
 panel_data <- plot_panel(extract_dpcr(adpcr_experiments, 1), plot = FALSE)
 ggplot_coords <- cbind(panel_data[["ggplot_coords"]], value = as.vector(extract_dpcr(adpcr_experiments, 1)))
 
-#plot panel using different graphics package
+# plot panel using different graphics package
 library(ggplot2)
 ggplot(ggplot_coords, aes(x = x, y = y, fill = value)) +
   geom_tile()
@@ -228,33 +278,33 @@ Generalized Linear Models (GLM) are linear models for data, where the response v
 Estimated means copies per partitions obtained from the model are compared each other using multiple t-test.
 
 ```{r eval=TRUE}
-#compare experiments using GLM
-#set a random seed for simulations
+# compare experiments using GLM
+# set a random seed for simulations
 set.seed(54321)
 
-#1. Simulate results of three different experiments with two repetitions each
-#experiment 2 differs significantly from others
+# 1. Simulate results of three different experiments with two repetitions each
+# experiment 2 differs significantly from others
 adpcr1 <- sim_adpcr(m = 20, n = 765, times = 1e5, pos_sums = FALSE, n_panels = 2)
 adpcr2 <- sim_adpcr(m = 130, n = 765, times = 1e5, pos_sums = FALSE, n_panels = 2)
 adpcr2 <- rename(adpcr2, exper = "Experiment2")
 adpcr3 <- sim_adpcr(m = 50, n = 765, times = 1e5, pos_sums = FALSE, n_panels = 2)
 adpcr3 <- rename(adpcr3, exper = "Experiment3")
-#2. Join results for convenience
+# 2. Join results for convenience
 adpcrs <- bind_dpcr(adpcr1, adpcr2, adpcr3)
 
-#3. Perform test
+# 3. Perform test
 comp <- test_counts(adpcrs)
 
-#4. See summary of the test
+# 4. See summary of the test
 summary(comp)
 
-#5. Plot results of the test 
+# 5. Plot results of the test 
 plot(comp, aggregate = FALSE)
 
-#6. Aggregate runs to their groups
+# 6. Aggregate runs to their groups
 plot(comp, aggregate = TRUE)
 
-#7. extract coefficients for the further usage
+# 7. extract coefficients for the further usage
 coef(comp)
 ```
 
