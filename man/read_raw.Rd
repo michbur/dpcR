@@ -4,10 +4,11 @@
 \alias{read_raw}
 \title{Read digital PCR raw data}
 \usage{
-read_raw(file, adpcr)
+read_raw(input, adpcr)
 }
 \arguments{
-\item{file}{name of the input file.}
+\item{input}{name of the input file (\code{character}) or input object
+(\code{data.frame}).}
 
 \item{adpcr}{\code{logical}. If \code{TRUE}, function creates
 \code{\linkS4class{adpcr}} object. If \code{FALSE}, function creates

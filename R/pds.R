@@ -20,31 +20,39 @@
 #' @name pds
 #' @docType data
 #' @format A data frame with 64 observations on the following 44 variables.
-#' \describe{ \item{Well}{a factor with levels \code{A01} to
-#' \code{H04}} \item{ExptType}{a factor with levels \code{Absolute
-#' Quantification}} \item{Experiment}{a factor with levels \code{ABS}}
+#' \describe{ 
+#' \item{Well}{a factor with levels \code{A01} to \code{H04}} 
+#' \item{ExptType}{a factor with levels \code{Absolute Quantification}} 
+#' \item{Experiment}{a factor with levels \code{ABS}}
 #' \item{Sample}{a factor with levels \code{B} \code{B + P 10^2}
 #' \code{gDNA} \code{gDNA + P 10^0} \code{gDNA + P 10^1} \code{gDNA + P 10^-1}
 #' \code{gDNA + P 10^2} \code{gDNA + P 10^3} \code{gDNA + P 10^4}}
 #' \item{TypeAssay}{a factor with levels \code{Ch1NTC}
-#' \code{Ch1Unknown} \code{Ch2NTC} \code{Ch2Unknown}} \item{Assay}{a
-#' factor with levels \code{ileS} \code{styA}} \item{Status}{a factor
-#' with levels \code{Manual}} \item{Concentration}{a numeric vector}
-#' \item{TotalConfMax}{a logical vector} \item{TotalConfMin}{a
-#' logical vector} \item{PoissonConfMax}{a numeric vector}
-#' \item{PoissonConfMin}{a numeric vector} \item{Positives}{a
-#' numeric vector} \item{Negatives}{a numeric vector}
-#' \item{Ch1.Ch2.}{a numeric vector} \item{Ch1.Ch2..1}{a
-#' numeric vector} \item{Ch1.Ch2..2}{a numeric vector}
-#' \item{Ch1.Ch2..3}{a numeric vector} \item{Linkage}{a numeric
-#' vector} \item{AcceptedDroplets}{a numeric vector}
-#' \item{CNV}{a logical vector} \item{TotalCNVMax}{a logical
-#' vector} \item{TotalCNVMin}{a logical vector}
+#' \code{Ch1Unknown} \code{Ch2NTC} \code{Ch2Unknown}} 
+#' \item{Assay}{a factor with levels \code{ileS} \code{styA}} 
+#' \item{Status}{a factor with levels \code{Manual}} 
+#' \item{Concentration}{a numeric vector}
+#' \item{TotalConfMax}{a logical vector} 
+#' \item{TotalConfMin}{a logical vector} 
+#' \item{PoissonConfMax}{a numeric vector}
+#' \item{PoissonConfMin}{a numeric vector} 
+#' \item{Positives}{a numeric vector} 
+#' \item{Negatives}{a numeric vector}
+#' \item{Ch1.Ch2.}{a numeric vector} 
+#' \item{Ch1.Ch2..1}{a numeric vector} 
+#' \item{Ch1.Ch2..2}{a numeric vector}
+#' \item{Ch1.Ch2..3}{a numeric vector} 
+#' \item{Linkage}{a numeric vector} 
+#' \item{AcceptedDroplets}{a numeric vector}
+#' \item{CNV}{a logical vector} 
+#' \item{TotalCNVMax}{a logical vector} 
+#' \item{TotalCNVMin}{a logical vector}
 #' \item{PoissonCNVMax}{a logical vector}
 #' \item{PoissonCNVMin}{a logical vector}
 #' \item{ReferenceCopies}{a logical vector}
-#' \item{UnknownCopies}{a logical vector} \item{Ratio}{a
-#' numeric vector} \item{TotalRatioMax}{a logical vector}
+#' \item{UnknownCopies}{a logical vector} 
+#' \item{Ratio}{a numeric vector} 
+#' \item{TotalRatioMax}{a logical vector}
 #' \item{TotalRatioMin}{a logical vector}
 #' \item{PoissonRatioMax}{a numeric vector}
 #' \item{PoissonRatioMin}{a numeric vector}
@@ -69,41 +77,6 @@
 #' www.ufz.de
 #' @keywords datasets
 #' @examples
-#' 
-#' \dontrun{
-#' # Loading libraries
-#' library(lattice)
-#' library(latticeExtra)
-#' library(gplots)
-#' library(Hmisc)
-#' library(memisc)
-#' 
-#' dat <- pds
-#' dat$Dilution <- rep(c(rep(c(10^(4:-1),0), each = 4), 
-#'   	    "NGC", "NGC", "NTC", "NTC"), 2)
-#' 
-#' print(xyplot(Concentration ~ factor(Dilution, levels=Dilution), dat, 
-#'       groups = Assay, ewidth = 0.08, ylim = c(10^-1.5, 10^4.5),
-#'       ylab = "Concentration cp / micro L", xlab = "Theoretical plasmid 
-#' 	      concentration [cp/micro L]", strip = FALSE,
-#'     scales = list(y = list(log = 10), alternating = FALSE),
-#'     panel = function(x, y, groups = groups, ...) {
-#'         panel.rect(7.5,-2, 10,5, col = grey(0.9), border = NA)
-#'         panel.grid(h = -1,v = -1, col = grey(0.8), lty = 2)
-#'         panel.xyplot(x, y, groups = groups, col = grey(0.6), ...)
-#'         panel.key(c("IleS", "StyA"), corner = c(0.95,0.95))
-#'         means <- tapply(y, list(x, groups), function(x) mean(x, na.rm = TRUE))
-#'         stdev <- tapply(y, list(x, groups), function(x) sd(x, na.rm = TRUE))
-#'         panel.errbars(1:9 + 0.25, y = cbind(means[, 1], 
-#' 		      means[, 1]-stdev[, 1], means[, 1] + stdev[, 1]), 
-#' 		      make.grid = "none", pch = 1,...)
-#'         panel.errbars(1:9 + 0.25, y = cbind(means[, 2], 
-#' 		      means[, 2] - stdev[, 2], means[, 2] + stdev[, 2]), 
-#' 		      make.grid = "none", pch = 3, ...)
-#'         panel.abline(a = c(5,-1), lty = 2, col = 2)
-#'     }
-#'   )
-#' )
-#' }
+#' summary(extract_dpcr(read_QX100(pds), 1L:10))
 #' 
 NULL

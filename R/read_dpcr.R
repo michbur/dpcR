@@ -2,22 +2,30 @@
 #' 
 #' Reads digital PCR data in various formats.
 #' 
-#' @param file name of the input file.
-#' @param format of the file.
+#' @param input name of the input file (\code{character}) or input object 
+#' (\code{data.frame}).
+#' @param format of the file, for example: \code{"raw"}, \code{"QX100"}, 
+#' \code{"BioMark"}.
 #' @param ... additional arguments for the appropriate format.
 #' @author Michal Burdukiewcz, Stefan Roediger
-#' @details Input files may be in .csv, .xls or .xlsx format. In case of Excel files with 
-#' multiple sheets, only the first sheet will be analyzed.
-#' @return Always an object of \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} type.
+#' @details Input files may be in .csv, .xls or .xlsx format. In case of Excel files 
+#' with multiple sheets, only the first sheet will be analyzed.
+#' @return Always an object of \code{\linkS4class{adpcr}} or 
+#' \code{\linkS4class{ddpcr}} type.
 #' @export
 #' @seealso 
-#' \code{\link{read_raw}}
+#' Read raw format files: \code{\link{read_raw}}.
+#' Read BioMark format files: \code{\link{read_BioMark}}.
+#' Read QX100 format files: \code{\link{read_QX100}}.
 
-read_dpcr <- function(file, format, ...) {
+
+read_dpcr <- function(input, format, ...) {
+  dat <- read_input(input)
+  
   switch(format,
-         raw = read_raw(file, ...),
-         QX100 = read_QX100(file),
-         BioMark = read_BioMark(file, ...))
+         raw = read_raw(dat, ...),
+         QX100 = read_QX100(dat),
+         BioMark = read_BioMark(dat, ...))
 }
 
 #' Read digital PCR raw data
@@ -31,8 +39,8 @@ read_dpcr <- function(file, format, ...) {
 #' @author Michal Burdukiewcz, Stefan Roediger
 #' @export
 
-read_raw <- function(file, adpcr) {
-  dat <- read.csv(file)
+read_raw <- function(input, adpcr) {
+  dat <- read_input(input)
   
   n <- rowSums(!apply(dat, 1, is.na))
   
@@ -47,14 +55,16 @@ read_raw <- function(file, adpcr) {
 #' 
 #' Reads digital PCR data from the QX100 Droplet Digital PCR System (Bio-Rad).
 #' 
-#' @param file name of the input file.
+#' @inheritParams read_dpcr
 #' @author Michal Burdukiewcz, Stefan Roediger
 #' @seealso See \code{\link{read_dpcr}} for detailed description of input files.
+#' 
+#' Example of QX100 data: \code{\link{pds}}.
 #' @return An object of \code{\linkS4class{adpcr}} class.
 #' @export
 
-read_QX100 <- function(file) {
-  dat <- read.csv(file)
+read_QX100 <- function(input) {
+  dat <- read_input(input)
   
   n <- dat[["AcceptedDroplets"]]
   counts <- matrix(dat[["Positives"]], nrow = 1)
@@ -73,7 +83,7 @@ read_QX100 <- function(file) {
 #' 
 #' Reads digital PCR data from the BioMark (Fluidigm).
 #' 
-#' @param file name of the input file.
+#' @inheritParams read_dpcr
 #' @param detailed logical, if \code{TRUE}, the input file is processed as if it was 
 #' 'Detailed Table Results'. In the other case, the expected input file structure is
 #' 'Summary Table Results'.
@@ -82,8 +92,8 @@ read_QX100 <- function(file) {
 #' @seealso See \code{\link{read_dpcr}} for detailed description of input files.
 #' @export
 
-read_BioMark <- function(file, detailed = FALSE) {
-  dat <- read.csv(file)
+read_BioMark <- function(input, detailed = FALSE) {
+  dat <- read_input(input)
   
   data_range <- 10L:57
   
@@ -131,16 +141,22 @@ read_BioMark <- function(file, detailed = FALSE) {
 
 
 #checks the extension and returns proper read function
-# read_file <- function(file) {
-#   ext <- strsplit(file, ".", fixed = TRUE)[[1]]
-#   
-#   #add multisheet excel
-#   
-#   fun <- switch(ext[[length(ext)]],
-#                 csv = read.csv,
-#                 xls = read_excel,
-#                 xlsx = read_excel)
-#   browser()
-# 
-#   fun(file)
-# }
+read_input<- function(input, ext = NULL) {
+  if(is.character(input)) {
+    
+    if(is.null(ext))
+      ext <- strsplit(input, ".", fixed = TRUE)[[1]]
+    
+    #add multisheet excel
+    
+    fun <- switch(ext[[length(ext)]],
+                  csv = read.csv,
+                  xls = read_excel,
+                  xlsx = read_excel)
+    
+    fun(input)
+  } else {
+    input
+  }
+  
+}
