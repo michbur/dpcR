@@ -41,7 +41,8 @@ random_three <- extract_dpcr(panels, sample.int(ncol(panels), 3))
 all_but_one <- extract_dpcr(panels, -5)
 
 #the same for fluorescence data
-fluos <- sim_ddpcr(10, 40, 1000, pos_sums = FALSE, n_exp = 50, fluo = list(0.1, 0))
+fluos <- sim_ddpcr(10, 40, 1000, pos_sums = FALSE, n_exp = 50,
+                   fluo = list(0.1, 0))
 single_fluo <- extract_dpcr(fluos, 5)
 }
 \author{

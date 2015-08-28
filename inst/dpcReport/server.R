@@ -16,14 +16,25 @@ shinyServer(function(input, output) {
     if(is.null(input[["input_file"]])) {
       read_dpcr("example_data.csv", format = "raw", adpcr = TRUE)
     } else {
-      read_function <- switch(input[["input_type"]],
-                              raw_adpcr = function(x) read_dpcr(x, format = "raw", adpcr = TRUE),
-                              raw_ddpcr = function(x) read_dpcr(x, format = "raw", adpcr = FALSE),
-                              QX100 = function(x) read_dpcr(x, format = "QX100"),
-                              BioMark_det = function(x) read_dpcr(x, format = "BioMark", detailed = TRUE),
-                              BioMark_sum = function(x) read_dpcr(x, format = "BioMark", detailed = FALSE)
+
+      ext <- strsplit(input[["input_file"]][["name"]], ".", fixed = TRUE)[[1]]
+      
+      read_function <- switch(ext[[length(ext)]],
+                              csv = read.csv,
+                              xls = read_excel,
+                              xlsx = read_excel)
+      
+      
+      input <- read_function(input[["input_file"]][["datapath"]])
+
+      process_function <- switch(input[["input_type"]],
+                                 raw_adpcr = function(x) read_dpcr(x, format = "raw", adpcr = TRUE),
+                                 raw_ddpcr = function(x) read_dpcr(x, format = "raw", adpcr = FALSE),
+                                 QX100 = function(x) read_dpcr(x, format = "QX100"),
+                                 BioMark_det = function(x) read_dpcr(x, format = "BioMark", detailed = TRUE),
+                                 BioMark_sum = function(x) read_dpcr(x, format = "BioMark", detailed = FALSE)
       )
-      read_function(input[["input_file"]][["datapath"]])
+      process_function(input)
     }
   })
   

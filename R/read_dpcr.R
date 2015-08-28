@@ -147,7 +147,7 @@ read_input<- function(input, ext = NULL) {
     if(is.null(ext))
       ext <- strsplit(input, ".", fixed = TRUE)[[1]]
     
-    #add multisheet excel
+    #maybe add multisheet excel
     
     fun <- switch(ext[[length(ext)]],
                   csv = read.csv,
