@@ -41,11 +41,18 @@ load("vig.RData")
 
 **dpcR** is an R package designed to perform an analysis of digital PCR experiments. This vignette covers the most important features of the package and should be used as an addendum to the manual.
 
+Our package employs the nomenclature MIQUE guidelines for digital PCR. $\lambda$ is the mean number of molecules per partition. Total number of partitions is given by $n$. $k$ is the number of positive partitions.
+
+$$
+\lambda = - \ln \left(1 - \frac{k}{n} \right)
+$$
+
 We firstly describe `dpcr` class, a parent class for all classes designed to contain digital PCR data. Further, we inspect closer `adpcr` class responsible for array-based digital PCR experiments (all experiments, where output data has precise localisation in two dimensions).
 
 TO DO ddpcr
 
-TO DO qdpcr
+Although qPCR experiments usually does not follow the fundamental assumption of digital PCR (the mean number of template molecule per partition smaller than 1), we present a possibility of analysis results from high-throughput qPCR systems using the methodology typical for dPCR. `qpcr2pp` function converts qPCR data to `qdpcr` object, which also has its own section.
+
 
 # `dpcr` object
 
@@ -291,6 +298,24 @@ test_panel(adpcr_experiments)
 ```
 
 Further tests are avaible in the **spatstat** package, which is also utilizing S4 object system. The exchange of data between **dpcR** and **spatstat** packages is streamlined by the `adpcr2ppp` function, which converts `adpcr` object to [ppp](http://finzi.psych.upenn.edu/library/spatstat/html/ppp.object.html) class taking into account spatial coordinates of positive partitions.
+
+# `qdpcr` class
+
+The unique feature of **dpcR** package is conversion of qPCR data to dPCR-like experiments. The qPCR data should be in format used by the **qpcR** package (see [qpcR_datasets](http://finzi.psych.upenn.edu/library/qpcR/html/qpcR_datasets.html])), where columns represents particular experiments and one column contains cycle number.
+
+```{r eval=TRUE}
+# load chiPCR package to access C317.amp data
+library(chipPCR)
+
+# convert data to qdpcr object
+qdat <- qpcr2pp(data = C317.amp, type = "np", Cq_range = c(10, 30))
+```
+
+`qdpcr` inherits from `dpcr` objects and may be analyzed using abovementioned methods. Moreover, the converted data may visualised using the `plot` method.
+
+```{r eval=TRUE}
+plot(qdat)
+```
 
 # Comparison of the experiments
 

@@ -34,9 +34,9 @@ NULL
 setMethod("show", signature(object = "dpcr"), function(object) {
   if(nrow(slot(object, ".Data")) > 5) {
     print(slot(object, ".Data")[1L:5, , drop = FALSE])
-    cat(paste0("\n", nrow(slot(object, ".Data")) - 5, " data points ommited.\n"))
+    cat(paste0("\n", nrow(slot(object, ".Data")) - 5, " data points ommited."))
   } else {
     print(slot(object, ".Data"))
   }
-  cat(paste0("\nType: '", slot(object, "type"), "'"))
+  cat(paste0("\nData type: '", slot(object, "type"), "'"))
 })

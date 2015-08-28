@@ -68,13 +68,15 @@
 #' 	      reps3[1L:45, 2L:ncol(reps3)])
 #' 
 #' # before interpolation qPCR experiment must be converted into dPCR
-#' qpcrpp <- qpcr2pp(data = test, cyc = 1, fluo = NULL, Cq_range = c(20, 30), model = l5, delta = 5)
+#' qpcrpp <- qpcr2pp(data = test, cyc = 1, fluo = NULL, Cq_range = c(20, 30), 
+#'                   model = l5, delta = 5)
 #' summary(qpcrpp)
 
 
 qpcr2pp <- function(data, cyc = 1, fluo = NULL,
-                    Cq_range = c(min(data[cyc]) + 6, max(data[cyc]) - 6), model = l5, SDM = TRUE, NuEvents = 1, delta = 1,
-                    exper = "qPCR1", replicate = 1, assay = "Unknown", type = "np") {
+                    Cq_range = c(min(data[cyc]) + 6, max(data[cyc]) - 6), model = l5, 
+                    SDM = TRUE, NuEvents = 1, delta = 1, exper = "qPCR1", replicate = 1, 
+                    assay = "Unknown", type = "np") {
   
   if(!(type %in% c("np", "ct")))
     stop("'type' must have value 'ct' or 'np'.")
