@@ -1,7 +1,7 @@
 ---
 title: "dpcR package - an overview"
 author: "Micha&#322; Burdukiewicz, Stefan R&ouml;diger"
-date: "2015-08-13"
+date: "2015-08-28"
 output: 
   rmarkdown::html_vignette:
     toc: true
@@ -39,57 +39,58 @@ cool_theme <- theme(plot.background=element_rect(fill = "transparent",
 load("vig.RData")
 ```
 
-**dpcR** is an R package designed to perform an analysis of digital PCR experiments. This vignette covers the most important features of the package and should be used as an addendum to the manual.
+**dpcR** is an R package designed to perform analysis of digital PCR (dPCR) experiments. This vignette covers important features of the package and should be used as an addendum to the manual.
 
-Our package employs the nomenclature MIQUE guidelines for digital PCR. $\lambda$ is the mean number of molecules per partition. Total number of partitions is given by $n$. $k$ is the number of positive partitions.
+Our **dpcR** package employs the nomenclature of the MIQE guidelines for dPCR (@huggett_digital_2013, @huggett_considerations_2014). $\lambda$ is the mean number of molecules per partition. Total number of partitions is given by $n$. $k$ is the number of positive partitions.
 
 $$
 \lambda = - \ln \left(1 - \frac{k}{n} \right)
 $$
 
-We firstly describe `dpcr` class, a parent class for all classes designed to contain digital PCR data. Further, we inspect closer `adpcr` class responsible for array-based digital PCR experiments (all experiments, where output data has precise localisation in two dimensions).
+We firstly describe `dpcr` class, a parent class for all classes designed to contain dPCR data. Further, we inspect closer `adpcr` class responsible for array-based dPCR experiments (all experiments, where output data has precise localization in two dimensions).
 
 TO DO ddpcr
 
-Although qPCR experiments usually does not follow the fundamental assumption of digital PCR (the mean number of template molecule per partition smaller than 1), we present a possibility of analysis results from high-throughput qPCR systems using the methodology typical for dPCR. `qpcr2pp` function converts qPCR data to `qdpcr` object, which also has its own section.
+Real-time quantitative qPCR (qPCR) experiments do not follow the fundamental assumption of dPCR reactions (the mean number of template molecule per partition smaller than 1). However, it is possible to 'convert' the qPCR. We present a tool to analyze results from *high-throughput* qPCR systems by using the dPCR analysis methodology as implemented in the **dpcR** package. The `qpcr2pp` function converts qPCR amplification curve data to a `qdpcr` object (see section about `qdpcr`). The calculation of the Cq's from the 
+amplification curves is internally done via functions from the **qpcR** package by @ritz_qpcr_2008.
 
 
 # `dpcr` object
 
-The key class of dpcR package is `dpcr`. It has following slots:  
-* *.Data* - matrix containing data from digital PCR runs (see '*.Data* slot' subsection). It is further specified by the *type* slot.  
+The key class of the **dpcR** package is `dpcr`. It has the following slots:  
+* *.Data* - matrix containing data from dPCR runs (see '*.Data* slot' subsection). It is further specified by the *type* slot.  
 * *n* - number of partitions read in each run.  
 * *exper* - name of the experiment.  
-* *replicate* - name (or more conviniently ID) of the replicate.  
+* *replicate* - name (or more conveniently ID) of a replicate.  
 * *assay* - name of the assay.  
 * *type* - name of the data (see '*type* slot' subsection)  
 
-Although, this class is designed to contain results from all possible digital PCR experiments, user will interacts mostly with its inheritors as `adpcr` or `ddpcr`.
+Although, this class is designed to contain results from all dPCR experiments, the user will interact mostly with its inheritors as `adpcr` or `ddpcr`.
 
-`dpcr` is S4 object. If you are not familiar with this object system, learn below how to extract elements from the slots of S4 object:
+`dpcr` is a S4 object. Below is shown how to extract elements from the slots of a S4 object:
 
 ```{r eval=TRUE}
-# below we have S4 objecty
+# Below we have S4 objecty
 s4 <- sim_adpcr(m = 100, n = 496, times = 100, pos_sums = FALSE, n_panels = 3)
-# is it a dpcr object?
+# Is it a dpcr object?
 class(s4)
-# yes, it is. Let's see what we have in type slot
+# Yes, it is. Let's see what we have in type slot
 slot(s4, "type")
-# we can use also shorter notation
+# We can use also shorter notation
 s4@type
 ```
 
-## `dpcr` objects managment (`bind_dpcr`, `extract_dpcr`)
+## `dpcr` objects management (`bind_dpcr`, `extract_dpcr`)
 
-All `dpcr` objects should be managed using special functions provided by the package: `bind_dpcr` and `extract_dpcr`. The former binds `dpcr` objects, the latter extracts parts of the `dpcr` object. It is important to use this functions, because they preserve other attributes importantant for `dpcr` objects as number of partitions, names of experiments, assays and technical replicates.
+All `dpcr` objects should be managed using special functions provided by this package: `bind_dpcr` and `extract_dpcr`. The former binds `dpcr` objects, the latter extracts parts of the `dpcr` object. It is important to use this functions, because they preserve other attributes important for `dpcr` objects as number of partitions, names of experiments, assays and technical replicates.
 
 ```{r eval=TRUE}
-# create single adpcr object. The following code is also true for 
+# Create single adpcr object. The following code is also true for 
 # other objects inhering from dpcr, as ddpcr or qdpcr
 single_run <- sim_adpcr(m = 100, n = 765, times = 100, pos_sums = FALSE, n_panels = 1)
 two_runs <- bind_dpcr(single_run, single_run)
 three_runs <- bind_dpcr(single_run, single_run, single_run)
-# it is also possible to bind a list of dpcr objects... 
+# It is also possible to bind a list of dpcr objects... 
 three_runs_list <- bind_dpcr(list(single_run, single_run, single_run))
 # ... which may be useful in do.call statements
 dpcr_list <- do.call(bind_dpcr, lapply(5L:10*10, function(n_template)
@@ -102,9 +103,9 @@ dpcr_list <- do.call(bind_dpcr, lapply(5L:10*10, function(n_template)
 longer_run <- sim_adpcr(m = 10, n = 15, times = 100, pos_sums = FALSE, n_panels = 1)
 shorter_run <- sim_adpcr(m = 10, n = 10, times = 100, pos_sums = FALSE, n_panels = 1)
 shortest_run <- sim_adpcr(m = 10, n = 5, times = 100, pos_sums = FALSE, n_panels = 1)
-# expect informative message after binding
+# Expect informative message after binding
 res <- bind_dpcr(longer_run, shorter_run, shortest_run)
-# print the whole data
+# Print the whole data
 slot(res, ".Data")
 ```
 
@@ -114,14 +115,14 @@ slot(res, ".Data")
 five_runs <- sim_adpcr(m = 2, n = 10, times = 100, pos_sums = FALSE, n_panels = 5)
 print(five_runs)
 
-# extract runs by the index
+# Extract runs by the index
 only_first_run <- extract_dpcr(five_runs, 1)
 only_first_and_second_run <- extract_dpcr(five_runs, c(1, 2))
-# see if proper replicated were extracted
+# See if proper replicated were extracted
 slot(only_first_and_second_run, "replicate")
 no_first_run <- extract_dpcr(five_runs, -1)
 slot(no_first_run, "replicate")
-# extract runs by the name
+# Extract runs by the name
 run_Experiment1.3 <- extract_dpcr(five_runs, "Experiment1.3")
 slot(run_Experiment1.3, "replicate")
 run_Experiment1.3and5 <- extract_dpcr(five_runs, c("Experiment1.3", "Experiment1.5"))
@@ -137,11 +138,11 @@ The `read_dpcr` function is responsible for importing data from external file so
 Additionally, we advise using other packages belonging do the pcRuniversum such as [RDML](http://cran.r-project.org/package=RDML) or dedicated packages such as ReadqPCR ([available from bioconductor.org](http://www.bioconductor.org/packages/release/bioc/html/ReadqPCR.html)). Further information can be found in @pabinger_survey_2014.
 
 ```{r eval=TRUE}
-# generate some data from 15x16 array. Let's presume, that we have results from two plates
+# Generate some data from 15x16 array. Let's presume, that we have results from two plates
 sample_runs <- matrix(rpois(480, lambda = 1.5), ncol = 2)
-# check its class - it's a typical R structure
+# Check its class - it's a typical R structure
 class(sample_runs)
-# save it to adpcr object
+# Save it to adpcr object
 adpcr_experiments <- create_dpcr(sample_runs, n = c(240L, 240L), type = "nm", adpcr = TRUE)
 class(adpcr_experiments)
 ```
@@ -149,20 +150,20 @@ class(adpcr_experiments)
 
 ## *.Data* slot
 
-Digital PCR data is always a matrix (see `?matrix` in R). Columns and rows represent respectively individual runs and their data points. Since data points are not always equivalent to partitons, the true number of partitions for each run is always defined in slot *n*.  
+Digital PCR data is always a matrix (see `?matrix` in R). Columns and rows represent respectively individual runs and their data points. Since data points are not always equivalent to partitions, the true number of partitions for each run is always defined in slot *n*.  
 
 ```{r eval=TRUE}
-# create two array digital PCR experiments. Mind the difference in the n parameter.
+# Create two array dPCR experiments. Mind the difference in the n parameter.
 sample_adpcr <- bind_dpcr(sim_adpcr(m = 100, n = 765, times = 100, pos_sums = FALSE, n_panels = 1), 
                           rename(sim_adpcr(m = 100, n = 763, times = 100, pos_sums = FALSE, 
                                            n_panels = 1), 
                                  exper = "Experiment2"))
 ```
 
-In the code chunk above we created two array digital PCR experiments with respectively 765 and 763 partitions. See the last five data points:
+In the code chunk above we created two array dPCR experiments with respectively 765 and 763 partitions. See the last five data points:
 
 ```{r eval=TRUE}
-# it's possible to manipulate data points from dpcr object using all functions that work for matrices
+# It's possible to manipulate data points from dpcr object using all functions that work for matrices
 tail(sample_adpcr)
 ```
 
@@ -172,33 +173,33 @@ Both experiments have 765 data points. We see that in case of shorter experiment
 slot(sample_adpcr, "n")
 ```
 
-we see the expected number of partitions. It is especially important in case of fluorescence digital PCR data, where one droplet may have assigned few data points.
+We see the expected number of partitions. It is especially important in case of fluorescence dPCR data, where one droplet may have assigned few data points.
 
 The important feature of *.Data* is inheritance from `matrix` class, which opens numerous possibilities for data manipulation. 
 ```{r eval=TRUE}
-# quickly count positive partitions
+# Quickly count positive partitions
 colSums(sample_adpcr > 0)
-# baseline fluorescence data
+# Baseline fluorescence data
 sim_ddpcr(m = 3, n = 2, times = 5, fluo = list(0.1, 0)) - 0.05
 ```
 
 
 ## *type* slot
 
-Data from digital PCR experiments may have several types:  
+Data from dPCR experiments may have several types:  
 * **ct** (**c**ycle **t**hreshold): cycle threshold of each partition.  
 * **fluo**: fluorescence intensity of each partition.  
 * **nm** (**n**umber of **m**olecules): number of molecules in each partition (usually such precise data come only from simulations).  
 * **np** (**n**umber of **p**ositives): status (positive (1) or negative(0)) of each partition.  
 * **tnp** (**t**otal **n**umber of **p**ositives): total number of positive partitions in the run (*.Data* in this case is matrix with single row and number of columns equal to the number of runs).  
 
-In case of **fluo** and **tnp** types, the number of data points in *.Data* slot is almost never equal to the real number of paritions `dpcr`.
+In case of **fluo** and **tnp** types, the number of data points in *.Data* slot is almost never equal to the real number of partitions `dpcr`.
 
 ```{r eval=TRUE}
-# inspect all types of data
+# Inspect all types of data
 
-# ct
-# load package with qPCR data
+# Cq
+# Load package with qPCR data
 library(chipPCR)
 qpcr2pp(data = C127EGHP[, 1L:6], type = "ct")
 
@@ -217,7 +218,7 @@ sim_adpcr(m = 235, n = 765, times = 100, pos_sums = TRUE, n_panels = 3)
 
 ## Summary method
 
-`Summary` method produces a tabelarized summary of any `dpcr` object. It calculates &#955; and its confidence intervals using both Dube's and Bhat's method. The estimated number of template molecules (m) is also computed using the following relationship:
+`Summary` method produces a tabelary summary of any `dpcr` object. It calculates &#955; and its confidence intervals using both Dube's and Bhat's method. The estimated number of template molecules (m) is also computed using the following relationship:
 
 $$
 m = n \lambda
@@ -226,23 +227,23 @@ $$
 ```{r eval=TRUE}
 summary(sample_adpcr)
 
-# save summary data without printing it
+# Save summary data without printing it
 summ <- summary(sample_adpcr, print = FALSE)
-# print only the summary table
+# Print only the summary table
 summ[["summary"]]
 
-# extract results for Dube's method
+# Extract results for Dube's method
 summ[["summary"]][summ[["summary"]][["method"]] == "dube", ]
 ```
 
 ## Show method
 
-Since the `dpcr` objects tends to have many data points and quickly clutter the console, the `show` function prints only first 5 rows of *.Data*, number of ommited rows and the type of the object.
+Since the `dpcr` objects tends to have many data points and quickly clutter the console, the `show` function prints only first 5 rows of *.Data*, number of omitted rows and the type of the object.
 
 ```{r eval=TRUE}
 
 sample_ddpcr <- sim_ddpcr(m = 3, n = 10, times = 5)
-# standard show method...
+# Standard show method...
 show(sample_ddpcr)
 # ... which is an equivalent of:
 sample_ddpcr
@@ -252,9 +253,9 @@ slot(sample_ddpcr, ".Data")
 
 # `adpcr` class
 
-If the output if digital PCR system has exact locations in two-dimensional space, it belongs to the `adpcr` class. It is the case for all digital PCR experiments conducted on panels, arrays and so on. The `adpcr` object inherits from `dpcr` objects, but has special slots specyfying the dimensions and their names.
+If the output if dPCR system has exact locations in two-dimensional space, it belongs to the `adpcr` class. It is the case for all dPCR experiments conducted on panels, arrays and so on. The `adpcr` object inherits from `dpcr` objects, but has special slots specifying the dimensions and their names.
 
-The planar representation of `adpcr` objects is create by `adpcr2panel` function.
+The planar representation of `adpcr` objects is created by the `adpcr2panel` function.
 
 ```{r eval=TRUE}
 adpcr2panel(adpcr_experiments)
@@ -262,10 +263,10 @@ adpcr2panel(adpcr_experiments)
 
 ## Array visualisation
 
-Data from digital PCR arrays can be easily visualized using the `plot_panel` function.
+Data from dPCR arrays can be easily visualized using the `plot_panel` function.
 
 ```{r eval=TRUE}
-# remember, you can plot only single panel at once 
+# Remember, you can plot only single panel at once 
 plot_panel(extract_dpcr(adpcr_experiments, 1), main = "Experiment 1")
 ```
 
@@ -274,13 +275,13 @@ The same data can be visualized easily in binarized form (positive/negative part
 plot_panel(binarize(extract_dpcr(adpcr_experiments, 1)), main = "Experiment 1")
 ```
 
-The `plot_panel` function returns invisibly coordinates, that are compatibile with graphics and ggplot packages.
+The `plot_panel` function returns invisibly coordinates, that are compatible with **graphics** and **ggplot2** packages.
 ```{r eval=TRUE}
-# extract graphical coordinates
+# Extract graphical coordinates
 panel_data <- plot_panel(extract_dpcr(adpcr_experiments, 1), plot = FALSE)
 ggplot_coords <- cbind(panel_data[["ggplot_coords"]], value = as.vector(extract_dpcr(adpcr_experiments, 1)))
 
-# plot panel using different graphics package
+# Plot panel using different graphics package
 library(ggplot2)
 ggplot(ggplot_coords, aes(x = x, y = y, fill = value)) +
   geom_tile()
@@ -293,25 +294,25 @@ ggplot(ggplot_coords, aes(x = x, y = y, fill = value)) +
 The `test_panel` function is useful for testing the randomness of the spatial distribution of template molecules over the array.
 
 ```{r eval=TRUE}
-# test panel function perform a test for each experiment in apdr object.
+# The test_panel function performs a test for each experiment in apdr object.
 test_panel(adpcr_experiments)
 ```
 
-Further tests are avaible in the **spatstat** package, which is also utilizing S4 object system. The exchange of data between **dpcR** and **spatstat** packages is streamlined by the `adpcr2ppp` function, which converts `adpcr` object to [ppp](http://finzi.psych.upenn.edu/library/spatstat/html/ppp.object.html) class taking into account spatial coordinates of positive partitions.
+Further tests are available in the **spatstat** package, which is also utilizing S4 object system. The exchange of data between **dpcR** and **spatstat** packages is streamlined by the `adpcr2ppp` function, which converts `adpcr` object to [ppp](http://finzi.psych.upenn.edu/library/spatstat/html/ppp.object.html) class taking into account spatial coordinates of positive partitions.
 
 # `qdpcr` class
 
-The unique feature of **dpcR** package is conversion of qPCR data to dPCR-like experiments. The qPCR data should be in format used by the **qpcR** package (see [qpcR_datasets](http://finzi.psych.upenn.edu/library/qpcR/html/qpcR_datasets.html])), where columns represents particular experiments and one column contains cycle number.
+The unique feature of **dpcR** package is conversion of qPCR data to dPCR-like experiments. The qPCR data should be in a format as used by the **qpcR** package (see [qpcR_datasets](http://finzi.psych.upenn.edu/library/qpcR/html/qpcR_datasets.html])), where columns represents particular experiments and one column contains cycle number. For pre-processing of raw amplification curve data we recommend the **chipPCR** package (@roediger2015chippcr).
 
 ```{r eval=TRUE}
-# load chiPCR package to access C317.amp data
+# Load chiPCR package to access C317.amp data
 library(chipPCR)
 
-# convert data to qdpcr object
+# Convert data to qdpcr object
 qdat <- qpcr2pp(data = C317.amp, type = "np", Cq_range = c(10, 30))
 ```
 
-`qdpcr` inherits from `dpcr` objects and may be analyzed using abovementioned methods. Moreover, the converted data may visualised using the `plot` method.
+`qdpcr` inherits from `dpcr` objects and may be analyzed using above mentioned methods. Moreover, the converted data may visualized using the `plot` method.
 
 ```{r eval=TRUE}
 plot(qdat)
@@ -321,7 +322,7 @@ plot(qdat)
 
 ## GLM
 
-Generalized Linear Models (GLM) are linear models for data, where the response variables may have non-normal distributions (as for example binomially distributed positive partitions in digital PCR experiments). Using GLM we can describe relationships between results of digital PCR:
+Generalized Linear Models (GLM) are linear models for data, where the response variables may have non-normal distributions (as for example binomial distributed positive partitions in dPCR experiments). Using GLM we can describe relationships between results of dPCR:
   
   $$\log{Y} = \beta^T X$$
   
@@ -330,8 +331,8 @@ Generalized Linear Models (GLM) are linear models for data, where the response v
 Estimated means copies per partitions obtained from the model are compared each other using multiple t-test.
 
 ```{r eval=TRUE}
-# compare experiments using GLM
-# set a random seed for simulations
+# Compare experiments using GLM
+# Set a random seed for simulations
 set.seed(54321)
 
 # 1. Simulate results of three different experiments with two repetitions each
@@ -356,15 +357,15 @@ plot(comp, aggregate = FALSE)
 # 6. Aggregate runs to their groups
 plot(comp, aggregate = TRUE)
 
-# 7. extract coefficients for the further usage
+# 7. Extract coefficients for the further usage
 coef(comp)
 ```
 
-The Poisson regression on binary data (positive/negative partition) can be used only when the concentration of template molecules in samples is small (positive partitions contain very rarely more than 1 template particle). Higher concentrations requires binomial regression.
+The Poisson regression on binary data (positive/negative partition) can be used only when the concentration of template molecules in samples is small (positive partitions contain rarely more than 1 template particle). Higher concentrations requires binomial regression.
 
 ## Multiple tests
 
-The dPCR experimentes may be also compared pairwise using the uniformly most powerful (UMP) ratio test [@fay_2010]. Furthermore, computed p-values are adjusted using Benjamini & Hochberg correction [@benjamini_1995] to control family-wise error rate.
+The dPCR experiments may be also compared pairwise using the uniformly most powerful (UMP) ratio test [@fay_2010]. Furthermore, computed p-values are adjusted using Benjamini & Hochberg correction [@benjamini_1995] to control family-wise error rate.
 
 The UMP ratio test has following null-hypothesis:
 
@@ -372,7 +373,7 @@ $$
 H_0: \frac{\lambda_1}{\lambda_2} = 1
 $$
 
-The generally adviced Wilson's confidence intervals [@brown_2001] are computed independently for every dPCR experiment. The confidence intervals are adjusted using Dunn -- &#352;id&#225;k correction to ensure that they simultaneously contain true value of $lambda$:
+The generally advised Wilson's confidence intervals [@brown_2001] are computed independently for every dPCR experiment. The confidence intervals are adjusted using Dunn -- &#352;id&#225;k correction to ensure that they simultaneously contain true value of $lambda$:
 
 $$
 \alpha_{\text{adj}} = 1 - (1 - \alpha)^\frac{1}{T}
@@ -393,10 +394,10 @@ plot(comp_ratio, aggregate = FALSE)
 #4. Aggregate runs to their groups
 plot(comp_ratio, aggregate = TRUE)
 
-#5. extract coefficients for the further usage
+#5. Extract coefficients for the further usage
 coef(comp)
 
-#compare results of two methods
+# Compare results of two methods
 par(mfrow=c(2,1))
 plot(comp, aggregate = FALSE)
 title("GLM")
@@ -408,8 +409,8 @@ par(mfrow=c(1,1))
 ```
 
 
-## Comparision of frameworks
-Two approaches presented above were compared in a simulation approach over 150 000 simulated array dPCR experiments. Each simulation contained six reactions. Three of them had roughly the same amount of molecules per plate and other three had experiments with 10 to 50 molecules more.
+## Comparison of frameworks
+Two approaches presented above were compared in a simulation approach over 150.000 simulated array dPCR experiments. Each simulation contained six reactions. Three of them had roughly the same amount of molecules per plate and other three had experiments with 10 to 50 molecules more.
 Experiments were compared using GLM and MT frameworks.
 
 ```{r eval=TRUE,echo=FALSE}
@@ -428,7 +429,7 @@ A single GLM comparison took roughly 183 times longer than MT (on average 1.10 s
 
 ## Probability coverage of confidence intervals
 
-  Average covarage probability is the proportion of the time that the interval contains the true value of $\lambda$.
+  Average coverage probability is the proportion of the time that the interval contains the true value of $\lambda$.
   
   In the example below, we simulated 1\e{6} droplet dPCR experiments (2\e{4} droplets each) for each level of $\lambda$ (1.2\e{7} experiments total). We computed average probability coverage of CI obtained by three methods: Dube's[@dube_mathematical_2008], Bhat's[@bhat_single_2009] and by MT ($\alpha = 0.95$).
   
