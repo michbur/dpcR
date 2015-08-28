@@ -4,29 +4,34 @@
 \alias{read_dpcr}
 \title{Read digital PCR data}
 \usage{
-read_dpcr(file, format, ...)
+read_dpcr(input, format, ...)
 }
 \arguments{
-\item{file}{name of the input file.}
+\item{input}{name of the input file (\code{character}) or input object
+(\code{data.frame}).}
 
-\item{format}{of the file.}
+\item{format}{of the file, for example: \code{"raw"}, \code{"QX100"},
+\code{"BioMark"}.}
 
 \item{...}{additional arguments for the appropriate format.}
 }
 \value{
-Always an object of \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} type.
+Always an object of \code{\linkS4class{adpcr}} or
+\code{\linkS4class{ddpcr}} type.
 }
 \description{
 Reads digital PCR data in various formats.
 }
 \details{
-Input files may be in .csv, .xls or .xlsx format. In case of Excel files with
-multiple sheets, only the first sheet will be analyzed.
+Input files may be in .csv, .xls or .xlsx format. In case of Excel files
+with multiple sheets, only the first sheet will be analyzed.
 }
 \author{
 Michal Burdukiewcz, Stefan Roediger
 }
 \seealso{
-\code{\link{read_raw}}
+Read raw format files: \code{\link{read_raw}}.
+Read BioMark format files: \code{\link{read_BioMark}}.
+Read QX100 format files: \code{\link{read_QX100}}.
 }
 

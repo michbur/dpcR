@@ -4,10 +4,11 @@
 \alias{read_QX100}
 \title{Read QX100}
 \usage{
-read_QX100(file)
+read_QX100(input)
 }
 \arguments{
-\item{file}{name of the input file.}
+\item{input}{name of the input file (\code{character}) or input object
+(\code{data.frame}).}
 }
 \value{
 An object of \code{\linkS4class{adpcr}} class.
@@ -20,5 +21,7 @@ Michal Burdukiewcz, Stefan Roediger
 }
 \seealso{
 See \code{\link{read_dpcr}} for detailed description of input files.
+
+Example of QX100 data: \code{\link{pds}}.
 }
 
