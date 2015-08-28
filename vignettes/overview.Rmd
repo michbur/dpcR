@@ -39,7 +39,7 @@ cool_theme <- theme(plot.background=element_rect(fill = "transparent",
 load("vig.RData")
 ```
 
-dpcR is an R package designed to perform an analysis of digital PCR experiments. This vignette covers the most important features of the package and should be used as an addendum to the manual.
+**dpcR** is an R package designed to perform an analysis of digital PCR experiments. This vignette covers the most important features of the package and should be used as an addendum to the manual.
 
 We firstly describe `dpcr` class, a parent class for all classes designed to contain digital PCR data. Further, we inspect closer `adpcr` class responsible for array-based digital PCR experiments (all experiments, where output data has precise localisation in two dimensions).
 
@@ -247,6 +247,12 @@ slot(sample_ddpcr, ".Data")
 
 If the output if digital PCR system has exact locations in two-dimensional space, it belongs to the `adpcr` class. It is the case for all digital PCR experiments conducted on panels, arrays and so on. The `adpcr` object inherits from `dpcr` objects, but has special slots specyfying the dimensions and their names.
 
+The planar representation of `adpcr` objects is create by `adpcr2panel` function.
+
+```{r eval=TRUE}
+adpcr2panel(adpcr_experiments)
+```
+
 ## Array visualisation
 
 Data from digital PCR arrays can be easily visualized using the `plot_panel` function.
@@ -282,9 +288,9 @@ The `test_panel` function is useful for testing the randomness of the spatial di
 ```{r eval=TRUE}
 # test panel function perform a test for each experiment in apdr object.
 test_panel(adpcr_experiments)
-
 ```
 
+Further tests are avaible in the **spatstat** package, which is also utilizing S4 object system. The exchange of data between **dpcR** and **spatstat** packages is streamlined by the `adpcr2ppp` function, which converts `adpcr` object to [ppp](http://finzi.psych.upenn.edu/library/spatstat/html/ppp.object.html) class taking into account spatial coordinates of positive partitions.
 
 # Comparison of the experiments
 

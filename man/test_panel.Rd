@@ -13,18 +13,18 @@ test_panel(X, nx = 5, ny = 5, alternative = c("two.sided", "regular",
 \item{X}{Object of the \code{\linkS4class{adpcr}} class containing data from
 one or more panels.}
 
-\item{nx}{Numbers of quadrats in the x direction.}
+\item{nx}{Number of quadrats in the x direction.}
 
-\item{ny}{Numbers of quadrats in the y direction.}
+\item{ny}{Number of quadrats in the y direction.}
 
-\item{alternative}{Character string (partially matched) specifying the
+\item{alternative}{\code{character} string (partially matched) specifying the
 alternative hypothesis.}
 
-\item{method}{Character string (partially matched) specifying the test to
+\item{method}{\code{character} string (partially matched) specifying the test to
 use: either \code{"Chisq"} for the chi-squared test (the default), or
 \code{"MonteCarlo"} for a Monte Carlo test.}
 
-\item{conditional}{Logical. Should the Monte Carlo test be conducted
+\item{conditional}{\code{logical}. Should the Monte Carlo test be conducted
 conditionally upon the observed number of points of the pattern? Ignored if
 method="Chisq".}
 
@@ -32,21 +32,19 @@ method="Chisq".}
 method="MonteCarlo".}
 }
 \value{
-An list of objects of class \code{"htest"} with the length equal to the
+A \code{list} of objects of class \code{"htest"} with the length equal to the
 number of plates (minimum 1).
 }
 \description{
-The function \code{test_panel} is a convenient wrapper around
-\code{\link[spatstat]{quadrat.test}} function. Under optimal conditions, the
-point pattern of dPCR events (e.g., positive droplet & negative droplets).
-This function can be used to analyze if the pattern on a planar chip is
-random.  Arrays with non-random patterns should be checked for integrity.
+Performs a test of Complete Spatial Randomness for each
+plate. This function is a wrapper around \code{\link[spatstat]{quadrat.test}}
+function working directly on the objects of \code{\linkS4class{adpcr}}.
 }
 \details{
-This function quick-to-use version of \code{\link[spatstat]{quadrat.test}}
-function. It works directly on the objects of \code{\linkS4class{adpcr}}.
-\code{test_panel} performs a test of Complete Spatial Randomness for each
-plate.
+Under optimal conditions, the point pattern of dPCR events (e.g., positive droplet
+& negative droplets) should be randomly distrubuted over a planar chip.
+This function verifies this assumption using chi-square or Monte Carlo test.
+Arrays with non-random patterns should be checked for integrity.
 }
 \note{
 A similar result can be achived by using \code{\link{adpcr2ppp}} and
