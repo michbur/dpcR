@@ -86,6 +86,7 @@ Collate:
     'sim_ddpcr.R'
     'sim_ddpcr_bkm.R'
     'simulations.R'
+    'six_panels.R'
     'summary_dpcr.R'
     'test_counts.R'
     'test_counts_gui.R'

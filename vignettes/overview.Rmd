@@ -70,7 +70,7 @@ Although, this class is designed to contain results from all dPCR experiments, t
 `dpcr` is a S4 object. Below is shown how to extract elements from the slots of a S4 object:
 
 ```{r eval=TRUE}
-# Below we have S4 objecty
+# Below we have S4 object
 s4 <- sim_adpcr(m = 100, n = 496, times = 100, pos_sums = FALSE, n_panels = 3)
 # Is it a dpcr object?
 class(s4)
@@ -225,10 +225,10 @@ m = n \lambda
 $$
 
 ```{r eval=TRUE}
-summary(sample_adpcr)
+summary(six_panels)
 
 # Save summary data without printing it
-summ <- summary(sample_adpcr, print = FALSE)
+summ <- summary(six_panels, print = FALSE)
 # Print only the summary table
 summ[["summary"]]
 
@@ -258,7 +258,7 @@ If the output if dPCR system has exact locations in two-dimensional space, it be
 The planar representation of `adpcr` objects is created by the `adpcr2panel` function.
 
 ```{r eval=TRUE}
-adpcr2panel(adpcr_experiments)
+adpcr2panel(six_panels)
 ```
 
 ## Array visualisation
@@ -295,7 +295,7 @@ The `test_panel` function is useful for testing the randomness of the spatial di
 
 ```{r eval=TRUE}
 # The test_panel function performs a test for each experiment in apdr object.
-test_panel(adpcr_experiments)
+test_panel(six_panels)
 ```
 
 Further tests are available in the **spatstat** package, which is also utilizing S4 object system. The exchange of data between **dpcR** and **spatstat** packages is streamlined by the `adpcr2ppp` function, which converts `adpcr` object to [ppp](http://finzi.psych.upenn.edu/library/spatstat/html/ppp.object.html) class taking into account spatial coordinates of positive partitions.
@@ -332,32 +332,20 @@ Estimated means copies per partitions obtained from the model are compared each 
 
 ```{r eval=TRUE}
 # Compare experiments using GLM
-# Set a random seed for simulations
-set.seed(54321)
 
-# 1. Simulate results of three different experiments with two repetitions each
-# experiment 2 differs significantly from others
-adpcr1 <- sim_adpcr(m = 20, n = 765, times = 1e5, pos_sums = FALSE, n_panels = 2)
-adpcr2 <- sim_adpcr(m = 130, n = 765, times = 1e5, pos_sums = FALSE, n_panels = 2)
-adpcr2 <- rename(adpcr2, exper = "Experiment2")
-adpcr3 <- sim_adpcr(m = 50, n = 765, times = 1e5, pos_sums = FALSE, n_panels = 2)
-adpcr3 <- rename(adpcr3, exper = "Experiment3")
-# 2. Join results for convenience
-adpcrs <- bind_dpcr(adpcr1, adpcr2, adpcr3)
+# 1. Perform test
+comp <- test_counts(six_panels)
 
-# 3. Perform test
-comp <- test_counts(adpcrs)
-
-# 4. See summary of the test
+# 2. See summary of the test
 summary(comp)
 
-# 5. Plot results of the test 
+# 3. Plot results of the test 
 plot(comp, aggregate = FALSE)
 
-# 6. Aggregate runs to their groups
+# 4. Aggregate runs to their groups
 plot(comp, aggregate = TRUE)
 
-# 7. Extract coefficients for the further usage
+# 5. Extract coefficients for the further usage
 coef(comp)
 ```
 
@@ -383,7 +371,7 @@ For example, the 0.95 significance levels means, that probability of the all rea
 
 ```{r eval=TRUE}
 #1. Perform multiple test comparison using data from the previous example
-comp_ratio <- test_counts(adpcrs, model = "ratio")
+comp_ratio <- test_counts(six_panels, model = "ratio")
 
 #2. See summary of the test
 summary(comp_ratio)
@@ -424,7 +412,7 @@ ggplot(data=madpcr_comp,aes(x = value, fill = method)) +
 
 On average, 2.03 and 1.98 reactions were assessed to a wrong group by respectively GLM and MT.
 
-A single GLM comparison took roughly 183 times longer than MT (on average 1.10 seconds versus 0.006 seconds on the Intel i7-2600 processor). The difference growths with the number of experiments and number of partitions (data not shown).
+A single GLM comparison took roughly 183 times longer than MT (on average 1.10 seconds versus 0.006 seconds on the Intel i7-2600 processor). The difference grows with the number of experiments and number of partitions (data not shown).
 
 
 ## Probability coverage of confidence intervals

@@ -7,3 +7,8 @@ Accepted data formats:
 * QX100 - data from QX100 Droplet Digital PCR System (Life Technologies).
 * BioMark (Detailed Table Results) - BioMark (Fluidigm).
 * BioMark (Summary Table Results) - BioMark (Fluidigm).
+
+Accepted files formats:  
+* .csv,  
+* .xlsx,  
+* .xls.

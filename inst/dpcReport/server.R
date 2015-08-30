@@ -14,7 +14,7 @@ shinyServer(function(input, output) {
   input_dat <- reactive({
     #after loading any file it would be possible to start an example
     if(is.null(input[["input_file"]])) {
-      read_dpcr("example_data.csv", format = "raw", adpcr = TRUE)
+      six_panels
     } else {
 
       #read extension of the file
@@ -33,7 +33,7 @@ shinyServer(function(input, output) {
                                  QX100 = function(x) read_dpcr(x, format = "QX100"),
                                  BioMark_det = function(x) read_dpcr(x, format = "BioMark", detailed = TRUE),
                                  BioMark_sum = function(x) read_dpcr(x, format = "BioMark", detailed = FALSE))
-      
+
       process_function(read_function(input[["input_file"]][["datapath"]]))
     }
   })

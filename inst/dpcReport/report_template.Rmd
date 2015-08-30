@@ -132,12 +132,8 @@ if(input[["data_summary_test_counts"]])
 ```
 
 ```{r}
-if(input[["plot_panel"]])
-  cat("## All arrays")
-```
-
-```{r,warning=FALSE}
 if(input[["plot_panel"]]) {
+  cat("## All arrays")
   new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
   
   arrays <- adpcr2panel(new_dat, use_breaks = TRUE)
@@ -154,7 +150,7 @@ if(input[["plot_panel"]]) {
     print(p + ggtitle(i))
     
     source("./plot_panel/test_panel.R", local = TRUE)
-
+    
     cat(paste0("Array name: ", i, "<br>    ",
                "Complete Spatial Randomness test statistic (", HTML("&Chi;"), "): ", 
                round(res[["statistic"]], app_digits), "<br>    ",
@@ -163,11 +159,34 @@ if(input[["plot_panel"]]) {
                "Method: ", res[["method"]][1], "<br>    ",
                "Alternative: ", res[["alternative"]], "<br>    "), sep = "")
   }
-
 }
-
 ```
 
+
+```{r,eval=TRUE,results='asis'}
+if(input[["R_code"]]) {
+  cat("## R code\n")
+  
+  cat("It is assumed that input file is in your R working directory.\n    ")
+}
+```  
+  
+```{r,eval=TRUE,results='asis'}
+if(input[["R_code"]]) {
+  #read data line
+  if(is.null(input[["input_file"]])) {
+    'input_data <- six_panels'
+  } else {
+    read_data_l <- sub("file_name", input[["input_file"]][["name"]], switch(input[["input_type"]],
+                        raw_adpcr = 'input_data <- read_dpcr("file_name", format = "raw", adpcr = TRUE)',
+                        raw_ddpcr = 'input_data <- read_dpcr("file_name", format = "raw", adpcr = FALSE)',
+                        QX100 = 'input_data <- read_dpcr("file_name", format = "QX100")',
+                        BioMark_det = 'input_data <- read_dpcr("file_name", format = "BioMark", detailed = TRUE)',
+                        BioMark_sum = 'input_data <- read_dpcr("file_name", format = "BioMark", detailed = FALSE)'))
+  }
+  
+}
+```
 
 # R Session
 
