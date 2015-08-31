@@ -125,7 +125,8 @@ if(input[["plot_panel"]]) {
 
 ```{r,eval=TRUE,results='asis'}
 if(input[["R_code"]]) {
-  cat("## R code    \n\n")
+  cat("# R code    \n\n")
+  cat("The R code below may be used to recreate reported results.")
   source("r_code_gen.R", local = TRUE)
   cat(paste0(all_lines, collapse = "\n    "))
 }

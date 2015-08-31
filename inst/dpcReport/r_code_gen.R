@@ -3,9 +3,6 @@
 #separates biggers chunks of the code
 separator <- "\n    \n    ###############"
 
-
-
-
 setup_l <- c("# Load packages",
              'library(dpcR)',
              if(input[["data_summary_scatter_rep"]] || input[["data_summary_test_counts"]] || input[["plot_panel"]])
