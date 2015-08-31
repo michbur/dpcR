@@ -63,30 +63,18 @@ if(input[["data_summary_scatter_rep"]]) {
 ```{r}
 if(input[["data_summary_test_counts"]])
   cat("## Compare runs    \n\n")
-```
 
-```{r}
-if(input[["data_summary_test_counts"]])
   cat(readLines("./test_counts/test_counts1.md"), sep = "    \n")
-```
 
-```{r}
-if(input[["data_summary_test_counts"]]) {
   source("./test_counts/test_counts_res.R", local = TRUE)
   print_dpcrtable(res)
-}
-```
 
-```{r}
-if(input[["data_summary_test_counts"]])
   cat(readLines("./test_counts/test_counts2.md"), sep = "    \n")
-```
 
-```{r}
 if(input[["data_summary_test_counts"]]) {
   source("./test_counts/test_counts_group.R", local = TRUE)
-  colnames(dat) <- c("Run", "Experiment name", "Replicate ID", "Assigned group",
-                     "&lambda;", "&lambda; (lower CI)", "&lambda; (upper CI)", "k", "n")
+  colnames(dat) <- c("Run", "Assigned group", "&lambda;", "&lambda; (lower CI)", "&lambda; (upper CI)", 
+                     "Experiment name", "Replicate ID", "k", "n")
   
   print_dpcrtable(dat)
 }
@@ -144,10 +132,10 @@ if(input[["R_code"]]) {
   
   setup_l <- c("# Load packages",
                'library(dpcR)',
-               if(input[["data_summary_scatter_rep"]])
-                 c('library(ggplot2) # ggplot2 library for nicer plots',
+               if(input[["data_summary_scatter_rep"]] || input[["data_summary_test_counts"]])
+                 c('library(ggplot2) # ggplot2 library for nice plots',
                    "# Define theme for plots",
-                   'cool_theme <- theme(plot.background=element_rect(fill = "transparent", colour = "transparent"), panel.grid.major = element_line(colour="lightgrey", linetype = "dashed"), panel.background = element_rect(fill = "white", colour = "black"), legend.background = element_rect(fill="NA"), legend.position = "bottom", axis.text = element_text(size = 14), axis.title.x = element_text(size=17, vjust = -0.1), axis.title.y = element_text(size = 17, vjust = 1), strip.text = element_text(size = 17, face = "bold"), strip.background = element_rect(fill = "#9ecae1", colour = "black"), legend.text = element_text(size=14), legend.title = element_text(size = 17), plot.title = element_text(size = 22))'))
+                   'cool_theme <- theme(plot.background=element_rect(fill = "transparent", colour = "transparent"), panel.grid.major = element_line(colour="lightgrey", linetype = "dashed"), panel.background = element_rect(fill = "white", colour = "black"), legend.background = element_rect(fill="NA"), legend.position = "bottom", axis.text = element_text(size = 14), axis.title.x = element_text(size=17, vjust = -0.1), axis.title.y = element_text(size = 17, vjust = 1), strip.text = element_text(size = 17, face = "bold"), strip.background = element_rect(fill = "#9ecae1", colour = "black"), legend.text = element_text(size=14), legend.title = element_text(size = 17), plot.title = element_text(size = 22), legend.key = element_rect(fill = "white", colour = "black", linetype = "dashed", size = 0.5))'))
   
   
   #read data line
@@ -202,11 +190,30 @@ if(input[["R_code"]]) {
   } else {
     ""
   }
+
+  data_summary_test_counts_lc <- if(input[["data_summary_test_counts"]]) {
+    c('# Compare individual runs',
+    'test_res <- test_counts(input_data, model = "ratio")',
+    '# Results of the test with significance stars', 
+    'test_res',
+    '# Summary of results', 
+    'summary(test_res)',
+    '# Coefficients of runs',
+    'run_coefs <- coef(test_res)',
+    '# Add "run" column to prepare data for plot',
+    'run_coefs[["run"]] <- as.factor(rownames(run_coefs))',
+    '\n    # Plot coefficients',
+    'ggplot(run_coefs, aes(y = run, x = lambda, colour = experiment, label = group)) + geom_point(size = 4) + cool_theme + geom_text(aes(x = lambda.up, y = run), show_guide = FALSE, hjust = -0.25, vjust = 0) + ggtitle("Grouped experiments") + scale_y_discrete("Replicate id", labels = run_coefs[["replicate"]] ) + scale_x_continuous(expression(lambda)) + coord_cartesian(xlim = c(ifelse(min(run_coefs[["lambda.low"]]) > 0, min(run_coefs[["lambda.low"]]) * 0.95, min(run_coefs[["lambda.low"]]) * 1.05), ifelse(max(run_coefs[["lambda.up"]]) < 0,  max(run_coefs[["lambda.up"]]) * 0.95, max(run_coefs[["lambda.up"]]) * 1.15))) + scale_size_discrete(guide = FALSE, range = c(5, 7)) + scale_color_discrete("Experiment name") + geom_errorbarh(aes(x = lambda, xmin = lambda.low, xmax = lambda.up), size = 1.2, heigth = nlevels(run_coefs[["run"]])/160)')
+  } else {
+    ""
+  }
+  
   
   all_lines <- c("\n    ", setup_l, "\n    ",
                  read_data_l, change_replicate_l, change_exper_l, "\n    ", #input
-                 data_summary_table_c, data_summary_table_l, "\n    ", #summary
-                 data_summary_scatter_lc, "\n    ")
+                 data_summary_table_c, data_summary_table_l, "\n    ", #summary table
+                 data_summary_scatter_lc, "\n    ", #summary plots
+                 data_summary_test_counts_lc) 
   all_lines <- all_lines[all_lines != ""]
   cat(paste0(all_lines, collapse = "\n    "))
 }

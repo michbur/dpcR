@@ -225,6 +225,10 @@ test_counts <- function(input, model = "binomial", conf.level = 0.95) {
                       p_value = summ_mc[["test"]][["pvalues"]])
   }
   
+  summ <- summary(input, print = FALSE)[["summary"]]
+  
+  group_coef <- cbind(group_coef, summ[summ[["method"]] == "bhat", c("experiment", "replicate", "k", "n")])
+  
   new("count_test", group_coef = group_coef, test_res = test_res, 
       model = model)
 }

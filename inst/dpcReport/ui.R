@@ -3,7 +3,7 @@ library(shinythemes)
 
 shinyUI(navbarPage(title = "dpcReport",
                    theme = shinytheme("cerulean"),
-                   id= "navbar", windowTitle = "dpcReport", collapsible=TRUE,
+                   id = "navbar", windowTitle = "dpcReport", collapsible=TRUE,
                    tabPanel("Input file",
                             includeMarkdown("input_file1.md"),
                             fluidRow(
@@ -57,7 +57,7 @@ shinyUI(navbarPage(title = "dpcReport",
                             checkboxInput("data_summary_scatter_rep", "Data summary scatter charts", 
                                           value = TRUE),
                             checkboxInput("data_summary_test_counts", "Compare runs", 
-                                          value = FALSE),
+                                          value = TRUE),
                             checkboxInput("plot_panel", "Visualise and analyze individually each array", 
                                           value = FALSE),
                             checkboxInput("R_code", "R code used in the report generation", 

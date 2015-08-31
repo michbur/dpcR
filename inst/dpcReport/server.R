@@ -187,12 +187,10 @@ shinyServer(function(input, output) {
   })
   
   test_counts_groups_summary <- reactive({
-    dat <- slot(test_counts_dat(), "group_coef")
+    dat <- coef(test_counts_dat())
     dat[["run"]] <- as.factor(rownames(dat))
     rownames(dat) <- NULL
-    dat <- cbind(dat, summary_exprep_plot_dat()[, c("experiment", "replicate", "k", "n")])
-    dat <- dat[, c("run", "experiment", "replicate", "group", "lambda", 
-                   "lambda.low", "lambda.up", "k", "n")]
+    dat <- dat[, c("run", "group", "lambda", "lambda.low", "lambda.up", "experiment", "replicate", "k", "n")]
     dat
   })
   

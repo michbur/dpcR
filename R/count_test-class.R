@@ -52,8 +52,7 @@ setMethod("show", "count_test",
                 fill = getOption("width") + 4 + max(nchar(attr(signif_stars, "legend"), "bytes") 
                                                     - nchar(attr(signif_stars, "legend"))))
 
-            cat("\nModel used:\n")
-            print(slot(object, "model"))
+            cat("\nTest: ", slot(object, "model"))
           })
 
 

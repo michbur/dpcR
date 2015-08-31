@@ -14,6 +14,7 @@ cool_theme <- theme(plot.background=element_rect(fill = "transparent",
                     strip.background = element_rect(fill = "#9ecae1", colour = "black"),
                     legend.text = element_text(size = 12 + size_mod), 
                     legend.title = element_text(size = 15 + size_mod),
+                    legend.key = element_rect(fill = "white", colour = "black", linetype = "dashed", size = 0.5),
                     plot.title = element_text(size = 20 + size_mod))
 
 app_digits <- 4
