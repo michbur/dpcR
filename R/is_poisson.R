@@ -2,8 +2,9 @@
 #' 
 #' Calculates coordinates of points on plot to represent a digital PCR array.
 #' 
-#' @param x A vector of counts, \code{\linkS4class{adpcr}}, \code{\linkS4class{ddpcr}} or
-#' \code{\linkS4class{qdpcr}} object.
+#' @param k number of positives.
+#' @param n total
+#' @param times number of repetitions
 #' @return An object of \code{is_poisson_c} class.
 #' @export
 #' @author Michal Burdukiewicz, Piotr Sobczyk, Stefan Roediger.

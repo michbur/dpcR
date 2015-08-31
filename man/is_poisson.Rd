@@ -7,8 +7,11 @@
 is_poisson(k, n, times = 10000)
 }
 \arguments{
-\item{x}{A vector of counts, \code{\linkS4class{adpcr}}, \code{\linkS4class{ddpcr}} or
-\code{\linkS4class{qdpcr}} object.}
+\item{k}{number of positives.}
+
+\item{n}{total}
+
+\item{times}{number of repetitions}
 }
 \value{
 An object of \code{is_poisson_c} class.
