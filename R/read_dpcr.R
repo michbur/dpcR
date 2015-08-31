@@ -6,7 +6,9 @@
 #' (\code{data.frame}).
 #' @param format of the file, for example: \code{"raw"}, \code{"QX100"}, 
 #' \code{"BioMark"}.
-#' @param ... additional arguments for the appropriate format.
+#' @param ... additional parameters for the appropriate function. For example, if 
+#' \code{format} has value \code{"raw"}, the additional parameter must be 
+#' \code{adpcr}.
 #' @author Michal Burdukiewcz, Stefan Roediger
 #' @details Input files may be in .csv, .xls or .xlsx format. In case of Excel files 
 #' with multiple sheets, only the first sheet will be analyzed.
@@ -32,6 +34,8 @@ read_dpcr <- function(input, format, ...) {
 #' 
 #' Reads digital PCR data in raw format.
 #' 
+#' @details The raw format means that every column corresponds to different digital PCR run. 
+#' Data is binary (0/1) and first row represents run names(EXPERIMENT.REPLICATE).
 #' @inheritParams create_dpcr
 #' @inheritParams read_dpcr
 #' @return An object of \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} type, 

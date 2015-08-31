@@ -21,6 +21,10 @@ depends on the value of \code{adpcr} parameter.
 \description{
 Reads digital PCR data in raw format.
 }
+\details{
+The raw format means that every column corresponds to different digital PCR run.
+Data is binary (0/1) and first row represents run names(EXPERIMENT.REPLICATE).
+}
 \author{
 Michal Burdukiewcz, Stefan Roediger
 }

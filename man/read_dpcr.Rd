@@ -13,7 +13,9 @@ read_dpcr(input, format, ...)
 \item{format}{of the file, for example: \code{"raw"}, \code{"QX100"},
 \code{"BioMark"}.}
 
-\item{...}{additional arguments for the appropriate format.}
+\item{...}{additional parameters for the appropriate function. For example, if
+\code{format} has value \code{"raw"}, the additional parameter must be
+\code{adpcr}.}
 }
 \value{
 Always an object of \code{\linkS4class{adpcr}} or
