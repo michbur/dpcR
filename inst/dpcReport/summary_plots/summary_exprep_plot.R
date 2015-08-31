@@ -5,7 +5,6 @@ dat[as.numeric(summary_exprep_point[["selected"]]), "selected"] <- TRUE
 p <- ggplot(dat, aes(y = exprep, x = lambda, shape = selected, colour = experiment,
                      ymin = exprep, ymax = exprep, linetype = selected)) +
   geom_point(size = 4) + cool_theme +
-  ggtitle(expression(atop("Top line", atop(italic("2nd line"), "")))) +
   ggtitle(paste0("Experiment/replicate scatter chart\nCI method: ", cap1L(input[["CI_method"]]))) +
   scale_y_discrete("Replicate id", labels = dat[["replicate"]] ) +
   scale_x_continuous(expression(lambda)) + 

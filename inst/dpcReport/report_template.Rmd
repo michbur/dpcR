@@ -16,19 +16,7 @@ opts_chunk$set(echo=FALSE, results='asis', fig.align='center', fig.width=14)
 # TO DO add warning = FALSE later
 library(xtable)
 
-cool_theme <- theme(plot.background=element_rect(fill = "transparent",
-                                                 colour = "transparent"),
-                    panel.grid.major = element_line(colour="lightgrey", linetype = "dashed"),
-                    panel.background = element_rect(fill = "white", colour = "black"),
-                    legend.background = element_rect(fill="NA"),
-                    legend.position = "bottom",
-                    axis.text = element_text(size=12 + size_mod),
-                    axis.title.x = element_text(size=15 + size_mod, vjust = -0.1), 
-                    axis.title.y = element_text(size=15 + size_mod, vjust = 1),
-                    strip.text = element_text(size=15 + size_mod, face = "bold"),
-                    legend.text = element_text(size=12 + size_mod), 
-                    legend.title = element_text(size=15 + size_mod),
-                    plot.title = element_text(size=20 + size_mod))
+source("server_data.R")
 
 print_dpcrtable <- function(x)
   print(xtable(x), type = "html", sanitize.colnames.function = function(x) x, digits = app_digits,
@@ -43,20 +31,12 @@ File format: `r ifelse(is.null(input[["input_file"]][["name"]]), "none", input[[
 
 
 ```{r}
-if(input[["data_summary_table_rep"]])
-  cat("## Data summary table  ")
-```
-
-```{r}
 if(input[["data_summary_table_rep"]]) {
+  cat("## Data summary table    \n\n")
+  
   source("./data_summary/summary_input.R", local = TRUE)
   print_dpcrtable(res)
-}
-```
-
-
-```{r}
-if(input[["data_summary_table_rep"]]) {
+  
   cat(readLines("./data_summary/data_summary_table1.md"), sep = "    \n")
 }
 ```
@@ -65,19 +45,12 @@ if(input[["data_summary_table_rep"]]) {
 
 ```{r}
 if(input[["data_summary_scatter_rep"]])
-  cat("## Data summary scatter charts  ")
-```
+  cat("## Data summary scatter charts    \n\n")
 
-```{r}
-if(input[["data_summary_scatter_rep"]]) {
-  source("./summary_plots/summary_plot.R", local = TRUE)
-  p
-}
-```
+source("./summary_plots/summary_plot.R", local = TRUE)
+p
 
-```{r}
-if(input[["data_summary_scatter_rep"]])
-  cat(readLines("./summary_plots/data_summary_scatterchart2.md"), sep = "    \n")
+cat(readLines("./summary_plots/data_summary_scatterchart2.md"), sep = "    \n")
 ```
 
 ```{r, fig.height=(5 + 0.3*nrow(summary_exprep_plot_dat()))}
@@ -89,7 +62,7 @@ if(input[["data_summary_scatter_rep"]]) {
 
 ```{r}
 if(input[["data_summary_test_counts"]])
-  cat("## Compare runs  ")
+  cat("## Compare runs    \n\n")
 ```
 
 ```{r}
@@ -133,7 +106,7 @@ if(input[["data_summary_test_counts"]])
 
 ```{r}
 if(input[["plot_panel"]]) {
-  cat("## All arrays")
+  cat("## All arrays    \n\n")
   new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
   
   arrays <- adpcr2panel(new_dat, use_breaks = TRUE)
@@ -165,26 +138,77 @@ if(input[["plot_panel"]]) {
 
 ```{r,eval=TRUE,results='asis'}
 if(input[["R_code"]]) {
-  cat("## R code\n")
+  cat("## R code    \n\n")
   
-  cat("It is assumed that input file is in your R working directory.\n    ")
-}
-```  
+  cat("The input file (if any) is assumed to be in your R working directory.\n    ")
   
-```{r,eval=TRUE,results='asis'}
-if(input[["R_code"]]) {
+  setup_l <- c("# Load packages",
+               'library(dpcR)',
+               if(input[["data_summary_scatter_rep"]])
+                 c('library(ggplot2) # ggplot2 library for nicer plots',
+                   "# Define theme for plots",
+                   'cool_theme <- theme(plot.background=element_rect(fill = "transparent", colour = "transparent"), panel.grid.major = element_line(colour="lightgrey", linetype = "dashed"), panel.background = element_rect(fill = "white", colour = "black"), legend.background = element_rect(fill="NA"), legend.position = "bottom", axis.text = element_text(size = 14), axis.title.x = element_text(size=17, vjust = -0.1), axis.title.y = element_text(size = 17, vjust = 1), strip.text = element_text(size = 17, face = "bold"), strip.background = element_rect(fill = "#9ecae1", colour = "black"), legend.text = element_text(size=14), legend.title = element_text(size = 17), plot.title = element_text(size = 22))'))
+  
+  
   #read data line
-  if(is.null(input[["input_file"]])) {
+  read_data_l <- c("# Read and adjust data", if(is.null(input[["input_file"]])) {
     'input_data <- six_panels'
   } else {
-    read_data_l <- sub("file_name", input[["input_file"]][["name"]], switch(input[["input_type"]],
-                        raw_adpcr = 'input_data <- read_dpcr("file_name", format = "raw", adpcr = TRUE)',
-                        raw_ddpcr = 'input_data <- read_dpcr("file_name", format = "raw", adpcr = FALSE)',
-                        QX100 = 'input_data <- read_dpcr("file_name", format = "QX100")',
-                        BioMark_det = 'input_data <- read_dpcr("file_name", format = "BioMark", detailed = TRUE)',
-                        BioMark_sum = 'input_data <- read_dpcr("file_name", format = "BioMark", detailed = FALSE)'))
+    sub("file_name", input[["input_file"]][["name"]], 
+        switch(input[["input_type"]],
+               raw_adpcr = 'input_data <- read_dpcr("file_name", format = "raw", adpcr = TRUE)',
+               raw_ddpcr = 'input_data <- read_dpcr("file_name", format = "raw", adpcr = FALSE)',
+               QX100 = 'input_data <- read_dpcr("file_name", format = "QX100")',
+               BioMark_det = 'input_data <- read_dpcr("file_name", format = "BioMark", detailed = TRUE)',
+               BioMark_sum = 'input_data <- read_dpcr("file_name", format = "BioMark", detailed = FALSE)'))
+  })
+  
+  change_replicate_l <- if(any(as.character(slot(input_dat(), "replicate")) != rep_names_new())) {
+    paste0('slot(input_data, "replicate") <- factor(', 
+           paste0(capture.output(dput(rep_names_new())), collapse = ""), ')')
+  } else {
+    ""
   }
   
+  change_exper_l <- if(any(as.character(slot(input_dat(), "exper")) != exp_names_new())) {
+    paste0('slot(input_data, "exper") <- factor(', 
+           paste0(capture.output(dput(exp_names_new())), collapse = ""), ')')
+  } else {
+    ""
+  }
+  
+  data_summary_table_c <- if(input[["data_summary_table_rep"]]) {
+    '# Print only table from summary.dpcr function'
+  } else {
+    ""
+  }
+  
+  data_summary_table_l <- if(input[["data_summary_table_rep"]]) {
+    'summary(input_data, print = FALSE)[["summary"]]'
+  } else {
+    ""
+  }
+  
+  data_summary_scatter_lc <- if(input[["data_summary_scatter_rep"]]) {
+    c('# Prepare data for plots',
+      'plot_data <- summary(input_data, print = FALSE)[["summary"]]',
+      paste0('plot_data <- plot_data[plot_data[["method"]] == "', input[["CI_method"]], '", ]'),
+      # Plot boxplot',
+      paste0('ggplot(plot_data, aes(x = experiment, y = lambda, ymax = lambda.up, ymin = lambda.low)) + geom_point(size = 4, alpha = 0.6, lty = 2, colour = "blue") + cool_theme + geom_boxplot(outlier.colour = NA, fill = adjustcolor("lightgrey", alpha.f = 0.25), shape = 15) + ggtitle(paste0("Experiment boxplot\\nCI method: ", "', input[["CI_method"]], '")) + scale_x_discrete("Experiment name") + scale_y_continuous(expression(lambda))'),
+      '# Add new column, unique for every experiment/replicate combination',
+      'plot_data[["exprep"]] <- factor(paste0(plot_data[["experiment"]], "\\n", plot_data[["replicate"]]))',
+      '\n    # Plot stripchart',
+      paste0('ggplot(plot_data, aes(y = exprep, x = lambda, colour = experiment, ymin = exprep, ymax = exprep)) + geom_point(size = 4) + cool_theme + ggtitle(paste0("Experiment/replicate scatter chart\\nCI method: ", "', input[["CI_method"]], '")) + scale_y_discrete("Replicate id", labels = plot_data[["replicate"]]) + scale_x_continuous(expression(lambda)) + scale_color_discrete("Experiment name") + geom_errorbarh(aes(x = lambda, xmin = lambda.low, xmax = lambda.up), size = 1.2, heigth = nlevels(plot_data[["exprep"]])/160)'))
+  } else {
+    ""
+  }
+  
+  all_lines <- c("\n    ", setup_l, "\n    ",
+                 read_data_l, change_replicate_l, change_exper_l, "\n    ", #input
+                 data_summary_table_c, data_summary_table_l, "\n    ", #summary
+                 data_summary_scatter_lc, "\n    ")
+  all_lines <- all_lines[all_lines != ""]
+  cat(paste0(all_lines, collapse = "\n    "))
 }
 ```
 

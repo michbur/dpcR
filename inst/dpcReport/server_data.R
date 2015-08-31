@@ -7,14 +7,14 @@ cool_theme <- theme(plot.background=element_rect(fill = "transparent",
                     panel.background = element_rect(fill = "white", colour = "black"),
                     legend.background = element_rect(fill="NA"),
                     legend.position = "bottom",
-                    axis.text = element_text(size=12 + size_mod),
-                    axis.title.x = element_text(size=15 + size_mod, vjust = -0.1), 
-                    axis.title.y = element_text(size=15 + size_mod, vjust = 1),
-                    strip.text = element_text(size=15 + size_mod, face = "bold"),
+                    axis.text = element_text(size = 12 + size_mod),
+                    axis.title.x = element_text(size = 15 + size_mod, vjust = -0.1), 
+                    axis.title.y = element_text(size = 15 + size_mod, vjust = 1),
+                    strip.text = element_text(size = 15 + size_mod, face = "bold"),
                     strip.background = element_rect(fill = "#9ecae1", colour = "black"),
-                    legend.text = element_text(size=12 + size_mod), 
-                    legend.title = element_text(size=15 + size_mod),
-                    plot.title = element_text(size=20 + size_mod))
+                    legend.text = element_text(size = 12 + size_mod), 
+                    legend.title = element_text(size = 15 + size_mod),
+                    plot.title = element_text(size = 20 + size_mod))
 
 app_digits <- 4
 # nx_a <- 45
