@@ -26,7 +26,8 @@
 #' @param plot \code{"logical"}, if \code{FALSE}, only plot data is returned
 #' invisibly.
 #' @param ... Arguments to be passed to \code{plot} function.
-#' @return Invisibly returns two sets of coordinates of each microfluidic well:
+#' @return Invisibly returns two sets of coordinates of each microfluidic well
+#' as per \code{\link{calc_coordinates}}:
 #' \code{coords} is a list of coordinates suitable for usage with functions from
 #' \code{\link{graphics}} package. The second element is a data frame of coordinates 
 #' useful for users utilizing ggplot2 package.
@@ -141,33 +142,4 @@ plot_panel <- function(input, use_breaks = TRUE, col = "red", legend = TRUE,
 }
 
 
-calc_coordinates <- function(array, half) {
-  nx_a <- ncol(array) 
-  ny_a <- nrow(array)
-  
-  half <- tolower(half)
-  #half value for normal plot data
-  half_val <- switch(half,
-                     none =  c(0.25, 0.25),
-                     left = c(0.25, 0),
-                     right = c(0, 0.25))
-  #half value for ggplot data
-  half_val_ggplot <- switch(half,
-                            none =  0,
-                            left = -0.25,
-                            right = 0.25)
 
-  ggplot_coords <- data.frame(t(do.call(cbind, lapply(1L:nx_a, function(x) 
-    sapply(ny_a:1L, function(y) 
-      c(x = x + half_val_ggplot, y = y))))), value = as.vector(array))
-  ggplot_coords[["col"]] <- factor(ggplot_coords[["x"]])
-  levels(ggplot_coords[["col"]]) <- colnames(array)
-  ggplot_coords[["row"]] <- factor(ggplot_coords[["y"]])
-  levels(ggplot_coords[["row"]]) <- rownames(array)
-  
-  coords <- unlist(lapply(1L:nx_a, function(x) 
-    lapply(ny_a:1L, function(y) 
-      c(xleft = x - half_val[1], ybottom = y - 0.25, xright = x + half_val[2], 
-        ytop = y + 0.25))), recursive = FALSE)
-  list(coords = coords, ggplot_coords = ggplot_coords)
-}

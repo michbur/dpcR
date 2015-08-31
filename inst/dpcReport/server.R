@@ -16,16 +16,16 @@ shinyServer(function(input, output) {
     if(is.null(input[["input_file"]])) {
       six_panels
     } else {
-
+      
       #read extension of the file
       ext <- strsplit(input[["input_file"]][["name"]], ".", fixed = TRUE)[[1]]
-
+      
       #choose a proper read function
       read_function <- switch(ext[[length(ext)]],
                               csv = read.csv,
                               xls = read_excel,
                               xlsx = read_excel)
-
+      
       #choose which function use to process tha dPCR data
       process_function <- switch(input[["input_type"]],
                                  raw_adpcr = function(x) read_dpcr(x, format = "raw", adpcr = TRUE),
@@ -33,7 +33,7 @@ shinyServer(function(input, output) {
                                  QX100 = function(x) read_dpcr(x, format = "QX100"),
                                  BioMark_det = function(x) read_dpcr(x, format = "BioMark", detailed = TRUE),
                                  BioMark_sum = function(x) read_dpcr(x, format = "BioMark", detailed = FALSE))
-
+      
       process_function(read_function(input[["input_file"]][["datapath"]]))
     }
   })
@@ -302,8 +302,8 @@ shinyServer(function(input, output) {
   
   
   plot_panel_dat <- reactive({
-    df <- dpcR:::calc_coordinates(array_dat()[[input[["array_choice"]]]], 
-                                  half = "none")[["ggplot_coords"]]
+    df <- calc_coordinates(array_dat()[[input[["array_choice"]]]], 
+                           half = "none")[["ggplot_coords"]]
     df[["selected"]] <- rep(FALSE, nrow(df))
     df
   })

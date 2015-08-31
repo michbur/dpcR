@@ -49,6 +49,7 @@ Collate:
     'bind_dpcr.R'
     'bioamp.R'
     'calc_breaks.R'
+    'calc_coordinates.R'
     'calc_lambda.R'
     'compare_dens.R'
     'count_test-class.R'

@@ -11,11 +11,11 @@ p <- ggplot(dat, aes(y = run, x = lambda, shape = selected, colour = experiment,
   scale_y_discrete("Replicate id", labels = dat[["replicate"]] ) +
   scale_x_continuous(expression(lambda)) + 
   coord_cartesian(xlim = c(ifelse(min(dat[["lambda.low"]]) > 0,
-                                  min(dat[["lambda.low"]]) * 0.95, 
-                                  min(dat[["lambda.low"]]) * 1.05),
+                                  min(dat[["lambda.low"]]) * 0.9, 
+                                  min(dat[["lambda.low"]]) * 1.1),
                            ifelse(max(dat[["lambda.up"]]) < 0,
-                                  max(dat[["lambda.up"]]) * 0.95, 
-                                  max(dat[["lambda.up"]]) * 1.15))) +
+                                  max(dat[["lambda.up"]]) * 0.9, 
+                                  max(dat[["lambda.up"]]) * 1.1))) +
   scale_size_discrete(guide = FALSE, range = c(5, 7)) + 
   scale_color_discrete("Experiment name") +
   scale_linetype_manual(guide = FALSE, values = c("solid", "dashed")) + 

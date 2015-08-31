@@ -28,7 +28,8 @@ invisibly.}
 \item{...}{Arguments to be passed to \code{plot} function.}
 }
 \value{
-Invisibly returns two sets of coordinates of each microfluidic well:
+Invisibly returns two sets of coordinates of each microfluidic well
+as per \code{\link{calc_coordinates}}:
 \code{coords} is a list of coordinates suitable for usage with functions from
 \code{\link{graphics}} package. The second element is a data frame of coordinates
 useful for users utilizing ggplot2 package.

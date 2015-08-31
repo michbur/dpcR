@@ -12,7 +12,7 @@ toc: true
 
 ```{r echo=FALSE, results='asis'}
 library(knitr)
-opts_chunk$set(echo=FALSE, results='asis', fig.align='center', fig.width=14)
+opts_chunk$set(echo=FALSE, results='asis', fig.align='center', fig.width=14, warning = FALSE)
 # TO DO add warning = FALSE later
 library(xtable)
 
@@ -64,12 +64,12 @@ if(input[["data_summary_scatter_rep"]]) {
 if(input[["data_summary_test_counts"]])
   cat("## Compare runs    \n\n")
 
-  cat(readLines("./test_counts/test_counts1.md"), sep = "    \n")
+cat(readLines("./test_counts/test_counts1.md"), sep = "    \n")
 
-  source("./test_counts/test_counts_res.R", local = TRUE)
-  print_dpcrtable(res)
+source("./test_counts/test_counts_res.R", local = TRUE)
+print_dpcrtable(res)
 
-  cat(readLines("./test_counts/test_counts2.md"), sep = "    \n")
+cat(readLines("./test_counts/test_counts2.md"), sep = "    \n")
 
 if(input[["data_summary_test_counts"]]) {
   source("./test_counts/test_counts_group.R", local = TRUE)
@@ -103,8 +103,7 @@ if(input[["plot_panel"]]) {
   for (i in names(arrays)) {
     single_array <- arrays_unbroken[[i]]
     
-    df <- dpcR:::calc_coordinates(arrays[[i]], 
-                                  half = "none")[["ggplot_coords"]]
+    df <- calc_coordinates(arrays[[i]], half = "none")[["ggplot_coords"]]
     df[["selected"]] <- rep(FALSE, nrow(df))
     
     source("./plot_panel/plot_panel.R", local = TRUE)
@@ -127,94 +126,7 @@ if(input[["plot_panel"]]) {
 ```{r,eval=TRUE,results='asis'}
 if(input[["R_code"]]) {
   cat("## R code    \n\n")
-  
-  cat("The input file (if any) is assumed to be in your R working directory.\n    ")
-  
-  setup_l <- c("# Load packages",
-               'library(dpcR)',
-               if(input[["data_summary_scatter_rep"]] || input[["data_summary_test_counts"]])
-                 c('library(ggplot2) # ggplot2 library for nice plots',
-                   "# Define theme for plots",
-                   'cool_theme <- theme(plot.background=element_rect(fill = "transparent", colour = "transparent"), panel.grid.major = element_line(colour="lightgrey", linetype = "dashed"), panel.background = element_rect(fill = "white", colour = "black"), legend.background = element_rect(fill="NA"), legend.position = "bottom", axis.text = element_text(size = 14), axis.title.x = element_text(size=17, vjust = -0.1), axis.title.y = element_text(size = 17, vjust = 1), strip.text = element_text(size = 17, face = "bold"), strip.background = element_rect(fill = "#9ecae1", colour = "black"), legend.text = element_text(size=14), legend.title = element_text(size = 17), plot.title = element_text(size = 22), legend.key = element_rect(fill = "white", colour = "black", linetype = "dashed", size = 0.5))'))
-  
-  
-  #read data line
-  read_data_l <- c("# Read and adjust data", if(is.null(input[["input_file"]])) {
-    'input_data <- six_panels'
-  } else {
-    sub("file_name", input[["input_file"]][["name"]], 
-        switch(input[["input_type"]],
-               raw_adpcr = 'input_data <- read_dpcr("file_name", format = "raw", adpcr = TRUE)',
-               raw_ddpcr = 'input_data <- read_dpcr("file_name", format = "raw", adpcr = FALSE)',
-               QX100 = 'input_data <- read_dpcr("file_name", format = "QX100")',
-               BioMark_det = 'input_data <- read_dpcr("file_name", format = "BioMark", detailed = TRUE)',
-               BioMark_sum = 'input_data <- read_dpcr("file_name", format = "BioMark", detailed = FALSE)'))
-  })
-  
-  change_replicate_l <- if(any(as.character(slot(input_dat(), "replicate")) != rep_names_new())) {
-    paste0('slot(input_data, "replicate") <- factor(', 
-           paste0(capture.output(dput(rep_names_new())), collapse = ""), ')')
-  } else {
-    ""
-  }
-  
-  change_exper_l <- if(any(as.character(slot(input_dat(), "exper")) != exp_names_new())) {
-    paste0('slot(input_data, "exper") <- factor(', 
-           paste0(capture.output(dput(exp_names_new())), collapse = ""), ')')
-  } else {
-    ""
-  }
-  
-  data_summary_table_c <- if(input[["data_summary_table_rep"]]) {
-    '# Print only table from summary.dpcr function'
-  } else {
-    ""
-  }
-  
-  data_summary_table_l <- if(input[["data_summary_table_rep"]]) {
-    'summary(input_data, print = FALSE)[["summary"]]'
-  } else {
-    ""
-  }
-  
-  data_summary_scatter_lc <- if(input[["data_summary_scatter_rep"]]) {
-    c('# Prepare data for plots',
-      'plot_data <- summary(input_data, print = FALSE)[["summary"]]',
-      paste0('plot_data <- plot_data[plot_data[["method"]] == "', input[["CI_method"]], '", ]'),
-      # Plot boxplot',
-      paste0('ggplot(plot_data, aes(x = experiment, y = lambda, ymax = lambda.up, ymin = lambda.low)) + geom_point(size = 4, alpha = 0.6, lty = 2, colour = "blue") + cool_theme + geom_boxplot(outlier.colour = NA, fill = adjustcolor("lightgrey", alpha.f = 0.25), shape = 15) + ggtitle(paste0("Experiment boxplot\\nCI method: ", "', input[["CI_method"]], '")) + scale_x_discrete("Experiment name") + scale_y_continuous(expression(lambda))'),
-      '# Add new column, unique for every experiment/replicate combination',
-      'plot_data[["exprep"]] <- factor(paste0(plot_data[["experiment"]], "\\n", plot_data[["replicate"]]))',
-      '\n    # Plot stripchart',
-      paste0('ggplot(plot_data, aes(y = exprep, x = lambda, colour = experiment, ymin = exprep, ymax = exprep)) + geom_point(size = 4) + cool_theme + ggtitle(paste0("Experiment/replicate scatter chart\\nCI method: ", "', input[["CI_method"]], '")) + scale_y_discrete("Replicate id", labels = plot_data[["replicate"]]) + scale_x_continuous(expression(lambda)) + scale_color_discrete("Experiment name") + geom_errorbarh(aes(x = lambda, xmin = lambda.low, xmax = lambda.up), size = 1.2, heigth = nlevels(plot_data[["exprep"]])/160)'))
-  } else {
-    ""
-  }
-
-  data_summary_test_counts_lc <- if(input[["data_summary_test_counts"]]) {
-    c('# Compare individual runs',
-    'test_res <- test_counts(input_data, model = "ratio")',
-    '# Results of the test with significance stars', 
-    'test_res',
-    '# Summary of results', 
-    'summary(test_res)',
-    '# Coefficients of runs',
-    'run_coefs <- coef(test_res)',
-    '# Add "run" column to prepare data for plot',
-    'run_coefs[["run"]] <- as.factor(rownames(run_coefs))',
-    '\n    # Plot coefficients',
-    'ggplot(run_coefs, aes(y = run, x = lambda, colour = experiment, label = group)) + geom_point(size = 4) + cool_theme + geom_text(aes(x = lambda.up, y = run), show_guide = FALSE, hjust = -0.25, vjust = 0) + ggtitle("Grouped experiments") + scale_y_discrete("Replicate id", labels = run_coefs[["replicate"]] ) + scale_x_continuous(expression(lambda)) + coord_cartesian(xlim = c(ifelse(min(run_coefs[["lambda.low"]]) > 0, min(run_coefs[["lambda.low"]]) * 0.95, min(run_coefs[["lambda.low"]]) * 1.05), ifelse(max(run_coefs[["lambda.up"]]) < 0,  max(run_coefs[["lambda.up"]]) * 0.95, max(run_coefs[["lambda.up"]]) * 1.15))) + scale_size_discrete(guide = FALSE, range = c(5, 7)) + scale_color_discrete("Experiment name") + geom_errorbarh(aes(x = lambda, xmin = lambda.low, xmax = lambda.up), size = 1.2, heigth = nlevels(run_coefs[["run"]])/160)')
-  } else {
-    ""
-  }
-  
-  
-  all_lines <- c("\n    ", setup_l, "\n    ",
-                 read_data_l, change_replicate_l, change_exper_l, "\n    ", #input
-                 data_summary_table_c, data_summary_table_l, "\n    ", #summary table
-                 data_summary_scatter_lc, "\n    ", #summary plots
-                 data_summary_test_counts_lc) 
-  all_lines <- all_lines[all_lines != ""]
+  source("r_code_gen.R", local = TRUE)
   cat(paste0(all_lines, collapse = "\n    "))
 }
 ```
