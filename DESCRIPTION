@@ -63,7 +63,6 @@ Collate:
     'fit_adpcr.R'
     'fl.R'
     'get_k_n.R'
-    'is_poisson.R'
     'limit_cq.R'
     'many_peaks.R'
     'modlist.R'
