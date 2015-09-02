@@ -49,11 +49,11 @@ compare_dens <- function(input, moments = TRUE, ...) {
   if (moments) {
     labels <- as.character(unique(all_moms[["moment"]]))
     sapply(1L:4, function(i) {
-      text(0.85*xup, (98 - 5*i)/100*ytop, paste0(labels[i], ":"), pos = 2)
-      text(0.89*xup, (98 - 5*i)/100*ytop, round(all_moms[all_moms[["method"]] == "theoretical", "value"][i], 4))
+      text(0.83*xup, (98 - 5*i)/100*ytop, paste0(labels[i], ":"), pos = 2)
+      text(0.87*xup, (98 - 5*i)/100*ytop, round(all_moms[all_moms[["method"]] == "theoretical", "value"][i], 4))
       text(0.99*xup, (98 - 5*i)/100*ytop, round(all_moms[all_moms[["method"]] == "empirical", "value"][i], 4))
     })
-    text(0.89*xup, 0.99*ytop, "Theoretical", pos = 1)
+    text(0.87*xup, 0.99*ytop, "Theoretical", pos = 1)
     text(0.99*xup, 0.99*ytop, "Empirical", pos = 1)
   }
 }
