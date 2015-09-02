@@ -97,55 +97,100 @@ read_QX100 <- function(input) {
 #' @export
 
 read_BioMark <- function(input, detailed = FALSE) {
-  dat <- read_input(input)
-  
-  data_range <- 10L:57
-  
-  #dat[apply(dat, 1, function(row) sum(is.na(row))) == 0, ]
-  
-  names1 <- as.vector(dat[8, ])
-  names2 <- as.vector(dat[9, ])
-  
-  #exper
-  exper <- rep(paste0(dat[data_range, names1 == "Sample Information" & names2 == "Name"], "_",
-                      dat[data_range, names1 == "Sample Information" & names2 == "Type"]), 2)
-  
-  #replicate
-  replicate <- paste0(rep(dat[data_range, names1 == "Panel" & names2 == "ID"], 2),
-                      unlist(lapply(c("VIC-TAMRA", "FAM-MGB"), function(channel_name)
-                        dat[data_range, names1 == channel_name & names2 == "Type"])))
-  
-  #dat[data_range, names1 == "Sample Information" & names2 == "rConc."]
-  
-  #assay
-  assay <- unlist(lapply(c("VIC-TAMRA", "FAM-MGB"), function(channel_name)
-    dat[data_range, names1 == channel_name & names2 == "Name"]
-  ))
-  
-  #data
-  count_data <- unlist(lapply(c("VIC-TAMRA", "FAM-MGB"), function(channel_name)
-    as.numeric(dat[data_range, names1 == channel_name & names2 == "Count"])))
-  
-  
-  res <- create_dpcr(data = matrix(count_data, nrow = 1), n = rep(765, length(count_data)), 
-                     exper = exper, replicate = replicate, type = "tnp",
-                     assay = assay, adpcr = TRUE, row_names = as.character(1L:4), 
-                     col_names = as.character(1L:12), 
-                     panel_id = factor(c(rep(1, length(exper)/2), rep(2, length(exper)/2))))
-  
-  names_df <- data.frame(table(slot(res, "panel_id"), slot(res, "assay")))
-  levels(slot(res, "panel_id")) <- as.character(sapply(levels(names_df[["Var1"]]), 
-                                                       function(single_name) {
-                                                         sub_data <- names_df[names_df[["Var1"]] == single_name, ]
-                                                         sub_data[which.max(sub_data[["Freq"]]), "Var2"]
-                                                       }))
-  res
-  
+  if(detailed) {
+    
+    dat <- read_input(input, skip = 11)
+    
+    exper <- rep(paste(as.character(sapply(0L:47, function(id_panel)
+      #matrix(..., ncol = 1) instead of [,,drop = FALSE], because I use as.numeric
+      dat[770 * id_panel + 1, "Name"]
+    )),
+    as.character(sapply(0L:47, function(id_panel)
+      #matrix(..., ncol = 1) instead of [,,drop = FALSE], because I use as.numeric
+      dat[770 * id_panel + 1, "Type"]
+    )), sep = "_"), 2)
+    
+    
+    replicate <- c(as.character(sapply(0L:47, function(id_panel)
+      dat[770 * id_panel + 1, "Type.1"]
+    )), as.character(sapply(0L:47, function(id_panel)
+      dat[770 * id_panel + 1, "Type.2"]
+    )))
+    
+    replicate[replicate == "Test"] <- paste(replicate[replicate == "Test"], 
+                                            1L:length(replicate[replicate == "Test"]), sep = "_")
+    replicate[replicate == "Blank"] <- paste(replicate[replicate == "Blank"], 
+                                             1L:length(replicate[replicate == "Blank"]), sep = "_")    
+    
+    assay <- c(as.character(sapply(0L:47, function(id_panel)
+      dat[770 * id_panel + 1, "Name.1"]
+    )), as.character(sapply(0L:47, function(id_panel)
+      dat[770 * id_panel + 1, "Name.2"]
+    )))
+    
+    run_dat <- do.call(cbind, lapply(c("Target", "Target.1"), function(single_assay)
+      do.call(cbind, lapply(0L:47, function(id_panel)
+        do.call(rbind, lapply(1L:70, function(id_x)
+          #matrix(..., ncol = 1) instead of [,,drop = FALSE], because I use as.numeric
+          matrix(as.numeric(dat[770 * id_panel + id_x + rev(0L:10*70), single_assay] == "Hit"), ncol = 1)
+        ))
+      ))
+    ))
+    
+    create_dpcr(run_dat, 770L, exper = exper, replicate = replicate, col_names = as.character(1L:70),
+                row_names = as.character(1L:11), type = "np", adpcr = TRUE, panel_id = as.factor(1L:96))
+
+  } else {
+    
+    dat <- read_input(input)
+    
+    data_range <- 10L:57
+    
+    #dat[apply(dat, 1, function(row) sum(is.na(row))) == 0, ]
+    
+    names1 <- as.vector(dat[8, ])
+    names2 <- as.vector(dat[9, ])
+    
+    #exper
+    exper <- rep(paste0(dat[data_range, names1 == "Sample Information" & names2 == "Name"], "_",
+                        dat[data_range, names1 == "Sample Information" & names2 == "Type"]), 2)
+    
+    #replicate
+    replicate <- paste0(rep(dat[data_range, names1 == "Panel" & names2 == "ID"], 2),
+                        unlist(lapply(c("VIC-TAMRA", "FAM-MGB"), function(channel_name)
+                          dat[data_range, names1 == channel_name & names2 == "Type"])))
+    
+    #dat[data_range, names1 == "Sample Information" & names2 == "rConc."]
+    
+    #assay
+    assay <- unlist(lapply(c("VIC-TAMRA", "FAM-MGB"), function(channel_name)
+      dat[data_range, names1 == channel_name & names2 == "Name"]
+    ))
+    
+    #data
+    count_data <- unlist(lapply(c("VIC-TAMRA", "FAM-MGB"), function(channel_name)
+      as.numeric(dat[data_range, names1 == channel_name & names2 == "Count"])))
+    
+    
+    res <- create_dpcr(data = matrix(count_data, nrow = 1), n = rep(765, length(count_data)), 
+                       exper = exper, replicate = replicate, type = "tnp",
+                       assay = assay, adpcr = TRUE, row_names = as.character(1L:4), 
+                       col_names = as.character(1L:12), 
+                       panel_id = factor(c(rep(1, length(exper)/2), rep(2, length(exper)/2))))
+    
+    names_df <- data.frame(table(slot(res, "panel_id"), slot(res, "assay")))
+    levels(slot(res, "panel_id")) <- as.character(sapply(levels(names_df[["Var1"]]), 
+                                                         function(single_name) {
+                                                           sub_data <- names_df[names_df[["Var1"]] == single_name, ]
+                                                           sub_data[which.max(sub_data[["Freq"]]), "Var2"]
+                                                         }))
+    res
+  }
 }
 
 
 #checks the extension and returns proper read function
-read_input<- function(input, ext = NULL) {
+read_input<- function(input, ext = NULL, skip = 0) {
   if(is.character(input)) {
     
     if(is.null(ext))
@@ -158,7 +203,7 @@ read_input<- function(input, ext = NULL) {
                   xls = read_excel,
                   xlsx = read_excel)
     
-    fun(input)
+    fun(input, skip = skip)
   } else {
     input
   }
