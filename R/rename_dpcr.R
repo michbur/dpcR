@@ -11,7 +11,7 @@
 #' @export
 
 
-rename <- function(x, exper = NULL, replicate = NULL) {
+rename_dpcr <- function(x, exper = NULL, replicate = NULL) {
   #add check if numeric
   if (!is.null(exper)) {
     if(length(exper) == 1) {

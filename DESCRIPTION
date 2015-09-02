@@ -79,7 +79,7 @@ Collate:
     'qpcr2pp.R'
     'qpcr_analyser.R'
     'read_dpcr.R'
-    'rename.R'
+    'rename_dpcr.R'
     'rtadpcr.R'
     'safe_efficiency.R'
     'show_dpcr.R'

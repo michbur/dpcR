@@ -43,9 +43,9 @@
 #' \dontrun{
 #' adpcr1 <- sim_adpcr(m = 10, n = 765, times = 1000, pos_sums = FALSE, n_panels = 3)
 #' adpcr2 <- sim_adpcr(m = 60, n = 550, times = 1000, pos_sums = FALSE, n_panels = 3)
-#' adpcr2 <- rename(adpcr2, exper = "Experiment2")
+#' adpcr2 <- rename_dpcr(adpcr2, exper = "Experiment2")
 #' adpcr3 <- sim_adpcr(m = 10, n = 600, times = 1000, pos_sums = FALSE, n_panels = 3)
-#' adpcr3 <- rename(adpcr3, exper = "Experiment3")
+#' adpcr3 <- rename_dpcr(adpcr3, exper = "Experiment3")
 #' 
 #' #compare experiments using binomial regression
 #' two_groups_bin <- test_counts(bind_dpcr(adpcr1, adpcr2), model = "binomial")
