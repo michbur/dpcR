@@ -98,7 +98,6 @@ read_QX100 <- function(input) {
 
 read_BioMark <- function(input, detailed = FALSE) {
   if(detailed) {
-    
     dat <- read_input(input, skip = 11)
     
     exper <- rep(paste(as.character(sapply(0L:47, function(id_panel)
@@ -139,7 +138,6 @@ read_BioMark <- function(input, detailed = FALSE) {
                 row_names = as.character(1L:11), type = "np", adpcr = TRUE, panel_id = as.factor(1L:96))
 
   } else {
-    
     dat <- read_input(input)
     
     data_range <- 10L:57

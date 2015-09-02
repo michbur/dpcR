@@ -325,7 +325,6 @@ shinyServer(function(input, output) {
   })
   
   output[["plot_panel_brush"]] <- renderPrint({
-    
     epilogue <- list(strong("Click and sweep"), "over the partitions to select them.", br()) 
     
     prologue <- if(is.null(array_val[["selected"]])) {
@@ -374,9 +373,23 @@ shinyServer(function(input, output) {
     summs
   }, escape = FALSE)
   
+  # Poisson distribution --------------------- 
+  
+  output[["run_choice"]] <- renderUI({
+    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+    choices <- as.list(colnames(new_dat))
+    names(choices) <- colnames(new_dat)
+    selectInput("run_choice", label = h4("Select array"), choices = choices)
+  })
+  
+  output[["moments_table"]] <- renderDataTable({
+    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+    
+    moments(extract_dpcr(new_dat, input[["run_choice"]]))[, -c(1L:2)]
+  })
   
   
-  #report download ---------------------------------------------------
+  # report download ---------------------------------------------------
   output[["report_download_button"]] <- downloadHandler(
     filename  = "dpcReport.html",
     content = function(file) {
