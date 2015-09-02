@@ -7,8 +7,7 @@
 compare_dens(input, moments = TRUE, ...)
 }
 \arguments{
-\item{input}{object of class \code{\linkS4class{adpcr}} or
-\code{\linkS4class{ddpcr}} containing only one panel.}
+\item{input}{object of class \code{\linkS4class{dpcr}} containing only one run.}
 
 \item{moments}{logical, if \code{TRUE}, both theoretical and empirical
 moments are printed on the plot.}

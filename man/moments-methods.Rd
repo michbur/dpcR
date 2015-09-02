@@ -3,8 +3,8 @@
 \docType{methods}
 \name{moments-methods}
 \alias{moments}
-\alias{moments,adpcr-method}
-\alias{moments,ddpcr-method}
+\alias{moments,dpcr-method}
+\alias{moments,matrix-method}
 \alias{moments,numeric-method}
 \alias{moments-methods}
 \title{Calculate Moments of Poisson Distribution}
@@ -12,24 +12,17 @@
 moments(input)
 }
 \arguments{
-\item{input}{a single numeric object (lambda) or a two element vector (first
-element is treated as the number of positive partitions and the second as
-the number of total partitions) or an object of class
-\code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}.}
+\item{input}{a vector with two elements (the first element is treated as
+a number of positive partitions and the second as a number of total partitions)
+or a matrix with two columns (first columns contains numbers of
+positive partitions and the second total numbers of total partitions)
+or an object of class \code{\linkS4class{dpcr}} .}
 }
 \value{
-A named vector of four elements (mean, variance, skewness and
-kurtosis).
-
-In case of \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} object
-containing total number of positive molecules, a n-by-4 matrix, where n is
-the number of experiments.
-
-In case of \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}
-containing number of molecules per partition, a n*2-by-4 matrix, where n is
-the number of experiments. In this case empirical moments are calculated
-directly from a distribution of the data. Theoretical moments from a Poisson
-distribution with \eqn{\lambda}{lambda} parameter taken from the data.
+A data frame with four columns: name of the experiment,
+name of the replicate, method of computation (theoretical or empirical),
+name of the moment and the value of the moment. The theoretical moments are
+computed using the lambda value and the empirical using the sample values.
 }
 \description{
 Computes moments of a Poisson distribution. The calculations are based on
@@ -47,19 +40,11 @@ Skewness: \eqn{\sqrt{\lambda}}{lambda^(-0.5)}.
 Kurtosis: \eqn{\frac{1}{\lambda}}{lambda^(-1)}.
 }
 \examples{
-# moments for lambda = 2
-moments(2)
-
 # moments for 100 positive partitions of 765 total partitions
 moments(c(100, 765))
 
-# calculate moments for an array digital PCR, total number of positive partitions
-ddpcr1 <- sim_ddpcr(m = 10, n = 40, times = 50, pos_sums = TRUE, n_exp = 5)
-moments(ddpcr1)
-
-# calculate moments for an array digital PCR, detailed number of molecules in each partition
-ddpcr2 <- sim_ddpcr(m = 10, n = 40, times = 50, pos_sums = FALSE, n_exp = 5)
-moments(ddpcr2)
+# calculate moments for an array digital PCR
+moments(six_panels)
 }
 \author{
 Michal Burdukiewicz.

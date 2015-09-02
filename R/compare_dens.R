@@ -4,8 +4,7 @@
 #' experiment.
 #' 
 #' 
-#' @param input object of class \code{\linkS4class{adpcr}} or
-#' \code{\linkS4class{ddpcr}} containing only one panel.
+#' @param input object of class \code{\linkS4class{dpcr}} containing only one run.
 #' @param moments logical, if \code{TRUE}, both theoretical and empirical
 #' moments are printed on the plot.
 #' @param \dots other arguments passed to the \code{plot} function.
@@ -22,15 +21,14 @@ compare_dens <- function(input, moments = TRUE, ...) {
   #moments() checks class and so on
   
   if (ncol(input) > 1)
-    stop("Input must contain only one panel.", call. = TRUE, domain = NA)    
+    stop("Input must contain only one experiment.")    
   
   all_moms <- moments(input)
-  lambda <- all_moms[1,1]
-  
+  lambda <- all_moms[all_moms[["moment"]] == "mean", "value"][1]
   xup <- max(input)
   data <- table(factor(input, levels = 0L:xup))
   bars <- calc_bars(data)
-  theor <- dpois(0L:xup, lambda)*length(input)
+  theor <- dpois(0L:xup, lambda)*slot(input, "n")
   ytop <- ifelse(max(theor) >= max(data), max(theor), max(data))
   
   plot(NA, NA, xlim = c(-0.5, xup + 0.5), ylim = c(-0, ytop), 
@@ -49,13 +47,13 @@ compare_dens <- function(input, moments = TRUE, ...) {
     lines(c(x, x), c(0, theor[x + 1]), lty = "dotted", col = "grey12", lwd = 2))
   
   if (moments) {
-    labels <- rownames(all_moms)
+    labels <- as.character(unique(all_moms[["moment"]]))
     sapply(1L:4, function(i) {
       text(0.85*xup, (98 - 5*i)/100*ytop, paste0(labels[i], ":"), pos = 2)
-      text(0.89*xup, (98 - 5*i)/100*ytop, round(all_moms[i, 2], 4))
-      text(0.98*xup, (98 - 5*i)/100*ytop, round(all_moms[i, 1], 4))
+      text(0.89*xup, (98 - 5*i)/100*ytop, round(all_moms[all_moms[["method"]] == "theoretical", "value"][i], 4))
+      text(0.99*xup, (98 - 5*i)/100*ytop, round(all_moms[all_moms[["method"]] == "empirical", "value"][i], 4))
     })
     text(0.89*xup, 0.99*ytop, "Theoretical", pos = 1)
-    text(0.98*xup, 0.99*ytop, "Empirical", pos = 1)
+    text(0.99*xup, 0.99*ytop, "Empirical", pos = 1)
   }
 }
