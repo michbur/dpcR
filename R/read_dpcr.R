@@ -102,11 +102,9 @@ read_BioMark <- function(input, detailed = FALSE) {
     dat <- read_input(input, skip = 11)
     
     exper <- rep(paste(as.character(sapply(0L:47, function(id_panel)
-      #matrix(..., ncol = 1) instead of [,,drop = FALSE], because I use as.numeric
       dat[770 * id_panel + 1, "Name"]
     )),
     as.character(sapply(0L:47, function(id_panel)
-      #matrix(..., ncol = 1) instead of [,,drop = FALSE], because I use as.numeric
       dat[770 * id_panel + 1, "Type"]
     )), sep = "_"), 2)
     
