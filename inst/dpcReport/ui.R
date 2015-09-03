@@ -55,7 +55,32 @@ shinyUI(navbarPage(title = "dpcReport",
                                        includeMarkdown("./poisson_distribution/poisson_distribution1.md"),
                                        htmlOutput("run_choice"),
                                        includeMarkdown("./poisson_distribution/poisson_distribution2.md"),
-                                       dataTableOutput("moments_table"))
+                                       dataTableOutput("moments_table"),
+                                       includeMarkdown("./poisson_distribution/poisson_distribution3.md"),
+                                       fluidRow(
+                                         column(3, selectInput("density_plot_avg", label = h4("Select parameter:"), 
+                                                               choices = c("k" = FALSE, "lambda" = TRUE))),
+                                         
+                                         column(3, selectInput("density_plot_methods", h4("Choose method of calculating CI:"), 
+                                                               choices  = list("Exact" = "exact", 
+                                                                               "Agresti-Coull" = "agresti-coull", 
+                                                                               "Asymptotic" = "asymptotic", 
+                                                                               "Wilson" = "wilson", 
+                                                                               "Proportion test" = "prop.test", 
+                                                                               "Bayesian inference"  = "bayes", 
+                                                                               "Logit parameterization" = "logit", 
+                                                                               "cloglog parameterization" = "cloglog", 
+                                                                               "probit parameterization" = "probit"), 
+                                                               "wilson")),
+                                         column(3, numericInput("density_plot_cil",  h4("Confidence intervals level:"), 
+                                                                0.95, min = 0, max = 1,
+                                                                step = 0.01)),
+                                         column(3, selectInput("density_plot_bars", label = h4("Plot bars:"), 
+                                                               choices = c("yes" = TRUE, "no" = FALSE)))
+                                       ),
+                                       plotOutput("density_plot"),
+                                       includeMarkdown("./poisson_distribution/poisson_distribution4.md")
+                              )
                    ),
                    tabPanel("Download report", 
                             includeMarkdown("download_report1.md"),

@@ -375,8 +375,32 @@ shinyServer(function(input, output) {
   
   # Poisson distribution --------------------- 
   
+  kn_coef <- reactive({
+    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+    
+    #     if(!is.null(input[["run_choice"]]))
+    #       browser()
+    
+    kn <- unlist(summary(extract_dpcr(new_dat, input[["run_choice"]]), print = FALSE)[["summary"]][1, c("k", "n")])
+    
+    conf <- dpcr_density(k = kn["k"], n = kn["n"], average = input[["density_plot_avg"]], 
+                         methods = input[["density_plot_methods"]], 
+                         conf.level = input[["density_plot_cil"]], plot = FALSE)
+    
+    dens <- data.frame(dpcR:::dpcr_calculator(kn["k"], kn["n"], average = input[["density_plot_avg"]]))
+    colnames(dens) <- c("x", "y")
+    
+    dens[["conf_low"]] <- dens[["x"]] <= conf[["lower"]] 
+    dens[["conf_up"]] <- dens[["x"]] >= conf[["upper"]]
+    
+    list(kn = kn,
+         dens = dens,
+         conf = conf)
+  })
+  
   output[["run_choice"]] <- renderUI({
     new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+    
     choices <- as.list(colnames(new_dat))
     names(choices) <- colnames(new_dat)
     selectInput("run_choice", label = h4("Select array"), choices = choices)
@@ -385,9 +409,33 @@ shinyServer(function(input, output) {
   output[["moments_table"]] <- renderDataTable({
     new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
     
-    moments(extract_dpcr(new_dat, input[["run_choice"]]))[, -c(1L:2)]
+    mom_dat <- moments(extract_dpcr(new_dat, input[["run_choice"]]))[, -c(1L:3)]
+    mom_tab <- cbind(mom_dat[1L:4, ], mom_dat[5L:8, 2])
+    colnames(mom_tab) <- c("Moment", "Theoretical", "Empirical")
+    mom_tab
   })
   
+  output[["density_plot"]] <- renderPlot({
+    
+    p <- ggplot(kn_coef()[["dens"]], aes(x = x, y = y)) + geom_line(colour = "lightskyblue1", size = 1.2) + 
+      geom_area(aes(fill = conf_up)) + 
+      geom_area(aes(fill = conf_low)) +
+      
+      scale_fill_manual(values = c("FALSE" = NA, "TRUE" = adjustcolor("cyan4", alpha.f = 0.5)), guide = FALSE) +
+      cool_theme + 
+      scale_y_continuous("Density")
+    
+    p <- if(input[["density_plot_avg"]]) {
+      p + scale_x_continuous(expression(lambda))
+    } else {
+      p + scale_x_continuous("k")
+    }
+    
+    if(input[["density_plot_bars"]])
+      p <- p + geom_bar(stat = "identity", fill = adjustcolor("lightskyblue1", alpha.f = 0.5))
+    
+    p
+  })
   
   # report download ---------------------------------------------------
   output[["report_download_button"]] <- downloadHandler(
