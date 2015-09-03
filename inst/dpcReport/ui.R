@@ -100,5 +100,5 @@ shinyUI(navbarPage(title = "dpcReport",
                                            "Download report")),
                    tabPanel("About", 
                             includeMarkdown("about.md")),
-                   tabPanel("Quit", actionButton("quit_button", "Press buttton if you want to quit dpcReport"))
+                   tabPanel("Quit", actionButton("quit_button", "Press the button to quit dpcReport"))
 ))
