@@ -383,8 +383,8 @@ shinyServer(function(input, output) {
     
     source("./prob_distr/get_kn.R", local = TRUE)
     
-#     if(!is.null(input[["run_choice"]]))
-#       browser()
+    #     if(!is.null(input[["run_choice"]]))
+    #       browser()
     
     list(kn = kn,
          dens = dens,
@@ -428,5 +428,9 @@ shinyServer(function(input, output) {
                                options = c('toc', markdown::markdownHTMLOptions(TRUE)))
     })
   
-  
+  observe({
+    if(input[["quit_button"]] > 0)
+      stopApp()
+    })
+
 })

@@ -82,7 +82,8 @@ shinyUI(navbarPage(title = "dpcReport",
                                        includeMarkdown("./prob_distr/prob_distr4.md")
                               )
                    ),
-                   tabPanel("Download report", 
+                   tabPanel("Download report and quit",
+                            actionButton("quit_button", "Quit dpcReport"),
                             includeMarkdown("download_report1.md"),
                             checkboxInput("data_summary_table_rep", "Data summary table", 
                                           value = TRUE),
