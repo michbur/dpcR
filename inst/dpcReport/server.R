@@ -73,6 +73,7 @@ shinyServer(function(input, output) {
   
   # Data summary table panel --------------------------------
   output[["summary_input"]] <- renderDataTable({
+    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
     source("./data_summary/summary_input.R", local = TRUE)
     res
   }, escape = FALSE)
@@ -378,20 +379,12 @@ shinyServer(function(input, output) {
   kn_coef <- reactive({
     new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
     
-    #     if(!is.null(input[["run_choice"]]))
-    #       browser()
+    single_run <- extract_dpcr(new_dat, input[["run_choice"]])
     
-    kn <- unlist(summary(extract_dpcr(new_dat, input[["run_choice"]]), print = FALSE)[["summary"]][1, c("k", "n")])
+    source("./prob_distr/get_kn.R", local = TRUE)
     
-    conf <- dpcr_density(k = kn["k"], n = kn["n"], average = input[["density_plot_avg"]], 
-                         methods = input[["density_plot_methods"]], 
-                         conf.level = input[["density_plot_cil"]], plot = FALSE)
-    
-    dens <- data.frame(dpcR:::dpcr_calculator(kn["k"], kn["n"], average = input[["density_plot_avg"]]))
-    colnames(dens) <- c("x", "y")
-    
-    dens[["conf_low"]] <- dens[["x"]] <= conf[["lower"]] 
-    dens[["conf_up"]] <- dens[["x"]] >= conf[["upper"]]
+#     if(!is.null(input[["run_choice"]]))
+#       browser()
     
     list(kn = kn,
          dens = dens,
@@ -409,30 +402,17 @@ shinyServer(function(input, output) {
   output[["moments_table"]] <- renderDataTable({
     new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
     
-    mom_dat <- moments(extract_dpcr(new_dat, input[["run_choice"]]))[, -c(1L:3)]
-    mom_tab <- cbind(mom_dat[1L:4, ], mom_dat[5L:8, 2])
-    colnames(mom_tab) <- c("Moment", "Theoretical", "Empirical")
+    single_run <- extract_dpcr(new_dat, input[["run_choice"]])
+    
+    source("./prob_distr/single_run_moments.R", local = TRUE)
+    
     mom_tab
   })
   
   output[["density_plot"]] <- renderPlot({
+    dens <- kn_coef()[["dens"]]
     
-    p <- ggplot(kn_coef()[["dens"]], aes(x = x, y = y)) + geom_line(colour = "lightskyblue1", size = 1.2) + 
-      geom_area(aes(fill = conf_up)) + 
-      geom_area(aes(fill = conf_low)) +
-      
-      scale_fill_manual(values = c("FALSE" = NA, "TRUE" = adjustcolor("cyan4", alpha.f = 0.5)), guide = FALSE) +
-      cool_theme + 
-      scale_y_continuous("Density")
-    
-    p <- if(input[["density_plot_avg"]]) {
-      p + scale_x_continuous(expression(lambda))
-    } else {
-      p + scale_x_continuous("k")
-    }
-    
-    if(input[["density_plot_bars"]])
-      p <- p + geom_bar(stat = "identity", fill = adjustcolor("lightskyblue1", alpha.f = 0.5))
+    source("./prob_distr/plot_density.R", local = TRUE)
     
     p
   })

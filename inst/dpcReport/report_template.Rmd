@@ -21,6 +21,8 @@ source("server_data.R")
 print_dpcrtable <- function(x)
   print(xtable(x), type = "html", sanitize.colnames.function = function(x) x, digits = app_digits,
         include.rownames = FALSE)
+
+new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
 ```
 
 Report generated on `r Sys.time()` using [dpcR](http://github.com/michbur/dpcR) R package.  
@@ -44,13 +46,14 @@ if(input[["data_summary_table_rep"]]) {
 
 
 ```{r}
-if(input[["data_summary_scatter_rep"]])
+if(input[["data_summary_scatter_rep"]]) {
   cat("## Data summary scatter charts    \n\n")
-
-source("./summary_plots/summary_plot.R", local = TRUE)
-p
-
-cat(readLines("./summary_plots/data_summary_scatterchart2.md"), sep = "    \n")
+  
+  source("./summary_plots/summary_plot.R", local = TRUE)
+  p
+  
+  cat(readLines("./summary_plots/data_summary_scatterchart2.md"), sep = "    \n")
+}
 ```
 
 ```{r, fig.height=(5 + 0.3*nrow(summary_exprep_plot_dat()))}
@@ -61,17 +64,16 @@ if(input[["data_summary_scatter_rep"]]) {
 ```
 
 ```{r}
-if(input[["data_summary_test_counts"]])
-  cat("## Compare runs    \n\n")
-
-cat(readLines("./test_counts/test_counts1.md"), sep = "    \n")
-
-source("./test_counts/test_counts_res.R", local = TRUE)
-print_dpcrtable(res)
-
-cat(readLines("./test_counts/test_counts2.md"), sep = "    \n")
-
 if(input[["data_summary_test_counts"]]) {
+  cat("## Compare runs    \n\n")
+  
+  cat(readLines("./test_counts/test_counts1.md"), sep = "    \n")
+  
+  source("./test_counts/test_counts_res.R", local = TRUE)
+  print_dpcrtable(res)
+  
+  cat(readLines("./test_counts/test_counts2.md"), sep = "    \n")
+  
   source("./test_counts/test_counts_group.R", local = TRUE)
   colnames(dat) <- c("Run", "Assigned group", "&lambda;", "&lambda; (lower CI)", "&lambda; (upper CI)", 
                      "Experiment name", "Replicate ID", "k", "n")
@@ -95,13 +97,15 @@ if(input[["data_summary_test_counts"]])
 ```{r}
 if(input[["plot_panel"]]) {
   cat("## All arrays    \n\n")
-  new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+  
   
   arrays <- adpcr2panel(new_dat, use_breaks = TRUE)
   arrays_unbroken <- adpcr2panel(new_dat, use_breaks = FALSE)
   
   for (i in names(arrays)) {
     single_array <- arrays_unbroken[[i]]
+    
+    cat("\n\n###", i ,"   \n\n")
     
     df <- calc_coordinates(arrays[[i]], half = "none")[["ggplot_coords"]]
     df[["selected"]] <- rep(FALSE, nrow(df))
@@ -119,6 +123,31 @@ if(input[["plot_panel"]]) {
                "Method: ", res[["method"]][1], "<br>    ",
                "Alternative: ", res[["alternative"]], "<br>    "), sep = "")
   }
+}
+```
+
+
+```{r,eval=TRUE,results='asis'}
+if(input[["poisson_distr"]]) {
+  cat("## Probability distribution    \n\n")
+  
+  for(single_run_id in colnames(new_dat)) {
+    
+    cat("\n\n###", single_run_id ,"   \n\n")
+    
+    single_run <- extract_dpcr(new_dat, single_run_id)
+    
+    source("./prob_distr/single_run_moments.R", local = TRUE)
+    
+    print_dpcrtable(mom_tab)
+    
+    source("./prob_distr/get_kn.R", local = TRUE)
+    
+    source("./prob_distr/plot_density.R", local = TRUE)
+    
+    print(p + ggtitle(single_run_id))
+  }
+  
 }
 ```
 
