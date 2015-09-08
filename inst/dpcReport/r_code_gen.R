@@ -89,6 +89,15 @@ plot_panel_lc <- if(input[["plot_panel"]]) {
   ""
 }
 
+poisson_distr_lc <- if(input[["poisson_distr"]]) {
+  c(separator, '# Compute moments for all runs',
+    'moments(input_data)',
+    '# Plot distribution for all runs'
+  )
+    
+} else {
+  ""
+}
 
 all_lines <- c("\n    ", setup_l,
                read_data_l, change_replicate_l, change_exper_l, #input

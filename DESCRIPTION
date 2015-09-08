@@ -59,6 +59,7 @@ Collate:
     'dpcr_calculator.R'
     'dpcr_density.R'
     'dpcr_density_gui.R'
+    'dpcr_density_table.R'
     'extract_dpcr.R'
     'fit_adpcr.R'
     'fl.R'
