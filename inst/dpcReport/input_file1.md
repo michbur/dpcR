@@ -8,7 +8,7 @@ Accepted data formats:
 * BioMark (Detailed Table Results) - BioMark (Fluidigm).
 * BioMark (Summary Table Results) - BioMark (Fluidigm).
 
-Accepted files formats:  
+Accepted file formats:  
 * .csv,  
 * .xlsx,  
 * .xls.
