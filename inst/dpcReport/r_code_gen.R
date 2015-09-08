@@ -5,7 +5,7 @@ separator <- "\n    \n    ###############"
 
 setup_l <- c("# Load packages",
              'library(dpcR)',
-             if(input[["data_summary_scatter_rep"]] || input[["data_summary_test_counts"]] || input[["plot_panel"]])
+             if(input[["data_summary_scatter_rep"]] || input[["data_summary_test_counts"]] || input[["plot_panel"]] || input[["poisson_distr"]])
                c('library(ggplot2) # ggplot2 library for nice plots',
                  "# Define theme for plots",
                  'cool_theme <- theme(plot.background=element_rect(fill = "transparent", colour = "transparent"), panel.grid.major = element_line(colour="lightgrey", linetype = "dashed"), panel.background = element_rect(fill = "white", colour = "black"), legend.background = element_rect(fill="NA"), legend.position = "bottom", axis.text = element_text(size = 14), axis.title.x = element_text(size=17, vjust = -0.1), axis.title.y = element_text(size = 17, vjust = 1), strip.text = element_text(size = 17, face = "bold"), strip.background = element_rect(fill = "#9ecae1", colour = "black"), legend.text = element_text(size=14), legend.title = element_text(size = 17), plot.title = element_text(size = 22), legend.key = element_rect(fill = "white", colour = "black", linetype = "dashed", size = 0.5))'))
@@ -90,11 +90,25 @@ plot_panel_lc <- if(input[["plot_panel"]]) {
 }
 
 poisson_distr_lc <- if(input[["poisson_distr"]]) {
+  plot_line <- 'lapply(1L:length(dens), function(i) ggplot(dens[[i]], aes(x = x, y = y)) + geom_line(colour = "lightskyblue1", size = 1.2) + geom_area(aes(fill = conf_up)) + geom_area(aes(fill = conf_low)) + scale_fill_manual(values = c("FALSE" = NA, "TRUE" = adjustcolor("cyan4", alpha.f = 0.5)), guide = FALSE) + cool_theme +  scale_y_continuous("Density") + ggtitle(names(dens)[i])'
+  plot_line <- if(input[["density_plot_avg"]]) {
+    paste0(plot_line, ' + scale_x_continuous(expression(lambda))')
+  } else {
+    paste0(plot_line, ' + scale_x_continuous("k")')
+  }
+  
+  if(input[["density_plot_bars"]])
+    plot_line <- paste0(plot_line, 
+                        '+ geom_bar(stat = "identity", fill = adjustcolor("lightskyblue1", alpha.f = 0.5))')
+  plot_line <- paste0(plot_line, ')')
+  
   c(separator, '# Compute moments for all runs',
     'moments(input_data)',
-    '# Plot distribution for all runs'
-  )
-    
+    '# Plot distribution for all runs',
+    paste0('dens <- dpcr_density_table(input_data, average = ', input[["density_plot_avg"]], ', ',
+           'methods = "', input[["density_plot_methods"]], '", ',
+           'conf.level = ', input[["density_plot_cil"]], ')'),
+    plot_line)
 } else {
   ""
 }
@@ -104,5 +118,6 @@ all_lines <- c("\n    ", setup_l,
                data_summary_table_lc, #summary table
                data_summary_scatter_lc, #summary plots
                data_summary_test_counts_lc,
-               plot_panel_lc) 
+               plot_panel_lc,
+               poisson_distr_lc) 
 all_lines <- all_lines[all_lines != ""]
