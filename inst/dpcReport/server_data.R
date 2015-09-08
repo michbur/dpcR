@@ -60,8 +60,18 @@ choose_xy_point <- function(db_id, data) {
       }
       
     } else {
-      #x and y countinous
-      #not implemented yet, maybe nearPoints
+      if(is.factor(data[[2]])) {
+        #which experiment was chosen
+        chosen_x <- levels(data[[2]])[round(db_id[["x"]], 0)]
+        #which lambda was chosen
+        #clicked lambda 
+        clicked_y <- db_id[["y"]]
+        diff_order <- order(abs(data[[1]] - clicked_y))
+        row_id <- diff_order[which.max(data[[2]][diff_order] == chosen_x)]
+        chosen_y <- data[row_id, 2]
+        #indirect row_id, because we need the exact location, not relative id of the row
+        #in the subset
+      }
     }
     c(x = chosen_x, y = chosen_y, row = row_id)
   } else {
