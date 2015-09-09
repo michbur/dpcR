@@ -139,9 +139,6 @@ shinyServer(function(input, output) {
     summ
   })
   
-  
-  
-  
   #clicking a point in the summary experiment-replicate scatter chart
   summary_exprep_point <- reactiveValues(
     selected = NULL
@@ -294,6 +291,7 @@ shinyServer(function(input, output) {
                   includeMarkdown("./plot_panel/plot_panel2.md"),
                   htmlOutput("plot_panel_brush"),
                   dataTableOutput("plot_panel_region_summary"))
+                  #downloadButton("plot_panel_region_summary_download_button", "Download table (.csv)"))
            }
       )
     } else {
@@ -373,26 +371,17 @@ shinyServer(function(input, output) {
     do.call(p, prologue)
   })
   
-  output[["plot_panel_region_summary"]] <- renderDataTable({
-    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
-    roi <- extract_dpcr(new_dat, input[["array_choice"]])
-    
-    summs <- summary(roi, print = FALSE)[["summary"]]
-    summs <- cbind(region = rep("Whole array", nrow(summs)), summs)
-    
-    if(!is.null(array_val[["selected"]])) {
-      slot(roi, ".Data") <- slot(roi, ".Data")[array_val[["selected"]], , drop = FALSE]
-      slot(roi, "n") <- sum(array_val[["selected"]])
-      summs <- rbind(summs, cbind(region = rep("Selected region", nrow(summs)), 
-                                  summary(roi, print = FALSE)[["summary"]]))
-    }
-    
-    colnames(summs) <- c("Region", "Experiment name", "Replicate ID", "Assay", "Method", "&lambda;", 
-                         "&lambda; (lower CI)", "&lambda; (upper CI)", "m", 
-                         "m (lower CI)", "m (upper CI)", "k", "n")
-    
+  plot_panel_region_summary <- reactive({
+    source("./plot_panel/subpanel_summary.R", local = TRUE)
     summs
+  })
+  
+  output[["plot_panel_region_summary"]] <- renderDataTable({
+    plot_panel_region_summary()
   }, escape = FALSE)
+  
+  output[["plot_panel_region_summary_download_button"]] <- download_table(plot_panel_region_summary(), 
+                                                                          "subpanel_summary.csv")
   
   # Poisson distribution --------------------- 
   
