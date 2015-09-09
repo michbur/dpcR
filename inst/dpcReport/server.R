@@ -84,9 +84,9 @@ shinyServer(function(input, output) {
   }, escape = FALSE)
   
   output[["summary_table_download_button"]] <- downloadHandler("summary.csv",
-                                                                    content = function(file) {
-                                                                      write.csv(summary_table(), file, row.names = FALSE)
-                                                                    })
+                                                               content = function(file) {
+                                                                 write.csv(summary_table(), file, row.names = FALSE)
+                                                               })
   
   # Data summary scatter chart panel --------------------------------
   summary_plot_dat <- reactive({
@@ -115,6 +115,13 @@ shinyServer(function(input, output) {
     source("./summary_plots/summary_plot.R", local = TRUE)
     p
   })
+  
+  output[["summary_plot_download_button"]] <- downloadHandler("summary.svg",
+                                                              content = function(file) {
+                                                                source("./summary_plots/summary_plot.R", local = TRUE)
+                                                                ggsave(file, p, device = svg, height = 210, width = 297,
+                                                                       units = "mm")
+                                                              })
   
   output[["summary_plot_dbl"]] <- renderPrint({
     summ <- summary_plot_dat()
@@ -160,6 +167,14 @@ shinyServer(function(input, output) {
     p
   })
   
+  output[["summary_exprep_plot_download_button"]] <- downloadHandler("summary_exprep.svg",
+                                                                     content = function(file) {
+                                                                       source("./summary_plots/summary_exprep_plot.R", local = TRUE)
+                                                                       ggsave(file, p, device = svg, 
+                                                                              height = 100 + 10 * nrow(summary_exprep_plot_dat()), width = 297,
+                                                                              units = "mm")
+                                                                     })
+  
   output[["summary_exprep_plot_ui"]] <- renderUI({
     plotOutput("summary_exprep_plot",
                dblclick = dblclickOpts(id = "summary_exprep_plot_dbl"),
@@ -197,7 +212,7 @@ shinyServer(function(input, output) {
     source("./test_counts/test_counts_group.R", local = TRUE)
     dat
   })
-
+  
   
   test_counts_groups_summary_nice <- reactive({
     dat <- test_counts_groups_summary()
@@ -212,9 +227,9 @@ shinyServer(function(input, output) {
   }, escape = FALSE)
   
   output[["test_counts_groups_download_button"]] <- downloadHandler("comparison_summary.csv",
-                                                               content = function(file) {
-                                                                 write.csv(test_counts_groups_summary_nice(), file, row.names = FALSE)
-                                                               })
+                                                                    content = function(file) {
+                                                                      write.csv(test_counts_groups_summary_nice(), file, row.names = FALSE)
+                                                                    })
   
   test_counts_res <- reactive({
     source("./test_counts/test_counts_res.R", local = TRUE)
@@ -226,9 +241,9 @@ shinyServer(function(input, output) {
   })
   
   output[["test_counts_res_download_button"]] <- downloadHandler("comparison_results.csv",
-                                                                    content = function(file) {
-                                                                      write.csv(test_counts_res(), file, row.names = FALSE)
-                                                                    })
+                                                                 content = function(file) {
+                                                                   write.csv(test_counts_res(), file, row.names = FALSE)
+                                                                 })
   
   #clicking a point in the summary experiment-replicate scatter chart
   test_count_point <- reactiveValues(
@@ -255,6 +270,15 @@ shinyServer(function(input, output) {
                dblclick = dblclickOpts(id = "test_count_dbl"),
                height = 260 + nrow(test_counts_groups_summary()) * 40)
   })
+  
+  output[["test_counts_plot_download_button"]] <- downloadHandler("comparison_plot.svg",
+                                                                  content = function(file) {
+                                                                    source("./test_counts/test_counts_plot.R", local = TRUE)
+                                                                    ggsave(file, p, device = svg, 
+                                                                           height = 100 + 10 * nrow(test_counts_groups_summary()), width = 297,
+                                                                           units = "mm")
+                                                                  })
+  
   
   output[["test_count_dbl"]] <- renderPrint({
     dat <- test_counts_groups_summary()
@@ -294,6 +318,7 @@ shinyServer(function(input, output) {
            } else {
              list(plotOutput("plot_panel", height = 600,
                              brush  = brushOpts(id = "plot_panel_brush")),
+                  downloadButton("plot_panel_download_button", "Download chart (.svg)"),
                   br(),
                   includeMarkdown("./plot_panel/plot_panel2.md"),
                   htmlOutput("plot_panel_brush"),
@@ -347,8 +372,24 @@ shinyServer(function(input, output) {
     df[array_val[["selected"]], "selected"] <- TRUE
     
     source("./plot_panel/plot_panel.R", local = TRUE)
-    p + ggtitle(df[["exp_run"]][1])
+
+    p + ggtitle(input[["array_choice"]])
   })
+  
+  
+  output[["plot_panel_download_button"]] <- downloadHandler("array.svg",
+                                                            content = function(file) {
+                                                              df <- plot_panel_dat()
+                                                              
+                                                              df[array_val[["selected"]], "selected"] <- TRUE
+                                                              
+                                                              source("./plot_panel/plot_panel.R", local = TRUE)
+                                                              
+                                                              p <- p + ggtitle(input[["array_choice"]])
+                                                              
+                                                              ggsave(file, p, device = svg, height = 210, width = 297,
+                                                                     units = "mm")
+                                                            })
   
   output[["plot_panel_brush"]] <- renderPrint({
     epilogue <- list(strong("Click and sweep"), "over the partitions to select them.", br()) 
@@ -387,11 +428,11 @@ shinyServer(function(input, output) {
     plot_panel_region_summary()
   }, escape = FALSE)
   
-
+  
   output[["plot_panel_region_summary_download_button"]] <- downloadHandler(filename = "subpanel_summary.csv",
-                                                               content = function(file) {
-                                                                 write.csv(plot_panel_region_summary(), file, row.names = FALSE)
-                                                               })
+                                                                           content = function(file) {
+                                                                             write.csv(plot_panel_region_summary(), file, row.names = FALSE)
+                                                                           })
   
   # Poisson distribution --------------------- 
   
@@ -447,6 +488,17 @@ shinyServer(function(input, output) {
     p
   })
   
+  output[["density_plot_download_button"]] <- downloadHandler("density.svg",
+                                                            content = function(file) {
+                                                              dens <- kn_coef()[["dens"]]
+                                                              
+                                                              source("./prob_distr/plot_density.R", local = TRUE)
+                                                              
+                                                              ggsave(file, p, device = svg, height = 210, width = 297,
+                                                                     units = "mm")
+                                                            })
+  
+  
   # report download ---------------------------------------------------
   output[["report_download_button"]] <- downloadHandler(
     filename  = "dpcReport.html",
@@ -461,6 +513,6 @@ shinyServer(function(input, output) {
   observe({
     if(input[["quit_button"]] > 0)
       stopApp()
-    })
-
+  })
+  
 })
