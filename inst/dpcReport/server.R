@@ -72,11 +72,18 @@ shinyServer(function(input, output) {
   
   
   # Data summary table panel --------------------------------
-  output[["summary_input"]] <- renderDataTable({
+  summary_table <- reactive({
     new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
     source("./data_summary/summary_input.R", local = TRUE)
     res
+  })
+  
+  
+  output[["summary_input"]] <- renderDataTable({
+    summary_table()
   }, escape = FALSE)
+  
+  output[["summary_table_download_button"]] <- download_table(summary_table(), "summary.csv")
   
   
   # Data summary scatter chart panel --------------------------------
@@ -188,23 +195,36 @@ shinyServer(function(input, output) {
   })
   
   test_counts_groups_summary <- reactive({
-    dat <- coef(test_counts_dat())
-    dat[["run"]] <- as.factor(rownames(dat))
-    rownames(dat) <- NULL
+    source("./test_counts/test_counts_group.R", local = TRUE)
+    dat
+  })
+
+  
+  test_counts_groups_summary_nice <- reactive({
+    dat <- test_counts_groups_summary()
     dat <- dat[, c("run", "group", "lambda", "lambda.low", "lambda.up", "experiment", "replicate", "k", "n")]
+    colnames(dat) <- c("Run", "Assigned group", "&lambda;", "&lambda; (lower CI)", "&lambda; (upper CI)", 
+                       "Experiment name", "Replicate ID", "k", "n")
     dat
   })
   
   output[["test_counts_groups"]] <- renderDataTable({
-    source("./test_counts/test_counts_group.R", local = TRUE)
-    dat
+    test_counts_groups_summary_nice()
   }, escape = FALSE)
   
+  output[["test_counts_groups_download_button"]] <- download_table(test_counts_groups_summary_nice(), 
+                                                                   "comparison_summary.csv")
   
-  output[["test_counts_res"]] <- renderDataTable({
+  test_counts_res <- reactive({
     source("./test_counts/test_counts_res.R", local = TRUE)
     res
   })
+  
+  output[["test_counts_res"]] <- renderDataTable({
+    test_counts_res()
+  })
+  
+  output[["test_counts_res_download_button"]] <- download_table(test_counts_res(), "comparison_results.csv")
   
   #clicking a point in the summary experiment-replicate scatter chart
   test_count_point <- reactiveValues(
