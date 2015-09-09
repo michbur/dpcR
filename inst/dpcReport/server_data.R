@@ -105,9 +105,4 @@ choose_xy_region <- function(brush_id, data) {
   }
 }
 
-#generate download table
-download_table <- function(x, file_name) 
-  downloadHandler(filename = file_name,
-                  content = function(file) {
-                    write.csv(x, file, row.names = FALSE)
-                  })
+

@@ -62,6 +62,7 @@ shinyUI(navbarPage(title = "dpcReport",
                                        htmlOutput("run_choice"),
                                        includeMarkdown("./prob_distr/prob_distr2.md"),
                                        dataTableOutput("moments_table"),
+                                       downloadButton("moments_table_download_button", "Download table (.csv)"),
                                        includeMarkdown("./prob_distr/prob_distr3.md"),
                                        fluidRow(
                                          column(3, selectInput("density_plot_avg", label = h4("Select parameter:"), 

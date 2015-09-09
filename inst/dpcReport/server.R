@@ -83,8 +83,10 @@ shinyServer(function(input, output) {
     summary_table()
   }, escape = FALSE)
   
-  output[["summary_table_download_button"]] <- download_table(summary_table(), "summary.csv")
-  
+  output[["summary_table_download_button"]] <- downloadHandler("summary.csv",
+                                                                    content = function(file) {
+                                                                      write.csv(summary_table(), file, row.names = FALSE)
+                                                                    })
   
   # Data summary scatter chart panel --------------------------------
   summary_plot_dat <- reactive({
@@ -209,8 +211,10 @@ shinyServer(function(input, output) {
     test_counts_groups_summary_nice()
   }, escape = FALSE)
   
-  output[["test_counts_groups_download_button"]] <- download_table(test_counts_groups_summary_nice(), 
-                                                                   "comparison_summary.csv")
+  output[["test_counts_groups_download_button"]] <- downloadHandler("comparison_summary.csv",
+                                                               content = function(file) {
+                                                                 write.csv(test_counts_groups_summary_nice(), file, row.names = FALSE)
+                                                               })
   
   test_counts_res <- reactive({
     source("./test_counts/test_counts_res.R", local = TRUE)
@@ -221,7 +225,10 @@ shinyServer(function(input, output) {
     test_counts_res()
   })
   
-  output[["test_counts_res_download_button"]] <- download_table(test_counts_res(), "comparison_results.csv")
+  output[["test_counts_res_download_button"]] <- downloadHandler("comparison_results.csv",
+                                                                    content = function(file) {
+                                                                      write.csv(test_counts_res(), file, row.names = FALSE)
+                                                                    })
   
   #clicking a point in the summary experiment-replicate scatter chart
   test_count_point <- reactiveValues(
@@ -290,8 +297,8 @@ shinyServer(function(input, output) {
                   br(),
                   includeMarkdown("./plot_panel/plot_panel2.md"),
                   htmlOutput("plot_panel_brush"),
-                  dataTableOutput("plot_panel_region_summary"))
-                  #downloadButton("plot_panel_region_summary_download_button", "Download table (.csv)"))
+                  dataTableOutput("plot_panel_region_summary"),
+                  downloadButton("plot_panel_region_summary_download_button", "Download table (.csv)"))
            }
       )
     } else {
@@ -380,8 +387,11 @@ shinyServer(function(input, output) {
     plot_panel_region_summary()
   }, escape = FALSE)
   
-  output[["plot_panel_region_summary_download_button"]] <- download_table(plot_panel_region_summary(), 
-                                                                          "subpanel_summary.csv")
+
+  output[["plot_panel_region_summary_download_button"]] <- downloadHandler(filename = "subpanel_summary.csv",
+                                                               content = function(file) {
+                                                                 write.csv(plot_panel_region_summary(), file, row.names = FALSE)
+                                                               })
   
   # Poisson distribution --------------------- 
   
@@ -408,7 +418,7 @@ shinyServer(function(input, output) {
     selectInput("run_choice", label = h4("Select array"), choices = choices)
   })
   
-  output[["moments_table"]] <- renderDataTable({
+  moments_table <- reactive({
     new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
     
     single_run <- extract_dpcr(new_dat, input[["run_choice"]])
@@ -417,6 +427,17 @@ shinyServer(function(input, output) {
     
     mom_tab
   })
+  
+  output[["moments_table"]] <- renderDataTable({
+    moments_table()
+  })
+  
+  #output[["moments_table_download_button"]] <- download_table(moments_table(), "moments.csv")
+  output[["moments_table_download_button"]] <- downloadHandler(filename = "moments.csv",
+                                                               content = function(file) {
+                                                                 write.csv(moments_table(), file, row.names = FALSE)
+                                                               })
+  
   
   output[["density_plot"]] <- renderPlot({
     dens <- kn_coef()[["dens"]]
