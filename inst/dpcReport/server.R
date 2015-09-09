@@ -6,7 +6,7 @@ library(shinythemes)
 source("server_data.R")
 
 
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
   
   # Input file panel --------------------------------
   
@@ -513,6 +513,10 @@ shinyServer(function(input, output) {
   observe({
     if(input[["quit_button"]] > 0)
       stopApp()
+  })
+  
+  session$onSessionEnded(function() { 
+    stopApp()
   })
   
 })

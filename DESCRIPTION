@@ -33,6 +33,7 @@ Imports:
 Suggests:
     knitr,
     ggplot2,
+    markdown,
     shinythemes,
     xtable
 VignetteBuilder: knitr
