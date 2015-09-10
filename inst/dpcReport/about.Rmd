@@ -9,13 +9,29 @@ The dpcReport is a part of the [dpcR](http://cran.r-project.org/web/packages/dpc
 
 <img src="dpcR_logo.png" alt="HTML5 Icon" style="width:224px;height:120px">
 
-### Organisation of dpcReport
+### Structure of dpcReport
 
-dpcReport consists of seven panels. You can freely change panels using the navigation panel above.    
+dpcReport consists of seven panels. You can freely change panels using the navigation panel above.  
 
-**Input file**: It is responsible for loading your data. In case if data is not properly read, make sure that you have chosen a proper data format. In this panel you can also change name of the experiments and runs in loaded data. Your original data will be NOT modified in this manner, it affects only dpcReport analysis.    
+All tables allow multiconditional filtering as well as sorting. The content of each table may be downloaded or printed using the menu bar at the top of the table.  
 
-**Data summary**: This panel contains two subpanels. 'Summary table' is a tabular summary of dPCR experiments extracted from your data. The table is interactive and allows multiconditional filtering as well as sorting. It may be also downloaded 'Summary charts' present the summary in the graphical form: as a boxplot and scatterchart.
+Most of the figures in GUI are interactive and yield additional information after a mouse click. The may be downloaded as .svg files.
+
+1. **Input file**: It is responsible for loading your data. In case if data is not properly read, make sure that you have chosen a proper data format. In this panel you can also change name of the experiments and runs in loaded data. Your original file will be NOT modified in this manner, changes affect only dpcReport analysis.    
+
+2. **Data summary**: This panel contains two subpanels. *Summary table* is a tabular summary of dPCR experiments extracted from your data. *Summary charts* present the summary in the graphical form: as a boxplot and a scatterchart.   
+
+3. **Comparison of runs**: Compares &lambda; values of runs. The first table contains results of pairwise comparisions between runs. Second table assignes runs to the groups. The figure presents values of &lambda; for individual runs and their groups.    
+
+4. **Advanced analysis**: Contains specialized analytics tools.  
+  + *Array spatial analysis* - analyses of spatial randomness of positive partitions distributed over the dPCR array. Presents arrays in graphical form. Allows regional analysis of the array.    
+  + *Probability distribution* - studies distribution of dPCR data as well as the distribution of the &lambda;.    
+
+5. **Save report**: Interactively builds report from the conducted analysis.    
+
+6. **About**: Basic information about the GUI.    
+
+7. **Quit**: Press the button to quit the GUI.
 
 ### References
 
