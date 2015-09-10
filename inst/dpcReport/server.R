@@ -499,7 +499,7 @@ shinyServer(function(input, output, session) {
     
     choices <- as.list(colnames(new_dat))
     names(choices) <- colnames(new_dat)
-    selectInput("run_choice", label = h4("Select array"), choices = choices)
+    selectInput("run_choice", label = h4("Select run"), choices = choices)
   })
   
   moments_table <- reactive({

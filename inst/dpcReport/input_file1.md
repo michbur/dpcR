@@ -1,4 +1,4 @@
-## Welcome in dpcReport
+## Welcome to dpcReport
 
 For in-depth description of the dpcReport, please refer to the **About** panel.
 
