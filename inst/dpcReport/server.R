@@ -2,6 +2,7 @@ library(shiny)
 library(dpcR)
 library(ggplot2)
 library(shinythemes)
+library(DT)
 
 source("server_data.R")
 
@@ -80,13 +81,16 @@ shinyServer(function(input, output, session) {
   
   
   output[["summary_input"]] <- renderDataTable({
-    summary_table()
-  }, escape = FALSE)
+    datatable(summary_table(), escape = FALSE, extensions = 'TableTools', 
+              filter = "top", options = list(
+                dom = 'T<"clear">lfrtip',
+                tableTools = list(sSwfPath = copySWF('www'))))
+  })
   
-  output[["summary_table_download_button"]] <- downloadHandler("summary.csv",
-                                                               content = function(file) {
-                                                                 write.csv(summary_table(), file, row.names = FALSE)
-                                                               })
+  #   output[["summary_table_download_button"]] <- downloadHandler("summary.csv",
+  #                                                                content = function(file) {
+  #                                                                  write.csv(summary_table(), file, row.names = FALSE)
+  #                                                                })
   
   # Data summary scatter chart panel --------------------------------
   summary_plot_dat <- reactive({
@@ -233,8 +237,11 @@ shinyServer(function(input, output, session) {
   })
   
   output[["test_counts_groups"]] <- renderDataTable({
-    test_counts_groups_summary_nice()
-  }, escape = FALSE)
+    datatable(test_counts_groups_summary_nice(), escape = FALSE, extensions = 'TableTools', 
+              filter = "top", options = list(
+                dom = 'T<"clear">lfrtip',
+                tableTools = list(sSwfPath = copySWF('www'))))
+  })
   
   output[["test_counts_groups_download_button"]] <- downloadHandler("comparison_summary.csv",
                                                                     content = function(file) {
@@ -247,8 +254,12 @@ shinyServer(function(input, output, session) {
   })
   
   output[["test_counts_res"]] <- renderDataTable({
-    test_counts_res()
+    datatable(test_counts_res(), escape = FALSE, extensions = 'TableTools', 
+              filter = "top", options = list(
+                dom = 'T<"clear">lfrtip',
+                tableTools = list(sSwfPath = copySWF('www'))))
   })
+  
   
   output[["test_counts_res_download_button"]] <- downloadHandler("comparison_results.csv",
                                                                  content = function(file) {
@@ -317,7 +328,7 @@ shinyServer(function(input, output, session) {
     do.call(p, c(prologue, epilogue))
   })
   
-
+  
   
   
   # plot panel --------------------------
@@ -395,7 +406,7 @@ shinyServer(function(input, output, session) {
     df[array_val[["selected"]], "selected"] <- TRUE
     
     source("./plot_panel/plot_panel.R", local = TRUE)
-
+    
     p + ggtitle(input[["array_choice"]])
   })
   
@@ -416,8 +427,8 @@ shinyServer(function(input, output, session) {
   
   observe({
     if(!is.null(input[["plot_panel_reset"]]))
-    if(input[["plot_panel_reset"]] > 0)
-      array_val[["selected"]] <- NULL
+      if(input[["plot_panel_reset"]] > 0)
+        array_val[["selected"]] <- NULL
   })
   
   output[["plot_panel_brush"]] <- renderPrint({
@@ -454,8 +465,11 @@ shinyServer(function(input, output, session) {
   })
   
   output[["plot_panel_region_summary"]] <- renderDataTable({
-    plot_panel_region_summary()
-  }, escape = FALSE)
+    datatable(plot_panel_region_summary(), escape = FALSE, extensions = 'TableTools', 
+              filter = "top", options = list(
+                dom = 'T<"clear">lfrtip',
+                tableTools = list(sSwfPath = copySWF('www'))))
+  })
   
   
   output[["plot_panel_region_summary_download_button"]] <- downloadHandler(filename = "subpanel_summary.csv",
@@ -499,8 +513,13 @@ shinyServer(function(input, output, session) {
   })
   
   output[["moments_table"]] <- renderDataTable({
-    moments_table()
+    datatable(moments_table(), escape = FALSE, extensions = 'TableTools', 
+              filter = "top", options = list(
+                dom = 'T<"clear">lfrtip',
+                tableTools = list(sSwfPath = copySWF('www'))))
   })
+  
+  
   
   #output[["moments_table_download_button"]] <- download_table(moments_table(), "moments.csv")
   output[["moments_table_download_button"]] <- downloadHandler(filename = "moments.csv",
@@ -518,14 +537,14 @@ shinyServer(function(input, output, session) {
   })
   
   output[["density_plot_download_button"]] <- downloadHandler("density.svg",
-                                                            content = function(file) {
-                                                              dens <- kn_coef()[["dens"]]
-                                                              
-                                                              source("./prob_distr/plot_density.R", local = TRUE)
-                                                              
-                                                              ggsave(file, p, device = svg, height = 210, width = 297,
-                                                                     units = "mm")
-                                                            })
+                                                              content = function(file) {
+                                                                dens <- kn_coef()[["dens"]]
+                                                                
+                                                                source("./prob_distr/plot_density.R", local = TRUE)
+                                                                
+                                                                ggsave(file, p, device = svg, height = 210, width = 297,
+                                                                       units = "mm")
+                                                              })
   
   
   # report download ---------------------------------------------------

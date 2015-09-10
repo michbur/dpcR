@@ -9,6 +9,14 @@ The dpcReport is a part of the [dpcR](http://cran.r-project.org/web/packages/dpc
 
 <img src="dpcR_logo.png" alt="HTML5 Icon" style="width:224px;height:120px">
 
+### Organisation of dpcReport
+
+dpcReport consists of seven panels. You can freely change panels using the navigation panel above.    
+
+*Input file*: It is responsible for loading your data. In case if data is not properly read, make sure that you have chosen a proper data format. In this panel you can also change name of the experiments and runs in loaded data. Your original data will be NOT modified in this manner, it affects only dpcReport analysis.    
+
+*Data summary*: This panel contains two subpanels. 'Summary table' is a tabular summary of dPCR experiments extracted from your data. The table is interactive and allows multiconditional filtering as well as sorting. It may be also downloaded 'Summary charts' present the summary in the graphical form: as a boxplot and scatterchart.
+
 ### References
 
 The application was created using the results derived from following publications: 

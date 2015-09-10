@@ -31,8 +31,9 @@ Imports:
     shiny,
     spatstat
 Suggests:
-    knitr,
+    DT,
     ggplot2,
+    knitr,
     markdown,
     shinythemes,
     xtable
