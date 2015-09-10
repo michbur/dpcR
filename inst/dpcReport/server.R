@@ -80,7 +80,7 @@ shinyServer(function(input, output, session) {
   })
   
   
-  output[["summary_input"]] <- renderDataTable({
+  output[["summary_input"]] <- DT::renderDataTable({
     datatable(summary_table(), escape = FALSE, extensions = 'TableTools', 
               filter = "top", options = list(
                 dom = 'T<"clear">lfrtip',
@@ -236,7 +236,7 @@ shinyServer(function(input, output, session) {
     dat
   })
   
-  output[["test_counts_groups"]] <- renderDataTable({
+  output[["test_counts_groups"]] <- DT::renderDataTable({
     datatable(test_counts_groups_summary_nice(), escape = FALSE, extensions = 'TableTools', 
               filter = "top", options = list(
                 dom = 'T<"clear">lfrtip',
@@ -253,7 +253,7 @@ shinyServer(function(input, output, session) {
     res
   })
   
-  output[["test_counts_res"]] <- renderDataTable({
+  output[["test_counts_res"]] <- DT::renderDataTable({
     datatable(test_counts_res(), escape = FALSE, extensions = 'TableTools', 
               filter = "top", options = list(
                 dom = 'T<"clear">lfrtip',
@@ -356,7 +356,7 @@ shinyServer(function(input, output, session) {
                   br(),
                   includeMarkdown("./plot_panel/plot_panel2.md"),
                   htmlOutput("plot_panel_brush"),
-                  dataTableOutput("plot_panel_region_summary"),
+                  DT::dataTableOutput("plot_panel_region_summary"),
                   downloadButton("plot_panel_region_summary_download_button", "Save table (.csv)"))
            }
       )
@@ -464,7 +464,7 @@ shinyServer(function(input, output, session) {
     summs
   })
   
-  output[["plot_panel_region_summary"]] <- renderDataTable({
+  output[["plot_panel_region_summary"]] <- DT::renderDataTable({
     datatable(plot_panel_region_summary(), escape = FALSE, extensions = 'TableTools', 
               filter = "top", options = list(
                 dom = 'T<"clear">lfrtip',
@@ -512,7 +512,7 @@ shinyServer(function(input, output, session) {
     mom_tab
   })
   
-  output[["moments_table"]] <- renderDataTable({
+  output[["moments_table"]] <- DT::renderDataTable({
     datatable(moments_table(), escape = FALSE, extensions = 'TableTools', 
               filter = "top", options = list(
                 dom = 'T<"clear">lfrtip',
