@@ -7,6 +7,7 @@
 ====
 Analysis, visualisation and simulation of digital PCR experiments.
 
+# Installation
 
 dpcR is available [on CRAN](http://cran.r-project.org/web/packages/dpcR/), so installation is as simple as:
 
@@ -24,3 +25,6 @@ library(devtools)
 install_github("michbur/dpcR")
 ```
 
+# dpcReport - standalone GUI
+
+The dpcReport GUI may be downloaded a standalone application (does not require prior installation of R) from [SourceForge](http://sourceforge.net/projects/dpcreport/).
