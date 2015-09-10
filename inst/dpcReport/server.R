@@ -122,6 +122,10 @@ shinyServer(function(input, output, session) {
                                                                 ggsave(file, p, device = svg, height = 210, width = 297,
                                                                        units = "mm")
                                                               })
+  observe({
+    if(input[["summary_plot_reset"]] > 0)
+      summary_point[["selected"]] <- NULL
+  })
   
   output[["summary_plot_dbl"]] <- renderPrint({
     summ <- summary_plot_dat()
@@ -175,6 +179,11 @@ shinyServer(function(input, output, session) {
                                                                               units = "mm")
                                                                      })
   
+  observe({
+    if(input[["summary_exprep_plot_reset"]] > 0)
+      summary_exprep_point[["selected"]] <- NULL
+  })
+  
   output[["summary_exprep_plot_ui"]] <- renderUI({
     plotOutput("summary_exprep_plot",
                dblclick = dblclickOpts(id = "summary_exprep_plot_dbl"),
@@ -201,6 +210,7 @@ shinyServer(function(input, output, session) {
     
     do.call(p, c(prologue, epilogue))
   })
+  
   
   # Test counts (compare experiments) --------------------- 
   test_counts_dat <- reactive({
@@ -279,6 +289,11 @@ shinyServer(function(input, output, session) {
                                                                            units = "mm")
                                                                   })
   
+  observe({
+    if(input[["test_counts_plot_reset"]] > 0)
+      test_count_point[["selected"]] <- NULL
+  })
+  
   
   output[["test_count_dbl"]] <- renderPrint({
     dat <- test_counts_groups_summary()
@@ -302,6 +317,9 @@ shinyServer(function(input, output, session) {
     do.call(p, c(prologue, epilogue))
   })
   
+
+  
+  
   # plot panel --------------------------
   
   output[["plot_panel_tab"]] <- renderUI({
@@ -318,12 +336,17 @@ shinyServer(function(input, output, session) {
            } else {
              list(plotOutput("plot_panel", height = 600,
                              brush  = brushOpts(id = "plot_panel_brush")),
-                  downloadButton("plot_panel_download_button", "Download chart (.svg)"),
+                  fluidRow(
+                    column(3, downloadButton("plot_panel_download_button", 
+                                             "Save chart (.svg)")),
+                    column(3, actionButton("plot_panel_reset", 
+                                           "Reset chart"))
+                  ),
                   br(),
                   includeMarkdown("./plot_panel/plot_panel2.md"),
                   htmlOutput("plot_panel_brush"),
                   dataTableOutput("plot_panel_region_summary"),
-                  downloadButton("plot_panel_region_summary_download_button", "Download table (.csv)"))
+                  downloadButton("plot_panel_region_summary_download_button", "Save table (.csv)"))
            }
       )
     } else {
@@ -390,6 +413,12 @@ shinyServer(function(input, output, session) {
                                                               ggsave(file, p, device = svg, height = 210, width = 297,
                                                                      units = "mm")
                                                             })
+  
+  observe({
+    if(!is.null(input[["plot_panel_reset"]]))
+    if(input[["plot_panel_reset"]] > 0)
+      array_val[["selected"]] <- NULL
+  })
   
   output[["plot_panel_brush"]] <- renderPrint({
     epilogue <- list(strong("Click and sweep"), "over the partitions to select them.", br()) 
