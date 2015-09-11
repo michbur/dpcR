@@ -4,7 +4,7 @@
 \alias{test_counts}
 \title{Test counts}
 \usage{
-test_counts(input, model = "binomial", conf.level = 0.95)
+test_counts(input, model = "ratio", conf.level = 0.95)
 }
 \arguments{
 \item{input}{adpcr or dpcr object with with "nm" type.}

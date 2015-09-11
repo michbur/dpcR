@@ -1,8 +1,8 @@
-Changes from Version 0.1.4.0 to 0.5.0 [August 2015]
-* New data sets from Bio-Rad and Fluidigm
+Changes from Version 0.1.4.0 to 0.5.0 [October 2015]
 * Several bug fixes
 * Improved documentation
-* New function dpcReport
+* New GUI dpcReport
+* Added new data import functions
 
 Changes from Version 0.1.3.3 to 0.1.4.0 [April 2015]
 * Improved bioamp function
