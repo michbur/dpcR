@@ -6,13 +6,11 @@
 #' @name dpcr-class
 #' @aliases dpcr-class dpcr
 #' @docType class
-#' @slot .Data \code{matrix} containing data from digital PCR experiments. See 
-#' Details.
-#' @slot n \code{integer} equal to the number of partitions in each
-#' experiment.
-#' @slot exper \code{factor} representing the id or name of experiments.
-#' @slot replicate \code{factor} representing the id or name of replicate.
-#' @slot assay \code{factor} representing the id or name of the assay.
+#' @slot .Data \code{matrix} data from digital PCR experiments. See Details.
+#' @slot n \code{integer} equal to the number of partitions in each run.
+#' @slot exper \code{factor} the id or name of experiments.
+#' @slot replicate \code{factor} the id or name of replicate.
+#' @slot assay \code{factor} the id or name of the assay.
 #' @slot type Object of class \code{"character"} defining type of data. See Details.
 #' @details
 #' Possible \code{type} values of \code{dpcr} objects:

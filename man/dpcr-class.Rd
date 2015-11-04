@@ -34,17 +34,15 @@ The structure of \code{dpcr} class is thoroughly described in the vignette.
 \section{Slots}{
 
 \describe{
-\item{\code{.Data}}{\code{matrix} containing data from digital PCR experiments. See
-Details.}
+\item{\code{.Data}}{\code{matrix} data from digital PCR experiments. See Details.}
 
-\item{\code{n}}{\code{integer} equal to the number of partitions in each
-experiment.}
+\item{\code{n}}{\code{integer} equal to the number of partitions in each run.}
 
-\item{\code{exper}}{\code{factor} representing the id or name of experiments.}
+\item{\code{exper}}{\code{factor} the id or name of experiments.}
 
-\item{\code{replicate}}{\code{factor} representing the id or name of replicate.}
+\item{\code{replicate}}{\code{factor} the id or name of replicate.}
 
-\item{\code{assay}}{\code{factor} representing the id or name of the assay.}
+\item{\code{assay}}{\code{factor} the id or name of the assay.}
 
 \item{\code{type}}{Object of class \code{"character"} defining type of data. See Details.}
 }}
