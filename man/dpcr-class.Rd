@@ -24,12 +24,12 @@ respectively runs and data points. For example, matrix with 2 columns and 765 ro
 means two runs with 765 data points each. In case of \code{"tnp"} data, each run is
 represented by only one measurement, the count of all positive partitions.
 
-The number of partitions is defined in slot \code{n}. In the previous example, two
-runs have 765 data points, but they can have different real number of partitions
-(for example some reads are not avaible). In this case, the data point will have
-value NA.
+The number of partitions is defined in slot \code{n}. In the previous example,
+two runs have 765 data points, but they can have less detected partitions
+(for example some reads may be not available). In this case, the data point will
+have value NA.
 
-The structure of \code{dpcr} class is thoroughly described in the vignette.
+The structure of \code{dpcr} class is described more deeply in the vignette.
 }
 \section{Slots}{
 
