@@ -10,11 +10,12 @@
 #' \code{format} has value \code{"raw"}, the additional parameter must be 
 #' \code{adpcr}.
 #' @author Michal Burdukiewcz, Stefan Roediger
-#' @details Input files may be in .csv, .xls or .xlsx format. In case of Excel files 
+#' @details Input files may have .csv, .xls or .xlsx extension. In case of Excel files 
 #' with multiple sheets, only the first sheet will be analyzed.
 #' @return Always an object of \code{\linkS4class{adpcr}} or 
 #' \code{\linkS4class{ddpcr}} type.
 #' @export
+#' @keywords utilities
 #' @seealso 
 #' Read raw format files: \code{\link{read_raw}}.
 #' Read BioMark format files: \code{\link{read_BioMark}}.
@@ -23,6 +24,9 @@
 
 read_dpcr <- function(input, format, ...) {
   dat <- read_input(input)
+  
+  if(!(format %in% c("raw", "QX100", "BioMark")))
+    stop("Unknown value of 'format' parameter.")
   
   switch(format,
          raw = read_raw(dat, ...),
@@ -41,6 +45,7 @@ read_dpcr <- function(input, format, ...) {
 #' @return An object of \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} type, 
 #' depends on the value of \code{adpcr} parameter. 
 #' @author Michal Burdukiewcz, Stefan Roediger
+#' @keywords utilities
 #' @export
 
 read_raw <- function(input, adpcr) {
@@ -65,6 +70,7 @@ read_raw <- function(input, adpcr) {
 #' 
 #' Example of QX100 data: \code{\link{pds}}.
 #' @return An object of \code{\linkS4class{adpcr}} class.
+#' @keywords utilities
 #' @export
 
 read_QX100 <- function(input) {
@@ -94,6 +100,7 @@ read_QX100 <- function(input) {
 #' @author Michal Burdukiewcz, Stefan Roediger
 #' @return An object of \code{\linkS4class{adpcr}} class.
 #' @seealso See \code{\link{read_dpcr}} for detailed description of input files.
+#' @keywords utilities
 #' @export
 
 read_BioMark <- function(input, detailed = FALSE) {

@@ -99,3 +99,4 @@ Collate:
     'test_ratio.R'
     'valid_amp.R'
     'y_val_conf.R'
+RoxygenNote: 5.0.1

@@ -5,7 +5,7 @@
 #' 
 #' Objects \code{dpcr1} and \code{dpcr2} can be: \enumerate{ \item numeric
 #' vectors of length 2. The first element is assumed to be number of positive
-#' partitions and the second one to be the total number of partitions.  \item
+#' partitions and the second one to be the total number of partitions. \item
 #' numeric vectors of length greater than 2. The length of vector is assumed to
 #' represent total number of partitions. Every element of the vector with value
 #' bigger than 0 is assumed to be a positive partitions.  \item
