@@ -41,6 +41,10 @@
 #' 9236-9241. %%MORE REFERENCES
 #' @keywords package
 #' @import methods
+#' @importFrom grDevices adjustcolor col2rgb rainbow rgb 
+#' @importFrom graphics abline axis box hist legend lines par points polygon rect symbols text 
+#' @importFrom stats aggregate dbinom dpois glm integrate mad median p.adjust predict prop.test qnorm quantile quasibinomial quasipoisson rnorm sd smooth.spline symnum t.test var 
+#' @importFrom utils combn head setTxtProgressBar tail txtProgressBar 
 #' @importFrom binom binom.confint
 #' @importFrom chipPCR inder
 #' @importFrom dgof ks.test cvm.test
