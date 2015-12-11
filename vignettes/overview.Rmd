@@ -302,7 +302,7 @@ Further tests are available in the **spatstat** package, which is also utilizing
 
 # `qdpcr` class
 
-The unique feature of **dpcR** package is conversion of qPCR data to dPCR-like experiments. The qPCR data should be in a format as used by the **qpcR** package (see [qpcR_datasets](http://finzi.psych.upenn.edu/library/qpcR/html/qpcR_datasets.html])), where columns represents particular experiments and one column contains cycle number. For pre-processing of raw amplification curve data we recommend the **chipPCR** package (@roediger2015chippcr).
+The unique feature of **dpcR** package is conversion of qPCR data to dPCR-like experiments. The qPCR data should be in a format as used by the **qpcR** package (see [qpcR_datasets](http://finzi.psych.upenn.edu/library/qpcR/html/qpcR_datasets.html)), where columns represents particular experiments and one column contains cycle number. For pre-processing of raw amplification curve data we recommend the **chipPCR** package (@roediger2015chippcr).
 
 ```{r eval=TRUE}
 # Load chiPCR package to access C317.amp data
