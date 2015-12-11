@@ -3,7 +3,7 @@ Type: Package
 Title: Digital PCR Analysis
 Version: 0.2
 LazyData: true
-Date: 2015-04-09
+Date: 2015-11-12
 Authors@R: c(person("Michal", "Burdukiewicz", email =
     "michalburdukiewicz@gmail.com", role = c("cre", "aut")),
     person("Stefan", "Roediger", email = "stefan.roedigier@b-tu.de", role = "aut"),
@@ -38,7 +38,7 @@ Suggests:
     shinythemes,
     xtable
 VignetteBuilder: knitr
-Packaged: 2015-04-09 11:09:00 UTC; Mihau
+Packaged: 2015-11-12 10:03:00 UTC; Mihau
 NeedsCompilation: no
 Repository: CRAN
 Collate:
