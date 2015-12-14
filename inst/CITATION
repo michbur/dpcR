@@ -12,7 +12,7 @@ citEntry(entry = "Manual",
   url = "http://CRAN.R-project.org/package=dpcR",
   textVersion = paste("Burdukiewicz M, Roediger S, Jacobs B and Sobczyk P (", 
            year, 
-           "). dpcR: Analysis, visualisation and simulation of digital PCR experiments. ", 
+           "). dpcR: Digital PCR Analysis. ", 
            vers, 
            ", http://CRAN.R-project.org/package=dpcR",
            ".", sep=""))
