@@ -1,6 +1,6 @@
 citHeader("To cite dpcR in publications, please use:")
 
-if(!exists("meta") || is.null(meta)) meta <- packageDescription("lessR") 
+if(!exists("meta") || is.null(meta)) meta <- packageDescription("dpcR") 
 year <- sub(".*(2[[:digit:]]{3})-.*", "\\1", meta$Date) 
 vers <- paste("R package version", meta$Version)
 
