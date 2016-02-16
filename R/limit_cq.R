@@ -155,8 +155,14 @@ limit_cq <- function(data, cyc = 1, fluo = NULL,
   } else {
     Cy0 <- vapply(fluo, function(fluo_col) {
       if(pb) setTxtProgressBar(pb, fluo_col)
-      efficiency(pcrfit(data = data, cyc = cyc, fluo = fluo_col,
-                        model = model), type = "Cy0", plot = FALSE)[["Cy0"]]
+      
+      fit <- pcrfit(data = data, cyc = cyc, fluo = fluo_col, model = model)
+      
+      if(all(is.nan(fit$MODEL$d2(eff(fit)[["eff.x"]], coef(fit))))) {
+        stop("The derivative cannot be computed using the chosen method. Consider runnning with SDM = TRUE.")
+      } else {
+        efficiency(fit, type = "Cy0", plot = FALSE)[["Cy0"]]
+      }
     }, 0)
   }
   

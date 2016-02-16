@@ -50,7 +50,7 @@
 #' @importFrom dgof ks.test cvm.test
 #' @importFrom e1071 skewness kurtosis
 #' @importFrom multcomp cld glht mcp
-#' @importFrom qpcR efficiency pcrfit modlist
+#' @importFrom qpcR eff efficiency pcrfit modlist
 #' @importFrom pracma findpeaks
 #' @importFrom rateratio.test rateratio.test
 #' @importFrom readxl read_excel
