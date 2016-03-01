@@ -7,7 +7,8 @@
 test_counts(input, model = "ratio", conf.level = 0.95)
 }
 \arguments{
-\item{input}{adpcr or dpcr object with with "nm" type.}
+\item{input}{object of class \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}
+with "nm" type.}
 
 \item{model}{may have one of following values: \code{binomial}, \code{poisson},
 \code{prop}, \code{ratio}. See Details.}
@@ -33,7 +34,7 @@ p-values are adjusted using the Benjamini & Hochberg method (\code{\link[stats]{
 Furthermore, confidence intervals are simultaneous.
 }
 \note{
-Mean number of template molecules per partitions and its confidence intervals will 
+Mean number of template molecules per partition and its confidence intervals will 
 vary depending on input.
 }
 \examples{

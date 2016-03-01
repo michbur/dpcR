@@ -3,7 +3,8 @@
 #' The test for comparing counts from two or more digital PCR experiments.
 #' 
 #' @aliases test_counts
-#' @param input adpcr or dpcr object with with "nm" type.
+#' @param input object of class \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}
+#' with "nm" type.
 #' @param model may have one of following values: \code{binomial}, \code{poisson},
 #' \code{prop}, \code{ratio}. See Details.
 #' @param conf.level confidence level of the intervals and groups.
@@ -19,7 +20,7 @@
 #' p-values are adjusted using the Benjamini & Hochberg method (\code{\link[stats]{p.adjust}}).
 #' Furthermore, confidence intervals are simultaneous.
 #' 
-#' @note Mean number of template molecules per partitions and its confidence intervals will 
+#' @note Mean number of template molecules per partition and its confidence intervals will 
 #' vary depending on input.
 #' @export
 #' @seealso

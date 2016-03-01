@@ -13,7 +13,7 @@
 #' @aliases summary-methods summary,adpcr-method summary,ddpcr-method summary
 #' summary.adpcr summary.ddpcr summary,dpcr-method summary.dpcr
 #' @docType methods
-#' @param object an object of class \code{\linkS4class{adpcr}},
+#' @param object object of class \code{\linkS4class{adpcr}},
 #' \code{\linkS4class{ddpcr}} or \code{\linkS4class{qdpcr}}.
 #' @param print if \code{FALSE}, no output is printed.
 #' @return The data frame with estimated values of lambda, m and corresponding

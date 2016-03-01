@@ -47,6 +47,7 @@ Collate:
     'White.R'
     'adpcr2panel.R'
     'adpcr2ppp.R'
+    'analyze_pooled.R'
     'binarize.R'
     'classes.R'
     'bind_dpcr.R'
