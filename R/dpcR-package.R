@@ -43,7 +43,9 @@
 #' @import methods
 #' @importFrom grDevices adjustcolor col2rgb rainbow rgb 
 #' @importFrom graphics abline axis box hist legend lines par points polygon rect symbols text 
-#' @importFrom stats aggregate dbinom dpois glm integrate mad median p.adjust predict prop.test qnorm quantile quasibinomial quasipoisson rnorm sd smooth.spline symnum t.test var 
+#' @importFrom stats aggregate dbinom dpois glm integrate mad median p.adjust predict prop.test 
+#' qnorm quantile quasibinomial quasipoisson rnorm sd smooth.spline symnum t.test var binomial 
+#' pchisq vcov 
 #' @importFrom utils combn head read.csv setTxtProgressBar tail txtProgressBar
 #' @importFrom binom binom.confint
 #' @importFrom chipPCR inder
