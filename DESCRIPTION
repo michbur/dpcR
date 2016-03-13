@@ -44,6 +44,7 @@ NeedsCompilation: no
 Repository: CRAN
 Collate:
     'AUCtest.R'
+    'BioradCNV.R'
     'White.R'
     'adpcr2panel.R'
     'adpcr2ppp.R'
