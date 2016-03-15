@@ -18,7 +18,7 @@
 
 analyze_pooled <- function(input, v, conf.level = 0.05) {
   # functionality and code below are taken from: 
-  # Dorazio, R. M.; Hunter, M. E. Anal. Chem. 2015, 87 (21), 10886–10893.
+  # Dorazio, R. M.; Hunter, M. E. Anal. Chem. 2015, 87 (21), 10886-10893.
   dat <- summary(input, print = FALSE)
 
   comp_data <- data.frame(exper = slot(input, "exper"), 

@@ -1,4 +1,4 @@
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/dpcR)](http://cran.r-project.org/web/packages/dpcR)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/dpcR)](http://cran.r-project.org/package=dpcR)
 [![Downloads](http://cranlogs.r-pkg.org/badges/dpcR)](http://cran.rstudio.com/package=dpcR)
 [![Build Status](https://api.travis-ci.org/michbur/dpcR.png)](https://travis-ci.org/michbur/dpcR)
 
@@ -9,7 +9,7 @@ Analysis, visualisation and simulation of digital PCR experiments.
 
 # Installation
 
-dpcR is available [on CRAN](http://cran.r-project.org/web/packages/dpcR/), so installation is as simple as:
+dpcR is available [on CRAN](http://cran.r-project.org/package=dpcR), so installation is as simple as:
 
 ```R
 install.packages("dpcR")
