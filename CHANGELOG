@@ -1,3 +1,8 @@
+Changes from Version 0.2 to 0.3 [March 2016]
+* added analyze_pooled function
+* added bioradCNV data set
+* various bug fixes
+
 Changes from Version 0.1.4.0 to 0.2 [December 2015]
 * Several bug fixes
 * Improved documentation

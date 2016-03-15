@@ -402,7 +402,7 @@ Two approaches presented above were compared in a simulation approach over 150.0
 Experiments were compared using GLM and MT frameworks.
 
 ```{r eval=TRUE,echo=FALSE}
-ggplot(data=madpcr_comp,aes(x = value, fill = method)) +
+ggplot(data=madpcr_comp, aes(x = value, fill = method)) +
   geom_density(alpha = 0.3) + 
   scale_fill_discrete("Confidence intervals:") + 
   scale_y_continuous("Density") + 
