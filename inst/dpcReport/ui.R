@@ -21,7 +21,8 @@ shinyUI(navbarPage(title = "dpcReport",
                             fluidRow(
                               column(3, h4("Experiment name"), htmlOutput("exp_choice")),
                               column(3, h4("Technical repeat ID"), htmlOutput("rep_choice"))
-                            )
+                            ),
+                            rHandsontableOutput("input_table")
                    ),
                    navbarMenu("Data summary",
                               tabPanel("Summary table", 

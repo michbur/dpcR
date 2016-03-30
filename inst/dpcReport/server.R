@@ -3,6 +3,7 @@ library(dpcR)
 library(ggplot2)
 library(shinythemes)
 library(DT)
+library(rhandsontable)
 
 source("server_data.R")
 
@@ -38,6 +39,16 @@ shinyServer(function(input, output, session) {
       process_function(read_function(input[["input_file"]][["datapath"]]))
     }
   })
+  
+  
+  output[["input_table"]] = renderRHandsontable({
+    handson_tab <- data.frame(tab_dat[["summary"]][, c("experiment", "replicate", "assay")],
+                              k = tab_dat[["partitions"]][["k"]],
+                              n = tab_dat[["partitions"]][["n"]])
+    rhandsontable(handson_tab, readOnly = FALSE, selectCallback = TRUE)
+  })
+  
+  
   
   exp_names <- reactive(slot(input_dat(), "exper"))
   
