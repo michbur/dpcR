@@ -42,6 +42,7 @@
 #' \code{adcpr}.
 #' @return An \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} object.
 #' @author Michal Burdukiewicz, Stefan Roediger.
+#' @seealso Streamlined, but more limited version: \code{\link{df2dpcr}}
 #' @keywords ddPCR adPCR
 #' @examples
 #' 

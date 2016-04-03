@@ -64,6 +64,7 @@ Collate:
     'df2dpcr.R'
     'dpcR-package.R'
     'dpcReport_gui.R'
+    'dpcr2df.R'
     'dpcr_calculator.R'
     'dpcr_density.R'
     'dpcr_density_gui.R'

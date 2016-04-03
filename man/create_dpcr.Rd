@@ -84,6 +84,9 @@ plot_panel(sample_adpcr, 45, 17)
 \author{
 Michal Burdukiewicz, Stefan Roediger.
 }
+\seealso{
+Streamlined, but more limited version: \code{\link{df2dpcr}}
+}
 \keyword{adPCR}
 \keyword{ddPCR}
 

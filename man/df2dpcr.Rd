@@ -6,10 +6,12 @@
 \usage{
 df2dpcr(df)
 }
+\arguments{
+\item{df}{data frame with specified column names. See Details.}
+}
 \value{
 An object of \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} type, 
-depends on the presence of additional three columns with names of rows and columns of 
-panels as well as panel indices (see Details).
+depends on the presence of additional column with panel indices (see Details).
 }
 \description{
 Converts \code{\link{data.frame}} object to to \code{\linkS4class{adpcr}} or 
@@ -25,14 +27,12 @@ The data frame must have following columns with exactly specified names:
 \item{k}{number of positive partitions}
 \item{n}{total number of partitions}
 }
-There are also three optional columns:
+There are also one optional column:
 \describe{
-\item{row_names}{names of rows}
-\item{col_names}{names of columns}
 \item{panel_id}{indices of panels}
 }
 
-If these additional columns are present, the resulting object has 
+If the additional column is present, the resulting object has 
 \code{\linkS4class{adpcr}} type.
 }
 \examples{
@@ -40,7 +40,7 @@ dat <- data.frame(experiment = factor(rep(paste0("Experiment", 1L:2), 3)),
                   replicate = c(1, 1, 2, 2, 3, 3),
                   assay = "Assay1",
                   k = c(55, 121, 43, 150, 70, 131),
-                 n = 765)
+                  n = 765)
 df2dpcr(dat)
 }
 \author{
@@ -48,6 +48,7 @@ Michal Burdukiewcz, Stefan Roediger
 }
 \seealso{
 Flexibly create \code{\linkS4class{dpcr}} objects: \code{\link{create_dpcr}}
+Inverse function: \code{\link{dpcr2df}}
 }
 \keyword{utilities}
 
