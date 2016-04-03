@@ -42,6 +42,7 @@ shinyServer(function(input, output, session) {
   
   
   output[["input_table"]] = renderRHandsontable({
+    tab_dat <- summary(input_dat(), print = FALSE)
     handson_tab <- data.frame(tab_dat[["summary"]][, c("experiment", "replicate", "assay")],
                               k = tab_dat[["partitions"]][["k"]],
                               n = tab_dat[["partitions"]][["n"]])

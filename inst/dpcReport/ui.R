@@ -1,5 +1,6 @@
 library(shiny)
 library(shinythemes)
+library(rhandsontable)
 
 shinyUI(navbarPage(title = "dpcReport",
                    theme = shinytheme("cerulean"),
