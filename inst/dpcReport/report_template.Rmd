@@ -22,7 +22,7 @@ print_dpcrtable <- function(x)
   print(xtable(x), type = "html", sanitize.colnames.function = function(x) x, digits = app_digits,
         include.rownames = FALSE)
 
-new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+new_dat <- input_dat()
 ```
 
 Report generated on `r Sys.time()` using [dpcR](http://github.com/michbur/dpcR) R package.  

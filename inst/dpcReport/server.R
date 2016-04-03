@@ -8,6 +8,8 @@ library(rhandsontable)
 source("server_data.R")
 
 
+
+
 shinyServer(function(input, output, session) {
   
   # Input file panel --------------------------------
@@ -15,7 +17,7 @@ shinyServer(function(input, output, session) {
   #read and process data from different vendors
   input_dat <- reactive({
     #after loading any file it would be possible to start an example
-    if(is.null(input[["input_file"]])) {
+    dat <- if(is.null(input[["input_file"]])) {
       six_panels
     } else {
       
@@ -38,40 +40,16 @@ shinyServer(function(input, output, session) {
       
       process_function(read_function(input[["input_file"]][["datapath"]]))
     }
+    
+    if(!is.null(input[["input_table"]]))
+      dat <- df2dpcr(hot_to_r(input[["input_table"]]))
+    
+    dat
   })
-  
   
   output[["input_table"]] = renderRHandsontable({
-    tab_dat <- summary(input_dat(), print = FALSE)
-    handson_tab <- data.frame(tab_dat[["summary"]][, c("experiment", "replicate", "assay")],
-                              k = tab_dat[["partitions"]][["k"]],
-                              n = tab_dat[["partitions"]][["n"]])
-    rhandsontable(handson_tab, readOnly = FALSE, selectCallback = TRUE)
-  })
-  
-  
-  
-  exp_names <- reactive(slot(input_dat(), "exper"))
-  
-  rep_names <- reactive(slot(input_dat(), "replicate"))
-  
-  exp_names_new <- reactive(sapply(1L:length(exp_names()), function(single_exp_id)
-    input[[paste0("experiment_name", single_exp_id)]]))
-  
-  rep_names_new <- reactive(sapply(1L:length(rep_names()), function(single_rep_id)
-    input[[paste0("rep_name", single_rep_id)]]))
-  
-  output[["exp_choice"]] <- renderUI({
-    lapply(1L:length(exp_names()), function(single_exp_id)
-      textInput(inputId = paste0("experiment_name", single_exp_id), 
-                label = paste0("Column", single_exp_id), value = exp_names()[single_exp_id]))
-  })
-  
-  
-  output[["rep_choice"]] <- renderUI({
-    lapply(1L:length(rep_names()), function(single_rep_id)
-      textInput(inputId = paste0("rep_name", single_rep_id), 
-                label = paste0("Column", single_rep_id), value = rep_names()[single_rep_id]))
+    rhandsontable(dpcr2df(input_dat()), useTypes = FALSE, readOnly = FALSE, selectCallback = TRUE,
+                  highlightRow = TRUE)
   })
   
   #information if input file is loaded
@@ -86,17 +64,14 @@ shinyServer(function(input, output, session) {
   
   # Data summary table panel --------------------------------
   summary_table <- reactive({
-    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+    new_dat <- input_dat()
     source("./data_summary/summary_input.R", local = TRUE)
     res
   })
   
   
   output[["summary_input"]] <- DT::renderDataTable({
-    datatable(summary_table(), escape = FALSE, extensions = 'TableTools', 
-              filter = "top", options = list(
-                dom = 'T<"clear">lfrtip',
-                tableTools = list(sSwfPath = copySWF('www'))))
+    my_DT(summary_table())
   })
   
   #   output[["summary_table_download_button"]] <- downloadHandler("summary.csv",
@@ -106,7 +81,7 @@ shinyServer(function(input, output, session) {
   
   # Data summary scatter chart panel --------------------------------
   summary_plot_dat <- reactive({
-    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+    new_dat <- input_dat()
     
     summ <- summary(new_dat, print = FALSE)[["summary"]]
     summ[summ[["method"]] == input[["CI_method"]], ]
@@ -230,7 +205,7 @@ shinyServer(function(input, output, session) {
   
   # Test counts (compare experiments) --------------------- 
   test_counts_dat <- reactive({
-    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+    new_dat <- input_dat()
     test_counts(new_dat, model = "ratio")
   })
   
@@ -249,10 +224,7 @@ shinyServer(function(input, output, session) {
   })
   
   output[["test_counts_groups"]] <- DT::renderDataTable({
-    datatable(test_counts_groups_summary_nice(), escape = FALSE, extensions = 'TableTools', 
-              filter = "top", options = list(
-                dom = 'T<"clear">lfrtip',
-                tableTools = list(sSwfPath = copySWF('www'))))
+    my_DT(test_counts_groups_summary_nice())
   })
   
   output[["test_counts_groups_download_button"]] <- downloadHandler("comparison_summary.csv",
@@ -266,10 +238,7 @@ shinyServer(function(input, output, session) {
   })
   
   output[["test_counts_res"]] <- DT::renderDataTable({
-    datatable(test_counts_res(), escape = FALSE, extensions = 'TableTools', 
-              filter = "top", options = list(
-                dom = 'T<"clear">lfrtip',
-                tableTools = list(sSwfPath = copySWF('www'))))
+    my_DT(test_counts_res())
   })
   
   
@@ -379,12 +348,12 @@ shinyServer(function(input, output, session) {
   
   
   array_dat <- reactive({
-    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+    new_dat <- input_dat()
     adpcr2panel(new_dat, use_breaks = TRUE)
   })
   
   array_dat_unbroken <- reactive({
-    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+    new_dat <- input_dat()
     adpcr2panel(new_dat, use_breaks = FALSE)
   })
   
@@ -477,10 +446,7 @@ shinyServer(function(input, output, session) {
   })
   
   output[["plot_panel_region_summary"]] <- DT::renderDataTable({
-    datatable(plot_panel_region_summary(), escape = FALSE, extensions = 'TableTools', 
-              filter = "top", options = list(
-                dom = 'T<"clear">lfrtip',
-                tableTools = list(sSwfPath = copySWF('www'))))
+    my_DT(plot_panel_region_summary())
   })
   
   
@@ -492,7 +458,7 @@ shinyServer(function(input, output, session) {
   # Poisson distribution --------------------- 
   
   kn_coef <- reactive({
-    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+    new_dat <- input_dat()
     
     single_run <- extract_dpcr(new_dat, input[["run_choice"]])
     
@@ -507,7 +473,7 @@ shinyServer(function(input, output, session) {
   })
   
   output[["run_choice"]] <- renderUI({
-    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+    new_dat <- input_dat()
     
     choices <- as.list(colnames(new_dat))
     names(choices) <- colnames(new_dat)
@@ -515,7 +481,7 @@ shinyServer(function(input, output, session) {
   })
   
   moments_table <- reactive({
-    new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+    new_dat <- input_dat()
     
     single_run <- extract_dpcr(new_dat, input[["run_choice"]])
     
@@ -525,10 +491,7 @@ shinyServer(function(input, output, session) {
   })
   
   output[["moments_table"]] <- DT::renderDataTable({
-    datatable(moments_table(), escape = FALSE, extensions = 'TableTools', 
-              filter = "top", options = list(
-                dom = 'T<"clear">lfrtip',
-                tableTools = list(sSwfPath = copySWF('www'))))
+    my_DT(moments_table())
   })
   
   

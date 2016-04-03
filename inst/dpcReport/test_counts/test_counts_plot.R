@@ -21,4 +21,4 @@ p <- ggplot(dat, aes(y = run, x = lambda, shape = selected, colour = experiment,
   scale_linetype_manual(guide = FALSE, values = c("solid", "dashed")) + 
   scale_shape_manual(guide = FALSE, values = c(15, 18)) + 
   geom_errorbarh(aes(x = lambda, xmin = lambda.low, xmax = lambda.up), 
-                size = 1.2, heigth = nlevels(dat[["run"]])/160)
+                size = 1.2, height = nlevels(dat[["run"]])/160)

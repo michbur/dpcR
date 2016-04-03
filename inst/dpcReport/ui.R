@@ -19,11 +19,10 @@ shinyUI(navbarPage(title = "dpcReport",
                               column(3, htmlOutput("input_information"))
                             ),
                             includeMarkdown("input_file2.md"),
-                            fluidRow(
-                              column(3, h4("Experiment name"), htmlOutput("exp_choice")),
-                              column(3, h4("Technical repeat ID"), htmlOutput("rep_choice"))
-                            ),
-                            rHandsontableOutput("input_table")
+                            rHandsontableOutput("input_table"),
+                            actionButton("change_input", "Change input"),
+                            br(),
+                            br()
                    ),
                    navbarMenu("Data summary",
                               tabPanel("Summary table", 
@@ -130,5 +129,5 @@ shinyUI(navbarPage(title = "dpcReport",
                                            "Save report")),
                    tabPanel("About", 
                             includeMarkdown("about.md")),
-                   tabPanel("Quit", actionButton("quit_button", "Press the button to quit dpcReport"))
+                   tabPanel("Quit", actionButton("quit_button", "Quit dpcReport"))
 ))

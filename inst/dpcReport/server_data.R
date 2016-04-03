@@ -105,4 +105,10 @@ choose_xy_region <- function(brush_id, data) {
   }
 }
 
+options(DT.options = list(dom = "Brtip",
+                          buttons = c("copy", "csv", "excel", "print")
+))
 
+my_DT <- function(x)
+  datatable(x, escape = FALSE, extensions = 'Buttons', 
+            filter = "top", rownames = FALSE)

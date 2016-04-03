@@ -25,27 +25,12 @@ read_data_l <- c("# Read and adjust data", if(is.null(input[["input_file"]])) {
                BioMark_sum = 'input_data <- read_dpcr("file_name", format = "BioMark", detailed = FALSE)')))
 })
 
-change_replicate_l <- if(any(as.character(slot(input_dat(), "replicate")) != rep_names_new())) {
-  paste0('slot(input_data, "replicate") <- factor(', 
-         paste0(capture.output(dput(rep_names_new())), collapse = ""), ')')
-} else {
-  ""
-}
-
-change_exper_l <- if(any(as.character(slot(input_dat(), "exper")) != exp_names_new())) {
-  paste0('slot(input_data, "exper") <- factor(', 
-         paste0(capture.output(dput(exp_names_new())), collapse = ""), ')')
-} else {
-  ""
-}
-
 data_summary_table_lc <- if(input[["data_summary_table_rep"]]) {
   c(separator, '# Print only table from summary.dpcr function',
     'summary(input_data, print = FALSE)[["summary"]]')
 } else {
   ""
 }
-
 
 data_summary_scatter_lc <- if(input[["data_summary_scatter_rep"]]) {
   c(separator, '# Prepare data for plots',
@@ -114,7 +99,7 @@ poisson_distr_lc <- if(input[["poisson_distr"]]) {
 }
 
 all_lines <- c("\n    ", setup_l,
-               read_data_l, change_replicate_l, change_exper_l, #input
+               read_data_l, #input
                data_summary_table_lc, #summary table
                data_summary_scatter_lc, #summary plots
                data_summary_test_counts_lc,

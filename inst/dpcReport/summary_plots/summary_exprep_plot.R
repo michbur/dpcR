@@ -12,4 +12,4 @@ p <- ggplot(dat, aes(y = exprep, x = lambda, shape = selected, colour = experime
   scale_linetype_manual(guide = FALSE, values = c("solid", "dashed")) + 
   scale_shape_manual(guide = FALSE, values = c(15, 18)) + 
   geom_errorbarh(aes(x = lambda, xmin = lambda.low, xmax = lambda.up), 
-                 size = 1.2, heigth = nlevels(dat[["exprep"]])/160)
+                 size = 1.2, height = nlevels(dat[["exprep"]])/160)

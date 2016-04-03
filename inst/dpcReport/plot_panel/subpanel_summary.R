@@ -1,4 +1,4 @@
-new_dat <- change_data(input_dat(), as.factor(rep_names_new()), as.factor(exp_names_new()))
+new_dat <- input_dat()
 roi <- extract_dpcr(new_dat, input[["array_choice"]])
 
 summs <- summary(roi, print = FALSE)[["summary"]]
