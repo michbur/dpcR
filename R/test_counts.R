@@ -70,7 +70,7 @@
 
 test_counts <- function(input, model = "ratio", conf.level = 0.95) { 
   if(!(model %in% c("binomial", "poisson", "prop", "ratio")))
-    stop("Must must have one of following values: 'binomial', 'poisson', 'ratio' or 'prop'.")
+    stop("Must must have one of following values: 'binomial', 'poisson', 'ratio' or 'prop'")
   
   
   if(model %in% c("prop", "ratio")) {
@@ -167,7 +167,7 @@ test_counts <- function(input, model = "ratio", conf.level = 0.95) {
   } else {
     
     if(slot(input, "type") == "tnp")
-      stop("GLM does not work with 'tnp' type.")
+      stop("GLM does not work with 'tnp' type")
     
     #choose proper family
     if (model == "binomial") {

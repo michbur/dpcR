@@ -21,7 +21,7 @@ compare_dens <- function(input, moments = TRUE, ...) {
   #moments() checks class and so on
   
   if (ncol(input) > 1)
-    stop("Input must contain only one experiment.")    
+    stop("Input must contain only one experiment")    
   
   all_moms <- moments(input)
   lambda <- all_moms[all_moms[["moment"]] == "mean", "value"][1]

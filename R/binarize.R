@@ -24,7 +24,7 @@
 binarize <- function(input) {
   if (class(input) %in% c("adpcr", "ddpcr")) {
     if(slot(input, "type") %in% c("tp", "tnp"))
-      stop("Cannot binarize already binary data.")
+      stop("Cannot binarize already binary data")
     positive_threshold <- if (class(input) == c("adpcr")) {
       slot(input, "breaks")[2]
     } else {

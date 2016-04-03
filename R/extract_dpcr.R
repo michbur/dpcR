@@ -41,7 +41,7 @@
 #' @export extract_dpcr
 extract_dpcr <- function(input, id) {
   if (!(class(input) %in% c("adpcr", "ddpcr")))
-    stop("Input must have 'adpcr' or 'ddpcr' class.")
+    stop("Input must have 'adpcr' or 'ddpcr' class")
   
   #when id is a column name
   if(!is.numeric(id)) 

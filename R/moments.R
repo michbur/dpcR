@@ -43,7 +43,7 @@ moments <- function (input) {
 setMethod("moments", signature(input = "numeric"), function(input) {
   if (length(input) != 2) 
     stop("Input must contain two values: number of positive paritions and total number 
-         of partitions.") 
+         of partitions") 
   
 
   calc_moms(data.frame(experiment = "Unknown", replicate = "Unknown",
@@ -53,7 +53,7 @@ setMethod("moments", signature(input = "numeric"), function(input) {
 setMethod("moments", signature(input = "matrix"), function(input) {
   if (ncol(input) != 2) 
     stop("Input matrix must contain two columns: a number of positive paritions and 
-         a total number of partitions.") 
+         a total number of partitions") 
 
   calc_moms(data.frame(experiment = 1L:nrow(input), replicate = "Unknown",
                        k = input[, 1], n = input[, 2]))
