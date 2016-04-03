@@ -2,7 +2,8 @@
 % Please edit documentation in R/dpcr2df.R
 \name{dpcr2df-methods}
 \alias{dpcr2df}
-\alias{dpcr2df,dpcr-method}
+\alias{dpcr2df,adpcr-method}
+\alias{dpcr2df,ddpcr-method}
 \alias{dpcr2df-methods}
 \title{Convert dpcr object to data frame}
 \usage{

@@ -5,7 +5,7 @@
 #' 
 #' @param input \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} object.
 #' @name dpcr2df-methods
-#' @aliases dpcr2df-methods dpcr2df,dpcr-method
+#' @aliases dpcr2df-methods dpcr2df,adpcr-method dpcr2df,ddpcr-method
 #' @return data frame with 5 (if input was  \code{\linkS4class{ddpcr}}) or 
 #' 8 columns (if input was  \code{\linkS4class{adpcr}}).
 #' @seealso Inverse function: \code{\link{df2dpcr}}
