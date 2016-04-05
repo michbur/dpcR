@@ -112,3 +112,13 @@ options(DT.options = list(dom = "Brtip",
 my_DT <- function(x)
   datatable(x, escape = FALSE, extensions = 'Buttons', 
             filter = "top", rownames = FALSE)
+
+merge_dpcr <- function(a, b) {
+  slot_names <- slotNames(a)
+  slot_names <- slot_names[!(slot_names %in% c(".Data", "type", "col_names", "row_names"))]
+  for(i in slot_names)
+    slot(a, i) <- slot(b, i)
+  #update names of runs if exper or run were changed
+  colnames(a) <- colnames(b)
+  a
+}

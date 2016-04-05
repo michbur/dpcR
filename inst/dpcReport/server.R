@@ -8,8 +8,6 @@ library(rhandsontable)
 source("server_data.R")
 
 
-
-
 shinyServer(function(input, output, session) {
   
   # Input file panel --------------------------------
@@ -42,7 +40,7 @@ shinyServer(function(input, output, session) {
     }
     
     if(!is.null(input[["input_table"]]))
-      dat <- df2dpcr(hot_to_r(input[["input_table"]]))
+      dat <- merge_dpcr(dat, df2dpcr(hot_to_r(input[["input_table"]])))
     
     dat
   })
@@ -315,7 +313,7 @@ shinyServer(function(input, output, session) {
   # plot panel --------------------------
   
   output[["plot_panel_tab"]] <- renderUI({
-    if(class(input_dat()) == "adpcr") {
+    if(class(input_dat()) == "adpcr" && slot(input_dat(), "type") != "tnp") {
       list(includeMarkdown("./plot_panel/plot_panel1.md"),
            htmlOutput("array_choice"),
            htmlOutput("plot_panel_stat"),
