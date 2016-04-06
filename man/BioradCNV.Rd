@@ -12,7 +12,7 @@ and Design of Digital Polymerase Chain Reaction (dPCR) Experiments}.
 Analytical Chemistry 2015. 87(21): p.10886-10893
 }
 \description{
-Copy Number Variation of MYC Gene for seven patients.
+Copy Number Variation of MYC Gene for seven patients measured using QX200 (Biorad)
 }
 \examples{
 data(BioradCNV)
