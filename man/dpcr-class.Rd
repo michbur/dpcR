@@ -44,6 +44,10 @@ The structure of \code{dpcr} class is described more deeply in the vignette.
 
 \item{\code{assay}}{\code{factor} the id or name of the assay.}
 
+\item{\code{v}}{\code{"numeric"} volume of the partition [nL].}
+
+\item{\code{uv}}{\code{"numeric"} uncertainty of the volume of the partition [nL].}
+
 \item{\code{type}}{Object of class \code{"character"} defining type of data. See Details.}
 }}
 \note{

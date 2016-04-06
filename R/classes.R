@@ -11,6 +11,8 @@
 #' @slot exper \code{factor} the id or name of experiments.
 #' @slot replicate \code{factor} the id or name of replicate.
 #' @slot assay \code{factor} the id or name of the assay.
+#' @slot v \code{"numeric"} volume of the partition [nL].
+#' @slot uv \code{"numeric"} uncertainty of the volume of the partition [nL]. 
 #' @slot type Object of class \code{"character"} defining type of data. See Details.
 #' @details
 #' Possible \code{type} values of \code{dpcr} objects:
@@ -45,10 +47,13 @@ setClass("dpcr", contains = "matrix", representation(.Data = "matrix",
                                                      exper = "factor",
                                                      replicate = "factor",
                                                      assay = "factor",
+                                                     v = "numeric",
+                                                     uv = "numeric",
                                                      type = "character"))
 
 construct_dpcr <- function(data, n, exper = "Experiment1", 
-                           replicate = NULL, assay = "Unknown", type) {
+                           replicate = NULL, assay = "Unknown", type,
+                           v = 1, uv = 0) {
   
   # data
   if (is.vector(data))
@@ -65,7 +70,7 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
   
   if(length(n) != ncol(data)) {
     if(length(n) == 1) {
-      message(paste0("Assumed the number of partitions in each experiment is equal to ",
+      message(paste0("The assumed number of partitions in each run is equal to ",
                      n, "."))
       n <- rep(n, ncol(data))
     } else {
@@ -113,10 +118,33 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
   if (!(type %in% c("ct", "fluo", "nm", "np", "tnp"))) 
     stop(paste0(type, " is not recognized type value."))
   
+  # volume
+  if(length(v) != ncol(data)) {
+    if(length(v) == 1) {
+      message(paste0("The assumed volume of partitions in each run is equal to ",
+                     v, "."))
+      v <- rep(v, ncol(data))
+    } else {
+      stop("Each run must have known volume.")
+    }
+  }
+  
+  # volume uncertainty
+  if(length(uv) != ncol(data)) {
+    if(length(uv) == 1) {
+      message(paste0("The assumed volume uncertainty in each run is equal to ",
+                     uv, "."))
+      uv <- rep(uv, ncol(data))
+    } else {
+      stop("Each run must have known volume uncertainty.")
+    }
+  }
+  
+  
   colnames(data) <- paste0(exper, ".", replicate)
   
   result <- new("dpcr", .Data = data, exper = exper, 
-                replicate = replicate, assay = assay, type = type)
+                replicate = replicate, assay = assay, v = v, uv = uv, type = type)
   #since n cannot be defined in new(), because of some strange error
   slot(result, "n") <- n
   result
@@ -171,10 +199,10 @@ setClass("adpcr", contains = "dpcr", representation(breaks = "numeric",
 
 #constructor
 create_adpcr <- function(data, n, exper = "Experiment1", 
-                         replicate = NULL, assay = "Unknown", type, breaks, 
+                         replicate = NULL, assay = "Unknown", v = 1, uv = 0, type, breaks, 
                          col_names = NULL, row_names = NULL, panel_id = NULL) {
   result <- construct_dpcr(data = data, n = n, exper = exper, 
-                           replicate = replicate, assay = assay, type = type)
+                           replicate = replicate, assay = assay, v = v, uv = uv, type = type)
   
   if (is.null(breaks)) {
     breaks <- 0L:max(data, na.rm = TRUE)
@@ -260,10 +288,10 @@ setClass("ddpcr", contains = "dpcr", representation(threshold = "numeric"))
 
 #constructor
 create_ddpcr <- function(data, n, exper = "Experiment1", 
-                         replicate = NULL, assay = "Unknown", type, threshold) {
+                         replicate = NULL, assay = "Unknown", v = 1, uv = 0, type, threshold) {
   
   result <- construct_dpcr(data = data, n = n, exper = exper, 
-                           replicate = replicate, assay = assay, type = type)
+                           replicate = replicate, assay = assay, v = v, uv = uv, type = type)
   
   class(result) <- "ddpcr"
   if(is.null(threshold))

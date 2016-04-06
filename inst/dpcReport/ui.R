@@ -20,7 +20,6 @@ shinyUI(navbarPage(title = "dpcReport",
                             ),
                             includeMarkdown("input_file2.md"),
                             rHandsontableOutput("input_table"),
-                            actionButton("change_input", "Change input"),
                             br(),
                             br()
                    ),
