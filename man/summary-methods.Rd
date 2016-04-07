@@ -28,8 +28,8 @@ objects of the class \code{\linkS4class{adpcr}} to or
 }
 \details{
 The function prints a summary of the dPCR reaction, including k (number of
-positive chambers), n (total number of chambers), estimated lambda and m
-(number of molecules per plate), as well as confidence intervals for the
+positive chambers), n (total number of chambers), estimated lambda and 
+concentration, as well as confidence intervals for the
 last two variables.
 }
 \note{

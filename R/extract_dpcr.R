@@ -59,6 +59,8 @@ extract_dpcr <- function(input, id) {
   result <- input
   slot(result, ".Data") <- selected
   slot(result, "n") <- slot(input, "n")[id]
+  slot(result, "v") <- slot(input, "v")[id]
+  slot(result, "uv") <- slot(input, "uv")[id]
   slot(result, "exper") <- droplevels(slot(input, "exper")[id])
   slot(result, "replicate") <- droplevels(slot(input, "replicate")[id])
   slot(result, "assay") <- droplevels(slot(input, "assay")[id])

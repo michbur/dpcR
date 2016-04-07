@@ -1,11 +1,12 @@
 # SUMMARY - droplet, array ------------------------------
 #summary workhorse + plot, should be not called directly by user
-print_summary <- function(k, col_dat, n, print, run_names, exper_names, replicate_names, assay_names) {
+print_summary <- function(k, col_dat, n, print, run_names, exper_names, replicate_names, assay_names,
+                          v = v, uv = uv) {
   
   sums <- cbind(do.call(rbind, lapply(1L:length(exper_names), function(single_id) 
     data.frame(experiment = rep(exper_names[single_id], 2), 
                replicate = rep(replicate_names[single_id], 2),
-               assay = rep(assay_names[single_id], 2)))), calc_lambda(k, n))
+               assay = rep(assay_names[single_id], 2)))), calc_lambda(k, n, v, uv))
   
   nexper <- nlevels(exper_names)
   nrun <- length(exper_names)

@@ -152,6 +152,12 @@ cbind_dpcr <- function(all_args) {
   all_assays <- unlist(lapply(all_args, function(single_arg) 
     slot(single_arg, "assay")))
   
+  all_vs <- unlist(lapply(all_args, function(single_arg) 
+    slot(single_arg, "v")))
+  
+  all_uvs <- unlist(lapply(all_args, function(single_arg) 
+    slot(single_arg, "uv")))
+  
   #check partitions and add NA values if needed
   all_partitions <- unlist(lapply(all_args, function(single_arg) 
     slot(single_arg, "n")))
@@ -183,7 +189,9 @@ cbind_dpcr <- function(all_args) {
                  exper = all_expers, 
                  replicate = all_replicates,
                  assay = all_assays,
-                 type = type)
+                 type = type,
+                 v = all_vs,
+                 uv = all_uvs)
 }
 
 # binds factors (for example panel_id), but keeps unique values unique

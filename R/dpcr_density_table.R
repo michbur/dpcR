@@ -26,6 +26,7 @@
 dpcr_density_table <- function(input, average = FALSE, methods = "wilson", conf.level = 0.95) {
   res <- lapply(1L:ncol(input), function(run_id) {
     single_run <- extract_dpcr(input, run_id)
+
     kn <- unlist(summary(single_run, print = FALSE)[["summary"]][1, c("k", "n")])
     
     conf <- dpcr_density(k = kn["k"], n = kn["n"], average = average, 

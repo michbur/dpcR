@@ -5,8 +5,8 @@
 #' \code{\linkS4class{ddpcr}}.
 #' 
 #' The function prints a summary of the dPCR reaction, including k (number of
-#' positive chambers), n (total number of chambers), estimated lambda and m
-#' (number of molecules per plate), as well as confidence intervals for the
+#' positive chambers), n (total number of chambers), estimated lambda and 
+#' concentration, as well as confidence intervals for the
 #' last two variables.
 #' 
 #' @name summary-methods
@@ -102,5 +102,7 @@ setMethod("summary", signature(object = "dpcr"), function(object, print = TRUE) 
                           print = print, run_names = colnames(data), 
                           exper_names = slot(object, "exper"),
                           replicate_names = slot(object, "replicate"),
-                          assay_names = slot(object, "assay")))
+                          assay_names = slot(object, "assay"),
+                          v = slot(object, "v"),
+                          uv = slot(object, "uv")))
 })
