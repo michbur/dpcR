@@ -22,6 +22,8 @@
 #' @param exper The id of experiments.
 #' @param replicate The id of technical replicates.
 #' @param assay The name or id of assays.
+#' @param v The volume of partitions [nL].
+#' @param uv The volume uncertainty of partitions [nl].
 #' @param threshold \code{numeric} value giving the threshold above which
 #' droplet is counted as positive.  Ignored if \code{adpcr} is \code{TRUE}.
 #' @param breaks \code{numeric} vector giving the number of intervals into
@@ -62,14 +64,14 @@
 #' @export create_dpcr
 
 create_dpcr <- function(data, n, exper = "Experiment 1", 
-                        replicate = NULL, assay = "Unknown", type, threshold = NULL,
+                        replicate = NULL, assay = "Unknown", type, v = 1, uv = 0, threshold = NULL, 
                         breaks = NULL, adpcr, col_names = NULL, row_names = NULL, panel_id = NULL) {
   if(adpcr) {
     create_adpcr(data = data, n = n, exper = exper, 
-                 replicate = replicate, assay = assay, type = type, breaks = breaks,
+                 replicate = replicate, assay = assay, type = type, breaks = breaks, v = v, uv = uv,
                  col_names = col_names, row_names = row_names, panel_id = panel_id)
   } else {
     create_ddpcr(data = data, n = n, exper = exper, replicate = replicate, 
-                 assay = assay, type = type, threshold = threshold)
+                 assay = assay, v = v, uv = uv, type = type, threshold = threshold)
   }
 }

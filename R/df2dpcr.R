@@ -32,13 +32,14 @@
 #'                   replicate = c(1, 1, 2, 2, 3, 3),
 #'                   assay = "Assay1",
 #'                   k = c(55, 121, 43, 150, 70, 131),
-#'                   n = 765)
+#'                   n = 765,
+#'                   v = 1)
 #' df2dpcr(dat)
 
 df2dpcr <- function(df) {
-  if((!all(colnames(df) %in% c("experiment", "replicate", "assay", "k", "n")) && 
+  if((!all(colnames(df) %in% c("experiment", "replicate", "assay", "k", "n", "v")) && 
       ncol(df) == 6) |
-     (!all(colnames(df) %in% c("experiment", "replicate", "assay", "k", "n",
+     (!all(colnames(df) %in% c("experiment", "replicate", "assay", "k", "n", "v",
                                "panel_id")) && 
       ncol(df) == 7))
     stop("Wrong column names")

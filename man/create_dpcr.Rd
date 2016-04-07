@@ -5,8 +5,9 @@
 \title{Create dpcR object}
 \usage{
 create_dpcr(data, n, exper = "Experiment 1", replicate = NULL,
-  assay = "Unknown", type, threshold = NULL, breaks = NULL, adpcr,
-  col_names = NULL, row_names = NULL, panel_id = NULL)
+  assay = "Unknown", type, v = 1, uv = 0, threshold = NULL,
+  breaks = NULL, adpcr, col_names = NULL, row_names = NULL,
+  panel_id = NULL)
 }
 \arguments{
 \item{data}{a \code{numeric} vector or matrix of data from dPCR
@@ -25,6 +26,10 @@ be \code{"nm"} (number of molecules per partition), \code{"tnp"} (total
 number of positive wells in the panel), \code{"fluo"} (fluorescence), \code{"np"} 
 (status (positive (1) or negative(0)) of each droplet) or\code{"ct"} 
 (threshold cycle).}
+
+\item{v}{The volume of partitions [nL].}
+
+\item{uv}{The volume uncertainty of partitions [nl].}
 
 \item{threshold}{\code{numeric} value giving the threshold above which
 droplet is counted as positive.  Ignored if \code{adpcr} is \code{TRUE}.}
