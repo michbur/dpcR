@@ -11,7 +11,8 @@
 #' @param plot logical, if \code{TRUE}, the plot is printed.
 #' @param amp_x is the first amplitude channel (x-axis).
 #' @param amp_y is the second amplitude channel (y-axis).
-#' @param cluster are the clusters of the plot. The number indicates the column of a table, which contains the cluster information.
+#' @param cluster are the clusters of the plot. The number indicates the column 
+#' of a table, which contains the cluster information.
 #' @param stat logical, if \code{TRUE}, the statistics of the droplet digital
 #' PCR experiment are calculated.
 #' @param xlab x-label of the plot.
@@ -50,18 +51,19 @@ bioamp <- function(data = data, amp_x = 1, amp_y = 2, cluster = 3,
     loc_method <- mean
     disp_method <- sd
   }
-  
+
   # Calculate the results of the clusters
-  if (stat) {
-    for (i in 1L:length(cluster_count)) {
-      res_ma[1, i] <- length(data[data[cluster] == cluster_count[i], amp_x])
-      res_ma[2, i] <- length(data[data[cluster] == cluster_count[i], amp_y])
-      res_ma[3, i] <- loc_method(data[data[cluster] == cluster_count[i], amp_x])
-      res_ma[4, i] <- loc_method(data[data[cluster] == cluster_count[i], amp_y])
-      res_ma[5, i] <- disp_method(data[data[cluster] == cluster_count[i], amp_x])
-      res_ma[6, i] <- disp_method(data[data[cluster] == cluster_count[i], amp_y])
-    }
-  }
+  res_ma <- t(do.call(cbind, lapply(c(length, loc_method, disp_method), function(single_function)
+    sapply(c(amp_x, amp_y), function(single_channel)
+      sapply(sort(unique(data[, 3])), function(single_cluster) {
+        single_function(data[data[cluster] == single_cluster, single_channel])
+      })
+    )
+  )))
+  
+  colnames(res_ma) <- paste0("Cluster.", sort(unique(data[, 3])))
+  rownames(res_ma) <- unlist(lapply(c("Counts Ch. ", "Location Ch. ", "Dispersion Ch. "), function(row_name) 
+    paste0(row_name, 1L:2)))
   
   # Plot the cluster
   if (plot) {

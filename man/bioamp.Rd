@@ -16,7 +16,8 @@ bioamp(data = data, amp_x = 1, amp_y = 2, cluster = 3, robust = TRUE,
 
 \item{amp_y}{is the second amplitude channel (y-axis).}
 
-\item{cluster}{are the clusters of the plot. The number indicates the column of a table, which contains the cluster information.}
+\item{cluster}{are the clusters of the plot. The number indicates the column 
+of a table, which contains the cluster information.}
 
 \item{robust}{Is the method used to calculate the location (mean or median)
 and dispersion (standard deviation or median absolute deviation).}
