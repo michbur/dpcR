@@ -23,7 +23,8 @@ setMethod("dpcr2df", signature(input = "ddpcr"), function(input) {
   tab_dat <- summary(input, print = FALSE)
   data.frame(tab_dat[["summary"]][tab_dat[["summary"]][["method"]] == "dube", c("experiment", "replicate", "assay")],
              k = tab_dat[["partitions"]][["k"]],
-             n = tab_dat[["partitions"]][["n"]])
+             n = tab_dat[["partitions"]][["n"]],
+             v = slot(input, "v"))
 })
 
 setMethod("dpcr2df", signature(input = "adpcr"), function(input) {
@@ -31,5 +32,6 @@ setMethod("dpcr2df", signature(input = "adpcr"), function(input) {
   data.frame(tab_dat[["summary"]][tab_dat[["summary"]][["method"]] == "dube", c("experiment", "replicate", "assay")],
              k = tab_dat[["partitions"]][["k"]],
              n = tab_dat[["partitions"]][["n"]],
+             v = slot(input, "v"),
              panel_id = slot(input, "panel_id"))
 })

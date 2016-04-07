@@ -344,7 +344,6 @@ shinyServer(function(input, output, session) {
     }
   })
   
-  
   array_dat <- reactive({
     new_dat <- input_dat()
     adpcr2panel(new_dat, use_breaks = TRUE)

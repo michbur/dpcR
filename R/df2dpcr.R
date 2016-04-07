@@ -37,10 +37,10 @@
 
 df2dpcr <- function(df) {
   if((!all(colnames(df) %in% c("experiment", "replicate", "assay", "k", "n")) && 
-      ncol(df) == 5) |
+      ncol(df) == 6) |
      (!all(colnames(df) %in% c("experiment", "replicate", "assay", "k", "n",
                                "panel_id")) && 
-      ncol(df) == 6))
+      ncol(df) == 7))
     stop("Wrong column names")
   
   create_dpcr(data = matrix(df[["k"]], nrow = 1),
@@ -51,6 +51,7 @@ df2dpcr <- function(df) {
               row_names = df[["row_names"]],
               col_names = df[["col_names"]],
               panel_id = df[["panel_id"]],
-              adpcr = ncol(df) == 6,
+              v = df[["v"]],
+              adpcr = ncol(df) == 7,
               type = "tnp")
 }

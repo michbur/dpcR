@@ -1,7 +1,7 @@
 new_dat <- input_dat()
 roi <- extract_dpcr(new_dat, input[["array_choice"]])
 
-summs <- summary(roi, print = FALSE)[["summary"]]
+summs <- summary(roi, print = FALSE)[["summary"]][-c(9L:11)]
 summs <- cbind(region = rep("Whole array", nrow(summs)), summs)
 
 if(!is.null(array_val[["selected"]])) {
@@ -12,6 +12,6 @@ if(!is.null(array_val[["selected"]])) {
 }
 
 colnames(summs) <- c("Region", "Experiment name", "Replicate ID", "Assay", "Method", "&lambda;", 
-                     "&lambda; (lower CI)", "&lambda; (upper CI)", "m", 
-                     "m (lower CI)", "m (upper CI)", "k", "n")
+                     "&lambda; (lower CI)", "&lambda; (upper CI)", 
+                     "Concentration", "Concentration (lower CI)", "Concentration (upper CI)", "k", "n")
 summs
