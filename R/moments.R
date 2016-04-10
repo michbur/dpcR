@@ -94,5 +94,5 @@ moms <- function(k, n) {
 empir_moms <- function(k, n) {
   exp_kn <- c(rep(1, k), rep(0, n - k))
   #res <- c(k/n, k(n - k)*n^-2, skewness(input), kurtosis(input))
-  c(mean(exp_kn), var(exp_kn), skewness(exp_kn), kurtosis(exp_kn))
+  c(mean(exp_kn), var(exp_kn), skewness(exp_kn, type = 1), kurtosis(exp_kn, type = 1))
 }
