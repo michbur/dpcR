@@ -1,8 +1,3 @@
----
-output: 
-  html_document: 
-    keep_md: yes
----
 ## About
 
 The dpcReport is a part of the [dpcR](http://cran.r-project.org/web/packages/dpcR/index.html) R package.
@@ -53,7 +48,14 @@ measurement of DNA copy number". Eng. In: _Analytical and
 bioanalytical chemistry_ 394.2 (2009), pp. 457-467. ISSN:
 1618-2650. DOI: 10.1007/s00216-009-2729-5.
 
-[4] S. Roediger, M. Burdukiewicz, K. Blagodatskikh, et al. "R as an
+[4] R. M. Dorazio and M. E. Hunter. "Statistical Models for the
+Analysis and Design of Digital Polymerase Chain Reaction (dPCR)
+Experiments". In: _Analytical Chemistry_ 87.21 (2015), pp.
+10886-10893. ISSN: 0003-2700. DOI: 10.1021/acs.analchem.5b02429.
+<URL: http://dx.doi.org/10.1021/acs.analchem.5b02429> (visited on
+02/29/2016).
+
+[5] S. Rödiger, M. Burdukiewicz, K. Blagodatskikh, et al. "R as an
 Environment for the Reproducible Analysis of DNA Amplification
 Experiments". In: _The R Journal_ 7.2 (2015), pp. 127-150.
 

@@ -4,7 +4,7 @@
 \alias{rename_dpcr}
 \title{Rename object}
 \usage{
-rename_dpcr(x, exper = NULL, replicate = NULL)
+rename_dpcr(x, exper = NULL, replicate = NULL, assay = NULL)
 }
 \arguments{
 \item{x}{an \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} object.}
@@ -14,6 +14,9 @@ experiments' names are not changed.}
 
 \item{replicate}{a \code{factor} of new replicates' ids. If \code{NULL},
 replicates' names are not changed.}
+
+\item{assay}{a \code{factor} of new assays' names. If \code{NULL},
+assays' names are not changed.}
 }
 \description{
 Renames objects of class \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}.

@@ -4,17 +4,16 @@
 \alias{analyze_pooled}
 \title{Pooled digital PCR analysis}
 \usage{
-analyze_pooled(input, v, conf.level = 0.05)
+analyze_pooled(input, conf.level = 0.05)
 }
 \arguments{
 \item{input}{object of class \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}.}
 
-\item{v}{volume (microliters).}
-
 \item{conf.level}{confidence level of the intervals and groups.}
 }
 \value{
-data frame with the number of rows equal to the number of replicates.
+data frame with the number of rows equal to the number of replicates. The 
+concentration is provided in the template molecules per nanoliter.
 }
 \description{
 Estimates mean number of template molecules per partition and concentration of sample 
@@ -23,6 +22,10 @@ from pooled replicates of experiments.
 \note{
 This function was implemented using the code in supplemental materials in 
 Dorazio, 2015 (see References).
+}
+\examples{
+# analyze data from Dorazio and Hunter, 2015
+analyzed_pooled(BioradCNV)
 }
 \author{
 Robert M. Dorazio, Margaret E. Hunter.

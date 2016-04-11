@@ -5,34 +5,34 @@
 #' 
 #' @aliases analyze_pooled
 #' @param input object of class \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}.
-#' @param v volume (microliters).
 #' @param conf.level confidence level of the intervals and groups.
 #' @export
 #' @note This function was implemented using the code in supplemental materials in 
 #' Dorazio, 2015 (see References).
-#' @return data frame with the number of rows equal to the number of replicates.
+#' @return data frame with the number of rows equal to the number of replicates. The 
+#' concentration is provided in the template molecules per nanoliter.
 #' @author Robert M. Dorazio, Margaret E. Hunter.
+#' @examples 
+#' # analyze data from Dorazio and Hunter, 2015
+#' analyzed_pooled(BioradCNV)
 #' @references Dorazio RM, Hunter ME, \emph{Statistical Models for the Analysis 
 #' and Design of Digital Polymerase Chain Reaction (dPCR) Experiments}. 
 #' Analytical Chemistry 2015. 87(21): p.10886-10893
 
-analyze_pooled <- function(input, v, conf.level = 0.05) {
+analyze_pooled <- function(input, conf.level = 0.05) {
   # functionality and code below are taken from: 
   # Dorazio, R. M.; Hunter, M. E. Anal. Chem. 2015, 87 (21), 10886-10893.
   dat <- summary(input, print = FALSE)
 
-  comp_data <- data.frame(exper = slot(input, "exper"), 
-                          assay = slot(input, "assay"),
-                          k = dat[["partitions"]][["k"]], 
-                          n = dat[["partitions"]][["n"]])
-  
-  do.call(rbind, lapply(levels(comp_data[["exper"]]), function(single_experiment) {
-    
-    y <- comp_data[comp_data[["exper"]] == single_experiment, "k"]
-    m <- comp_data[comp_data[["exper"]] == single_experiment, "n"]
-    target <- as.character(comp_data[comp_data[["exper"]] == single_experiment, "assay"])
+  comp_data <- dpcr2df(input)
+
+  do.call(rbind, lapply(levels(comp_data[["experiment"]]), function(single_experiment) {
+    y <- comp_data[comp_data[["experiment"]] == single_experiment, "k"]
+    m <- comp_data[comp_data[["experiment"]] == single_experiment, "n"]
+    v <- comp_data[comp_data[["experiment"]] == single_experiment, "v"]
+    target <- as.character(comp_data[comp_data[["experiment"]] == single_experiment, "assay"])
       
-    v.offset <- rep(log(v), length(y))
+    v.offset <- log(v)
     ymat <- cbind(y, m - y)
     fit <- glm(ymat ~ target - 1, family = binomial(link = "cloglog"), offset = v.offset)
     beta.mle <- fit[["coefficients"]]
@@ -45,9 +45,9 @@ analyze_pooled <- function(input, v, conf.level = 0.05) {
     logR.var <- t(Xvec) %*% beta.vcv %*% Xvec
     
     data.frame(sample_name = as.character(single_experiment),
-               R_est = exp(logR.est), 
-               R_lowerCL = exp(logR.est - zcrit * sqrt(logR.var)),
-               R_upperCL = exp(logR.est + zcrit * sqrt(logR.var)), 
+               c = exp(logR.est), 
+               c.low = exp(logR.est - zcrit * sqrt(logR.var)),
+               c.up = exp(logR.est + zcrit * sqrt(logR.var)), 
                GOF = 1 - pchisq(deviance, df = length(y) - length(beta.mle)))
   }))
 }

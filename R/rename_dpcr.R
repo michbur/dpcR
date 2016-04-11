@@ -7,11 +7,13 @@
 #' experiments' names are not changed.
 #' @param replicate a \code{factor} of new replicates' ids. If \code{NULL},
 #' replicates' names are not changed.
+#' @param assay a \code{factor} of new assays' names. If \code{NULL},
+#' assays' names are not changed.
 #' @keywords manip
 #' @export
 
 
-rename_dpcr <- function(x, exper = NULL, replicate = NULL) {
+rename_dpcr <- function(x, exper = NULL, replicate = NULL, assay = NULL) {
   #add check if numeric
   if (!is.null(exper)) {
     if(length(exper) == 1) {
@@ -22,6 +24,9 @@ rename_dpcr <- function(x, exper = NULL, replicate = NULL) {
     
   if (!is.null(replicate))
     slot(x, "replicate") <- replicate
+  
+  if (!is.null(assay))
+    slot(x, "assay") <- assay
   
   colnames(slot(x, ".Data")) <- paste0(slot(x, "exper"), ".", slot(x, "replicate"))
   x
