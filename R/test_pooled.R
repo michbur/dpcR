@@ -1,25 +1,26 @@
-#' Pooled digital PCR analysis
+#' Compare pooled digital PCR 
 #' 
 #' Estimates mean number of template molecules per partition and concentration of sample 
 #' from pooled replicates of experiments.
 #' 
-#' @aliases analyze_pooled
+#' @aliases test_pooled
 #' @param input object of class \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}.
 #' @param conf.level confidence level of the intervals and groups.
 #' @export
 #' @note This function was implemented using the code in supplemental materials in 
 #' Dorazio, 2015 (see References).
-#' @return data frame with the number of rows equal to the number of replicates. The 
-#' concentration is provided in the template molecules per nanoliter.
+#' @return data frame with the number of rows equal to the number of experiments 
+#' (not runs). The unit of concentration is the number template molecules per 
+#' nanoliter (nL).
 #' @author Robert M. Dorazio, Margaret E. Hunter.
 #' @examples 
 #' # analyze data from Dorazio and Hunter, 2015
-#' analyzed_pooled(BioradCNV)
+#' test_pooled(BioradCNV)
 #' @references Dorazio RM, Hunter ME, \emph{Statistical Models for the Analysis 
 #' and Design of Digital Polymerase Chain Reaction (dPCR) Experiments}. 
 #' Analytical Chemistry 2015. 87(21): p.10886-10893
 
-analyze_pooled <- function(input, conf.level = 0.05) {
+test_pooled <- function(input, conf.level = 0.05) {
   # functionality and code below are taken from: 
   # Dorazio, R. M.; Hunter, M. E. Anal. Chem. 2015, 87 (21), 10886-10893.
   dat <- summary(input, print = FALSE)
