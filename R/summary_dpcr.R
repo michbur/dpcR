@@ -75,7 +75,7 @@ NULL
 
 setMethod("summary", signature(object = "dpcr"), function(object, print = TRUE) {
   data <- slot(object, ".Data")
-  
+
   col_dat <- ncol(data)
   type <- slot(object, "type")
   n <- slot(object, "n")

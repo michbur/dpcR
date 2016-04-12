@@ -25,8 +25,7 @@ This function was implemented using the code in supplemental materials in
 Dorazio, 2015 (see References).
 }
 \examples{
-# analyze data from Dorazio and Hunter, 2015
-test_pooled(BioradCNV)
+test_pooled(six_panels)
 }
 \author{
 Robert M. Dorazio, Margaret E. Hunter.
