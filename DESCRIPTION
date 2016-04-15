@@ -21,7 +21,9 @@ Imports:
     binom,
     chipPCR,
     e1071,
+    evd,
     dgof,
+    modeest,
     multcomp,
     qpcR,
     pracma,
@@ -60,6 +62,7 @@ Collate:
     'count_test-class.R'
     'create_dpcr.R'
     'dPCRmethyl.R'
+    'ddpcRquant.R'
     'df2dpcr.R'
     'dpcR-package.R'
     'dpcReport_gui.R'
