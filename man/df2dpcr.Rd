@@ -41,7 +41,8 @@ dat <- data.frame(experiment = factor(rep(paste0("Experiment", 1L:2), 3)),
                   assay = "Assay1",
                   k = c(55, 121, 43, 150, 70, 131),
                   n = 765,
-                  v = 1)
+                  v = 1,
+                  uv = 0)
 df2dpcr(dat)
 }
 \author{
