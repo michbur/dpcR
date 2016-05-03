@@ -19,7 +19,6 @@
 #' Malatinkova E, Vervisch K, Thas O, Vandekerckhove L, De Spiegelaere W, 
 #' \emph{ddpcRquant: Threshold Determination for Single Channel Droplet Digital PCR 
 #' Experiments}. Analytical and Bioanalytical Chemistry 2015. 407(19): p.5827-34. 
-#' @importFrom modeest hsm
 #' @importFrom evd qgev fgev
 
 
@@ -31,9 +30,6 @@ ddpcRquant <- function(path, threshold.int = 0.9995, reps = 10, blocks = 150, th
   summary_file <- read.csv(file = paste0(path, "/", csv_files[!grepl("Amplitude", all_files)]), 
                            header = TRUE, row.names  = NULL)
   summary_file[, c("Well","Sample","TypeAssay","Assay")]
-  
-  #set.seed(1553)
-  blocks <- blocks #number of blocks
   
   df2dpcr(do.call(rbind, lapply(unique(summary_file[["Assay"]]), function(single_assay) {
     dat <- summary_file[summary_file[["Assay"]] == single_assay, c("Well","Sample","TypeAssay","Assay")]

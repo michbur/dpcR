@@ -23,7 +23,6 @@ Imports:
     e1071,
     evd,
     dgof,
-    modeest,
     multcomp,
     qpcR,
     pracma,
@@ -75,6 +74,7 @@ Collate:
     'fit_adpcr.R'
     'fl.R'
     'get_k_n.R'
+    'hsm.R'
     'limit_cq.R'
     'many_peaks.R'
     'modlist.R'
