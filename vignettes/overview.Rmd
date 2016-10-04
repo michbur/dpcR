@@ -267,7 +267,7 @@ If the output if dPCR system has exact locations in two-dimensional space, it be
 The planar representation of `adpcr` objects is created by the `adpcr2panel` function.
 
 ```{r eval=TRUE}
-adpcr2panel(six_panels)
+adpcr2panel(six_panels)[["Experiment3.1"]][1L:6, 1L:6]
 ```
 
 ## Array visualisation
