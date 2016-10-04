@@ -4,6 +4,7 @@ library(ggplot2)
 library(shinythemes)
 library(DT)
 library(rhandsontable)
+library(dplyr)
 
 source("server_data.R")
 
@@ -69,7 +70,7 @@ shinyServer(function(input, output, session) {
   
   
   output[["summary_input"]] <- DT::renderDataTable({
-    my_DT(summary_table())
+    formatRound(my_DT(summary_table()), 6L:11, app_digits)
   })
   
   #   output[["summary_table_download_button"]] <- downloadHandler("summary.csv",
