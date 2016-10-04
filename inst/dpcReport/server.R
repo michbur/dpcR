@@ -223,7 +223,7 @@ shinyServer(function(input, output, session) {
   })
   
   output[["test_counts_groups"]] <- DT::renderDataTable({
-    my_DT(test_counts_groups_summary_nice())
+    formatRound(my_DT(test_counts_groups_summary_nice()), 3L:5, app_digits)
   })
   
   output[["test_counts_groups_download_button"]] <- downloadHandler("comparison_summary.csv",
@@ -237,7 +237,7 @@ shinyServer(function(input, output, session) {
   })
   
   output[["test_counts_res"]] <- DT::renderDataTable({
-    my_DT(test_counts_res())
+    formatRound(my_DT(test_counts_res()), 2, app_digits)
   })
   
   
@@ -444,7 +444,7 @@ shinyServer(function(input, output, session) {
   })
   
   output[["plot_panel_region_summary"]] <- DT::renderDataTable({
-    my_DT(plot_panel_region_summary())
+    formatRound(my_DT(plot_panel_region_summary()), 6L:11, app_digits)
   })
   
   
@@ -489,7 +489,7 @@ shinyServer(function(input, output, session) {
   })
   
   output[["moments_table"]] <- DT::renderDataTable({
-    my_DT(moments_table())
+    formatRound(my_DT(moments_table()), 2L:3, app_digits)
   })
   
   
