@@ -8,7 +8,7 @@ if(!is.null(array_val[["selected"]])) {
   slot(roi, ".Data") <- slot(roi, ".Data")[array_val[["selected"]], , drop = FALSE]
   slot(roi, "n") <- sum(array_val[["selected"]])
   summs <- rbind(summs, cbind(region = rep("Selected region", nrow(summs)), 
-                              summary(roi, print = FALSE)[["summary"]]))
+                              summary(roi, print = FALSE)[["summary"]][-c(9L:11)]))
 }
 
 colnames(summs) <- c("Region", "Experiment name", "Replicate ID", "Assay", "Method", "&lambda;", 

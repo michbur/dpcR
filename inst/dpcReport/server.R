@@ -383,7 +383,7 @@ shinyServer(function(input, output, session) {
     df <- plot_panel_dat()
     
     df[array_val[["selected"]], "selected"] <- TRUE
-    
+
     source("./plot_panel/plot_panel.R", local = TRUE)
     
     p + ggtitle(input[["array_choice"]])
@@ -418,6 +418,7 @@ shinyServer(function(input, output, session) {
     } else {
       list("Number of partitions selected: ", as.character(sum(array_val[["selected"]])), br())
     }
+      
     do.call(p, c(prologue, epilogue))
   })
   
@@ -445,7 +446,7 @@ shinyServer(function(input, output, session) {
   
   output[["plot_panel_region_summary"]] <- DT::renderDataTable({
     formatRound(my_DT(plot_panel_region_summary()), 6L:11, app_digits)
-  })
+    })
   
   
   output[["plot_panel_region_summary_download_button"]] <- downloadHandler(filename = "subpanel_summary.csv",
