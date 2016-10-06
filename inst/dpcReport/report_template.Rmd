@@ -29,8 +29,13 @@ Report generated on `r Sys.time()` using [dpcR](http://github.com/michbur/dpcR) 
 
 Detected input file: `r ifelse(is.null(input[["input_file"]][["name"]]), "none", input[["input_file"]][["name"]])`.  
 
-File format: `r ifelse(is.null(input[["input_file"]][["name"]]), "none", input[["input_type"]])`.  
+```{r}
+if(!input[["input_table"]][["params"]][["rInitInput"]]) {
+  cat("**The input was modified manually in dpcReport application.**")
+}
+```
 
+File format: `r ifelse(is.null(input[["input_file"]][["name"]]), "none", input[["input_type"]])`.  
 
 ```{r}
 if(input[["data_summary_table_rep"]]) {

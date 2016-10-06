@@ -42,7 +42,7 @@ shinyServer(function(input, output, session) {
     
     if(!is.null(input[["input_table"]]))
       dat <- merge_dpcr(dat, df2dpcr(hot_to_r(input[["input_table"]])))
-    
+    #input[["input_table"]][["params"]][["rInitInput"]]
     dat
   })
   
@@ -530,6 +530,12 @@ shinyServer(function(input, output, session) {
       on.exit(unlink(c("dpcReport.md", "figure"), recursive = TRUE))
       markdown::markdownToHTML("dpcReport.md", file, stylesheet = "report.css", 
                                options = c('toc', markdown::markdownHTMLOptions(TRUE)))
+    })
+  
+  output[["input_download_button"]] <- downloadHandler(
+    filename  = "dpcReport_input.csv",
+    content = function(file) {
+      write.csv(dpcr2df(input_dat()), file, row.names = FALSE)
     })
   
   observe({

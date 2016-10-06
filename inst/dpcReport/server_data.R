@@ -115,7 +115,7 @@ my_DT <- function(x)
 
 merge_dpcr <- function(a, b) {
   slot_names <- slotNames(a)
-  slot_names <- slot_names[!(slot_names %in% c(".Data", "type", "col_names", "row_names"))]
+  slot_names <- slot_names[!(slot_names %in% c(".Data", "type", "col_names", "row_names", "breaks"))]
   for(i in slot_names)
     slot(a, i) <- slot(b, i)
   #update names of runs if exper or run were changed

@@ -59,7 +59,6 @@ adpcr2panel <- function(input, use_breaks = FALSE) {
     #data for a single assay
     single_panel <- extract_dpcr(input, which(slot(input, "panel_id") == single_level))
     # Use breaks points to split input 
-    
     if (slot(input, "type") == "np")
       use_breaks = FALSE
     
