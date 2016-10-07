@@ -30,6 +30,11 @@ Report generated on `r Sys.time()` using [dpcR](http://github.com/michbur/dpcR) 
 Detected input file: `r ifelse(is.null(input[["input_file"]][["name"]]), "none", input[["input_file"]][["name"]])`.  
 
 ```{r}
+if(!is.null(input[["input_file"]][["name"]])) {
+  cat("md5 checksum of the input file: ", digest(input[["input_file"]], "md5"))
+}
+
+
 if(!input[["input_table"]][["params"]][["rInitInput"]]) {
   cat("**The input was modified manually in dpcReport application.**")
 }

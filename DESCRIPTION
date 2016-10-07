@@ -32,6 +32,7 @@ Imports:
     shiny,
     spatstat
 Suggests:
+    digest,
     DT,
     ggplot2,
     knitr,
