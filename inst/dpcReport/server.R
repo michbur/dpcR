@@ -82,7 +82,6 @@ shinyServer(function(input, output, session) {
   # Data summary scatter chart panel --------------------------------
   summary_plot_dat <- reactive({
     new_dat <- input_dat()
-    browser()
     summ <- summary(new_dat, print = FALSE)[["summary"]]
     summ[summ[["method"]] == input[["CI_method"]], ]
   })
