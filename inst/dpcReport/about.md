@@ -1,3 +1,8 @@
+---
+output: 
+  html_document: 
+    keep_md: yes
+---
 ## About
 
 The dpcReport is a part of the [dpcR](http://cran.r-project.org/web/packages/dpcR/index.html) R package.
@@ -33,8 +38,8 @@ Most of the figures in GUI are interactive and yield additional information afte
 The application was created using the results derived from following publications: 
 
 [1] L. D. Brown, T. T. Cai and A. DasGupta. "Interval Estimation
-for a Binomial Proportion". In: _Statist. Sci._ 16.2 (2001), pp.
-101-133. DOI: 10.1214/ss/1009213286. <URL:
+for a Binomial Proportion". In: _Statist. Sci._ 16.2 (maj. 2001),
+pp. 101-133. DOI: 10.1214/ss/1009213286. <URL:
 http://dx.doi.org/10.1214/ss/1009213286>.
 
 [2] S. Dube, J. Qin and R. Ramakrishnan. "Mathematical analysis of
@@ -55,9 +60,14 @@ Experiments". In: _Analytical Chemistry_ 87.21 (2015), pp.
 <URL: http://dx.doi.org/10.1021/acs.analchem.5b02429> (visited on
 02/29/2016).
 
-[5] S. Rödiger, M. Burdukiewicz, K. Blagodatskikh, et al. "R as an
+[5] S. Roediger, M. Burdukiewicz, K. Blagodatskikh, et al. "R as an
 Environment for the Reproducible Analysis of DNA Amplification
 Experiments". In: _The R Journal_ 7.2 (2015), pp. 127-150.
+
+[6] M. Burdukiewicz, S. Roediger, P. Sobczyk, et al. "Methods of
+comparing digital PCR experiments". Eng. In: _Biomolecular
+Detection and Quantification_ 28.9 (2016), pp. 14-19. ISSN:
+2214-7535. DOI: 10.1016/j.bdq.2016.06.004.
 
 ### Authors
 
