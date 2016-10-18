@@ -9,7 +9,6 @@ before_install:
   - chmod 755 pkg-build.sh
   - ./pkg-build.sh bootstrap
   - sudo apt-get -qq update
-  - sudo apt-get install r-cran-rgl
 
 install:
   - ./pkg-build.sh install_deps
