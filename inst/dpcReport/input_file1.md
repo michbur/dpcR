@@ -11,6 +11,7 @@ Accepted data formats:
 * QX100 - data from QX100 Droplet Digital PCR System (Life Technologies).
 * BioMark (Detailed Table Results) - BioMark (Fluidigm).
 * BioMark (Summary Table Results) - BioMark (Fluidigm).
+* amplification data: compressed (.zip) directory with amplification data from QX series.
 
 Accepted file formats:  
 * .csv,  
