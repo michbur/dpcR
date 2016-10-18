@@ -91,6 +91,7 @@ Collate:
     'qdpcr.R'
     'qpcr2pp.R'
     'qpcr_analyser.R'
+    'read_amp.R'
     'read_dpcr.R'
     'rename_dpcr.R'
     'rtadpcr.R'
