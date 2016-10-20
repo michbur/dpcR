@@ -28,7 +28,8 @@ shinyServer(function(input, output, session) {
       read_function <- switch(ext[[length(ext)]],
                               csv = read.csv,
                               xls = read_excel,
-                              xlsx = read_excel)
+                              xlsx = read_excel,
+                              amp = read_zipped_amps)
       
       #choose which function use to process tha dPCR data
       process_function <- switch(input[["input_type"]],
@@ -36,7 +37,8 @@ shinyServer(function(input, output, session) {
                                  raw_ddpcr = function(x) read_dpcr(x, format = "raw", adpcr = FALSE),
                                  QX100 = function(x) read_dpcr(x, format = "QX100"),
                                  BioMark_det = function(x) read_dpcr(x, format = "BioMark", detailed = TRUE),
-                                 BioMark_sum = function(x) read_dpcr(x, format = "BioMark", detailed = FALSE))
+                                 BioMark_sum = function(x) read_dpcr(x, format = "BioMark", detailed = FALSE),
+                                 amp = function(x) read_dpcr(x, format = "amp"))
       
       process_function(read_function(input[["input_file"]][["datapath"]]))
     }
