@@ -5,7 +5,7 @@
 #' @param input name of the input file (\code{character}) or input object 
 #' (\code{data.frame}).
 #' @param format of the file, for example: \code{"raw"}, \code{"QX100"}, 
-#' \code{"BioMark"}.
+#' \code{"BioMark"}, \code{"amp"} (raw amplitude compressed using \code{.zip}).
 #' @param ... additional parameters for the appropriate function. For example, if 
 #' \code{format} has value \code{"raw"}, the additional parameter must be 
 #' \code{adpcr}.
@@ -23,15 +23,35 @@
 
 
 read_dpcr <- function(input, format, ...) {
-  dat <- read_input(input)
-  
-  if(!(format %in% c("raw", "QX100", "BioMark")))
+  if(!(format %in% c("raw", "QX100", "BioMark", "amp")))
     stop("Unknown value of 'format' parameter.")
   
+  dat <- read_input(input)
+  
   switch(format,
-         raw = read_raw(dat, ...),
-         QX100 = read_QX100(dat),
-         BioMark = read_BioMark(dat, ...))
+         raw = read_raw(input, ...),
+         QX100 = read_QX100(input),
+         BioMark = read_BioMark(input, ...),
+         amp = read_amp(input, ...))
+}
+
+
+#' Read digital PCR amplitude raw data
+#' 
+#' Reads digital PCR amplitude data.
+#' 
+#' @details The amplitude data means a compressed directory of 
+#' amplification.
+#' @inheritParams create_dpcr
+#' @inheritParams read_dpcr
+#' @return An object of \code{\linkS4class{adpcr}}. 
+#' @author Michal Burdukiewcz, Stefan Roediger
+#' @keywords utilities
+#' @export
+
+read_amp <- function(input) {
+  amp_data <- read_zipped_amps(input)
+  amp2dpcr(amp_data)
 }
 
 #' Read digital PCR raw data
@@ -204,7 +224,8 @@ read_input<- function(input, ext = NULL, skip = 0) {
     fun <- switch(ext[[length(ext)]],
                   csv = read.csv,
                   xls = read_excel,
-                  xlsx = read_excel)
+                  xlsx = read_excel,
+                  zip = read_zipped_amps)
     
     fun(input, skip = skip)
   } else {
