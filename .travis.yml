@@ -8,10 +8,12 @@ before_install:
   - curl -OL https://raw.githubusercontent.com/metacran/r-builder/master/pkg-build.sh
   - chmod 755 pkg-build.sh
   - ./pkg-build.sh bootstrap
-  - sudo apt-get -qq update
 
 install:
   - ./pkg-build.sh install_deps
+
+script:
+  - ./pkg-build.sh run_tests
 
 after_failure:
   - ./pkg-build.sh dump_logs
@@ -24,4 +26,4 @@ notifications:
 env:
   matrix:
     - RVERSION=release
-    - RVERSION=devel 
+    - RVERSION=devel
