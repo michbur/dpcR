@@ -20,10 +20,10 @@
 #' Read raw format files: \code{\link{read_raw}}.
 #' Read BioMark format files: \code{\link{read_BioMark}}.
 #' Read QX100 format files: \code{\link{read_QX100}}.
-
+#' Read QX200 format files: \code{\link{read_QX200}}.
 
 read_dpcr <- function(input, format, ...) {
-  if(!(format %in% c("raw", "QX100", "BioMark", "amp")))
+  if(!(format %in% c("raw", "QX100", "QX200", "BioMark", "amp")))
     stop("Unknown value of 'format' parameter.")
   
   dat <- read_input(input)
@@ -31,6 +31,7 @@ read_dpcr <- function(input, format, ...) {
   switch(format,
          raw = read_raw(input, ...),
          QX100 = read_QX100(input),
+         QX200 = read_QX200(input),
          BioMark = read_BioMark(input, ...),
          amp = read_amp(input, ...))
 }
@@ -108,6 +109,33 @@ read_QX100 <- function(input) {
               panel_id = dat[["Assay"]])
 }
 
+
+#' Read QX200
+#' 
+#' Reads digital PCR data from the QX200 Droplet Digital PCR System (Bio-Rad).
+#' 
+#' @inheritParams read_dpcr
+#' @author Michal Burdukiewcz, Stefan Roediger
+#' @seealso See \code{\link{read_dpcr}} for detailed description of input files.
+#' 
+#' @return An object of \code{\linkS4class{adpcr}} class.
+#' @keywords utilities
+#' @export
+
+read_QX200 <- function(input) {
+  dat <- read_input(input)
+  
+  n <- dat[["AcceptedDroplets"]]
+  counts <- matrix(dat[["Positives"]], nrow = 1)
+  exper <- dat[["Experiment"]]
+  replicate <- paste0(dat[["Well"]], ".", dat[["Sample"]])
+  
+  create_dpcr(data = matrix(dat[["Positives"]], nrow = 1), n = n, 
+              exper = exper, replicate = replicate, type = "tnp",
+              assay = dat[["TargetType"]], adpcr = TRUE, 
+              col_names = LETTERS[1L:8], row_names = as.character(1L:12),
+              panel_id = NULL)
+}
 
 #' Read BioMark
 #' 

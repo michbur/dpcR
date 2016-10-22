@@ -11,7 +11,7 @@ read_dpcr(input, format, ...)
 (\code{data.frame}).}
 
 \item{format}{of the file, for example: \code{"raw"}, \code{"QX100"}, 
-\code{"BioMark"}.}
+\code{"BioMark"}, \code{"amp"} (raw amplitude compressed using \code{.zip}).}
 
 \item{...}{additional parameters for the appropriate function. For example, if 
 \code{format} has value \code{"raw"}, the additional parameter must be 
@@ -35,6 +35,7 @@ Michal Burdukiewcz, Stefan Roediger
 Read raw format files: \code{\link{read_raw}}.
 Read BioMark format files: \code{\link{read_BioMark}}.
 Read QX100 format files: \code{\link{read_QX100}}.
+Read QX200 format files: \code{\link{read_QX200}}.
 }
 \keyword{utilities}
 
