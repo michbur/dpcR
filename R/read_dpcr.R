@@ -26,8 +26,6 @@ read_dpcr <- function(input, format, ...) {
   if(!(format %in% c("raw", "QX100", "QX200", "BioMark", "amp")))
     stop("Unknown value of 'format' parameter.")
   
-  dat <- read_input(input)
-  
   switch(format,
          raw = read_raw(input, ...),
          QX100 = read_QX100(input),

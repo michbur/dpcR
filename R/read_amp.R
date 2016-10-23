@@ -1,5 +1,3 @@
-
-
 read_zipped_amps <- function(file) {
   files_names <- unzip(file, list = TRUE)[["Name"]]
   amp_files <- files_names[grep("Amplitude", files_names)]
@@ -27,3 +25,12 @@ read_zipped_amps <- function(file) {
   dat_summ[["n"]] <- dat_summ[["positives"]] + dat_summ[["negatives"]]
   dat_summ[, c("x", "y", "channel", "k", "n")]
 }
+
+amp2dpcr <- function(x) {
+  create_dpcr(data = matrix(x[["k"]], nrow = 1), n = x[["n"]], 
+              exper = 1L:nrow(x), replicate = rep(1, nrow(x)), type = "tnp",
+              assay = paste0("ch", x[["channel"]]), adpcr = TRUE, 
+              col_names = as.character(x[["x"]]), row_names = as.character(x[["y"]]),
+              panel_id = NULL)
+}
+
