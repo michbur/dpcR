@@ -21,15 +21,15 @@ shinyServer(function(input, output, session) {
       six_panels
     } else {
       
-      #read extension of the file
-      ext <- strsplit(input[["input_file"]][["name"]], ".", fixed = TRUE)[[1]]
-      
-      #choose a proper read function
-      read_function <- switch(ext[[length(ext)]],
-                              csv = read.csv,
-                              xls = read_excel,
-                              xlsx = read_excel,
-                              amp = read_zipped_amps)
+      # #read extension of the file
+      # ext <- strsplit(input[["input_file"]][["name"]], ".", fixed = TRUE)[[1]]
+      # 
+      # #choose a proper read function
+      # read_function <- switch(ext[[length(ext)]],
+      #                         csv = read.csv,
+      #                         xls = read_excel,
+      #                         xlsx = read_excel,
+      #                         amp = read_zipped_amps)
       
       #choose which function use to process tha dPCR data
       process_function <- switch(input[["input_type"]],
@@ -40,12 +40,17 @@ shinyServer(function(input, output, session) {
                                  BioMark_sum = function(x) read_dpcr(x, format = "BioMark", detailed = FALSE),
                                  amp = function(x) read_dpcr(x, format = "amp"))
       
-      process_function(read_function(input[["input_file"]][["datapath"]]))
+      process_function(input[["input_file"]][["datapath"]])
     }
     
+    # if(!is.null(input[["input_file"]])) 
+    #   if(input[["input_file"]][["name"]] == "RawData.zip")
+    #     browser()
+    
     if(!is.null(input[["input_table"]]))
-      dat <- merge_dpcr(dat, df2dpcr(hot_to_r(input[["input_table"]])))
-    #input[["input_table"]][["params"]][["rInitInput"]]
+      if(!input[["input_table"]][["params"]][["rInitInput"]])
+        dat <- merge_dpcr(dat, df2dpcr(hot_to_r(input[["input_table"]])))
+
     dat
   })
   
