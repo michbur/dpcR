@@ -50,4 +50,4 @@ sort(refs, sorting = "ynt")
 
 [Michal Burdukiewicz](https://github.com/michbur)  
 
-[Stefan Roediger](http://www.hs-lausitz.de/groups/multiplex-assays/bildbasierte-assays-imagebased-assays/members.html)  
+[Stefan Roediger](https://www.researchgate.net/profile/Stefan_Roediger)  

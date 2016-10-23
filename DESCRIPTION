@@ -9,8 +9,7 @@ Authors@R: c(person("Michal", "Burdukiewicz", email =
     person("Stefan", "Roediger", email = "stefan.roedigier@b-tu.de", role = "aut"),
     person("Bart", "Jacobs", email = "BartKM.Jacobs@ugent.be", role = "aut"),
     person("Piotr", "Sobczyk", email = "sobbombo@gmail.com", role = "ctb"))
-Description: Analysis, visualisation and simulation of digital polymerase chain
-    reaction (dPCR).
+Description: Analysis, visualisation and simulation of digital polymerase chain reaction (dPCR). Supports data formats of commerical systems (Bio-Rad QX100 and QX200; Fluidigm BioMark) and other systems.
 License: GPL-3
 URL: https://github.com/michbur/dpcR
 BugReports: https://github.com/michbur/dpcR/issues
