@@ -8,7 +8,7 @@ read_zipped_amps <- function(file) {
   raw_status <- do.call(rbind, lapply(amp_files[order(wells)], function(single_file) {
     n_clust <- tabulate(read.table(unz(file, single_file), 
                                    sep = ",", dec = ".", 
-                                   nrows = 15000, header = TRUE,
+                                   nrows = 25000, header = TRUE,
                                    colClasses = "numeric")[["Cluster"]])
     if(length(n_clust) != 4)
       n_clust <- c(n_clust, rep(0, 4 - length(n_clust)))
