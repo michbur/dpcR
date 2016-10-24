@@ -73,4 +73,4 @@ Detection and Quantification_ 28.9 (2016), pp. 14-19. ISSN:
 
 [Michal Burdukiewicz](https://github.com/michbur)  
 
-[Stefan Roediger](http://www.hs-lausitz.de/groups/multiplex-assays/bildbasierte-assays-imagebased-assays/members.html)  
+[Stefan Roediger](https://www.researchgate.net/profile/Stefan_Roediger)  
