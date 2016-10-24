@@ -240,6 +240,7 @@ read_BioMark <- function(input, detailed = FALSE) {
 
 #checks the extension and returns proper read function
 read_input<- function(input, ext = NULL, skip = 0) {
+  
   if(is.character(input)) {
     
     if(is.null(ext))
