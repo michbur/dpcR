@@ -20,16 +20,21 @@ shinyServer(function(input, output, session) {
     dat <- if(is.null(input[["input_file"]])) {
       six_panels
     } else {
-      
+
       #read extension of the file
       ext <- strsplit(input[["input_file"]][["name"]], ".", fixed = TRUE)[[1]]
-
+      
       #choose a proper read function
-      read_function <- switch(ext[[length(ext)]],
-                              csv = read.csv,
-                              xls = read_excel,
-                              xlsx = read_excel,
-                              amp = read_zipped_amps)
+      raw_data <- if(ext[[length(ext)]] %in% c("csv", "xls", "xlsx")) {
+        read_function <- switch(ext[[length(ext)]],
+                                csv = read.csv,
+                                xls = read_excel,
+                                xlsx = read_excel)
+        read_function(input[["input_file"]][["datapath"]])
+      } else {
+        input[["input_file"]][["datapath"]]
+      }
+      
       
       #choose which function use to process tha dPCR data
       process_function <- switch(input[["input_type"]],
@@ -41,7 +46,7 @@ shinyServer(function(input, output, session) {
                                  BioMark_sum = function(x) read_dpcr(x, format = "BioMark", detailed = FALSE),
                                  amp = function(x) read_dpcr(x, format = "amp"))
       
-      process_function(input[["input_file"]][["datapath"]])
+      process_function(raw_data)
     }
     
     # if(!is.null(input[["input_file"]])) 
