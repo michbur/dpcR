@@ -1,8 +1,8 @@
 #' Rename object
 #' 
-#' Renames objects of class \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}.
+#' Renames objects of class \code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}}.
 #' 
-#' @param x an \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} object.
+#' @param x an \code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}} object.
 #' @param exper a \code{factor} of new experiments' names. If \code{NULL},
 #' experiments' names are not changed.
 #' @param replicate a \code{factor} of new replicates' ids. If \code{NULL},

@@ -7,7 +7,7 @@
 test_pooled(input, conf.level = 0.05)
 }
 \arguments{
-\item{input}{object of class \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}.}
+\item{input}{object of class \code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}}.}
 
 \item{conf.level}{confidence level of the intervals and groups.}
 }

@@ -7,7 +7,7 @@
 rename_dpcr(x, exper = NULL, replicate = NULL, assay = NULL)
 }
 \arguments{
-\item{x}{an \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} object.}
+\item{x}{an \code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}} object.}
 
 \item{exper}{a \code{factor} of new experiments' names. If \code{NULL},
 experiments' names are not changed.}
@@ -19,7 +19,7 @@ replicates' names are not changed.}
 assays' names are not changed.}
 }
 \description{
-Renames objects of class \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}.
+Renames objects of class \code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}}.
 }
 \keyword{manip}
 

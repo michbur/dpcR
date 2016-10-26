@@ -1,7 +1,7 @@
 ---
 title: "dpcR package - an overview"
 author: "Micha&#322; Burdukiewicz, Stefan R&ouml;diger"
-date: "2015-08-28"
+date: "2016-10-31"
 output: 
   rmarkdown::html_vignette:
     toc: true
@@ -68,7 +68,7 @@ The key class of the **dpcR** package is `dpcr`. It has the following slots:
 * *assay* - name of the assay.  
 * *type* - name of the data (see '*type* slot' subsection)  
 
-Although, this class is designed to contain results from all dPCR experiments, the user will interact mostly with its inheritors as `adpcr` or `ddpcr`.
+Although, this class is designed to contain results from all dPCR experiments, the user will interact mostly with its inheritors as `adpcr` or `dpcr`.
 
 `dpcr` is a S4 object. Below is shown how to extract elements from the slots of a S4 object:
 
@@ -89,7 +89,7 @@ All `dpcr` objects should be managed using special functions provided by this pa
 
 ```{r eval=TRUE}
 # Create single adpcr object. The following code is also true for 
-# other objects inhering from dpcr, as ddpcr or qdpcr
+# other objects inhering from dpcr, as dpcr or qdpcr
 single_run <- sim_adpcr(m = 100, n = 765, times = 100, pos_sums = FALSE, n_panels = 1)
 two_runs <- bind_dpcr(single_run, single_run)
 three_runs <- bind_dpcr(single_run, single_run, single_run)
@@ -168,7 +168,7 @@ The important feature of *.Data* is inheritance from `matrix` class, which opens
 # Quickly count positive partitions
 colSums(sample_adpcr > 0)
 # Baseline fluorescence data
-sim_ddpcr(m = 3, n = 2, times = 5, fluo = list(0.1, 0)) - 0.05
+sim_dpcr(m = 3, n = 2, times = 5, fluo = list(0.1, 0)) - 0.05
 ```
 
 
@@ -192,7 +192,7 @@ library(chipPCR)
 qpcr2pp(data = C127EGHP[, 1L:6], type = "ct")
 
 # fluo
-sim_ddpcr(m = 3, n = 2, times = 5, fluo = list(0.1, 0)) - 0.05
+sim_dpcr(m = 3, n = 2, times = 5, fluo = list(0.1, 0)) - 0.05
 
 # nm
 sim_adpcr(m = 235, n = 765, times = 100, pos_sums = FALSE, n_panels = 3)
@@ -251,13 +251,13 @@ Since the `dpcr` objects tends to have many data points and quickly clutter the 
 
 ```{r eval=TRUE}
 
-sample_ddpcr <- sim_ddpcr(m = 3, n = 10, times = 5)
+sample_dpcr <- sim_dpcr(m = 3, n = 10, times = 5)
 # Standard show method...
-show(sample_ddpcr)
+show(sample_dpcr)
 # ... which is an equivalent of:
-sample_ddpcr
+sample_dpcr
 # If you want to see all data points:
-slot(sample_ddpcr, ".Data")
+slot(sample_dpcr, ".Data")
 ```
 
 # `adpcr` class

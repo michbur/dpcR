@@ -4,7 +4,7 @@
 #' from pooled replicates of experiments.
 #' 
 #' @aliases test_pooled
-#' @param input object of class \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}.
+#' @param input object of class \code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}}.
 #' @param conf.level confidence level of the intervals and groups.
 #' @export
 #' @note This function was implemented using the code in supplemental materials in 

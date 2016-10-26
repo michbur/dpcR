@@ -39,7 +39,7 @@ which \code{data} should be cut. Ignored if \code{adpcr} is \code{FALSE}.}
 
 \item{adpcr}{\code{logical}. If \code{TRUE}, function creates
 \code{\linkS4class{adpcr}} object. If \code{FALSE}, function creates
-\code{\linkS4class{ddpcr}} object.}
+\code{\linkS4class{dpcr}} object.}
 
 \item{col_names}{\code{character} vector of column names in array. Ignored if not
 \code{adcpr}.}
@@ -51,10 +51,10 @@ which \code{data} should be cut. Ignored if \code{adpcr} is \code{FALSE}.}
 \code{adcpr}.}
 }
 \value{
-An \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} object.
+An \code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}} object.
 }
 \description{
-Creates \code{\linkS4class{adpcr}} and \code{\linkS4class{ddpcr}}
+Creates \code{\linkS4class{adpcr}} and \code{\linkS4class{dpcr}}
 objects from data.
 }
 \details{

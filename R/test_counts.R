@@ -3,7 +3,7 @@
 #' The test for comparing counts from two or more digital PCR experiments.
 #' 
 #' @aliases test_counts
-#' @param input object of class \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}
+#' @param input object of class \code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}}
 #' with "nm" type.
 #' @param model may have one of following values: \code{binomial}, \code{poisson},
 #' \code{prop}, \code{ratio}. See Details.
@@ -71,7 +71,6 @@
 test_counts <- function(input, model = "ratio", conf.level = 0.95) { 
   if(!(model %in% c("binomial", "poisson", "prop", "ratio")))
     stop("Must must have one of following values: 'binomial', 'poisson', 'ratio' or 'prop'")
-  
   
   if(model %in% c("prop", "ratio")) {
     test_function <- if(model == "prop") prop.test else rateratio.test

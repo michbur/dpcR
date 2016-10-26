@@ -41,7 +41,7 @@
 #' number of positive chambers in each plate and type of simulation would be
 #' set as \code{"tnp"}.
 #' 
-#' In each case the value is an object of the \code{\linkS4class{ddpcr}} class.
+#' In each case the value is an object of the \code{\linkS4class{dpcr}} class.
 #' @note Although Dube's simulation of digital PCR was developed for array
 #' digital PCR, it's also viable for simulating droplet-based methods.
 #' @author Michal Burdukiewicz, Stefan Roediger.
@@ -50,36 +50,36 @@
 #' @examples
 #' 
 #' #simulate fluorescence data
-#' tmp_VIC <- sim_ddpcr(m = 7, n = 20, times = 5, fluo = list(0.1, 0))
-#' tmp_FAM <- sim_ddpcr(m = 15, n = 20, times = 5, fluo = list(0.1, 0))
+#' tmp_VIC <- sim_dpcr(m = 7, n = 20, times = 5, fluo = list(0.1, 0))
+#' tmp_FAM <- sim_dpcr(m = 15, n = 20, times = 5, fluo = list(0.1, 0))
 #' par(mfrow = c(2,1))
 #' plot(tmp_VIC, col = "green", type = "l")
 #' plot(tmp_FAM, col = "blue", type = "l")
 #' summary(tmp_FAM)
 #' 
-#' summary(sim_ddpcr(m = 7, n = 20, times = 5, n_exp = 5))
+#' summary(sim_dpcr(m = 7, n = 20, times = 5, n_exp = 5))
 #' 
-#' @export sim_ddpcr
-sim_ddpcr <- function(m, n, times, n_exp = 1, dube = FALSE, pos_sums = FALSE, 
+#' @export sim_dpcr
+sim_dpcr <- function(m, n, times, n_exp = 1, dube = FALSE, pos_sums = FALSE, 
                       fluo = NULL) {
   if (!is.null(fluo))
     if (pos_sums)
       stop("During fluorescence simulation 'pos_sums' must be TRUE", call. = TRUE, 
            domain = NA)
   n <- num2int(n)
-  res <- sim_dpcr(m, n, times, dube, pos_sums, n_exp)
+  res <- sim_dpcr_raw(m, n, times, dube, pos_sums, n_exp)
   if (!is.null(fluo)) {
-    res <- apply(res, 2, function(x) sim_ddpcr_fluo(x, n, fluo[[1]], fluo[[2]]))
+    res <- apply(res, 2, function(x) sim_dpcr_fluo(x, n, fluo[[1]], fluo[[2]]))
   }
   #simplify
   type = ifelse(pos_sums, "tnp", "nm")
   if (!is.null(fluo))
     type <- "fluo"
-  create_ddpcr(res, n = rep(n, n_exp), threshold = 0.5, type = type)
+  construct_dpcr(res, n = rep(n, n_exp), threshold = 0.5, type = type)
 }
 
 
-sim_ddpcr_fluo <- function(res, n, resolution, space) {
+sim_dpcr_fluo <- function(res, n, resolution, space) {
   if (length(space) > 1) {
     a <- lapply(space, function(x) c(sin(seq(0, pi, resolution)), rep.int(0, x)))
   } else {

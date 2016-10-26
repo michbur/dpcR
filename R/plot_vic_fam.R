@@ -1,3 +1,5 @@
+# TODO integrate me with assays
+
 #' Amplitude Plot VIC and FAM Channels of a Droplet Digital PCR Experiment
 #' 
 #' This function generates an amplitude plot of two fluorescence channels as
@@ -15,9 +17,9 @@
 #' finally aligned (e.g., FAM and VIC or FAM and HEX).
 #' 
 #' @param vic Amplitudes of the VIC channel - object of class
-#' \code{\linkS4class{ddpcr}}.
+#' \code{\linkS4class{dpcr}}.
 #' @param fam Amplitudes of the FAM channel - object of class
-#' \code{\linkS4class{ddpcr}}.
+#' \code{\linkS4class{dpcr}}.
 #' @param col_vic Color of the VIC channel.
 #' @param col_fam Color of the FAM channel.
 #' @param circle If TRUE circles are drawn, if FALSE not. If "numeric",
@@ -31,11 +33,11 @@
 #' @examples
 #' 
 #' # Generate an amplitude plot for the first fluorescence channel (e.g., FAM)
-#' fluos1 <- sim_ddpcr(m = 16, n = 30, times = 100, pos_sums = FALSE, n_exp = 1, 
+#' fluos1 <- sim_dpcr(m = 16, n = 30, times = 100, pos_sums = FALSE, n_exp = 1, 
 #'   fluo = list(0.1, 0))
 #' 
 #' # Generate an amplitude plot for the second fluorescence channel (e.g., VIC)
-#' fluos2 <- sim_ddpcr(m = 16, n = 30, times = 100, pos_sums = FALSE, n_exp = 1, 
+#' fluos2 <- sim_dpcr(m = 16, n = 30, times = 100, pos_sums = FALSE, n_exp = 1, 
 #'   fluo = list(0.1, 0))
 #' 
 #' # Plot the amplitudes of both fluorescence channel in an aligned fashion
@@ -48,20 +50,20 @@
 #' plot_vic_fam(fam = fluos1, vic = fluos2, col_vic = "red", col_fam = "yellow", circle = FALSE)
 #' 
 #' # Generate two channels in one object and plot them
-#' fluos_both <- sim_ddpcr(m = 16, n = 30, times = 100, pos_sums = FALSE, n_exp = 2, 
+#' fluos_both <- sim_dpcr(m = 16, n = 30, times = 100, pos_sums = FALSE, n_exp = 2, 
 #'   fluo = list(0.1, 0))
 #' plot_vic_fam(extract_dpcr(fluos_both, 1), extract_dpcr(fluos_both, 2))
 #' 
 #' @export plot_vic_fam
 plot_vic_fam <- function(vic, fam, col_vic = "green", col_fam = "blue", circle = TRUE) {
-  if (class(vic) == "ddpcr" && class(fam) == "ddpcr") { 
+  if (class(vic) == "dpcr" && class(fam) == "dpcr") { 
     if (ncol(vic) > 1 && ncol(fam) > 1)
       stop("Both 'vic' and 'fam' must contain only one panel.", call. = TRUE, domain = NA)    
     if (nrow(vic) == 1 && nrow(fam) == 1)
       stop("Both 'vic' and 'fam' cannot contain total number of positive chambers.", call. = TRUE, 
            domain = NA)    
   } else {
-    stop("Both 'vic' and 'fam' must have the 'ddpcr' class", call. = TRUE, domain = NA)
+    stop("Both 'vic' and 'fam' must have the 'dpcr' class", call. = TRUE, domain = NA)
   }
   vic_thr <- slot(vic, "threshold")
   fam_thr <- slot(fam, "threshold")

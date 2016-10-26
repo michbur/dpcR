@@ -13,7 +13,7 @@
 #' @details Input files may have .csv, .xls or .xlsx extension. In case of Excel files 
 #' with multiple sheets, only the first sheet will be analyzed.
 #' @return Always an object of \code{\linkS4class{adpcr}} or 
-#' \code{\linkS4class{ddpcr}} type.
+#' \code{\linkS4class{dpcr}} type.
 #' @export
 #' @keywords utilities
 #' @seealso 
@@ -61,7 +61,7 @@ read_amp <- function(input) {
 #' Data is binary (0/1) and first row represents run names(EXPERIMENT.REPLICATE).
 #' @inheritParams create_dpcr
 #' @inheritParams read_dpcr
-#' @return An object of \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} type, 
+#' @return An object of \code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}} type, 
 #' depends on the value of \code{adpcr} parameter. 
 #' @author Michal Burdukiewcz, Stefan Roediger
 #' @keywords utilities

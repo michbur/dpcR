@@ -51,7 +51,7 @@ Simulation: \code{\link{sim_adpcr}}.
 
 Real-time array digital PCR: \code{\linkS4class{rtadpcr}}.
 
-Droplet digital PCR: \code{\linkS4class{ddpcr}}.
+Droplet digital PCR: \code{\linkS4class{dpcr}}.
 }
 \keyword{classes}
 

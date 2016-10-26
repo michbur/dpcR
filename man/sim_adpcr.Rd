@@ -111,7 +111,7 @@ Copy Number Variation in a DNA Sample Using Digital PCR on a Nanofluidic
 Device}.  PLoS ONE 3(8), 2008.
 }
 \seealso{
-\code{\link{sim_ddpcr}}.
+\code{\link{sim_dpcr}}.
 }
 \keyword{datagen}
 

@@ -5,8 +5,8 @@
 \alias{bind_dpcr}
 \alias{bind_dpcr,adpcr}
 \alias{bind_dpcr,adpcr-method}
-\alias{bind_dpcr,ddpcr}
-\alias{bind_dpcr,ddpcr-method}
+\alias{bind_dpcr,dpcr}
+\alias{bind_dpcr,dpcr-method}
 \alias{bind_dpcr,list}
 \alias{bind_dpcr,list-method}
 \alias{bind_dpcr-methods}
@@ -16,14 +16,14 @@ bind_dpcr(input, ...)
 }
 \arguments{
 \item{input}{an object of class \code{\linkS4class{adpcr}} or
-\code{\linkS4class{ddpcr}} or a list.}
+\code{\linkS4class{dpcr}} or a list.}
 
 \item{...}{objects of class \code{\linkS4class{adpcr}} or
-\code{\linkS4class{ddpcr}}. See Details. If \code{input} is a list, ignored.}
+\code{\linkS4class{dpcr}}. See Details. If \code{input} is a list, ignored.}
 }
 \value{
 An object of class \code{\linkS4class{adpcr}} or
-\code{\linkS4class{ddpcr}}, depending on the input.
+\code{\linkS4class{dpcr}}, depending on the input.
 }
 \description{
 A convinient wrapper around \code{\link[base]{cbind}} and
@@ -31,7 +31,7 @@ A convinient wrapper around \code{\link[base]{cbind}} and
 containing results from digital PCR experiments.
 }
 \details{
-In case of \code{adpcr} or \code{ddpcr} objects, \code{bind_dpcr} works
+In case of \code{adpcr} or \code{dpcr} objects, \code{bind_dpcr} works
 analogously to \code{\link[base]{cbind}}, but without recycling. In case on
 unequal length, shorter objects will be filled in with additional \code{NA}
 values. The original length is always preserved in \code{n} slot.
@@ -51,9 +51,9 @@ bigger_array <- sim_adpcr(400, 765, 1000, pos_sums = FALSE, n_panels = 5)
 smaller_array <- sim_adpcr(100, 700, 1000, pos_sums = FALSE, n_panels = 3)
 bound_arrays <- bind_dpcr(bigger_array, smaller_array)
 
-smaller_droplet <- sim_ddpcr(m = 7, n = 20, times = 5, n_exp = 2)
-bigger_droplet <- sim_ddpcr(m = 15, n = 25, times = 5, n_exp = 4)
-biggest_droplet <- sim_ddpcr(m = 15, n = 35, times = 5, n_exp = 1)
+smaller_droplet <- sim_dpcr(m = 7, n = 20, times = 5, n_exp = 2)
+bigger_droplet <- sim_dpcr(m = 15, n = 25, times = 5, n_exp = 4)
+biggest_droplet <- sim_dpcr(m = 15, n = 35, times = 5, n_exp = 1)
 bound_droplets <- bind_dpcr(smaller_droplet, bigger_droplet, biggest_droplet)
 }
 \author{

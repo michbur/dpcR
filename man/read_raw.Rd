@@ -12,10 +12,10 @@ read_raw(input, adpcr)
 
 \item{adpcr}{\code{logical}. If \code{TRUE}, function creates
 \code{\linkS4class{adpcr}} object. If \code{FALSE}, function creates
-\code{\linkS4class{ddpcr}} object.}
+\code{\linkS4class{dpcr}} object.}
 }
 \value{
-An object of \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} type, 
+An object of \code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}} type, 
 depends on the value of \code{adpcr} parameter.
 }
 \description{

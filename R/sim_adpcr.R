@@ -54,7 +54,7 @@
 #' 
 #' In each case the value is an object of the \code{\linkS4class{adpcr}} class.
 #' @author Michal Burdukiewicz.
-#' @seealso \code{\link{sim_ddpcr}}.
+#' @seealso \code{\link{sim_dpcr}}.
 #' @references Dube S, Qin J, Ramakrishnan R, \emph{Mathematical Analysis of
 #' Copy Number Variation in a DNA Sample Using Digital PCR on a Nanofluidic
 #' Device}.  PLoS ONE 3(8), 2008.
@@ -94,7 +94,7 @@
 #' @export sim_adpcr
 sim_adpcr <- function(m, n, times, n_panels = 1, dube = FALSE, pos_sums = FALSE) {
   n <- num2int(n)
-  res <- sim_dpcr(m, n, times, dube, pos_sums, n_panels)
+  res <- sim_dpcr_raw(m, n, times, dube, pos_sums, n_panels)
   create_adpcr(res, n = rep(n, n_panels), breaks = 0L:max(res), 
                type = ifelse(pos_sums, "tnp", "nm"))
 }

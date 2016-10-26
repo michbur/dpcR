@@ -11,7 +11,7 @@
 #' bigger than 0 is assumed to be a positive partitions.  \item
 #' \code{\linkS4class{adpcr}} objects with type \code{tnp} (total number of
 #' positive wells in panel) or \code{nm} (number of molecules per partition).
-#' \code{\linkS4class{ddpcr}} objects with type \code{tnp} (total number of
+#' \code{\linkS4class{dpcr}} objects with type \code{tnp} (total number of
 #' positive droplets) or \code{nm} (number of molecules per droplet).  } Both
 #' \code{dpcr1} and \code{dpcr2} must have the same class. See Examples.
 #' 
@@ -19,16 +19,16 @@
 #' \link[rateratio.test]{rateratio.test} function with custom input and output
 #' tailored specifically for digital PCR experiments.
 #' 
-#' @aliases test_ratio test_ratio,numeric test_ratio,adpcr test_ratio,ddpcr
-#' test_ratio,numeric-method test_ratio,adpcr-method test_ratio,ddpcr-method
+#' @aliases test_ratio test_ratio,numeric test_ratio,adpcr test_ratio,dpcr
+#' test_ratio,numeric-method test_ratio,adpcr-method test_ratio,dpcr-method
 #' test_ratio,numeric,numeric-method test_ratio,adpcr,adpcr-method
-#' test_ratio,ddpcr,ddpcr-method
+#' test_ratio,dpcr,dpcr-method
 #' @param dpcr1 a (non-empty) numeric vector of data values of length 2 or more
 #' or an object of class \code{\linkS4class{adpcr}} or
-#' \code{\linkS4class{ddpcr}}. See Details.
+#' \code{\linkS4class{dpcr}}. See Details.
 #' @param dpcr2 a (non-empty) numeric vector of data values of length 2 or more
 #' or an object of class \code{\linkS4class{adpcr}} or
-#' \code{\linkS4class{ddpcr}}. See Details.
+#' \code{\linkS4class{dpcr}}. See Details.
 #' @param alternative alternative hypothesis, must be one of: \code{two.sided},
 #' \code{greater} or \code{less}.
 #' @param conf.level confidence level for the returned confidence interval.
@@ -65,8 +65,8 @@
 #' x6 <- sim_adpcr(400, 1600, 100, pos_sums = FALSE, n_panels = 1)
 #' test_ratio(x5, x6)
 #' 
-#' x7 <- sim_ddpcr(400, 1600, 100, pos_sums = TRUE, n_exp = 1)
-#' x8 <- sim_ddpcr(400, 1600, 100, pos_sums = FALSE, n_exp = 1)
+#' x7 <- sim_dpcr(400, 1600, 100, pos_sums = TRUE, n_exp = 1)
+#' x8 <- sim_dpcr(400, 1600, 100, pos_sums = FALSE, n_exp = 1)
 #' test_ratio(x7, x8)
 #' 
 #' @export test_ratio
@@ -119,7 +119,7 @@ setMethod("test_ratio",
           })
 
 setMethod("test_ratio", 
-          signature(dpcr1 = "ddpcr", dpcr2 = "ddpcr"), 
+          signature(dpcr1 = "dpcr", dpcr2 = "dpcr"), 
           function(dpcr1, dpcr2, alternative = c("two.sided", "less", "greater"), 
                    conf.level = 0.95) {
             if(ncol(dpcr1) != 1 || ncol(dpcr2) != 1)

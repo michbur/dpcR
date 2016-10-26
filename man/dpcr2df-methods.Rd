@@ -3,21 +3,21 @@
 \name{dpcr2df-methods}
 \alias{dpcr2df}
 \alias{dpcr2df,adpcr-method}
-\alias{dpcr2df,ddpcr-method}
+\alias{dpcr2df,dpcr-method}
 \alias{dpcr2df-methods}
 \title{Convert dpcr object to data frame}
 \usage{
 dpcr2df(input)
 }
 \arguments{
-\item{input}{\code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} object.}
+\item{input}{\code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}} object.}
 }
 \value{
-data frame with 5 (if input was  \code{\linkS4class{ddpcr}}) or 
+data frame with 5 (if input was  \code{\linkS4class{dpcr}}) or 
 8 columns (if input was  \code{\linkS4class{adpcr}}).
 }
 \description{
-Converts \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} object to 
+Converts \code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}} object to 
 \code{\link{data.frame}} object.
 }
 \examples{

@@ -68,17 +68,17 @@
 # #' distribution as negative droplets
 # #' Default 0 for no rain. Used only when \code{type} is \code{fluo}.
 # #' 
-# #' @details sim_ddpcr_bkm is based on the R code from Jacobs et al. (2014) (see references).
+# #' @details sim_dpcr_bkm is based on the R code from Jacobs et al. (2014) (see references).
 # #' @references
 # #' Jacobs B, Goetghebeur E, Clement L \emph{Impact of variance components on reliability of 
 # #' absolute quantification using digital PCR} BMC Bioinformatics, 2014.
 # #' @export
 # #' @examples
 # #' #two concentration, each 3 repetitions
-# #' dat2_3 <- sim_ddpcr_bkm(c(0.5, 0.6), n_exp = 3, type = "tnp")
+# #' dat2_3 <- sim_dpcr_bkm(c(0.5, 0.6), n_exp = 3, type = "tnp")
 # 
 # 
-# sim_ddpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, type = "np", 
+# sim_dpcr_bkm <- function(m, n = 20000L, mexp = TRUE, n_exp = 8L, type = "np", 
 #                           fluo_range = NULL, sddropc = 0, mudropr = 1, 
 #                           sddropr = 0, Pvar = TRUE,
 #                           piperr = 0, dropsd = 0, falpos = 0, falneg = 0, 
@@ -250,7 +250,7 @@
 #   ###############
 #   
 #   # Same procedure for all simulations
-#   # samfunc is called in sim_ddpcr
+#   # samfunc is called in sim_dpcr
 #   samfunc <- function(lambdan){
 #     dropstart <- round(rnorm(n_exp,n,sddropc))
 #     # number of droplets

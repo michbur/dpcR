@@ -9,10 +9,12 @@
 #' @slot .Data \code{matrix} data from digital PCR experiments. See Details.
 #' @slot n \code{integer} equal to the number of partitions in each run.
 #' @slot exper \code{factor} the id or name of experiments.
-#' @slot replicate \code{factor} the id or name of replicate.
+#' @slot replicate \code{factor} the id or name of replicates.
 #' @slot assay \code{factor} the id or name of the assay.
 #' @slot v \code{"numeric"} volume of the partition [nL].
 #' @slot uv \code{"numeric"} uncertainty of the volume of the partition [nL]. 
+#' @slot threshold \code{"numeric"} value specifying the threshold. Partition with 
+#' the value equal or bigger than threshold are considered positive.
 #' @slot type Object of class \code{"character"} defining type of data. See Details.
 #' @details
 #' Possible \code{type} values of \code{dpcr} objects:
@@ -37,10 +39,20 @@
 #' The structure of \code{dpcr} class is described more deeply in the vignette.
 #' @author Michal Burdukiewicz.
 #' @note 
-#' This class should not be directly used. Instead, users should use more 
-#' specific class: \code{\linkS4class{adpcr}}, \code{\linkS4class{ddpcr}},
-#' \code{\linkS4class{qdpcr}} or \code{\linkS4class{rtadpcr}}.
+#' This class represent the most general droplet-based digital PCR. In more specific 
+#' cases, the user is directed to other classes: \code{\linkS4class{adpcr}}, where 
+#' results can be placed over a plate, \code{\linkS4class{qdpcr}} where digital 
+#' assay is based on multiple qPCR experiments and \code{\linkS4class{rtadpcr}},
+#' where data points represent the status of partitions measured in the 
+#' real time.
 #' @keywords classes
+#' @examples
+#' 
+#' dpcr_fluo <- sim_dpcr(m = 10, n = 20, times = 5, fluo = list(0.1, 0))
+#' plot(dpcr_fluo)
+#' 
+#' dpcr <- sim_dpcr(m = 10, n = 20, times = 5)
+
 
 setClass("dpcr", contains = "matrix", representation(.Data = "matrix",
                                                      n = "integer",
@@ -49,11 +61,12 @@ setClass("dpcr", contains = "matrix", representation(.Data = "matrix",
                                                      assay = "factor",
                                                      v = "numeric",
                                                      uv = "numeric",
-                                                     type = "character"))
+                                                     type = "character",
+                                                     threshold = "numeric"))
 
 construct_dpcr <- function(data, n, exper = "Experiment1", 
                            replicate = NULL, assay = "Unknown", type,
-                           v = 1, uv = 0) {
+                           v = 1, uv = 0, threshold = NULL) {
   
   # data
   if (is.vector(data))
@@ -113,7 +126,6 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
   if(class(assay) != "factor")
     assay <- as.factor(assay)
   
-  
   # type
   if (!(type %in% c("ct", "fluo", "nm", "np", "tnp"))) 
     stop(paste0(type, " is not recognized type value."))
@@ -140,11 +152,14 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
     }
   }
   
-  
   colnames(data) <- paste0(exper, ".", replicate)
   
+  if(is.null(threshold))
+    threshold <- mean(range(data))
+  
   result <- new("dpcr", .Data = data, exper = exper, 
-                replicate = replicate, assay = assay, v = v, uv = uv, type = type)
+                replicate = replicate, assay = assay, v = v, uv = uv, 
+                threshold = threshold, type = type)
   #since n cannot be defined in new(), because of some strange error
   slot(result, "n") <- n
   result
@@ -183,7 +198,7 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
 #' 
 #' Real-time array digital PCR: \code{\linkS4class{rtadpcr}}.
 #' 
-#' Droplet digital PCR: \code{\linkS4class{ddpcr}}.
+#' Droplet digital PCR: \code{\linkS4class{dpcr}}.
 #' @keywords classes
 #' @examples
 #' 
@@ -250,53 +265,5 @@ create_adpcr <- function(data, n, exper = "Experiment1",
   slot(result, "col_names") <- col_names
   slot(result, "row_names") <- row_names
   slot(result, "panel_id") <- panel_id
-  result
-}
-
-#' Class \code{"ddpcr"}
-#' 
-#' A class specifically designed to contain results from droplet digital PCR
-#' experiments. Data is represented as matrix, where each column describes
-#' different experiment. Type of data in all columns is specified in
-#' slot \code{"type"}. Inherits from \code{\linkS4class{dpcr}}.
-#' 
-#' 
-#' @name ddpcr-class
-#' @aliases ddpcr-class ddpcr
-#' @docType class
-#' @slot threshold \code{numeric} value giving the threshold. Partition with the value equal or 
-#' bigger than threshold are considered positive.
-#' @details
-#' For more in-depth explanation of digital PCR data structure, see 
-#' \code{\linkS4class{dpcr}}.
-#' @author Michal Burdukiewicz.
-#' @seealso Ploting and managment: \code{\link{bind_dpcr}},
-#' \code{\link{extract_dpcr}}, \code{\link{plot_vic_fam}}.
-#' 
-#' Simulation: \code{\link{sim_ddpcr}}.
-#' 
-#' Array digital PCR: \code{\linkS4class{adpcr}}.
-#' @keywords classes
-#' @examples
-#' 
-#' ddpcr_fluo <- sim_ddpcr(m = 10, n = 20, times = 5, fluo = list(0.1, 0))
-#' plot(ddpcr_fluo)
-#' 
-#' ddpcr <- sim_ddpcr(m = 10, n = 20, times = 5)
-
-setClass("ddpcr", contains = "dpcr", representation(threshold = "numeric"))
-
-#constructor
-create_ddpcr <- function(data, n, exper = "Experiment1", 
-                         replicate = NULL, assay = "Unknown", v = 1, uv = 0, type, threshold) {
-  
-  result <- construct_dpcr(data = data, n = n, exper = exper, 
-                           replicate = replicate, assay = assay, v = v, uv = uv, type = type)
-  
-  class(result) <- "ddpcr"
-  if(is.null(threshold))
-    threshold <- mean(range(data))
-  
-  slot(result, "threshold") <- threshold
   result
 }

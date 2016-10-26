@@ -1,7 +1,7 @@
 #' Convert data.frame to dpcr object
 #' 
 #' Converts \code{\link{data.frame}} object to to \code{\linkS4class{adpcr}} or 
-#' \code{\linkS4class{ddpcr}} object. The resulting object will have \code{"tnp"}
+#' \code{\linkS4class{dpcr}} object. The resulting object will have \code{"tnp"}
 #' type.
 #' 
 #' @param df data frame with specified column names. See Details.
@@ -20,7 +20,7 @@
 #' 
 #' If the additional column is present, the resulting object has 
 #' \code{\linkS4class{adpcr}} type.
-#' @return An object of \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} type, 
+#' @return An object of \code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}} type, 
 #' depends on the presence of additional column with panel indices (see Details). 
 #' @seealso Flexibly create \code{\linkS4class{dpcr}} objects: \code{\link{create_dpcr}}
 #' Inverse function: \code{\link{dpcr2df}}

@@ -31,7 +31,7 @@ Michal Burdukiewicz.
 \seealso{
 End-point array digital PCR: \code{\linkS4class{adpcr}}.
 
-Droplet digital PCR: \code{\linkS4class{ddpcr}}.
+Droplet digital PCR: \code{\linkS4class{dpcr}}.
 }
 \keyword{classes}
 \keyword{real-time}

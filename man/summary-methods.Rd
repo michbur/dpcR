@@ -4,16 +4,14 @@
 \name{summary-methods}
 \alias{summary}
 \alias{summary,adpcr-method}
-\alias{summary,ddpcr-method}
 \alias{summary,dpcr-method}
 \alias{summary-methods}
 \alias{summary.adpcr}
-\alias{summary.ddpcr}
 \alias{summary.dpcr}
 \title{Methods for Function \code{summary}}
 \arguments{
 \item{object}{object of class \code{\linkS4class{adpcr}},
-\code{\linkS4class{ddpcr}} or \code{\linkS4class{qdpcr}}.}
+\code{\linkS4class{dpcr}} or \code{\linkS4class{qdpcr}}.}
 
 \item{print}{if \code{FALSE}, no output is printed.}
 }
@@ -24,7 +22,7 @@ confidence intervals.
 \description{
 Expands function \code{\link[base]{summary}} allowing printing summaries
 objects of the class \code{\linkS4class{adpcr}} to or
-\code{\linkS4class{ddpcr}}.
+\code{\linkS4class{dpcr}}.
 }
 \details{
 The function prints a summary of the dPCR reaction, including k (number of
@@ -60,13 +58,13 @@ summary(ptest)
 # statistics according to Dube et al. 2008 and Bhat et al. 2009. The fluo parameter 
 # is used to change the smoothness of the fluorescence curve and the space between
 #  two consecutive measured peaks (droplets).
-dropletf <- sim_ddpcr(m = 7, n = 20, times = 5, fluo = list(0.1, 0))
+dropletf <- sim_dpcr(m = 7, n = 20, times = 5, fluo = list(0.1, 0))
 summary(dropletf)
 
 # droplet dpcr - number of molecules
 # Similar to the previous example but with five panels but without and modifications
 #  to the peaks.
-droplet <- sim_ddpcr(m = 7, n = 20, times = 5)
+droplet <- sim_dpcr(m = 7, n = 20, times = 5)
 summary(droplet)
 
 # Visualize the results of dropletf and dropletf

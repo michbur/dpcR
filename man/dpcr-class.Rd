@@ -40,7 +40,7 @@ The structure of \code{dpcr} class is described more deeply in the vignette.
 
 \item{\code{exper}}{\code{factor} the id or name of experiments.}
 
-\item{\code{replicate}}{\code{factor} the id or name of replicate.}
+\item{\code{replicate}}{\code{factor} the id or name of replicates.}
 
 \item{\code{assay}}{\code{factor} the id or name of the assay.}
 
@@ -48,12 +48,25 @@ The structure of \code{dpcr} class is described more deeply in the vignette.
 
 \item{\code{uv}}{\code{"numeric"} uncertainty of the volume of the partition [nL].}
 
+\item{\code{threshold}}{\code{"numeric"} value specifying the threshold. Partition with 
+the value equal or bigger than threshold are considered positive.}
+
 \item{\code{type}}{Object of class \code{"character"} defining type of data. See Details.}
 }}
 \note{
-This class should not be directly used. Instead, users should use more 
-specific class: \code{\linkS4class{adpcr}}, \code{\linkS4class{ddpcr}},
-\code{\linkS4class{qdpcr}} or \code{\linkS4class{rtadpcr}}.
+This class represent the most general droplet-based digital PCR. In more specific 
+cases, the user is directed to other classes: \code{\linkS4class{adpcr}}, where 
+results can be placed over a plate, \code{\linkS4class{qdpcr}} where digital 
+assay is based on multiple qPCR experiments and \code{\linkS4class{rtadpcr}},
+where data points represent the status of partitions measured in the 
+real time.
+}
+\examples{
+
+dpcr_fluo <- sim_dpcr(m = 10, n = 20, times = 5, fluo = list(0.1, 0))
+plot(dpcr_fluo)
+
+dpcr <- sim_dpcr(m = 10, n = 20, times = 5)
 }
 \author{
 Michal Burdukiewicz.

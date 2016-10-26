@@ -5,9 +5,9 @@
 \alias{test_ratio,adpcr}
 \alias{test_ratio,adpcr,adpcr-method}
 \alias{test_ratio,adpcr-method}
-\alias{test_ratio,ddpcr}
-\alias{test_ratio,ddpcr,ddpcr-method}
-\alias{test_ratio,ddpcr-method}
+\alias{test_ratio,dpcr}
+\alias{test_ratio,dpcr,dpcr-method}
+\alias{test_ratio,dpcr-method}
 \alias{test_ratio,numeric}
 \alias{test_ratio,numeric,numeric-method}
 \alias{test_ratio,numeric-method}
@@ -19,11 +19,11 @@ test_ratio(dpcr1, dpcr2, alternative = c("two.sided", "less", "greater"),
 \arguments{
 \item{dpcr1}{a (non-empty) numeric vector of data values of length 2 or more
 or an object of class \code{\linkS4class{adpcr}} or
-\code{\linkS4class{ddpcr}}. See Details.}
+\code{\linkS4class{dpcr}}. See Details.}
 
 \item{dpcr2}{a (non-empty) numeric vector of data values of length 2 or more
 or an object of class \code{\linkS4class{adpcr}} or
-\code{\linkS4class{ddpcr}}. See Details.}
+\code{\linkS4class{dpcr}}. See Details.}
 
 \item{alternative}{alternative hypothesis, must be one of: \code{two.sided},
 \code{greater} or \code{less}.}
@@ -51,7 +51,7 @@ represent total number of partitions. Every element of the vector with value
 bigger than 0 is assumed to be a positive partitions.  \item
 \code{\linkS4class{adpcr}} objects with type \code{tnp} (total number of
 positive wells in panel) or \code{nm} (number of molecules per partition).
-\code{\linkS4class{ddpcr}} objects with type \code{tnp} (total number of
+\code{\linkS4class{dpcr}} objects with type \code{tnp} (total number of
 positive droplets) or \code{nm} (number of molecules per droplet).  } Both
 \code{dpcr1} and \code{dpcr2} must have the same class. See Examples.
 
@@ -81,8 +81,8 @@ x5 <- sim_adpcr(400, 1600, 100, pos_sums = TRUE, n_panels = 1)
 x6 <- sim_adpcr(400, 1600, 100, pos_sums = FALSE, n_panels = 1)
 test_ratio(x5, x6)
 
-x7 <- sim_ddpcr(400, 1600, 100, pos_sums = TRUE, n_exp = 1)
-x8 <- sim_ddpcr(400, 1600, 100, pos_sums = FALSE, n_exp = 1)
+x7 <- sim_dpcr(400, 1600, 100, pos_sums = TRUE, n_exp = 1)
+x8 <- sim_dpcr(400, 1600, 100, pos_sums = FALSE, n_exp = 1)
 test_ratio(x7, x8)
 
 }

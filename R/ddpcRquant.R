@@ -12,7 +12,7 @@
 #' @export
 #' @note This function is a modification of code was implemented using the code found on
 #' \url{http://www.ddpcrquant.ugent.be/}.
-#' @return \code{\linkS4class{ddpcr}} object.
+#' @return \code{\linkS4class{dpcr}} object.
 #' @author Wim Trypsteen, Matthijs Vynck, Jan De Neve, Pawel Bonczkowski, Maja Kiselinova, 
 #' Eva Malatinkova, Karen Vervisch, Olivier Thas, Linos Vandekerckhove, Ward De Spiegelaere.
 #' @references Trypsteen W, Vynck M, De Neve J, Bonczkowski P, Kiselinova M, 

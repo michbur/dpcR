@@ -1,6 +1,6 @@
 #' Create dpcR object
 #' 
-#' Creates \code{\linkS4class{adpcr}} and \code{\linkS4class{ddpcr}}
+#' Creates \code{\linkS4class{adpcr}} and \code{\linkS4class{dpcr}}
 #' objects from data.
 #' 
 #' @details 
@@ -35,14 +35,14 @@
 #' (threshold cycle).
 #' @param adpcr \code{logical}. If \code{TRUE}, function creates
 #' \code{\linkS4class{adpcr}} object. If \code{FALSE}, function creates
-#' \code{\linkS4class{ddpcr}} object.
+#' \code{\linkS4class{dpcr}} object.
 #' @param col_names \code{character} vector of column names in array. Ignored if not
 #' \code{adcpr}.
 #' @param row_names \code{character} vector of row names in array. Ignored if not
 #' \code{adcpr}.
 #' @param panel_id \code{factor} vector of panel IDs (or names). Ignored if not
 #' \code{adcpr}.
-#' @return An \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}} object.
+#' @return An \code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}} object.
 #' @author Michal Burdukiewicz, Stefan Roediger.
 #' @seealso Streamlined, but more limited version: \code{\link{df2dpcr}}
 #' @keywords ddPCR adPCR
@@ -71,7 +71,7 @@ create_dpcr <- function(data, n, exper = "Experiment 1",
                  replicate = replicate, assay = assay, type = type, breaks = breaks, v = v, uv = uv,
                  col_names = col_names, row_names = row_names, panel_id = panel_id)
   } else {
-    create_ddpcr(data = data, n = n, exper = exper, replicate = replicate, 
+    construct_dpcr(data = data, n = n, exper = exper, replicate = replicate, 
                  assay = assay, v = v, uv = uv, type = type, threshold = threshold)
   }
 }

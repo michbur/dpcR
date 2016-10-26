@@ -20,7 +20,7 @@ ddpcRquant(path, threshold.int = 0.9995, reps = 10, blocks = 150,
 \code{NULL}, the threshold is calculated automatically.}
 }
 \value{
-\code{\linkS4class{ddpcr}} object.
+\code{\linkS4class{dpcr}} object.
 }
 \description{
 Cluster raw data from QX100 and QX200 systems.

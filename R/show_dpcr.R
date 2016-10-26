@@ -1,7 +1,7 @@
 #' Methods for Function \code{show}
 #' 
 #' Expands function \code{\link[methods]{show}} allowing showing objects of the
-#' class \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}.
+#' class \code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}}.
 #' 
 #' 
 #' @name show-methods
@@ -21,11 +21,11 @@
 #' show(ptest)
 #' 
 #' #droplet dpcr - fluorescence
-#' dropletf <- sim_ddpcr(7, 20, times = 5, fluo = list(0.1, 0))
+#' dropletf <- sim_dpcr(7, 20, times = 5, fluo = list(0.1, 0))
 #' show(dropletf)
 #' 
 #' #droplet dpcr - number of molecules
-#' droplet <- sim_ddpcr(7, 20, times = 5)
+#' droplet <- sim_dpcr(7, 20, times = 5)
 #' show(droplet)
 #' 
 NULL

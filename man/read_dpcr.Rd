@@ -19,7 +19,7 @@ read_dpcr(input, format, ...)
 }
 \value{
 Always an object of \code{\linkS4class{adpcr}} or 
-\code{\linkS4class{ddpcr}} type.
+\code{\linkS4class{dpcr}} type.
 }
 \description{
 Reads digital PCR data in various formats.

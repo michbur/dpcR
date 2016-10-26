@@ -7,7 +7,7 @@
 test_counts(input, model = "ratio", conf.level = 0.95)
 }
 \arguments{
-\item{input}{object of class \code{\linkS4class{adpcr}} or \code{\linkS4class{ddpcr}}
+\item{input}{object of class \code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}}
 with "nm" type.}
 
 \item{model}{may have one of following values: \code{binomial}, \code{poisson},

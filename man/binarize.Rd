@@ -8,12 +8,12 @@ binarize(input)
 }
 \arguments{
 \item{input}{object of the class \code{\linkS4class{adpcr}} or
-\code{\linkS4class{ddpcr}} with one of following types:\code{"ct"}, \code{"fluo"} or
+\code{\linkS4class{dpcr}} with one of following types:\code{"ct"}, \code{"fluo"} or
 \code{"nm"}.}
 }
 \value{
 object of the class \code{\linkS4class{adpcr}} or
-\code{\linkS4class{ddpcr}} (depending on \code{input}) with type \code{"np"}.
+\code{\linkS4class{dpcr}} (depending on \code{input}) with type \code{"np"}.
 }
 \description{
 Transforms multinomial (number of molecules per partition) or continuous (fluorescence)
@@ -25,8 +25,8 @@ digital PCR data to binary (positive/negative partition) format.
 rand_array <- sim_adpcr(200, 300, 100, pos_sums = FALSE, n_panels = 1)
 binarize(rand_array)
 
-#ddpcr object
-rand_droplets <- sim_ddpcr(200, 300, 100, pos_sums = FALSE, n_exp = 1)
+#dpcr object
+rand_droplets <- sim_dpcr(200, 300, 100, pos_sums = FALSE, n_exp = 1)
 binarize(rand_droplets)
 }
 \author{
