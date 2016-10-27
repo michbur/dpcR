@@ -9,7 +9,7 @@ before_install:
   - chmod 755 pkg-build.sh
   - ./pkg-build.sh bootstrap
   - sudo apt-get -qq update
-  - sudo apt-get install libnlopt-dev 
+  - sudo apt-get install libnlopt0
 
 install:
   - ./pkg-build.sh install_deps
