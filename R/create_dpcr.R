@@ -26,8 +26,6 @@
 #' @param uv The volume uncertainty of partitions [nl].
 #' @param threshold \code{numeric} value giving the threshold above which
 #' droplet is counted as positive.  Ignored if \code{adpcr} is \code{TRUE}.
-#' @param breaks \code{numeric} vector giving the number of intervals into
-#' which \code{data} should be cut. Ignored if \code{adpcr} is \code{FALSE}.
 #' @param type Object of class \code{"character"} defining type of data. Could
 #' be \code{"nm"} (number of molecules per partition), \code{"tnp"} (total
 #' number of positive wells in the panel), \code{"fluo"} (fluorescence), \code{"np"} 
@@ -65,10 +63,10 @@
 
 create_dpcr <- function(data, n, exper = "Experiment 1", 
                         replicate = NULL, assay = "Unknown", type, v = 1, uv = 0, threshold = NULL, 
-                        breaks = NULL, adpcr, col_names = NULL, row_names = NULL, panel_id = NULL) {
+                        adpcr, col_names = NULL, row_names = NULL, panel_id = NULL) {
   if(adpcr) {
     create_adpcr(data = data, n = n, exper = exper, 
-                 replicate = replicate, assay = assay, type = type, breaks = breaks, v = v, uv = uv,
+                 replicate = replicate, assay = assay, type = type, v = v, uv = uv,
                  col_names = col_names, row_names = row_names, panel_id = panel_id)
   } else {
     construct_dpcr(data = data, n = n, exper = exper, replicate = replicate, 

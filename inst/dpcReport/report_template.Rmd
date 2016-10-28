@@ -109,11 +109,10 @@ if(input[["plot_panel"]]) {
   cat("## All arrays    \n\n")
   
   
-  arrays <- adpcr2panel(new_dat, use_breaks = TRUE)
-  arrays_unbroken <- adpcr2panel(new_dat, use_breaks = FALSE)
+  arrays <- adpcr2panel(new_dat)
   
   for (i in names(arrays)) {
-    single_array <- arrays_unbroken[[i]]
+    single_array <- arrays[[i]]
     
     cat("\n\n###", i ,"   \n\n")
     

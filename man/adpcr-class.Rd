@@ -18,11 +18,6 @@ For more in-depth explanation of digital PCR data structure, see
 \section{Slots}{
 
 \describe{
-\item{\code{breaks}}{\code{"numeric"} vector giving the number of intervals into which 
-\code{.Data} should be cut. The second element in \code{breaks} vector is considered 
-a threshold. Partition above or equal to threshold is counted as 
-positive.}
-
 \item{\code{col_names}}{\code{"character"} vector naming the columns in the array.}
 
 \item{\code{row_names}}{\code{"character"} vector naming the rows in the array.}

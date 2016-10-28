@@ -360,14 +360,8 @@ shinyServer(function(input, output, session) {
   
   array_dat <- reactive({
     new_dat <- input_dat()
-    adpcr2panel(new_dat, use_breaks = TRUE)
+    adpcr2panel(new_dat)
   })
-  
-  array_dat_unbroken <- reactive({
-    new_dat <- input_dat()
-    adpcr2panel(new_dat, use_breaks = FALSE)
-  })
-  
   
   output[["array_choice"]] <- renderUI({
     choices <- names(array_dat())
@@ -436,7 +430,7 @@ shinyServer(function(input, output, session) {
   })
   
   output[["plot_panel_stat"]] <- renderPrint({
-    single_array <- array_dat_unbroken()[[input[["array_choice"]]]]
+    single_array <- array_dat()[[input[["array_choice"]]]]
     
     source("./plot_panel/test_panel.R", local = TRUE)
     

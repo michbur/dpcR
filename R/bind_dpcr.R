@@ -68,9 +68,6 @@ setMethod("bind_dpcr",
             all_classes <- all(sapply(all_args, class) == "adpcr")
             if (!all_classes)
               stop("All binded objects must have the same class.")
-            bigger_breaks <- which.max(lapply(all_args, function(single_arg) 
-              max(slot(single_arg, "breaks"))))
-            breaks <- slot(all_args[[bigger_breaks]], "breaks")
             
             all_thresholds <- sapply(all_args, function(single_arg) 
               max(slot(single_arg, "threshold")))
@@ -103,8 +100,6 @@ setMethod("bind_dpcr",
             panel_ids <- bind_factor(lapply(all_args, function(single_arg) 
               slot(single_arg, "panel_id")))
             
-            
-            slot(res, "breaks") <- breaks
             slot(res, "col_names") <- col_names
             slot(res, "row_names") <- row_names
             slot(res, "panel_id") <- panel_ids

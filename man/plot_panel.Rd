@@ -4,16 +4,11 @@
 \alias{plot_panel}
 \title{Plot Panel}
 \usage{
-plot_panel(input, use_breaks = TRUE, col = "red", legend = TRUE,
-  half = "none", plot = TRUE, ...)
+plot_panel(input, col = "red", legend = TRUE, half = "none",
+  plot = TRUE, ...)
 }
 \arguments{
 \item{input}{object of the \code{\linkS4class{adpcr}} class.}
-
-\item{use_breaks}{if \code{TRUE}, input is cutted into intervals using the 
-\code{breaks} slot. If \code{FALSE}, the \code{integer} class of the input is
-preserved. Ignored if data has \code{"np"} type (see possible types of 
-\code{\linkS4class{adpcr}} objects).}
 
 \item{col}{A single color or vector of colors for each level of input.}
 
@@ -63,24 +58,8 @@ ttest <- sim_adpcr(m = 400, n = 765, times = 20, pos_sums = FALSE,
 # Plot the dPCR experiment results with default settings
 plot_panel(ttest)
 
-#do it without breaks
-plot_panel(ttest, use_breaks = FALSE)
-
-# Apply a binary color code with blue as positive
-slot(ttest, "breaks") <- c(0, 2, 4)
-plot_panel(ttest, col = "blue")
-
 # Apply a two color code for number of copies per compartment
 plot_panel(ttest, col = c("blue", "red"))
-
-
-
-# supply customized breaks and compare
-par(mfcol = c(2, 1))
-plot_panel(ttest)
-slot(ttest, "breaks") <- c(0, 1, 2, (max(slot(ttest, "breaks")) + 1))
-plot_panel(ttest)
-par(mfcol = c(1, 1))
 
 # plot few panels
 ttest2 <- sim_adpcr(m = 400, n = 765, times = 40, pos_sums = FALSE, 

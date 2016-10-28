@@ -4,15 +4,10 @@
 \alias{adpcr2panel}
 \title{Convert adpcr object to array}
 \usage{
-adpcr2panel(input, use_breaks = FALSE)
+adpcr2panel(input)
 }
 \arguments{
 \item{input}{object of the \code{\linkS4class{adpcr}} class.}
-
-\item{use_breaks}{if \code{TRUE}, input is cutted into intervals using the 
-\code{breaks} slot. If \code{FALSE}, the \code{integer} class of the input is
-preserved. Ignored if data has \code{"np"} type (see possible types of 
-\code{\linkS4class{adpcr}} objects).}
 }
 \value{
 A named list of length equal to the number of arrays in the \code{input}. 
@@ -34,13 +29,8 @@ ttest <- sim_adpcr(m = 400, n = 765, times = 20, pos_sums = FALSE,
 #convert object into three arrays
 arrays <- adpcr2panel(ttest)
 length(arrays)
-#see the first array
+#print an array
 arrays[[1]]
-
-#convert the object using breaks
-arrays <- adpcr2panel(ttest, use_breaks = TRUE)
-arrays[[1]]
-
 }
 \author{
 Michal Burdukiewicz.

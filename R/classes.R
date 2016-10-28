@@ -176,10 +176,6 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
 #' @name adpcr-class
 #' @aliases adpcr-class adpcr
 #' @docType class
-#' @slot breaks \code{"numeric"} vector giving the number of intervals into which 
-#' \code{.Data} should be cut. The second element in \code{breaks} vector is considered 
-#' a threshold. Partition above or equal to threshold is counted as 
-#' positive.
 #' @slot col_names \code{"character"} vector naming the columns in the array.
 #' @slot row_names \code{"character"} vector naming the rows in the array.
 #' @slot panel_id \code{"factor"} naming the panel to which experiment belong.
@@ -206,8 +202,7 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
 #' one_rand_array <- extract_dpcr(rand_array, 1)
 #' plot_panel(one_rand_array, 40, 40)
 #' 
-setClass("adpcr", contains = "dpcr", representation(breaks = "numeric",
-                                                    col_names = "character",
+setClass("adpcr", contains = "dpcr", representation(col_names = "character",
                                                     row_names = "character",
                                                     panel_id = "factor"))
 
@@ -218,14 +213,6 @@ create_adpcr <- function(data, n, exper = "Experiment1",
                          col_names = NULL, row_names = NULL, panel_id = NULL) {
   result <- construct_dpcr(data = data, n = n, exper = exper, 
                            replicate = replicate, assay = assay, v = v, uv = uv, type = type)
-  
-  if (is.null(breaks)) {
-    breaks <- 0L:max(data, na.rm = TRUE)
-    #if data range is too big, add smaller breaks
-    if(length(breaks) > 5) {
-      breaks <- hist(data, 5, plot = FALSE)[["breaks"]]
-    }
-  }  
   
   if(is.null(col_names) & is.null(row_names)) {
     #access .Data slot, because its already in the matrix form
@@ -261,7 +248,6 @@ create_adpcr <- function(data, n, exper = "Experiment1",
   }
   
   class(result) <- "adpcr"
-  slot(result, "breaks") <- breaks
   slot(result, "col_names") <- col_names
   slot(result, "row_names") <- row_names
   slot(result, "panel_id") <- panel_id

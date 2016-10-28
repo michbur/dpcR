@@ -5,9 +5,8 @@
 \title{Create dpcR object}
 \usage{
 create_dpcr(data, n, exper = "Experiment 1", replicate = NULL,
-  assay = "Unknown", type, v = 1, uv = 0, threshold = NULL,
-  breaks = NULL, adpcr, col_names = NULL, row_names = NULL,
-  panel_id = NULL)
+  assay = "Unknown", type, v = 1, uv = 0, threshold = NULL, adpcr,
+  col_names = NULL, row_names = NULL, panel_id = NULL)
 }
 \arguments{
 \item{data}{a \code{numeric} vector or matrix of data from dPCR
@@ -33,9 +32,6 @@ number of positive wells in the panel), \code{"fluo"} (fluorescence), \code{"np"
 
 \item{threshold}{\code{numeric} value giving the threshold above which
 droplet is counted as positive.  Ignored if \code{adpcr} is \code{TRUE}.}
-
-\item{breaks}{\code{numeric} vector giving the number of intervals into
-which \code{data} should be cut. Ignored if \code{adpcr} is \code{FALSE}.}
 
 \item{adpcr}{\code{logical}. If \code{TRUE}, function creates
 \code{\linkS4class{adpcr}} object. If \code{FALSE}, function creates

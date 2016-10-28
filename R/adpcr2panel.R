@@ -3,10 +3,6 @@
 #' Converts \code{\linkS4class{adpcr}} object into the list of array-like matrices.
 #' 
 #' @param input object of the \code{\linkS4class{adpcr}} class.
-#' @param use_breaks if \code{TRUE}, input is cutted into intervals using the 
-#' \code{breaks} slot. If \code{FALSE}, the \code{integer} class of the input is
-#' preserved. Ignored if data has \code{"np"} type (see possible types of 
-#' \code{\linkS4class{adpcr}} objects).
 #' @return A named list of length equal to the number of arrays in the \code{input}. 
 #' Each element is a single array in matrix-like form, where dimensions are set 
 #' exactly as in case of the real plate. Names of the list corresponds to the names 
@@ -25,14 +21,11 @@
 #' #convert object into three arrays
 #' arrays <- adpcr2panel(ttest)
 #' length(arrays)
-#' #see the first array
+#' #print an array
 #' arrays[[1]]
-#' 
-#' #convert the object using breaks
-#' arrays <- adpcr2panel(ttest, use_breaks = TRUE)
-#' arrays[[1]]
-#' 
-adpcr2panel <- function(input, use_breaks = FALSE) {
+
+
+adpcr2panel <- function(input) {
   if (class(input) == "adpcr") {
     if (!(slot(input, "type") %in% c("nm", "np", "tnp", "fluo", "ct")))
       stop("Input must contain data of type 'nm', 'np', 'tnp', 'fluo' or 'ct'.") 
@@ -60,11 +53,7 @@ adpcr2panel <- function(input, use_breaks = FALSE) {
     single_panel <- extract_dpcr(input, which(slot(input, "panel_id") == single_level))
     # Use breaks points to split input 
     if (slot(input, "type") == "np")
-      use_breaks = FALSE
-    
-    if(use_breaks)
-      single_panel <- as.character(cut(as.vector(single_panel), breaks = slot(input, "breaks"), 
-                                       include.lowest = TRUE, right = FALSE, dig.lab = 5))
+      use_threshold = FALSE
     
     matrix(single_panel, ncol = nx_a, 
            dimnames = list(slot(input, "row_names"), slot(input, "col_names")))

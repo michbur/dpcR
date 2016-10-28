@@ -44,24 +44,8 @@
 #' # Plot the dPCR experiment results with default settings
 #' plot_panel(ttest)
 #' 
-#' #do it without breaks
-#' plot_panel(ttest, use_breaks = FALSE)
-#' 
-#' # Apply a binary color code with blue as positive
-#' slot(ttest, "breaks") <- c(0, 2, 4)
-#' plot_panel(ttest, col = "blue")
-#' 
 #' # Apply a two color code for number of copies per compartment
 #' plot_panel(ttest, col = c("blue", "red"))
-#' 
-#' 
-#' 
-#' # supply customized breaks and compare
-#' par(mfcol = c(2, 1))
-#' plot_panel(ttest)
-#' slot(ttest, "breaks") <- c(0, 1, 2, (max(slot(ttest, "breaks")) + 1))
-#' plot_panel(ttest)
-#' par(mfcol = c(1, 1))
 #' 
 #' # plot few panels
 #' ttest2 <- sim_adpcr(m = 400, n = 765, times = 40, pos_sums = FALSE, 
@@ -89,10 +73,10 @@
 #' par(mfcol = c(1, 1))
 #' 
 #' @export plot_panel
-plot_panel <- function(input, use_breaks = TRUE, col = "red", legend = TRUE, 
+plot_panel <- function(input, col = "red", legend = TRUE, 
                        half = "none", plot = TRUE, ...) {  
   
-  array <- adpcr2panel(input, use_breaks = use_breaks)
+  array <- adpcr2panel(binarize(input))
   
   if(length(array) > 1) 
     warning("Only the first array will be processed.")
