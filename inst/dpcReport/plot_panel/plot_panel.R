@@ -1,5 +1,5 @@
-if(!is.factor(df[["value"]]))
-  df[["value"]] <- as.factor(df[["value"]])
+# if(!is.factor(df[["value"]]))
+#   df[["value"]] <- as.factor(df[["value"]])
 
 p <- ggplot(df, aes(x = col, y = row , fill = value, shape = selected)) +
   geom_tile(colour = "black", linetype = 2) + cool_theme  +

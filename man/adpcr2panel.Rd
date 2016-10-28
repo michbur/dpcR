@@ -4,10 +4,12 @@
 \alias{adpcr2panel}
 \title{Convert adpcr object to array}
 \usage{
-adpcr2panel(input)
+adpcr2panel(input, breaks = TRUE)
 }
 \arguments{
 \item{input}{object of the \code{\linkS4class{adpcr}} class.}
+
+\item{breaks}{if \code{TRUE}, the data is divided into intervals.}
 }
 \value{
 A named list of length equal to the number of arrays in the \code{input}. 

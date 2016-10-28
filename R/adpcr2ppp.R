@@ -42,7 +42,7 @@
 #' 
 #' 
 adpcr2ppp <- function(input, marks = TRUE, plot = FALSE) {
-  arrays <- adpcr2panel(input)
+  arrays <- adpcr2panel(input, breaks = FALSE)
   
   lapply(arrays, function(single_array)
     create_ppp(data_vector = single_array, nx_a = ncol(single_array), ny_a = nrow(single_array),

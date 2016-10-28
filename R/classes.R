@@ -240,11 +240,11 @@ create_adpcr <- function(data, n, exper = "Experiment1",
   }
   
   if(is.null(panel_id)) {
-#   if(type != "tnp") {
+  if(type != "tnp") {
       panel_id <- as.factor(1L:ncol(slot(result, ".Data")))
-#     } else {
-#       stop("'tnp' data require specified panel_id.")
-#     }
+    } else {
+      panel_id <- as.factor(rep(1L, ncol(slot(result, ".Data"))))
+    }
   }
   
   class(result) <- "adpcr"

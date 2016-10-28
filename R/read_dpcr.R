@@ -126,13 +126,17 @@ read_QX200 <- function(input) {
   n <- dat[["AcceptedDroplets"]]
   counts <- matrix(dat[["Positives"]], nrow = 1)
   exper <- dat[["Experiment"]]
-  replicate <- paste0(dat[["Well"]], ".", dat[["Sample"]])
+  replicate <- dat[["Sample"]]
+  if(all(is.na(replicate))) {
+    all_reps <- as.vector(table(dat[["TargetType"]], exper))
+    replicate <- unlist(lapply(all_reps, function(single_rep) 1L:single_rep))
+  }
   
   create_dpcr(data = matrix(dat[["Positives"]], nrow = 1), n = n, 
               exper = exper, replicate = replicate, type = "tnp",
               assay = dat[["TargetType"]], adpcr = TRUE, 
               col_names = LETTERS[1L:8], row_names = as.character(1L:12),
-              panel_id = NULL)
+              panel_id = dat[["TargetType"]])
 }
 
 #' Read BioMark

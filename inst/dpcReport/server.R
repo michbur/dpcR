@@ -327,7 +327,7 @@ shinyServer(function(input, output, session) {
   # plot panel --------------------------
   
   output[["plot_panel_tab"]] <- renderUI({
-    if(class(input_dat()) == "adpcr" && slot(input_dat(), "type") != "tnp") {
+    if(class(input_dat()) == "adpcr") {
       list(includeMarkdown("./plot_panel/plot_panel1.md"),
            htmlOutput("array_choice"),
            htmlOutput("plot_panel_stat"),
@@ -360,7 +360,7 @@ shinyServer(function(input, output, session) {
   
   array_dat <- reactive({
     new_dat <- input_dat()
-    adpcr2panel(binarize(new_dat))
+    adpcr2panel(new_dat)
   })
   
   output[["array_choice"]] <- renderUI({

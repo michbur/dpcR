@@ -86,7 +86,6 @@ setMethod("bind_dpcr",
             lapply(all_args, function(single_arg) 
               slot(single_arg, "col_names"))
             
-            
             class(res) <- "adpcr"
             
             longer_colnames <- which.max(lapply(all_args, function(single_arg) 
@@ -104,7 +103,6 @@ setMethod("bind_dpcr",
             slot(res, "row_names") <- row_names
             slot(res, "panel_id") <- panel_ids
             res
-            
           })
 
 
@@ -125,7 +123,7 @@ setMethod("bind_dpcr",
             if (!all_classes)
               stop("All binded objects must have the same class.")
             if (slot(input, "type") == "fluo")
-              stop("Binding method for fluorescence result not implemented.")
+              stop("Binding method for fluorescence data is not implemented.")
             
             all_thresholds <- sapply(all_args, function(single_arg) 
               max(slot(single_arg, "threshold")))

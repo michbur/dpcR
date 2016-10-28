@@ -3,6 +3,7 @@
 #' Converts \code{\linkS4class{adpcr}} object into the list of array-like matrices.
 #' 
 #' @param input object of the \code{\linkS4class{adpcr}} class.
+#' @param breaks if \code{TRUE}, the data is divided into intervals.
 #' @return A named list of length equal to the number of arrays in the \code{input}. 
 #' Each element is a single array in matrix-like form, where dimensions are set 
 #' exactly as in case of the real plate. Names of the list corresponds to the names 
@@ -25,7 +26,7 @@
 #' arrays[[1]]
 
 
-adpcr2panel <- function(input) {
+adpcr2panel <- function(input, breaks = TRUE) {
   if (class(input) == "adpcr") {
     if (!(slot(input, "type") %in% c("nm", "np", "tnp", "fluo", "ct")))
       stop("Input must contain data of type 'nm', 'np', 'tnp', 'fluo' or 'ct'.") 
@@ -52,8 +53,8 @@ adpcr2panel <- function(input) {
     #data for a single assay
     single_panel <- extract_dpcr(input, which(slot(input, "panel_id") == single_level))
     # Use breaks points to split input 
-    if (slot(input, "type") == "np")
-      use_threshold = FALSE
+    if (breaks)
+      single_panel <- calc_breaks(single_panel)
     
     matrix(single_panel, ncol = nx_a, 
            dimnames = list(slot(input, "row_names"), slot(input, "col_names")))
