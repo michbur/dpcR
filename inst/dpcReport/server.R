@@ -360,7 +360,7 @@ shinyServer(function(input, output, session) {
   
   array_dat <- reactive({
     new_dat <- input_dat()
-    adpcr2panel(new_dat)
+    adpcr2panel(binarize(new_dat))
   })
   
   output[["array_choice"]] <- renderUI({
