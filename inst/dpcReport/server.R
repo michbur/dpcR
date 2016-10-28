@@ -375,6 +375,7 @@ shinyServer(function(input, output, session) {
   plot_panel_dat <- reactive({
     df <- calc_coordinates(array_dat()[[input[["array_choice"]]]], 
                            half = "none")[["ggplot_coords"]]
+
     df[["selected"]] <- rep(FALSE, nrow(df))
     df
   })

@@ -117,6 +117,9 @@ read_QX100 <- function(input) {
 #' @seealso See \code{\link{read_dpcr}} for detailed description of input files.
 #' 
 #' @return An object of \code{\linkS4class{adpcr}} class.
+#' @source Droplet Digital PCR Applications Guide, Rev. A, Bulletin 6407, Biorad, 
+#' accessed on 28.10.2016, 
+#' \url{http://www.bio-rad.com/webroot/web/pdf/lsr/literature/Bulletin_6407.pdf}.
 #' @keywords utilities
 #' @export
 
@@ -134,7 +137,7 @@ read_QX200 <- function(input) {
   
   create_dpcr(data = matrix(dat[["Positives"]], nrow = 1), n = n, 
               exper = exper, replicate = replicate, type = "tnp",
-              assay = dat[["TargetType"]], adpcr = TRUE, 
+              assay = dat[["TargetType"]], adpcr = TRUE, v = 1, uv = 0.2,
               col_names = LETTERS[1L:8], row_names = as.character(1L:12),
               panel_id = dat[["TargetType"]])
 }
