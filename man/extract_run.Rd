@@ -2,7 +2,7 @@
 % Please edit documentation in R/extract_run.R
 \name{extract_run}
 \alias{extract_run}
-\title{Extract Digital PCR Experiment}
+\title{Extract Digital PCR Run}
 \usage{
 extract_run(input, id)
 }
@@ -17,7 +17,7 @@ The object of the input's class (\code{\linkS4class{adpcr}} or
 \code{\linkS4class{dpcr}}).
 }
 \description{
-Extract panel(s) or experiment(s) from a matrix while preserving all other
+Extract runs from a code{\linkS4class{dpcr}} object while preserving all other
 attributes.
 }
 \details{
@@ -53,6 +53,8 @@ Michal Burdukiewicz.
 }
 \seealso{
 Opposite function: \code{\link{bind_dpcr}}
+Extract multiple runs belonging to an experiment of assay: 
+\code{\link{extract_dpcr}}
 }
 \keyword{extract}
 \keyword{manip}

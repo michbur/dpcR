@@ -1,9 +1,9 @@
 #extract single panel from dpcr object
 
 
-#' Extract Digital PCR Experiment
+#' Extract Digital PCR Run
 #' 
-#' Extract panel(s) or experiment(s) from a matrix while preserving all other
+#' Extract runs from a code{\linkS4class{dpcr}} object while preserving all other
 #' attributes.
 #' 
 #' The \code{extract_run} function allows to choose one or more panels from an
@@ -23,6 +23,8 @@
 #' attributies of the object.
 #' @author Michal Burdukiewicz.
 #' @seealso Opposite function: \code{\link{bind_dpcr}}
+#' Extract multiple runs belonging to an experiment of assay: 
+#' \code{\link{extract_dpcr}}
 #' @keywords manip extract panel
 #' @examples
 #' 
@@ -74,4 +76,64 @@ extract_run <- function(input, id) {
   }
   
   result
+}
+
+
+#' Extract Assays or Experiments
+#' 
+#' Extract all runs belonging to specific assay or experiment(s) from a 
+#' code{\linkS4class{dpcr}} object while preserving all other
+#' attributes.
+#' 
+#' @param input object of the class \code{\linkS4class{adpcr}} or
+#' \code{\linkS4class{dpcr}}.
+#' @param id_exper vector of indices or names of experiments. Must be \code{NULL} if
+#' \code{id_assay} is specified.
+#' @param id_assay vector of indices or names of assays. Must be \code{NULL} if
+#' \code{id_exper} is specified.
+#' @return The object of the input's class (\code{\linkS4class{adpcr}} or
+#' \code{\linkS4class{dpcr}}).
+#' @note The standard \code{\link[base]{Extract}} operator \code{x[i]} treats
+#' dpcr objects as \code{matrix} and extracts values without preserving other
+#' attributies of the object.
+#' @author Michal Burdukiewicz.
+#' @seealso Extract run(s): \code{\link{extract_run}}.
+#' @keywords manip extract panel
+#' @examples
+#' 
+#' #extract using only experiment's ID
+#' extract_dpcr(six_panels, id_exper = 1)
+#' 
+#' #extract using assay name
+#' extract_dpcr(six_panels, id_assay = "MYC")
+#' 
+#' #extract using multiple names
+#' extract_dpcr(six_panels, id_exper = c("Experiment1", "Experiment2"))
+#' 
+#' @export extract_dpcr
+extract_dpcr <- function(input, id_exper = NULL, id_assay = NULL) {
+  if (!(class(input) %in% c("adpcr", "dpcr")))
+    stop("Input must have 'adpcr' or 'dpcr' class.")
+  
+  if (is.null(id_exper) && is.null(id_assay))
+    stop("One of id_exper or id_assay must be NULL.")
+  
+  if (!is.null(id_exper) && !is.null(id_assay))
+    stop("One of id_exper or id_assay must not be NULL.")
+  
+  run_ids <- if(!is.null(id_exper)) {
+    get_runs_ids(input, "exper", id_exper)
+  } else {
+    get_runs_ids(input, "assay", id_assay)
+  }
+  
+  extract_run(input, which(run_ids))
+}
+
+
+get_runs_ids <- function(x, slot_name, id) {
+  if(is.numeric(id)) 
+    id <- slot(x, slot_name)[id]
+  
+  slot(x, slot_name) %in% id
 }
