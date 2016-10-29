@@ -21,8 +21,17 @@ An object of \code{\linkS4class{adpcr}} class.
 \description{
 Reads digital PCR data from the QX200 Droplet Digital PCR System (Bio-Rad).
 }
+\note{
+The volume and its uncertainty are taken from the literature (see 
+references).
+}
 \author{
 Michal Burdukiewcz, Stefan Roediger
+}
+\references{
+Corbisier, P. et al (2015). DNA copy number concentration measured by digital 
+and droplet digital quantitative PCR using certified reference materials. 
+Analytical and Bioanalytical Chemistry 407, 1831–1840.
 }
 \seealso{
 See \code{\link{read_dpcr}} for detailed description of input files.

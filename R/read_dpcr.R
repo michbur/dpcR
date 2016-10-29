@@ -89,6 +89,12 @@ read_raw <- function(input, adpcr) {
 #' 
 #' Example of QX100 data: \code{\link{pds}}.
 #' @return An object of \code{\linkS4class{adpcr}} class.
+#' @note The volume and its uncertainty are taken from the literature (see 
+#' references).
+#' @references 
+#' Corbisier, P. et al (2015). DNA copy number concentration measured by digital 
+#' and droplet digital quantitative PCR using certified reference materials. 
+#' Analytical and Bioanalytical Chemistry 407, 1831–1840.
 #' @keywords utilities
 #' @export
 
@@ -102,7 +108,7 @@ read_QX100 <- function(input) {
   
   create_dpcr(data = matrix(dat[["Positives"]], nrow = 1), n = n, 
               exper = exper, replicate = replicate, type = "tnp",
-              assay = dat[["Assay"]], adpcr = TRUE, 
+              assay = dat[["Assay"]], adpcr = TRUE, v = 0.85, uv = 0.017,
               col_names = LETTERS[1L:8], row_names = as.character(1L:4),
               panel_id = dat[["Assay"]])
 }
@@ -120,6 +126,12 @@ read_QX100 <- function(input) {
 #' @source Droplet Digital PCR Applications Guide, Rev. A, Bulletin 6407, Biorad, 
 #' accessed on 28.10.2016, 
 #' \url{http://www.bio-rad.com/webroot/web/pdf/lsr/literature/Bulletin_6407.pdf}.
+#' @note The volume and its uncertainty are taken from the literature (see 
+#' references).
+#' @references 
+#' Corbisier, P. et al (2015). DNA copy number concentration measured by digital 
+#' and droplet digital quantitative PCR using certified reference materials. 
+#' Analytical and Bioanalytical Chemistry 407, 1831–1840.
 #' @keywords utilities
 #' @export
 
@@ -137,7 +149,7 @@ read_QX200 <- function(input) {
   
   create_dpcr(data = matrix(dat[["Positives"]], nrow = 1), n = n, 
               exper = exper, replicate = replicate, type = "tnp",
-              assay = dat[["TargetType"]], adpcr = TRUE, v = 1, uv = 0.2,
+              assay = dat[["TargetType"]], adpcr = TRUE, v = 0.85, uv = 0.017,
               col_names = LETTERS[1L:8], row_names = as.character(1L:12),
               panel_id = dat[["TargetType"]])
 }
