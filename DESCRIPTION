@@ -72,7 +72,7 @@ Collate:
     'dpcr_density.R'
     'dpcr_density_gui.R'
     'dpcr_density_table.R'
-    'extract_dpcr.R'
+    'extract_run.R'
     'fit_adpcr.R'
     'fl.R'
     'get_k_n.R'

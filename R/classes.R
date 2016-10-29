@@ -184,7 +184,7 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
 #' \code{\linkS4class{dpcr}}.
 #' @author Michal Burdukiewicz.
 #' @seealso Data management: \code{\link{adpcr2panel}}, \code{\link{bind_dpcr}},
-#' \code{\link{extract_dpcr}}.
+#' \code{\link{extract_run}}.
 #' 
 #' Plotting: \code{\link{plot_panel}}.
 #' 
@@ -199,7 +199,7 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
 #' @examples
 #' 
 #' rand_array <- sim_adpcr(400, 1600, 100, pos_sums = FALSE, n_panels = 5)
-#' one_rand_array <- extract_dpcr(rand_array, 1)
+#' one_rand_array <- extract_run(rand_array, 1)
 #' plot_panel(one_rand_array, 40, 40)
 #' 
 setClass("adpcr", contains = "dpcr", representation(col_names = "character",

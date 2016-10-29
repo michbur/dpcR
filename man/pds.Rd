@@ -78,7 +78,7 @@ genomic DNA marker ileS, Taqman probes (FAM labelled). Channel 2, primers
 for plasmid DNA marker styA, Taqman probes (HEX labelled).
 }
 \examples{
-summary(extract_dpcr(read_QX100(pds), 1L:10))
+summary(extract_run(read_QX100(pds), 1L:10))
 
 }
 \author{

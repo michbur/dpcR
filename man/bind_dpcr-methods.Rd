@@ -60,7 +60,7 @@ bound_droplets <- bind_dpcr(smaller_droplet, bigger_droplet, biggest_droplet)
 Michal Burdukiewicz
 }
 \seealso{
-Opposite function: \code{\link{extract_dpcr}}
+Opposite function: \code{\link{extract_run}}
 }
 \keyword{manip}
 

@@ -60,7 +60,7 @@ White_adpcr <- create_dpcr(White_data > 115, n = 765, assay = assays,
 White_k <- colSums(White_data > 115)
 
 sapply(2:4, function(i) {
-   plot_panel(extract_dpcr(White_adpcr, i))
+   plot_panel(extract_run(White_adpcr, i))
 
    # Create the ECDF of the image scan data to define
    # a cut-off for positive and negative partitions

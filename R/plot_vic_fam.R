@@ -52,7 +52,7 @@
 #' # Generate two channels in one object and plot them
 #' fluos_both <- sim_dpcr(m = 16, n = 30, times = 100, pos_sums = FALSE, n_exp = 2, 
 #'   fluo = list(0.1, 0))
-#' plot_vic_fam(extract_dpcr(fluos_both, 1), extract_dpcr(fluos_both, 2))
+#' plot_vic_fam(extract_run(fluos_both, 1), extract_run(fluos_both, 2))
 #' 
 #' @export plot_vic_fam
 plot_vic_fam <- function(vic, fam, col_vic = "green", col_fam = "blue", circle = TRUE) {

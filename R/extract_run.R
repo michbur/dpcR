@@ -6,7 +6,7 @@
 #' Extract panel(s) or experiment(s) from a matrix while preserving all other
 #' attributes.
 #' 
-#' The \code{extract_dpcr} function allows to choose one or more panels from an
+#' The \code{extract_run} function allows to choose one or more panels from an
 #' object of the \code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}} class
 #' and save it without changing other attributes. It is the most recommended
 #' method of extracting a subset from an array of panels, because it preserves
@@ -28,18 +28,18 @@
 #' 
 #' #sample extracting
 #' panels <- sim_adpcr(10, 40, 1000, pos_sums = FALSE, n_panels = 50)
-#' single_panel <- extract_dpcr(panels, 5)
-#' random_three <- extract_dpcr(panels, sample.int(ncol(panels), 3))
-#' all_but_one <- extract_dpcr(panels, -5)
+#' single_panel <- extract_run(panels, 5)
+#' random_three <- extract_run(panels, sample.int(ncol(panels), 3))
+#' all_but_one <- extract_run(panels, -5)
 #' 
 #' #the same for fluorescence data
 #' fluos <- sim_dpcr(10, 40, 1000, pos_sums = FALSE, n_exp = 50, 
 #'                    fluo = list(0.1, 0))
-#' single_fluo <- extract_dpcr(fluos, 5)
+#' single_fluo <- extract_run(fluos, 5)
 #' 
 #' 
-#' @export extract_dpcr
-extract_dpcr <- function(input, id) {
+#' @export extract_run
+extract_run <- function(input, id) {
   if (!(class(input) %in% c("adpcr", "dpcr")))
     stop("Input must have 'adpcr' or 'dpcr' class")
   

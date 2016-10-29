@@ -57,7 +57,7 @@ many_panels <- sim_adpcr(m = 400, n = 765, times = 1000, pos_sums = FALSE,
 test_panel(many_panels)
 
 #test only one plate
-test_panel(extract_dpcr(many_panels, 3))
+test_panel(extract_run(many_panels, 3))
 
 #do test_panel manually
 require(spatstat)

@@ -144,7 +144,7 @@ if(input[["poisson_distr"]]) {
     
     cat("\n\n###", single_run_id ,"   \n\n")
     
-    single_run <- extract_dpcr(new_dat, single_run_id)
+    single_run <- extract_run(new_dat, single_run_id)
     
     source("./prob_distr/single_run_moments.R", local = TRUE)
     

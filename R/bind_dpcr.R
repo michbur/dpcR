@@ -26,7 +26,7 @@
 #' binding together at the same time more than 500 objects can lead to 
 #' 'stack overflow' error.
 #' @author Michal Burdukiewicz
-#' @seealso Opposite function: \code{\link{extract_dpcr}}
+#' @seealso Opposite function: \code{\link{extract_run}}
 #' @keywords manip
 #' @export
 #' @include classes.R

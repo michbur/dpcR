@@ -40,7 +40,7 @@
 #' test_panel(many_panels)
 #' 
 #' #test only one plate
-#' test_panel(extract_dpcr(many_panels, 3))
+#' test_panel(extract_run(many_panels, 3))
 #' 
 #' #do test_panel manually
 #' require(spatstat)

@@ -77,6 +77,6 @@
 #' www.ufz.de
 #' @keywords datasets
 #' @examples
-#' summary(extract_dpcr(read_QX100(pds), 1L:10))
+#' summary(extract_run(read_QX100(pds), 1L:10))
 #' 
 NULL

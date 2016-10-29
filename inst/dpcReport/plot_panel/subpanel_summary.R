@@ -1,5 +1,5 @@
 new_dat <- input_dat()
-roi <- extract_dpcr(new_dat, input[["array_choice"]])
+roi <- extract_run(new_dat, input[["array_choice"]])
 
 summs <- summary(roi, print = FALSE)[["summary"]][-c(9L:11)]
 summs <- cbind(region = rep("Whole array", nrow(summs)), summs)

@@ -40,7 +40,7 @@ adpcr2ppp(many_panels)
 third_plate <- adpcr2ppp(many_panels)[[3]]
 
 # Convert only third plate to ppp object
-third_plate2 <- adpcr2ppp(extract_dpcr(many_panels, 3))
+third_plate2 <- adpcr2ppp(extract_run(many_panels, 3))
 
 # Check the class of a new object
 class(third_plate2)

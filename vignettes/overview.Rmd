@@ -83,9 +83,9 @@ slot(s4, "type")
 s4@type
 ```
 
-## `dpcr` objects management (`bind_dpcr`, `extract_dpcr`)
+## `dpcr` objects management (`bind_dpcr`, `extract_run`)
 
-All `dpcr` objects should be managed using special functions provided by this package: `bind_dpcr` and `extract_dpcr`. The former binds `dpcr` objects, the latter extracts parts of the `dpcr` object. It is important to use this functions, because they preserve other attributes important for `dpcr` objects as number of partitions, names of experiments, assays and technical replicates.
+All `dpcr` objects should be managed using special functions provided by this package: `bind_dpcr` and `extract_run`. The former binds `dpcr` objects, the latter extracts parts of the `dpcr` object. It is important to use this functions, because they preserve other attributes important for `dpcr` objects as number of partitions, names of experiments, assays and technical replicates.
 
 ```{r eval=TRUE}
 # Create single adpcr object. The following code is also true for 
@@ -112,23 +112,23 @@ res <- bind_dpcr(longer_run, shorter_run, shortest_run)
 slot(res, ".Data")
 ```
 
-`extract_dpcr` is an equivalent of [Extract](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Extract.html). It extracts one or more runs from the `dpcr` objects preserving other properties (as an adequate replicate ID and so on).
+`extract_run` is an equivalent of [Extract](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Extract.html). It extracts one or more runs from the `dpcr` objects preserving other properties (as an adequate replicate ID and so on).
 
 ```{r eval=TRUE}
 five_runs <- sim_adpcr(m = 2, n = 10, times = 100, pos_sums = FALSE, n_panels = 5)
 print(five_runs)
 
 # Extract runs by the index
-only_first_run <- extract_dpcr(five_runs, 1)
-only_first_and_second_run <- extract_dpcr(five_runs, c(1, 2))
+only_first_run <- extract_run(five_runs, 1)
+only_first_and_second_run <- extract_run(five_runs, c(1, 2))
 # See if proper replicated were extracted
 slot(only_first_and_second_run, "replicate")
-no_first_run <- extract_dpcr(five_runs, -1)
+no_first_run <- extract_run(five_runs, -1)
 slot(no_first_run, "replicate")
 # Extract runs by the name
-run_Experiment1.3 <- extract_dpcr(five_runs, "Experiment1.3")
+run_Experiment1.3 <- extract_run(five_runs, "Experiment1.3")
 slot(run_Experiment1.3, "replicate")
-run_Experiment1.3and5 <- extract_dpcr(five_runs, c("Experiment1.3", "Experiment1.5"))
+run_Experiment1.3and5 <- extract_run(five_runs, c("Experiment1.3", "Experiment1.5"))
 slot(run_Experiment1.3and5, "replicate")
 ```
 
@@ -276,19 +276,19 @@ Data from dPCR arrays can be easily visualized using the `plot_panel` function.
 
 ```{r eval=TRUE}
 # Remember, you can plot only single panel at once 
-plot_panel(extract_dpcr(adpcr_experiments, 1), main = "Experiment 1")
+plot_panel(extract_run(adpcr_experiments, 1), main = "Experiment 1")
 ```
 
 The same data can be visualized easily in binarized form (positive/negative partitions).
 ```{r eval=TRUE}
-plot_panel(binarize(extract_dpcr(adpcr_experiments, 1)), main = "Experiment 1")
+plot_panel(binarize(extract_run(adpcr_experiments, 1)), main = "Experiment 1")
 ```
 
 The `plot_panel` function returns invisibly coordinates, that are compatible with **graphics** and **ggplot2** packages.
 ```{r eval=TRUE}
 # Extract graphical coordinates
-panel_data <- plot_panel(extract_dpcr(adpcr_experiments, 1), plot = FALSE)
-ggplot_coords <- cbind(panel_data[["ggplot_coords"]], value = as.vector(extract_dpcr(adpcr_experiments, 1)))
+panel_data <- plot_panel(extract_run(adpcr_experiments, 1), plot = FALSE)
+ggplot_coords <- cbind(panel_data[["ggplot_coords"]], value = as.vector(extract_run(adpcr_experiments, 1)))
 
 # Plot panel using different graphics package
 library(ggplot2)

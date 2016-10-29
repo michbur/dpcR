@@ -58,7 +58,7 @@ plot_vic_fam(fam = fluos1, vic = fluos2, col_vic = "red", col_fam = "yellow", ci
 # Generate two channels in one object and plot them
 fluos_both <- sim_dpcr(m = 16, n = 30, times = 100, pos_sums = FALSE, n_exp = 2, 
   fluo = list(0.1, 0))
-plot_vic_fam(extract_dpcr(fluos_both, 1), extract_dpcr(fluos_both, 2))
+plot_vic_fam(extract_run(fluos_both, 1), extract_run(fluos_both, 2))
 
 }
 \author{

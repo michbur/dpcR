@@ -434,7 +434,7 @@ shinyServer(function(input, output, session) {
     single_array <- array_dat()[[input[["array_choice"]]]]
     
     source("./plot_panel/test_panel.R", local = TRUE)
-    
+
     prologue <- list("Run name: ", input[["array_choice"]], br(), 
                      "Complete Spatial Randomness test statistic (", HTML("&Chi;"), "): ", 
                      round(res[["statistic"]], app_digits), br(),
@@ -449,6 +449,7 @@ shinyServer(function(input, output, session) {
   
   plot_panel_region_summary <- reactive({
     source("./plot_panel/subpanel_summary.R", local = TRUE)
+    browser()
     summs
   })
   
@@ -467,7 +468,7 @@ shinyServer(function(input, output, session) {
   kn_coef <- reactive({
     new_dat <- input_dat()
     
-    single_run <- extract_dpcr(new_dat, input[["run_choice"]])
+    single_run <- extract_run(new_dat, input[["run_choice"]])
     
     source("./prob_distr/get_kn.R", local = TRUE)
     
@@ -490,7 +491,7 @@ shinyServer(function(input, output, session) {
   moments_table <- reactive({
     new_dat <- input_dat()
     
-    single_run <- extract_dpcr(new_dat, input[["run_choice"]])
+    single_run <- extract_run(new_dat, input[["run_choice"]])
     
     source("./prob_distr/single_run_moments.R", local = TRUE)
     
