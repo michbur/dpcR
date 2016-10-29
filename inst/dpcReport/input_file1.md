@@ -16,4 +16,5 @@ Accepted data formats:
 Accepted file formats:  
 * .csv,  
 * .xlsx,  
-* .xls.
+* .xls,
+* .zip (only amplitude data).

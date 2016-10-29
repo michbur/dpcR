@@ -97,13 +97,21 @@ choose_xy_region <- function(brush_id, data) {
     xmax <- carefully_round(brush_id[["xmax"]], levels(data[[1]]))
     ymin <- carefully_round(brush_id[["ymin"]], levels(data[[2]]))
     ymax <- carefully_round(brush_id[["ymax"]], levels(data[[2]]))
-    x_range <- as.numeric(xmin):as.numeric(xmax)
-    y_range <- as.numeric(ymin):as.numeric(ymax)
+    x_range <- levels(data[[1]])[char2numeric(xmin):char2numeric(xmax)]
+    y_range <- levels(data[[2]])[char2numeric(ymin):char2numeric(ymax)]
     x <- data[[1]] %in% as.factor(x_range)
     y <- data[[2]] %in% as.factor(y_range)
     x & y
   }
 }
+
+char2numeric <- function(x) 
+  if(is.na(as.numeric(x))) {
+    which(letters == tolower(x))
+  } else {
+    as.numeric(x)
+  }
+
 
 options(DT.options = list(dom = "Brtip",
                           buttons = c("copy", "csv", "excel", "print")

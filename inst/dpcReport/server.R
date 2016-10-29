@@ -335,9 +335,6 @@ shinyServer(function(input, output, session) {
                         5, min = 1, max = NA, step = NA),
            numericInput("ny", "Numbers of quadrats in the y direction:", 
                         5, min = 1, max = NA, step = 1),
-           if(slot(input_dat(), "type") == "tnp") {
-             plotOutput("plot_panel", height = 600)
-           } else {
              list(plotOutput("plot_panel", height = 600,
                              brush  = brushOpts(id = "plot_panel_brush")),
                   fluidRow(
@@ -351,7 +348,6 @@ shinyServer(function(input, output, session) {
                   htmlOutput("plot_panel_brush"),
                   DT::dataTableOutput("plot_panel_region_summary"),
                   downloadButton("plot_panel_region_summary_download_button", "Save table (.csv)"))
-           }
       )
     } else {
       includeMarkdown("./plot_panel/plot_panel0.md")
@@ -419,15 +415,7 @@ shinyServer(function(input, output, session) {
   })
   
   output[["plot_panel_brush"]] <- renderPrint({
-    epilogue <- list(strong("Click and sweep"), "over the partitions to select them.", br()) 
-    
-    prologue <- if(is.null(array_val[["selected"]])) {
-      list()
-    } else {
-      list("Number of partitions selected: ", as.character(sum(array_val[["selected"]])), br())
-    }
-      
-    do.call(p, c(prologue, epilogue))
+    do.call(p, list(strong("Click and sweep"), "over the partitions to select them.", br()) )
   })
   
   output[["plot_panel_stat"]] <- renderPrint({
@@ -449,7 +437,6 @@ shinyServer(function(input, output, session) {
   
   plot_panel_region_summary <- reactive({
     source("./plot_panel/subpanel_summary.R", local = TRUE)
-    browser()
     summs
   })
   
