@@ -37,6 +37,9 @@ calc_coordinates <- function(array, half) {
   levels(ggplot_coords[["col"]]) <- colnames(array)
   ggplot_coords[["row"]] <- factor(ggplot_coords[["y"]])
   levels(ggplot_coords[["row"]]) <- rownames(array)
+  value_order <- order(as.numeric(sub("(", "", sapply(strsplit(levels(ggplot_coords[["value"]]), ","), function(i) 
+    i[1]), fixed = TRUE)))
+  ggplot_coords[["value"]] <- factor(ggplot_coords[["value"]], levels = levels(ggplot_coords[["value"]])[value_order])
   
   coords <- unlist(lapply(1L:nx_a, function(x) 
     lapply(ny_a:1L, function(y) 
