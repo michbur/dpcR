@@ -20,7 +20,7 @@ shinyServer(function(input, output, session) {
     dat <- if(is.null(input[["input_file"]])) {
       six_panels
     } else {
-
+      
       #read extension of the file
       ext <- strsplit(input[["input_file"]][["name"]], ".", fixed = TRUE)[[1]]
       
@@ -46,7 +46,12 @@ shinyServer(function(input, output, session) {
                                  BioMark_sum = function(x) read_dpcr(x, format = "BioMark", detailed = FALSE),
                                  amp = function(x) read_dpcr(x, format = "amp"))
       
-      process_function(raw_data)
+      processed_dat <- try(process_function(raw_data))
+      
+      validate(
+        need(class(processed_dat) != "try-error", "Input file cannot be processed. Change file or filetype.")
+      )
+      processed_dat
     }
     
     # if(!is.null(input[["input_file"]])) 
@@ -56,7 +61,7 @@ shinyServer(function(input, output, session) {
     if(!is.null(input[["input_table"]]))
       if(!input[["input_table"]][["params"]][["rInitInput"]])
         dat <- merge_dpcr(dat, df2dpcr(hot_to_r(input[["input_table"]])))
-
+      
     dat
   })
   
@@ -335,19 +340,19 @@ shinyServer(function(input, output, session) {
                         5, min = 1, max = NA, step = NA),
            numericInput("ny", "Numbers of quadrats in the y direction:", 
                         5, min = 1, max = NA, step = 1),
-             list(plotOutput("plot_panel", height = 600,
-                             brush  = brushOpts(id = "plot_panel_brush")),
-                  fluidRow(
-                    column(3, downloadButton("plot_panel_download_button", 
-                                             "Save chart (.svg)")),
-                    column(3, actionButton("plot_panel_reset", 
-                                           "Reset chart"))
-                  ),
-                  br(),
-                  includeMarkdown("./plot_panel/plot_panel2.md"),
-                  htmlOutput("plot_panel_brush"),
-                  DT::dataTableOutput("plot_panel_region_summary"),
-                  downloadButton("plot_panel_region_summary_download_button", "Save table (.csv)"))
+           list(plotOutput("plot_panel", height = 600,
+                           brush  = brushOpts(id = "plot_panel_brush")),
+                fluidRow(
+                  column(3, downloadButton("plot_panel_download_button", 
+                                           "Save chart (.svg)")),
+                  column(3, actionButton("plot_panel_reset", 
+                                         "Reset chart"))
+                ),
+                br(),
+                includeMarkdown("./plot_panel/plot_panel2.md"),
+                htmlOutput("plot_panel_brush"),
+                DT::dataTableOutput("plot_panel_region_summary"),
+                downloadButton("plot_panel_region_summary_download_button", "Save table (.csv)"))
       )
     } else {
       includeMarkdown("./plot_panel/plot_panel0.md")
@@ -371,7 +376,7 @@ shinyServer(function(input, output, session) {
   plot_panel_dat <- reactive({
     df <- calc_coordinates(array_dat()[[input[["array_choice"]]]], 
                            half = "none")[["ggplot_coords"]]
-
+    
     df[["selected"]] <- rep(FALSE, nrow(df))
     df
   })
@@ -387,7 +392,7 @@ shinyServer(function(input, output, session) {
     df <- plot_panel_dat()
     
     df[array_val[["selected"]], "selected"] <- TRUE
-
+    
     source("./plot_panel/plot_panel.R", local = TRUE)
     
     p + ggtitle(input[["array_choice"]])
@@ -422,7 +427,7 @@ shinyServer(function(input, output, session) {
     single_array <- array_dat()[[input[["array_choice"]]]]
     
     source("./plot_panel/test_panel.R", local = TRUE)
-
+    
     prologue <- list("Run name: ", input[["array_choice"]], br(), 
                      "Complete Spatial Randomness test statistic (", HTML("&Chi;"), "): ", 
                      round(res[["statistic"]], app_digits), br(),
@@ -442,7 +447,7 @@ shinyServer(function(input, output, session) {
   
   output[["plot_panel_region_summary"]] <- DT::renderDataTable({
     formatRound(my_DT(plot_panel_region_summary()), 6L:11, app_digits)
-    })
+  })
   
   
   output[["plot_panel_region_summary_download_button"]] <- downloadHandler(filename = "subpanel_summary.csv",
@@ -459,9 +464,6 @@ shinyServer(function(input, output, session) {
     
     source("./prob_distr/get_kn.R", local = TRUE)
     
-    #     if(!is.null(input[["run_choice"]]))
-    #       browser()
-    
     list(kn = kn,
          dens = dens,
          conf = conf)
@@ -469,7 +471,7 @@ shinyServer(function(input, output, session) {
   
   output[["run_choice"]] <- renderUI({
     new_dat <- input_dat()
-    
+
     choices <- as.list(colnames(new_dat))
     names(choices) <- colnames(new_dat)
     selectInput("run_choice", label = h4("Select run"), choices = choices)
