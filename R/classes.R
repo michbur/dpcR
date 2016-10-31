@@ -117,9 +117,12 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
   dups <- duplicated(run_names)
   
   if(any(dups)) {
+    # awful workaround
+    exper <- as.character(exper)
     exper[!dups] <- paste0(exper[!dups], "1")
     exper[dups] <- paste0(exper[dups], "2")
     
+    exper <- as.factor(exper)
     run_names <- paste0(exper, ".", replicate)
   }
   
