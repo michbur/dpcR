@@ -94,7 +94,7 @@ read_raw <- function(input, adpcr) {
 #' @references 
 #' Corbisier, P. et al (2015). DNA copy number concentration measured by digital 
 #' and droplet digital quantitative PCR using certified reference materials. 
-#' Analytical and Bioanalytical Chemistry 407, 1831–1840.
+#' Analytical and Bioanalytical Chemistry 407, 1831-1840.
 #' @keywords utilities
 #' @export
 
@@ -131,7 +131,7 @@ read_QX100 <- function(input) {
 #' @references 
 #' Corbisier, P. et al (2015). DNA copy number concentration measured by digital 
 #' and droplet digital quantitative PCR using certified reference materials. 
-#' Analytical and Bioanalytical Chemistry 407, 1831–1840.
+#' Analytical and Bioanalytical Chemistry 407, 1831-1840.
 #' @keywords utilities
 #' @export
 
