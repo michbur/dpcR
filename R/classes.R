@@ -113,6 +113,15 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
   if(class(replicate) != "factor")
     replicate <- as.factor(replicate)
   
+  run_names <- paste0(exper, ".", replicate)
+  dups <- duplicated(run_names)
+  
+  if(any(dups)) {
+    exper[!dups] <- paste0(exper[!dups], "1")
+    exper[dups] <- paste0(exper[dups], "2")
+    
+    run_names <- paste0(exper, ".", replicate)
+  }
   
   # assay
   if(length(assay) != ncol(data)) {
@@ -152,7 +161,7 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
     }
   }
   
-  colnames(data) <- paste0(exper, ".", replicate)
+  colnames(data) <- run_names
   
   if(is.null(threshold))
     threshold <- mean(range(data))
