@@ -212,7 +212,7 @@ read_BioMark <- function(input, ext = NULL, detailed = FALSE) {
 
   } else {
     dat <- read_input(input, ext)
-    
+
     data_range <- 10L:57
     
     #dat[apply(dat, 1, function(row) sum(is.na(row))) == 0, ]
@@ -269,8 +269,8 @@ read_input<- function(input, ext = NULL, skip = 0) {
     
     fun <- switch(ext[[length(ext)]],
                   csv = read.csv,
-                  xls = getFromNamespace("read_xls", "readxl"),
-                  xlsx = getFromNamespace("read_xlsx", "readxl"),
+                  xls = as.data.frame(getFromNamespace("read_xls", "readxl")),
+                  xlsx = as.data.frame(getFromNamespace("read_xlsx", "readxl")),
                   zip = read_zipped_amps)
     
     fun(input, skip = skip)
