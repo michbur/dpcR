@@ -9,11 +9,13 @@ accessed on 28.10.2016,
 \url{http://www.bio-rad.com/webroot/web/pdf/lsr/literature/Bulletin_6407.pdf}.
 }
 \usage{
-read_QX200(input)
+read_QX200(input, ext = NULL)
 }
 \arguments{
 \item{input}{name of the input file (\code{character}) or input object 
 (\code{data.frame}).}
+
+\item{ext}{extension of the file ().}
 }
 \value{
 An object of \code{\linkS4class{adpcr}} class.

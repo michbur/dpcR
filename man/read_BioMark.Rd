@@ -4,11 +4,13 @@
 \alias{read_BioMark}
 \title{Read BioMark}
 \usage{
-read_BioMark(input, detailed = FALSE)
+read_BioMark(input, ext = NULL, detailed = FALSE)
 }
 \arguments{
 \item{input}{name of the input file (\code{character}) or input object 
 (\code{data.frame}).}
+
+\item{ext}{extension of the file ().}
 
 \item{detailed}{logical, if \code{TRUE}, the input file is processed as if it was 
 'Detailed Table Results'. In the other case, the expected input file structure is

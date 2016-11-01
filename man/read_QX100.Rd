@@ -4,11 +4,13 @@
 \alias{read_QX100}
 \title{Read QX100}
 \usage{
-read_QX100(input)
+read_QX100(input, ext = NULL)
 }
 \arguments{
 \item{input}{name of the input file (\code{character}) or input object 
 (\code{data.frame}).}
+
+\item{ext}{extension of the file ().}
 }
 \value{
 An object of \code{\linkS4class{adpcr}} class.

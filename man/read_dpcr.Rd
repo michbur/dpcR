@@ -4,7 +4,7 @@
 \alias{read_dpcr}
 \title{Read digital PCR data}
 \usage{
-read_dpcr(input, format, ...)
+read_dpcr(input, format, ext = NULL, ...)
 }
 \arguments{
 \item{input}{name of the input file (\code{character}) or input object 
@@ -12,6 +12,8 @@ read_dpcr(input, format, ...)
 
 \item{format}{of the file, for example: \code{"raw"}, \code{"QX100"}, 
 \code{"BioMark"}, \code{"amp"} (raw amplitude compressed using \code{.zip}).}
+
+\item{ext}{extension of the file ().}
 
 \item{...}{additional parameters for the appropriate function. For example, if 
 \code{format} has value \code{"raw"}, the additional parameter must be 

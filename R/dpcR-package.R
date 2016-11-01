@@ -46,7 +46,7 @@
 #' @importFrom stats aggregate dbinom dpois glm integrate mad median p.adjust predict prop.test 
 #' qnorm quantile quasibinomial quasipoisson rnorm sd smooth.spline symnum t.test var binomial 
 #' pchisq vcov 
-#' @importFrom utils combn head read.csv read.table setTxtProgressBar tail txtProgressBar 
+#' @importFrom utils combn getFromNamespace head read.csv read.table setTxtProgressBar tail txtProgressBar 
 #' unzip
 #' @importFrom binom binom.confint
 #' @importFrom chipPCR inder

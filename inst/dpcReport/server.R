@@ -24,30 +24,24 @@ shinyServer(function(input, output, session) {
       #read extension of the file
       ext <- strsplit(input[["input_file"]][["name"]], ".", fixed = TRUE)[[1]]
       
-      #choose a proper read function
-      raw_data <- if(ext[[length(ext)]] %in% c("csv", "xls", "xlsx")) {
-        read_function <- switch(ext[[length(ext)]],
-                                csv = read.csv,
-                                xls = read_excel,
-                                xlsx = read_excel)
-        read_function(input[["input_file"]][["datapath"]])
-      } else {
-        input[["input_file"]][["datapath"]]
-      }
-      
-      
       #choose which function use to process tha dPCR data
       process_function <- switch(input[["input_type"]],
-                                 raw_adpcr = function(x) read_dpcr(x, format = "raw", adpcr = TRUE),
-                                 raw_ddpcr = function(x) read_dpcr(x, format = "raw", adpcr = FALSE),
-                                 QX100 = function(x) read_dpcr(x, format = "QX100"),
-                                 QX200 = function(x) read_dpcr(x, format = "QX200"),
-                                 BioMark_det = function(x) read_dpcr(x, format = "BioMark", detailed = TRUE),
-                                 BioMark_sum = function(x) read_dpcr(x, format = "BioMark", detailed = FALSE),
+                                 raw_adpcr = function(x) read_dpcr(x, format = "raw", 
+                                                                   adpcr = TRUE, ext = ext[[length(ext)]]),
+                                 raw_ddpcr = function(x) read_dpcr(x, format = "raw", 
+                                                                   adpcr = FALSE, ext = ext[[length(ext)]]),
+                                 QX100 = function(x) read_dpcr(x, format = "QX100", ext = ext[[length(ext)]]),
+                                 QX200 = function(x) read_dpcr(x, format = "QX200", ext = ext[[length(ext)]]),
+                                 BioMark_det = function(x) read_dpcr(x, 
+                                                                     ext = ext[[length(ext)]], 
+                                                                     format = "BioMark", detailed = TRUE),
+                                 BioMark_sum = function(x) read_dpcr(x, 
+                                                                     ext = ext[[length(ext)]], 
+                                                                     format = "BioMark", detailed = FALSE),
                                  amp = function(x) read_dpcr(x, format = "amp"))
       
-      processed_dat <- try(process_function(raw_data))
-      
+      processed_dat <- try(process_function(input[["input_file"]][["datapath"]]))
+
       validate(
         need(class(processed_dat) != "try-error", "Input file cannot be processed. Change file or filetype.")
       )
@@ -57,7 +51,7 @@ shinyServer(function(input, output, session) {
     # if(!is.null(input[["input_file"]])) 
     #   if(input[["input_file"]][["name"]] == "RawData.zip")
     #     browser()
-    
+
     if(!is.null(input[["input_table"]]))
       if(!input[["input_table"]][["params"]][["rInitInput"]])
         dat <- merge_dpcr(dat, df2dpcr(hot_to_r(input[["input_table"]])))

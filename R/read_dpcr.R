@@ -6,6 +6,7 @@
 #' (\code{data.frame}).
 #' @param format of the file, for example: \code{"raw"}, \code{"QX100"}, 
 #' \code{"BioMark"}, \code{"amp"} (raw amplitude compressed using \code{.zip}).
+#' @param ext extension of the file ().
 #' @param ... additional parameters for the appropriate function. For example, if 
 #' \code{format} has value \code{"raw"}, the additional parameter must be 
 #' \code{adpcr}.
@@ -22,16 +23,16 @@
 #' Read QX100 format files: \code{\link{read_QX100}}.
 #' Read QX200 format files: \code{\link{read_QX200}}.
 
-read_dpcr <- function(input, format, ...) {
+read_dpcr <- function(input, format, ext = NULL, ...) {
   if(!(format %in% c("raw", "QX100", "QX200", "BioMark", "amp")))
     stop("Unknown value of 'format' parameter.")
   
   switch(format,
-         raw = read_raw(input, ...),
-         QX100 = read_QX100(input),
-         QX200 = read_QX200(input),
-         BioMark = read_BioMark(input, ...),
-         amp = read_amp(input, ...))
+         raw = read_raw(input, ext = ext, ...),
+         QX100 = read_QX100(input, ext = ext),
+         QX200 = read_QX200(input, ext = ext),
+         BioMark = read_BioMark(input, ext = ext, ...),
+         amp = read_amp(input, ext = ext, ...))
 }
 
 
@@ -48,7 +49,7 @@ read_dpcr <- function(input, format, ...) {
 #' @keywords utilities
 #' @export
 
-read_amp <- function(input) {
+read_amp <- function(input, ext = NULL) {
   amp_data <- read_zipped_amps(input)
   amp2dpcr(amp_data)
 }
@@ -67,8 +68,8 @@ read_amp <- function(input) {
 #' @keywords utilities
 #' @export
 
-read_raw <- function(input, adpcr) {
-  dat <- read_input(input)
+read_raw <- function(input, ext = NULL, adpcr) {
+  dat <- read_input(input, ext)
   
   n <- rowSums(!apply(dat, 1, is.na))
   
@@ -98,8 +99,8 @@ read_raw <- function(input, adpcr) {
 #' @keywords utilities
 #' @export
 
-read_QX100 <- function(input) {
-  dat <- read_input(input)
+read_QX100 <- function(input, ext = NULL) {
+  dat <- read_input(input, ext)
   
   n <- dat[["AcceptedDroplets"]]
   counts <- matrix(dat[["Positives"]], nrow = 1)
@@ -135,8 +136,8 @@ read_QX100 <- function(input) {
 #' @keywords utilities
 #' @export
 
-read_QX200 <- function(input) {
-  dat <- read_input(input)
+read_QX200 <- function(input, ext = NULL) {
+  dat <- read_input(input, ext)
   
   n <- dat[["AcceptedDroplets"]]
   counts <- matrix(dat[["Positives"]], nrow = 1)
@@ -168,9 +169,9 @@ read_QX200 <- function(input) {
 #' @keywords utilities
 #' @export
 
-read_BioMark <- function(input, detailed = FALSE) {
+read_BioMark <- function(input, ext = NULL, detailed = FALSE) {
   if(detailed) {
-    dat <- read_input(input, skip = 11)
+    dat <- read_input(input, ext, skip = 11)
     
     exper <- rep(paste(as.character(sapply(0L:47, function(id_panel)
       dat[770 * id_panel + 1, "Name"]
@@ -210,7 +211,7 @@ read_BioMark <- function(input, detailed = FALSE) {
                 row_names = as.character(1L:11), type = "np", adpcr = TRUE, panel_id = as.factor(1L:96))
 
   } else {
-    dat <- read_input(input)
+    dat <- read_input(input, ext)
     
     data_range <- 10L:57
     
@@ -259,7 +260,6 @@ read_BioMark <- function(input, detailed = FALSE) {
 
 #checks the extension and returns proper read function
 read_input<- function(input, ext = NULL, skip = 0) {
-  
   if(is.character(input)) {
     
     if(is.null(ext))
@@ -269,8 +269,8 @@ read_input<- function(input, ext = NULL, skip = 0) {
     
     fun <- switch(ext[[length(ext)]],
                   csv = read.csv,
-                  xls = read_excel,
-                  xlsx = read_excel,
+                  xls = getFromNamespace("read_xls", "readxl"),
+                  xlsx = getFromNamespace("read_xlsx", "readxl"),
                   zip = read_zipped_amps)
     
     fun(input, skip = skip)
