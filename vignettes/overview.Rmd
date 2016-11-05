@@ -47,12 +47,7 @@ $$
 \lambda = - \ln \left(1 - \frac{k}{n} \right)
 $$
 
-
-
-
 We firstly describe `dpcr` class, a parent class for all classes designed to contain dPCR data. Further, we inspect closer `adpcr` class responsible for array-based dPCR experiments (all experiments, where output data has precise localization in two dimensions).
-
-TO DO ddpcr
 
 Real-time quantitative qPCR (qPCR) experiments do not follow the fundamental assumption of dPCR reactions (the mean number of template molecule per partition smaller than 1). However, it is possible to 'convert' the qPCR. We present a tool to analyze results from *high-throughput* qPCR systems by using the dPCR analysis methodology as implemented in the **dpcR** package. The `qpcr2pp` function converts qPCR amplification curve data to a `qdpcr` object (see section about `qdpcr`). The calculation of the Cq's from the 
 amplification curves is internally done via functions from the **qpcR** package by @ritz_qpcr_2008.
@@ -326,6 +321,26 @@ qdat <- qpcr2pp(data = C317.amp, type = "np", Cq_range = c(10, 30))
 ```{r eval=TRUE}
 plot(qdat)
 ```
+
+# Data import
+
+Import functions accessible under `read_dpcr` covers many common dPCR systems. To further extend the scope of our software, we propose a universal dPCR data exchange format REDF (raw exchange digital PCR format). 
+
+## REDF
+
+REDF (Raw Exchange Digital PCR Format) has tabular structure. Each run of dPCR 
+is described using following properties:
+
+1. **experiment**: name of the experiment to which run belongs.
+2. **replicate**: name or ID of the replicate of the 
+experiment.
+3. **assay**: name of the assay to which experiment belongs. Often 
+name of the channel used to detect positive partitions.
+4. **k**: number of positive partitions (integer).
+5. **n**: total number of partitions (integer).
+6. **v**: volume of the partition (nL).
+7. **uv**: uncertainty of partition's volume (nL).
+8. **panel_id**: id of the panel (integer).
 
 # Comparison of the experiments
 
