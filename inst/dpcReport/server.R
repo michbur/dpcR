@@ -41,10 +41,11 @@ shinyServer(function(input, output, session) {
                                  amp = function(x) read_dpcr(x, format = "amp"))
       
       processed_dat <- try(process_function(input[["input_file"]][["datapath"]]))
-
+      
       validate(
         need(class(processed_dat) != "try-error", "Input file cannot be processed. Change file or filetype.")
       )
+      
       processed_dat
     }
     
@@ -52,16 +53,18 @@ shinyServer(function(input, output, session) {
     #   if(input[["input_file"]][["name"]] == "RawData.zip")
     #     browser()
 
-    if(!is.null(input[["input_table"]]))
-      if(!input[["input_table"]][["params"]][["rInitInput"]])
+    if(!is.null(input[["input_table"]])) {
+      #if(!input[["input_table"]][["changes"]][["rInitInput"]]) 
         dat <- merge_dpcr(dat, df2dpcr(hot_to_r(input[["input_table"]])))
+    }
       
     dat
   })
   
   output[["input_table"]] = renderRHandsontable({
-    rhandsontable(dpcr2df(input_dat()), useTypes = FALSE, readOnly = FALSE, selectCallback = TRUE,
-                  highlightRow = TRUE)
+    hot_table(rhandsontable(dpcr2df(input_dat()), useTypes = FALSE, 
+                            readOnly = FALSE, selectCallback = TRUE,
+                            highlightRow = TRUE), highlightCol = TRUE, highlightRow = TRUE)
   })
   
   #information if input file is loaded
