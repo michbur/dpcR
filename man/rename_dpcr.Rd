@@ -9,17 +9,22 @@ rename_dpcr(x, exper = NULL, replicate = NULL, assay = NULL)
 \arguments{
 \item{x}{an \code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}} object.}
 
-\item{exper}{a \code{factor} of new experiments' names. If \code{NULL},
+\item{exper}{a vector of new experiments' names. If \code{NULL},
 experiments' names are not changed.}
 
-\item{replicate}{a \code{factor} of new replicates' ids. If \code{NULL},
+\item{replicate}{a vector of new replicates' ids. If \code{NULL},
 replicates' names are not changed.}
 
-\item{assay}{a \code{factor} of new assays' names. If \code{NULL},
+\item{assay}{a vector of new assays' names. If \code{NULL},
 assays' names are not changed.}
 }
 \description{
 Renames objects of class \code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}}.
+}
+\details{
+The valid \code{exper}, \code{replicate} and \code{assay} names 
+are factors. For the sake of convenience, this function converts other types 
+to factors if it is possible.
 }
 \keyword{manip}
 
