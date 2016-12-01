@@ -109,7 +109,6 @@ Collate:
     'test_panel.R'
     'test_peaks.R'
     'test_pooled.R'
-    'test_ratio.R'
     'valid_amp.R'
     'y_val_conf.R'
 RoxygenNote: 5.0.1

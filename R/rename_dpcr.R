@@ -22,9 +22,10 @@ rename_dpcr <- function(x, exper = NULL, replicate = NULL, assay = NULL) {
     slot(x, "exper") <- exper
   }
     
-  if (!is.null(replicate))
+  if (!is.null(replicate)) {
     slot(x, "replicate") <- replicate
-  
+  }
+    
   if (!is.null(assay))
     slot(x, "assay") <- assay
   
