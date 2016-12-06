@@ -42,6 +42,11 @@ shinyServer(function(input, output, session) {
       
       processed_dat <- try(process_function(input[["input_file"]][["datapath"]]))
       
+      # if(!is.null(input[["input_table"]])) {
+      #   if(!is.null(input[["input_file"]]))
+      #     browser()
+      # }
+      
       validate(
         need(class(processed_dat) != "try-error", "Input file cannot be processed. Change file or filetype.")
       )
