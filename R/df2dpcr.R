@@ -54,6 +54,6 @@ df2dpcr <- function(df) {
               col_names = df[["col_names"]],
               panel_id = df[["panel_id"]],
               v = df[["v"]],
-              adpcr = ncol(df) == 8,
+              adpcr = ncol(df) == 9,
               type = "tnp")
 }
