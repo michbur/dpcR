@@ -67,7 +67,8 @@ create_dpcr <- function(data, n, exper = "Experiment 1",
   if(adpcr) {
     create_adpcr(data = data, n = n, exper = exper, 
                  replicate = replicate, assay = assay, type = type, v = v, uv = uv,
-                 col_names = col_names, row_names = row_names, panel_id = panel_id)
+                 col_names = col_names, row_names = row_names, panel_id = panel_id, 
+                 threshold = threshold)
   } else {
     construct_dpcr(data = data, n = n, exper = exper, replicate = replicate, 
                  assay = assay, v = v, uv = uv, type = type, threshold = threshold)

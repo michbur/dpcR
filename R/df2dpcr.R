@@ -38,11 +38,11 @@
 #' df2dpcr(dat)
 
 df2dpcr <- function(df) {
-  if((!all(colnames(df) %in% c("experiment", "replicate", "assay", "k", "n", "v", "uv")) && 
-      ncol(df) == 7) |
-     (!all(colnames(df) %in% c("experiment", "replicate", "assay", "k", "n", "v", "uv",
+  if((!all(colnames(df) %in% c("experiment", "replicate", "assay", "k", "n", "v", "uv", "threshold")) && 
+      ncol(df) == 8) |
+     (!all(colnames(df) %in% c("experiment", "replicate", "assay", "k", "n", "v", "uv", "threshold",
                                "panel_id")) && 
-      ncol(df) == 8))
+      ncol(df) == 9))
     stop("Wrong column names")
   
   create_dpcr(data = matrix(df[["k"]], nrow = 1),
@@ -54,6 +54,8 @@ df2dpcr <- function(df) {
               col_names = df[["col_names"]],
               panel_id = df[["panel_id"]],
               v = df[["v"]],
+              uv = df[["uv"]],
               adpcr = ncol(df) == 9,
-              type = "tnp")
+              type = "tnp",
+              threshold = df[["threshold"]])
 }

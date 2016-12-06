@@ -99,7 +99,7 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
       stop("Each run must be assigned to an experiment.")
     }
   } 
-  if(class(exper) != "factor")
+  if(!is.factor(exper))
     exper <- as.factor(exper)
   
   
@@ -110,7 +110,7 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
   if(length(replicate) != ncol(data)) {
     stop("Each run have replicate id.")
   } 
-  if(class(replicate) != "factor")
+  if(!is.factor(replicate))
     replicate <- as.factor(replicate)
   
   run_names <- paste0(exper, ".", replicate)
@@ -135,7 +135,7 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
     }
   } 
   
-  if(class(assay) != "factor")
+  if(!is.factor(assay))
     assay <- as.factor(assay)
   
   # type
@@ -222,9 +222,10 @@ setClass("adpcr", contains = "dpcr", representation(col_names = "character",
 #constructor
 create_adpcr <- function(data, n, exper = "Experiment1", 
                          replicate = NULL, assay = "Unknown", v = 1, uv = 0, type, breaks, 
-                         col_names = NULL, row_names = NULL, panel_id = NULL) {
+                         col_names = NULL, row_names = NULL, panel_id = NULL, threshold = NULL) {
   result <- construct_dpcr(data = data, n = n, exper = exper, 
-                           replicate = replicate, assay = assay, v = v, uv = uv, type = type)
+                           replicate = replicate, assay = assay, 
+                           v = v, uv = uv, type = type, threshold = threshold)
   
   if(is.null(col_names) & is.null(row_names)) {
     #access .Data slot, because its already in the matrix form
