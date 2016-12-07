@@ -100,18 +100,18 @@ read_raw <- function(input, ext = NULL, adpcr) {
 #' @export
 
 read_QX100 <- function(input, ext = NULL) {
-  dat <- read_input(input, ext)
-  
+  dat <- read_input(input, ext)[1L:48, ]
+
   n <- dat[["AcceptedDroplets"]]
   counts <- matrix(dat[["Positives"]], nrow = 1)
-  exper <- dat[["TypeAssay"]]
+  exper <- dat[["Target"]]
   replicate <- paste0(dat[["Well"]], ".", dat[["Sample"]])
   
   create_dpcr(data = matrix(dat[["Positives"]], nrow = 1), n = n, 
               exper = exper, replicate = replicate, type = "tnp",
-              assay = dat[["Assay"]], adpcr = TRUE, v = 0.85, uv = 0.017,
+              assay = dat[["TargetType"]], adpcr = TRUE, v = 0.85, uv = 0.017,
               col_names = LETTERS[1L:8], row_names = as.character(1L:4),
-              panel_id = dat[["Assay"]])
+              panel_id = as.factor(dat[["TargetType"]]))
 }
 
 
@@ -137,7 +137,7 @@ read_QX100 <- function(input, ext = NULL) {
 #' @export
 
 read_QX200 <- function(input, ext = NULL) {
-  dat <- read_input(input, ext)
+  dat <- read_input(input, ext)[1L:48, ]
   
   n <- dat[["AcceptedDroplets"]]
   counts <- matrix(dat[["Positives"]], nrow = 1)
@@ -152,7 +152,7 @@ read_QX200 <- function(input, ext = NULL) {
               exper = exper, replicate = replicate, type = "tnp",
               assay = dat[["TargetType"]], adpcr = TRUE, v = 0.85, uv = 0.017,
               col_names = LETTERS[1L:8], row_names = as.character(1L:12),
-              panel_id = dat[["TargetType"]])
+              panel_id = as.factor(dat[["TargetType"]]))
 }
 
 #' Read BioMark
@@ -264,13 +264,13 @@ read_input<- function(input, ext = NULL, skip = 0) {
     
     if(is.null(ext))
       ext <- strsplit(input, ".", fixed = TRUE)[[1]]
-    
+
     #maybe add multisheet excel
     
     fun <- switch(ext[[length(ext)]],
                   csv = read.csv,
-                  xls = as.data.frame(getFromNamespace("read_xls", "readxl")),
-                  xlsx = as.data.frame(getFromNamespace("read_xlsx", "readxl")),
+                  xls = read_excel,
+                  xlsx = read_excel,
                   zip = read_zipped_amps)
     
     fun(input, skip = skip)
