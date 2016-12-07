@@ -100,18 +100,24 @@ read_raw <- function(input, ext = NULL, adpcr) {
 #' @export
 
 read_QX100 <- function(input, ext = NULL) {
-  dat <- read_input(input, ext)[1L:48, ]
+  dat <- read_input(input, ext)
 
   n <- dat[["AcceptedDroplets"]]
   counts <- matrix(dat[["Positives"]], nrow = 1)
-  exper <- dat[["Target"]]
+  exper <- dat[["Experiment"]]
   replicate <- paste0(dat[["Well"]], ".", dat[["Sample"]])
+  
+  assay <- if(is.null(dat[["Assay"]])) {
+    dat[["TargetType"]]
+  } else {
+    dat[["Assay"]]
+  }
   
   create_dpcr(data = matrix(dat[["Positives"]], nrow = 1), n = n, 
               exper = exper, replicate = replicate, type = "tnp",
-              assay = dat[["TargetType"]], adpcr = TRUE, v = 0.85, uv = 0.017,
+              assay = assay, adpcr = TRUE, v = 0.85, uv = 0.017,
               col_names = LETTERS[1L:8], row_names = as.character(1L:4),
-              panel_id = as.factor(dat[["TargetType"]]))
+              panel_id = as.factor(assay))
 }
 
 
@@ -137,7 +143,7 @@ read_QX100 <- function(input, ext = NULL) {
 #' @export
 
 read_QX200 <- function(input, ext = NULL) {
-  dat <- read_input(input, ext)[1L:48, ]
+  dat <- read_input(input, ext)
   
   n <- dat[["AcceptedDroplets"]]
   counts <- matrix(dat[["Positives"]], nrow = 1)
@@ -273,7 +279,15 @@ read_input<- function(input, ext = NULL, skip = 0) {
                   xlsx = read_excel,
                   zip = read_zipped_amps)
     
-    fun(input, skip = skip)
+    raw_read <- fun(input, skip = skip)
+    browser()
+    # read_excel sometimes reads empty rows, workaround
+    if(nrow(raw_read) > 1000) {
+      nas <- apply(raw_read[1L:1000, ], 1, function(i) sum(is.na(i)))
+      raw_read[1L:which.min(nas != ncol(raw_read)), ]
+    } else {
+      raw_read
+    }
   } else {
     input
   }
