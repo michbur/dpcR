@@ -280,7 +280,7 @@ read_input<- function(input, ext = NULL, skip = 0) {
                   zip = read_zipped_amps)
     
     raw_read <- fun(input, skip = skip)
-    browser()
+
     # read_excel sometimes reads empty rows, workaround
     if(nrow(raw_read) > 1000) {
       nas <- apply(raw_read[1L:1000, ], 1, function(i) sum(is.na(i)))
