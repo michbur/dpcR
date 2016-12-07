@@ -389,7 +389,11 @@ shinyServer(function(input, output, session) {
   })
   
   output[["plot_panel"]] <- renderPlot({
-    df <- plot_panel_dat()
+    df <- try(plot_panel_dat())
+    
+    validate(
+      need(class(df) != "try-error", "Please wait: processing data.")
+    )
     
     df[array_val[["selected"]], "selected"] <- TRUE
     
@@ -424,7 +428,11 @@ shinyServer(function(input, output, session) {
   })
   
   output[["plot_panel_stat"]] <- renderPrint({
-    single_array <- array_dat()[[input[["array_choice"]]]]
+    single_array <- try(array_dat()[[input[["array_choice"]]]])
+    
+    validate(
+      need(class(single_array) != "try-error", "Please wait: processing data.")
+    )
     
     source("./plot_panel/test_panel.R", local = TRUE)
     
@@ -488,7 +496,13 @@ shinyServer(function(input, output, session) {
   })
   
   output[["moments_table"]] <- DT::renderDataTable({
-    formatRound(my_DT(moments_table()), 2L:3, app_digits)
+    try_moments_table <- try(moments_table())
+    
+    validate(
+      need(class(try_moments_table) != "try-error", "Please wait: processing data.")
+    )
+    
+    formatRound(my_DT(try_moments_table), 2L:3, app_digits)
   })
   
   
@@ -501,7 +515,12 @@ shinyServer(function(input, output, session) {
   
   
   output[["density_plot"]] <- renderPlot({
-    dens <- kn_coef()[["dens"]]
+    dens <- try(kn_coef()[["dens"]])
+    
+    validate(
+      need(class(dens) != "try-error", "Please wait: processing data.")
+    )
+    
     
     source("./prob_distr/plot_density.R", local = TRUE)
     
