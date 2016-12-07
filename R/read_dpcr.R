@@ -178,7 +178,7 @@ read_QX200 <- function(input, ext = NULL) {
 read_BioMark <- function(input, ext = NULL, detailed = FALSE) {
   if(detailed) {
     dat <- read_input(input, ext, skip = 11)
-    
+
     exper <- rep(paste(as.character(sapply(0L:47, function(id_panel)
       dat[770 * id_panel + 1, "Name"]
     )),
@@ -282,9 +282,9 @@ read_input<- function(input, ext = NULL, skip = 0) {
     raw_read <- fun(input, skip = skip)
 
     # read_excel sometimes reads empty rows, workaround
-    if(nrow(raw_read) > 1000) {
-      nas <- apply(raw_read[1L:1000, ], 1, function(i) sum(is.na(i)))
-      raw_read[1L:which.min(nas != ncol(raw_read)), ]
+    if(nrow(raw_read) == 65535) {
+      nas <- apply(raw_read[1L:100000, ], 1, function(i) sum(is.na(i)))
+      raw_read[1L:(which.min(nas != ncol(raw_read)) - 1), ]
     } else {
       raw_read
     }
