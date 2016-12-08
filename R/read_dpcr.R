@@ -115,7 +115,7 @@ read_QX100 <- function(input, ext = NULL) {
   
   create_dpcr(data = matrix(dat[["Positives"]], nrow = 1), n = n, 
               exper = exper, replicate = replicate, type = "tnp",
-              assay = assay, adpcr = TRUE, v = 0.85, uv = 0.017,
+              assay = assay, adpcr = TRUE, v = 0.834, uv = 0.017,
               col_names = LETTERS[1L:8], row_names = as.character(1L:4),
               panel_id = as.factor(assay))
 }
@@ -172,6 +172,10 @@ read_QX200 <- function(input, ext = NULL) {
 #' @author Michal Burdukiewcz, Stefan Roediger
 #' @return An object of \code{\linkS4class{adpcr}} class.
 #' @seealso See \code{\link{read_dpcr}} for detailed description of input files.
+#' @references 
+#' Dong, L. et al (2015). Comparison of four digital PCR platforms for accurate 
+#' quantification of DNA copy number of a certified plasmid DNA reference material. 
+#' Scientific Reports. 2015;5:13174.
 #' @keywords utilities
 #' @export
 
@@ -214,7 +218,8 @@ read_BioMark <- function(input, ext = NULL, detailed = FALSE) {
     ))
     
     create_dpcr(run_dat, 770L, exper = exper, replicate = replicate, col_names = as.character(1L:70),
-                row_names = as.character(1L:11), type = "np", adpcr = TRUE, panel_id = as.factor(1L:96))
+                row_names = as.character(1L:11), type = "np", adpcr = TRUE, panel_id = as.factor(1L:96),
+                v = 0.85, uv = 0.00595)
 
   } else {
     dat <- data.frame(read_input(input, ext))
@@ -231,9 +236,9 @@ read_BioMark <- function(input, ext = NULL, detailed = FALSE) {
                         data_range[, which(names1 == "Sample Information" & names2 == "Type")]), 2)
     
     #replicate
-    replicate <- paste0(rep(data_range[, names1 == "Panel" & names2 == "ID"], 2),
-                        unlist(lapply(c("VIC-TAMRA", "FAM-MGB"), function(channel_name)
-                          data_range[, names1 == channel_name & names2 == "Type"])))
+    replicate <- paste0(unlist(lapply(c("VIC-TAMRA", "FAM-MGB"), function(channel_name)
+                          data_range[, names1 == channel_name & names2 == "Type"])),
+                        rep(data_range[, names1 == "Panel" & names2 == "ID"], 2))
     
     #dat[data_range, names1 == "Sample Information" & names2 == "rConc."]
     
@@ -251,7 +256,8 @@ read_BioMark <- function(input, ext = NULL, detailed = FALSE) {
                        exper = exper, replicate = replicate, type = "tnp",
                        assay = assay, adpcr = TRUE, row_names = as.character(1L:4), 
                        col_names = as.character(1L:12), 
-                       panel_id = factor(c(rep(1, length(exper)/2), rep(2, length(exper)/2))))
+                       panel_id = factor(c(rep(1, length(exper)/2), rep(2, length(exper)/2))),
+                       threshold = 1, v = 0.85, uv = 0.00595)
     
     names_df <- data.frame(table(slot(res, "panel_id"), slot(res, "assay")))
     levels(slot(res, "panel_id")) <- as.character(sapply(levels(names_df[["Var1"]]), 
