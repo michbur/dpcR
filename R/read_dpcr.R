@@ -217,9 +217,9 @@ read_BioMark <- function(input, ext = NULL, detailed = FALSE) {
                 row_names = as.character(1L:11), type = "np", adpcr = TRUE, panel_id = as.factor(1L:96))
 
   } else {
-    dat <- read_input(input, ext)
+    dat <- data.frame(read_input(input, ext))
 
-    data_range <- 10L:57
+    data_range <- dat[-c(1L:10), ]
     
     #dat[apply(dat, 1, function(row) sum(is.na(row))) == 0, ]
     
@@ -227,24 +227,24 @@ read_BioMark <- function(input, ext = NULL, detailed = FALSE) {
     names2 <- as.vector(dat[9, ])
     
     #exper
-    exper <- rep(paste0(dat[data_range, names1 == "Sample Information" & names2 == "Name"], "_",
-                        dat[data_range, names1 == "Sample Information" & names2 == "Type"]), 2)
+    exper <- rep(paste0(data_range[, which(names1 == "Sample Information" & names2 == "Name")], "_",
+                        data_range[, which(names1 == "Sample Information" & names2 == "Type")]), 2)
     
     #replicate
-    replicate <- paste0(rep(dat[data_range, names1 == "Panel" & names2 == "ID"], 2),
+    replicate <- paste0(rep(data_range[, names1 == "Panel" & names2 == "ID"], 2),
                         unlist(lapply(c("VIC-TAMRA", "FAM-MGB"), function(channel_name)
-                          dat[data_range, names1 == channel_name & names2 == "Type"])))
+                          data_range[, names1 == channel_name & names2 == "Type"])))
     
     #dat[data_range, names1 == "Sample Information" & names2 == "rConc."]
     
     #assay
     assay <- unlist(lapply(c("VIC-TAMRA", "FAM-MGB"), function(channel_name)
-      dat[data_range, names1 == channel_name & names2 == "Name"]
+      data_range[, names1 == channel_name & names2 == "Name"]
     ))
     
     #data
     count_data <- unlist(lapply(c("VIC-TAMRA", "FAM-MGB"), function(channel_name)
-      as.numeric(dat[data_range, names1 == channel_name & names2 == "Count"])))
+      as.numeric(data_range[, names1 == channel_name & names2 == "Count"])))
     
     
     res <- create_dpcr(data = matrix(count_data, nrow = 1), n = rep(765, length(count_data)), 
@@ -282,8 +282,8 @@ read_input<- function(input, ext = NULL, skip = 0) {
     raw_read <- fun(input, skip = skip)
 
     # read_excel sometimes reads empty rows, workaround
-    if(nrow(raw_read) == 65535) {
-      nas <- apply(raw_read[1L:100000, ], 1, function(i) sum(is.na(i)))
+    if(nrow(raw_read) == 65535 | all(unlist(apply(tail(raw_read, 1), 1, is.na)))) {
+      nas <- apply(raw_read[1L:min(c(100000, nrow(raw_read))), ], 1, function(i) sum(is.na(i)))
       raw_read[1L:(which.min(nas != ncol(raw_read)) - 1), ]
     } else {
       raw_read
