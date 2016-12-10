@@ -2,7 +2,7 @@
 
 1. Name of the run (NameOfExperiment.ReplicateID).
 1. Name of the experiment.
-1. ID of technical replicate.
+1. ID of replicate.
 1. Method used to compute statistics.
 1. Mean number of template molecules per partition.
 1. Lower border of the confidence interval for the mean number of template molecules per partition.

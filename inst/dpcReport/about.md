@@ -1,20 +1,20 @@
 ## About
 
-The dpcReport is a part of the [dpcR](http://cran.r-project.org/web/packages/dpcR/index.html) R package.
+The dpcReport web-server is a part of the [dpcR](http://cran.r-project.org/web/packages/dpcR/index.html) R package. All functionalities of the web-server are based on functions included in the package.
 
 <img src="dpcR_logo.png" alt="HTML5 Icon" style="width:224px;height:120px">
 
 ### Structure of dpcReport
 
-dpcReport consists of seven panels which can be chosen using the navigation bar above.
+dpcReport consists of seven panels which can be chosen using the navigation bar above and are described below.
 
-All tables allow multiconditional filtering as well as sorting. The content of each table may be downloaded or printed using the menu bar at the top of the table.  
+Tables allow multiconditional filtering as well as sorting. The content of each table may be downloaded or printed using the menu bar at the top of the table.  
 
-Most of the figures in GUI are interactive and yield additional information after a mouse click. The may be downloaded separately as .svg files.
+Most of the figures in GUI are interactive. Static versions may be downloaded separately as .svg files.
 
 1. **Input file**: Responsible for importing data into GUI. In case if data is not properly read, make sure that you have chosen a proper data format. In this panel you can also change name of the experiments, replicates and assays in loaded data. Your original file will be NOT modified in this manner. The modified file in a dpcR exchange format may be downloaded using **Save report** panel. The volume of the droplet and its uncertainty is already predifined for most of the popular dPCR systems, but it may be also altered here.
 
-2. **Data summary**: This panel contains two subpanels. *Summary table* is a tabular summary of dPCR experiments extracted from your data. *Summary charts* present the summary in the graphical form: as a boxplot and a scatterchart. The summary consists of &lambda; values computed using Bhat's (Bhat et al. 2009) and Dube's (Dube et al. 2008) methods as well as the concentration of the template in the sample.   
+2. **Data summary**: This panel contains two subpanels. *Summary table* is a tabular summary of dPCR experiments in the imported data. *Summary charts* present the summary in the graphical form: as a boxplot and a scatterchart. The summary consists of &lambda; values computed using Bhat's (Bhat et al. 2009) and Dube's (Dube et al. 2008) methods as well as the concentration of the template in the sample.   
 
 3. **Comparison of runs**: Compares &lambda; values of runs using Multiple Ratio Test (Burdukiewicz et. al., 2016). The first table contains results of pairwise comparisions between runs. Second table assignes runs to the groups (Piepho, 2004). The figure presents values of &lambda; for individual runs and their groups.    
 
@@ -30,7 +30,7 @@ Most of the figures in GUI are interactive and yield additional information afte
 
 ### References
 
-The application was created using the results derived from following publications: 
+The application was created using the methods derived from following publications: 
 
 [1] L. D. Brown, T. T. Cai and A. DasGupta. "Interval Estimation
 for a Binomial Proportion". In: _Statist. Sci._ 16.2 (maj. 2001),
@@ -69,7 +69,7 @@ comparing digital PCR experiments". Eng. In: _Biomolecular
 Detection and Quantification_ 28.9 (2016), pp. 14-19. ISSN:
 2214-7535. DOI: 10.1016/j.bdq.2016.06.004.
 
-### Authors
+### Contact us
 
 [Michal Burdukiewicz](https://github.com/michbur)  
 
