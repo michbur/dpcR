@@ -1,8 +1,8 @@
 dpcr_calculator <- function(k, n, average = FALSE, log = FALSE) {
   if (n < k)  
     stop("'n' must be larger or equal to 'k'.")
-  if (k == 0)  
-    stop("'k' must be larger then 0. No template molecules in the sample")
+  # if (k == 0)  
+  #   stop("'k' must be larger then 0. No template molecules in the sample")
   if (!(average %in% c(TRUE, FALSE)))
     stop("'average' must be TRUE or FALSE.")
   
@@ -10,6 +10,9 @@ dpcr_calculator <- function(k, n, average = FALSE, log = FALSE) {
   start_r <- ifelse(k - sig5 < 0, 0, k - sig5)
   stop_r <- ifelse(k + sig5 >= n, n - 1, k + sig5)
   range <- start_r:stop_r
+  if(length(range) == 1) {
+    range <- c(range, range)
+  }
   res <- dbinom(range, size = n, prob = k/n, log = log)
   if (average)
     range <- -log(1 - range/n)
