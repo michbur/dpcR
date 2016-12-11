@@ -219,12 +219,12 @@ read_BioMark <- function(input, ext = NULL, detailed = FALSE) {
     
     create_dpcr(run_dat, 770L, exper = exper, replicate = replicate, col_names = as.character(1L:70),
                 row_names = as.character(1L:11), type = "np", adpcr = TRUE, panel_id = as.factor(1L:96),
-                v = 0.85, uv = 0.00595)
+                v = 0.85, uv = 0.00595, threshold = 1)
 
   } else {
     dat <- data.frame(read_input(input, ext))
 
-    data_range <- dat[-c(1L:10), ]
+    data_range <- dat[-c(1L:9), ]
     
     #dat[apply(dat, 1, function(row) sum(is.na(row))) == 0, ]
     
