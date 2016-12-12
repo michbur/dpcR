@@ -31,6 +31,6 @@ amp2dpcr <- function(x) {
               exper = 1L:nrow(x), replicate = rep(1, nrow(x)), type = "tnp",
               assay = paste0("ch", x[["channel"]]), adpcr = TRUE, 
               col_names = as.character(x[["x"]]), row_names = as.character(x[["y"]]),
-              panel_id = NULL)
+              panel_id = NULL, threshold = 1)
 }
 
