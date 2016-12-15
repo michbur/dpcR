@@ -1,22 +1,22 @@
 ## About
 
-The dpcReport web-server is a part of the [dpcR](http://cran.r-project.org/web/packages/dpcR/index.html) R package. All functionalities of the web-server are based on functions included in the package.
+The dpcReport web-server is a part of the [dpcR](http://cran.r-project.org/web/packages/dpcR/index.html) R package. All functionalities of the web-server are based on functions included in this package. Please note that dpcReport can be run as desktop application, too (see documentation for details).
 
 <img src="dpcR_logo.png" alt="HTML5 Icon" style="width:224px;height:120px">
 
 ### Structure of dpcReport
 
-dpcReport consists of seven panels which can be chosen using the navigation bar above and are described below.
+dpcReport consists of seven panels which can be chosen by using the navigation bar above and are described below.
 
-Tables allow multiconditional filtering as well as sorting. The content of each table may be downloaded or printed using the menu bar at the top of the table.  
+Tables allow multiconditional filtering as well as sorting. The content of each table may be downloaded or printed from the menu bar at the top of the table.  
 
-Most of the figures in GUI are interactive. Static versions may be downloaded separately as .svg files.
+Most figures in the GUI are interactive. Static versions may be downloaded separately as .svg files.
 
-1. **Input file**: Responsible for importing data into GUI. In case if data is not properly read, make sure that you have chosen a proper data format. In this panel you can also change name of the experiments, replicates and assays in loaded data. Your original file will be NOT modified in this manner. The modified file in a dpcR exchange format may be downloaded using **Save report** panel. The volume of the droplet and its uncertainty is already predifined for most of the popular dPCR systems, but it may be also altered here.
+1. **Input file**: Responsible for importing data into GUI. If data are not properly read, first make sure that you have chosen a proper data format and that the file is not corrupted. In this panel one can change the name of the experiments, replicates and assays of the loaded data. The original file will be NOT modified in this manner. The modified file is represented in a dpcR exchange format, which can be downloaded from the **Save report** panel. The volume of the droplet and its uncertainty is already predifined for most of the popular dPCR systems, but it may be also altered here.
 
-2. **Data summary**: This panel contains two subpanels. *Summary table* is a tabular summary of dPCR experiments in the imported data. *Summary charts* present the summary in the graphical form: as a boxplot and a scatterchart. The summary consists of &lambda; values computed using Bhat's (Bhat et al. 2009) and Dube's (Dube et al. 2008) methods as well as the concentration of the template in the sample.   
+2. **Data summary**: This panel contains two subpanels. *Summary table* is a tabular summary of dPCR experiments from the imported data. *Summary charts* present the summary in the graphical form: as a boxplot and a scatterchart. The summary consists of &lambda; values computed using Bhat's (Bhat et al. 2009) and Dube's (Dube et al. 2008) methods as well as the concentration of the template in the sample.   
 
-3. **Comparison of runs**: Compares &lambda; values of runs using Multiple Ratio Test (Burdukiewicz et. al., 2016). The first table contains results of pairwise comparisions between runs. Second table assignes runs to the groups (Piepho, 2004). The figure presents values of &lambda; for individual runs and their groups.    
+3. **Comparison of runs**: This compares &lambda; values of runs by using the Multiple Ratio Test (MRT) (Burdukiewicz et. al., 2016). The first table contains results of pairwise comparisions between runs. The second table assignes runs to the groups (Piepho, 2004). The figure presents values of &lambda; for individual runs and their groups.    
 
 4. **Advanced analysis**: Contains specialized analytics tools.  
   + *Array spatial analysis* - analyses of spatial randomness of positive partitions distributed over the dPCR array. Presents arrays in graphical form. Allows regional analysis of the array.    
