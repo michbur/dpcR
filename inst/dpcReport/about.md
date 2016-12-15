@@ -8,7 +8,7 @@ The dpcReport web-server is a part of the [dpcR](http://cran.r-project.org/web/p
 
 dpcReport consists of seven panels which can be chosen by using the navigation bar above and are described below.
 
-Tables allow multiconditional filtering as well as sorting. The content of each table may be downloaded or printed from the menu bar at the top of the table.  
+The tables are interactive and allow multiconditional filtering as well as sorting. The content of each table may be downloaded or printed from the menu bar at the top of the table.  
 
 Most figures in the GUI are interactive. Static versions may be downloaded separately as .svg files.
 
@@ -22,7 +22,7 @@ Most figures in the GUI are interactive. Static versions may be downloaded separ
   + *Array spatial analysis* - analyses of spatial randomness of positive partitions distributed over the dPCR array. Presents arrays in graphical form. Allows regional analysis of the array.    
   + *Probability distribution* - studies distribution of dPCR data as well as the distribution of the &lambda;.    
 
-5. **Save report**: Interactively builds report from the conducted analysis.    
+5. **Save report**: Interactively builds a report from the analysis.    
 
 6. **About**: Basic information about the GUI.    
 
