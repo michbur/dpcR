@@ -53,8 +53,15 @@ adpcr2ppp <- function(input, marks = TRUE, plot = FALSE) {
 create_ppp <- function(data_vector, nx_a, ny_a, plot, marks) {
   #strange syntax, because spatstat use different localizations
   #than dpcR.
-  data_points <- which(matrix(data_vector, ncol = nx_a, nrow = ny_a) > 0,
-                       arr.ind = TRUE)
+  
+  if(storage.mode(data_vector) == "numeric") {
+    data_points <- which(matrix(data_vector, ncol = nx_a, nrow = ny_a) > 0,
+                         arr.ind = TRUE)
+  } else {
+    data_points <- which(matrix(!grepl("[0,", data_vector, fixed = TRUE), ncol = nx_a, nrow = ny_a),
+          arr.ind = TRUE)
+  }
+  
   data_points[, "row"] <- ny_a - data_points[, "row"] + 1
   
   if (plot)
