@@ -90,7 +90,6 @@ shinyServer(function(input, output, session) {
   
   # Data summary table panel --------------------------------
   summary_table <- reactive({
-    browser()
     new_dat <- input_dat()
     source("./data_summary/summary_input.R", local = TRUE)
     res
