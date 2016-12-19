@@ -32,11 +32,11 @@ Detected input file: `r ifelse(is.null(input[["input_file"]][["name"]]), "none",
 ```{r}
 if(!is.null(input[["input_file"]][["name"]])) {
   cat("md5 checksum of the input file: ", digest(input[["input_file"]], "md5"))
-}
-
-
-if(!input[["input_table"]][["params"]][["rInitInput"]]) {
-  cat("**The input was modified manually in dpcReport application.**")
+  
+  if(!identical(dpcr2df(raw_input_dat()), dpcr2df(input_dat()))) {
+    cat("\n\n**The input was modified manually in dpcReport application.**")
+  }
+  
 }
 ```
 

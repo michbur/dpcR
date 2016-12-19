@@ -130,3 +130,11 @@ merge_dpcr <- function(a, b) {
   colnames(a) <- colnames(b)
   a
 }
+
+unorder_df <- function(df)
+  data.frame(lapply(df, function(i)
+    if(is.ordered(i)) {
+      factor(i, ordered = FALSE)
+    } else {
+      i
+    }))

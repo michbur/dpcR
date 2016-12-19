@@ -20,24 +20,7 @@ shinyServer(function(input, output, session) {
     dat <- if(is.null(input[["input_file"]])) {
       six_panels
     } else {
-      
-      #read extension of the file
-      ext <- strsplit(input[["input_file"]][["name"]], ".", fixed = TRUE)[[1]]
-      new_name <- paste0(input[["input_file"]][["datapath"]], ".", ext[length(ext)])
-
-      file.rename(input[["input_file"]][["datapath"]], new_name)
-
-      #choose which function use to process tha dPCR data
-      process_function <- switch(input[["input_type"]],
-                                 raw_adpcr = function(x) read_dpcr(x, format = "raw", adpcr = TRUE),
-                                 raw_ddpcr = function(x) read_dpcr(x, format = "raw", adpcr = FALSE),
-                                 QX100 = function(x) read_dpcr(x, format = "QX100"),
-                                 QX200 = function(x) read_dpcr(x, format = "QX200"),
-                                 BioMark_det = function(x) read_dpcr(x, format = "BioMark", detailed = TRUE),
-                                 BioMark_sum = function(x) read_dpcr(x, format = "BioMark", detailed = FALSE),
-                                 amp = function(x) read_dpcr(x, format = "amp"))
-      
-      processed_dat <- try(process_function(new_name))
+      processed_dat <- raw_input_dat()
       
       validate(
         need(class(processed_dat) != "try-error", "Input file cannot be processed. Change file or filetype.")
@@ -53,7 +36,7 @@ shinyServer(function(input, output, session) {
     if(!is.null(input[["input_table"]])) {
       
       #if(!input[["input_table"]][["changes"]][["rInitInput"]]) 
-        merged_dat <- try(merge_dpcr(dat, df2dpcr(hot_to_r(input[["input_table"]]))))
+        merged_dat <- try(merge_dpcr(dat, df2dpcr(unorder_df(hot_to_r(input[["input_table"]])))))
         if(class(merged_dat) != "try-error") {
           dat <- merged_dat
         } else {
@@ -63,6 +46,31 @@ shinyServer(function(input, output, session) {
       
     dat
   })
+  
+  raw_input_dat <- reactive({
+    if(is.null(input[["input_file"]])) {
+      NULL
+    } else {
+      #read extension of the file
+      ext <- strsplit(input[["input_file"]][["name"]], ".", fixed = TRUE)[[1]]
+      new_name <- paste0(input[["input_file"]][["datapath"]], ".", ext[length(ext)])
+      
+      file.rename(input[["input_file"]][["datapath"]], new_name)
+      
+      #choose which function use to process tha dPCR data
+      process_function <- switch(input[["input_type"]],
+                                 raw_adpcr = function(x) read_dpcr(x, format = "raw", adpcr = TRUE),
+                                 raw_ddpcr = function(x) read_dpcr(x, format = "raw", adpcr = FALSE),
+                                 QX100 = function(x) read_dpcr(x, format = "QX100"),
+                                 QX200 = function(x) read_dpcr(x, format = "QX200"),
+                                 BioMark_det = function(x) read_dpcr(x, format = "BioMark", detailed = TRUE),
+                                 BioMark_sum = function(x) read_dpcr(x, format = "BioMark", detailed = FALSE),
+                                 amp = function(x) read_dpcr(x, format = "amp"))
+      
+      processed_dat <- try(process_function(new_name))
+    }
+  })
+  
   
   output[["input_table"]] = renderRHandsontable({
     hot_table(rhandsontable(dpcr2df(input_dat()), useTypes = FALSE, 
@@ -82,6 +90,7 @@ shinyServer(function(input, output, session) {
   
   # Data summary table panel --------------------------------
   summary_table <- reactive({
+    browser()
     new_dat <- input_dat()
     source("./data_summary/summary_input.R", local = TRUE)
     res
