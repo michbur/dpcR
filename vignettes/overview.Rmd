@@ -47,9 +47,9 @@ $$
 \lambda = - \ln \left(1 - \frac{k}{n} \right)
 $$
 
-We firstly describe `dpcr` class, a parent class for all classes designed to contain dPCR data. Further, we inspect closer `adpcr` class responsible for array-based dPCR experiments (all experiments, where output data has precise localization in two dimensions).
+Firstly, we describe `dpcr` class, a parent class for all classes designed to contain dPCR data. Further, we closer inspect `adpcr` which is a class responsible for array-based dPCR experiments (all experiments, where output data has precise localization in two dimensions). Often these types of dPCR experiments are called champer digital PCR (cdPCR).
 
-Real-time quantitative qPCR (qPCR) experiments do not follow the fundamental assumption of dPCR reactions (the mean number of template molecule per partition smaller than 1). However, it is possible to 'convert' the qPCR. We present a tool to analyze results from *high-throughput* qPCR systems by using the dPCR analysis methodology as implemented in the **dpcR** package. The `qpcr2pp` function converts qPCR amplification curve data to a `qdpcr` object (see section about `qdpcr`). The calculation of the Cq's from the 
+Real-time quantitative qPCR (qPCR) experiments do not follow the fundamental assumption of dPCR reactions (the mean number of template molecule per partition smaller than 1). However, it is possible to 'convert' the qPCR into a dPCR. We present a tool to analyze results from *high-throughput* qPCR systems by using the dPCR analysis methodology as implemented in the **dpcR** package. The `qpcr2pp` function converts qPCR amplification curve data to a `qdpcr` object (see section about `qdpcr`). The calculation of the Cq values from the 
 amplification curves is internally done via functions from the **qpcR** package by @ritz_qpcr_2008.
 
 
@@ -95,7 +95,7 @@ dpcr_list <- do.call(bind_dpcr, lapply(5L:10*10, function(n_template)
   sim_adpcr(m = n_template, n = 765, times = 100, pos_sums = FALSE, n_panels = 1)))
 ```
 
-`bind_dpcr` may be seen as the analogue of the R function [cbind](https://stat.ethz.ch/R-manual/R-devel/library/base/html/cbind.html). The main difference is the lack of recycling. If two objects with uneven number of data points are bound together, the shorter is completed with NA values.
+`bind_dpcr` may be seen as the analogue of the R function [cbind](https://stat.ethz.ch/R-manual/R-devel/library/base/html/cbind.html). The main difference is the lack of recycling. If two objects with uneven number of data points are bound together, the shorter is completed with missing values (NA).
 
 ```{r eval=TRUE}
 longer_run <- sim_adpcr(m = 10, n = 15, times = 100, pos_sums = FALSE, n_panels = 1)
@@ -107,7 +107,7 @@ res <- bind_dpcr(longer_run, shorter_run, shortest_run)
 slot(res, ".Data")
 ```
 
-`extract_run` is an equivalent of [Extract](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Extract.html). It extracts one or more runs from the `dpcr` objects preserving other properties (as an adequate replicate ID and so on).
+`extract_run` is an equivalent of [Extract](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Extract.html). It extracts one or more runs from the `dpcr` objects preserving other properties (as an appropriate replicate ID and so on).
 
 ```{r eval=TRUE}
 five_runs <- sim_adpcr(m = 2, n = 10, times = 100, pos_sums = FALSE, n_panels = 5)
@@ -143,20 +143,20 @@ sample_adpcr <- bind_dpcr(sim_adpcr(m = 100, n = 765, times = 100, pos_sums = FA
                                  exper = "Experiment2"))
 ```
 
-In the code chunk above we created two array dPCR experiments with respectively 765 and 763 partitions. See the last five data points:
+In the code chunk above, we created two array dPCR experiments with respectively 765 and 763 partitions. Inspect the last five data points:
 
 ```{r eval=TRUE}
 # It's possible to manipulate data points from dpcr object using all functions that work for matrices
 tail(sample_adpcr)
 ```
 
-Both experiments have 765 data points. We see that in case of shorter experiment, 2 data points has value NA. If we analyze the *n* slot:
+Both experiments have 765 data points. We see that in case of shorter experiment, two data points have the value NA. If we analyze the *n* slot:
 
 ```{r eval=TRUE}
 slot(sample_adpcr, "n")
 ```
 
-We see the expected number of partitions. It is especially important in case of fluorescence dPCR data, where one droplet may have assigned few data points.
+We see the expected number of partitions. It is especially important in case of fluorescence dPCR data, where one droplet may have assignements of few data points.
 
 The important feature of *.Data* is inheritance from `matrix` class, which opens numerous possibilities for data manipulation. 
 ```{r eval=TRUE}
@@ -176,7 +176,7 @@ Data from dPCR experiments may have several types:
 * **np** (**n**umber of **p**ositives): status (positive (1) or negative(0)) of each partition.  
 * **tnp** (**t**otal **n**umber of **p**ositives): total number of positive partitions in the run (*.Data* in this case is matrix with single row and number of columns equal to the number of runs).  
 
-In case of **fluo** and **tnp** types, the number of data points in *.Data* slot is almost never equal to the real number of partitions `dpcr`.
+In case of **fluo** and **tnp** types, the number of data points in *.Data* slot is hardly ever equal to the real number of partitions `dpcr`.
 
 ```{r eval=TRUE}
 # Inspect all types of data
@@ -222,7 +222,7 @@ class(adpcr_experiments)
 
 ## Summary method
 
-`Summary` method produces a tabelary summary of any `dpcr` object. It calculates &#955; and its confidence intervals using both Dube's and Bhat's method. The estimated number of template molecules (m) is also computed using the following relationship:
+The `Summary` method produces a tabelary summary of any `dpcr` object. It calculates &#955; and its confidence intervals using both Dube's and Bhat's method. The estimated number of template molecules (m) is computed using the following relationship:
 
 $$
 m = n \lambda
@@ -242,7 +242,7 @@ summ[["summary"]][summ[["summary"]][["method"]] == "dube", ]
 
 ## Show method
 
-Since the `dpcr` objects tends to have many data points and quickly clutter the console, the `show` function prints only first 5 rows of *.Data*, number of omitted rows and the type of the object.
+Since the `dpcr` objects tends to have many data points which would quickly clutter the console, the `show` function prints only first 5 rows of *.Data*, number of omitted rows and the type of the object.
 
 ```{r eval=TRUE}
 
@@ -257,7 +257,7 @@ slot(sample_dpcr, ".Data")
 
 # `adpcr` class
 
-If the output if dPCR system has exact locations in two-dimensional space, it belongs to the `adpcr` class. It is the case for all dPCR experiments conducted on panels, arrays and so on. The `adpcr` object inherits from `dpcr` objects, but has special slots specifying the dimensions and their names.
+If the data output of an dPCR system has exact locations in two-dimensional space, it belongs to the `adpcr` class. It is the case for all dPCR experiments conducted on panels, arrays and so on. The `adpcr` object inherits from `dpcr` objects, but has special slots specifying the dimensions and their names.
 
 The planar representation of `adpcr` objects is created by the `adpcr2panel` function.
 
@@ -295,7 +295,7 @@ ggplot(ggplot_coords, aes(x = x, y = y, fill = value)) +
 
 ## Array testing
 
-The `test_panel` function is useful for testing the randomness of the spatial distribution of template molecules over the array.
+The `test_panel` function is useful for testing the randomness of the spatial distribution of template molecules over the array. This function was implemented to test if technical flaws may corrupt the result of an dPCR experiment. This may occur during incorrect filling of the chamber, defects of the chamber or contaminations.
 
 ```{r eval=TRUE}
 # The test_panel function performs a test for each experiment in apdr object.
