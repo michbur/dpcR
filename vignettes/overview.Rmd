@@ -156,7 +156,7 @@ Both experiments have 765 data points. We see that in case of shorter experiment
 slot(sample_adpcr, "n")
 ```
 
-We see the expected number of partitions. It is especially important in case of fluorescence dPCR data, where one droplet may have assignements of few data points.
+We see the expected number of partitions. It is especially important in case of fluorescence dPCR data, where one droplet may have assignments of few data points.
 
 The important feature of *.Data* is inheritance from `matrix` class, which opens numerous possibilities for data manipulation. 
 ```{r eval=TRUE}
@@ -302,7 +302,7 @@ The `test_panel` function is useful for testing the randomness of the spatial di
 test_panel(six_panels)
 ```
 
-Further tests are available in the **spatstat** package, which is also utilizing S4 object system. The exchange of data between **dpcR** and **spatstat** packages is streamlined by the `adpcr2ppp` function, which converts `adpcr` object to [ppp](http://finzi.psych.upenn.edu/library/spatstat/html/ppp.object.html) class taking into account spatial coordinates of positive partitions.
+Further tests are available in the **spatstat** package, which is also utilizing S4 object system. The data exchange between **dpcR** and **spatstat** packages is streamlined by the `adpcr2ppp` function, which converts `adpcr` object to [ppp](http://finzi.psych.upenn.edu/library/spatstat/html/ppp.object.html) class taking into account spatial coordinates of positive partitions.
 
 # `qdpcr` class
 
