@@ -50,20 +50,38 @@ adpcr2ppp <- function(input, marks = TRUE, plot = FALSE) {
 }
 
 
+# create_ppp <- function(data_vector, nx_a, ny_a, plot, marks) {
+#   #strange syntax, because spatstat use different localizations
+#   #than dpcR.
+#   
+#   if(storage.mode(data_vector) == "character") {
+#     data_vector <- unlist(lapply(strsplit(data_vector, ","), function(single_dp) {
+#       mean(c(as.numeric(substr(single_dp[1], 2, nchar(single_dp[1]))),
+#              as.numeric(substr(single_dp[2], 0, nchar(single_dp[2]) - 1))))
+#     }))
+#   }
+#   
+#   data_points <- which(matrix(data_vector, ncol = nx_a, nrow = ny_a) > 0,
+#                        arr.ind = TRUE)
+#   
+#   data_points[, "row"] <- ny_a - data_points[, "row"] + 1
+#   
+#   if (plot)
+#     plot(ppp(data_points[, 2], data_points[, 1], c(1, nx_a), c(1, ny_a)))
+#   #check if marks are properly assigned
+#   if (marks) {
+#     ppp(data_points[, 2], data_points[, 1], c(1, nx_a), c(1, ny_a), 
+#         marks = data_vector[data_vector != 0])
+#   } else {
+#     ppp(data_points[, 2], data_points[, 1], c(1, nx_a), c(1, ny_a))
+#   }
+# }
+
 create_ppp <- function(data_vector, nx_a, ny_a, plot, marks) {
   #strange syntax, because spatstat use different localizations
   #than dpcR.
-  
-  if(storage.mode(data_vector) == "character") {
-    data_vector <- unlist(lapply(strsplit(data_vector, ","), function(single_dp) {
-      mean(c(as.numeric(substr(single_dp[1], 2, nchar(single_dp[1]))),
-             as.numeric(substr(single_dp[2], 0, nchar(single_dp[2]) - 1))))
-    }))
-  }
-  
   data_points <- which(matrix(data_vector, ncol = nx_a, nrow = ny_a) > 0,
                        arr.ind = TRUE)
-  
   data_points[, "row"] <- ny_a - data_points[, "row"] + 1
   
   if (plot)
