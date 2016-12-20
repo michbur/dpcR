@@ -302,7 +302,7 @@ The `test_panel` function is useful for testing the randomness of the spatial di
 test_panel(six_panels)
 ```
 
-Further tests are available in the **spatstat** package, which is also utilizing S4 object system. The data exchange between **dpcR** and **spatstat** packages is streamlined by the `adpcr2ppp` function, which converts `adpcr` object to [ppp](http://finzi.psych.upenn.edu/library/spatstat/html/ppp.object.html) class taking into account spatial coordinates of positive partitions.
+Further tests are available in the **spatstat** package, which is also utilizing S4 object system. The data exchange between the **dpcR** and the **spatstat** packages is streamlined by the `adpcr2ppp` function, which converts `adpcr` object to [ppp](http://finzi.psych.upenn.edu/library/spatstat/html/ppp.object.html) class taking into account spatial coordinates of positive partitions.
 
 # `qdpcr` class
 
@@ -324,7 +324,7 @@ plot(qdat)
 
 # Data import
 
-Import functions accessible under `read_dpcr` covers many common dPCR systems. To further extend the scope of our software, we propose a universal dPCR data exchange format REDF (raw exchange digital PCR format). 
+The import functions accessible under `read_dpcr` cover common dPCR systems. To extend the scope of our software, we introduced a universal dPCR data exchange format REDF (raw exchange digital PCR format). 
 
 ## REDF
 
