@@ -83,9 +83,6 @@ setMethod("bind_dpcr",
             
             res <- cbind_dpcr(all_args, threshold = thresholds)
             
-            lapply(all_args, function(single_arg) 
-              slot(single_arg, "col_names"))
-            
             class(res) <- "adpcr"
             
             longer_colnames <- which.max(lapply(all_args, function(single_arg) 
@@ -101,6 +98,10 @@ setMethod("bind_dpcr",
             
             slot(res, "col_names") <- col_names
             slot(res, "row_names") <- row_names
+            slot(res, "col_id") <- unlist(lapply(all_args, function(single_arg) 
+              slot(single_arg, "col_id")))
+            slot(res, "row_id") <- unlist(lapply(all_args, function(single_arg) 
+              slot(single_arg, "row_id")))
             slot(res, "panel_id") <- panel_ids
             res
           })

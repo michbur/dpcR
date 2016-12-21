@@ -42,9 +42,9 @@ adpcr2panel <- function(input, breaks = TRUE) {
   #assumption - number of experiments in each panel is the same
   len_n <- ifelse(slot(input, "type") == "tnp", table(slot(input, "panel_id"))[1], slot(input, "n"))
   
-  if (len_n != nx_a * ny_a)
-    stop(paste0("Input length (", len_n, ") differs from the array size (", 
-                nx_a * ny_a, ")."))
+  # if (len_n != nx_a * ny_a)
+  #   stop(paste0("Input length (", len_n, ") differs from the array size (", 
+  #               nx_a * ny_a, ")."))
   
   #apply in case input contains more than 1 array
   #here list of?

@@ -112,11 +112,12 @@ read_QX100 <- function(input, ext = NULL) {
   } else {
     dat[["Assay"]]
   }
-  
+
   create_dpcr(data = matrix(dat[["Positives"]], nrow = 1), n = n, 
               exper = exper, replicate = replicate, type = "tnp",
               assay = assay, adpcr = TRUE, v = 0.834, uv = 0.017,
-              col_names = LETTERS[1L:8], row_names = as.character(1L:4),
+              col_names = substr(dat[["Well"]], 0, 1), 
+              row_names = substr(dat[["Well"]], 3, 3),
               panel_id = as.factor(assay), threshold = 1)
 }
 
