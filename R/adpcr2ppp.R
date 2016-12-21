@@ -1,7 +1,7 @@
 #' Convert adpcr to ppp
 #' 
 #' Converts \code{\linkS4class{adpcr}} object to the list of
-#' \code{\link[spatstat]{ppp.object}}s allowing spatial analysis.
+#' \code{\link[spatstat]{ppp.object}}s.
 #' 
 #' @details 
 #' Each array is independently converted by \code{\link[spatstat]{ppp}}
@@ -10,7 +10,8 @@
 #' 
 #' @param input Object of the \code{\linkS4class{adpcr}} class containing data
 #' from one or more panels.
-#' @param marks If \code{TRUE}, marks values for non-empty partitions.
+#' @param marks If \code{TRUE}, marks values for non-empty partitions. See 
+#' \code{\link[spatstat]{ppp}} for more in-depth description.
 #' @param plot If \code{TRUE}, array is plotted.
 #' @return A list containing objects with class
 #' \code{\link[spatstat]{ppp.object}} with the length equal to the number of
@@ -40,10 +41,8 @@
 #' #list
 #' class(third_plate2[[1]])
 #' 
-#' 
 adpcr2ppp <- function(input, marks = TRUE, plot = FALSE) {
   arrays <- adpcr2panel(input, breaks = FALSE)
-  
   lapply(arrays, function(single_array)
     create_ppp(data_vector = single_array, nx_a = ncol(single_array), ny_a = nrow(single_array),
                marks = marks, plot = plot))
