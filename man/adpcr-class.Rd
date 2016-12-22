@@ -18,9 +18,13 @@ For more in-depth explanation of digital PCR data structure, see
 \section{Slots}{
 
 \describe{
-\item{\code{col_names}}{\code{"character"} vector naming the columns in the array.}
+\item{\code{col_names}}{\code{"character"} vector naming columns in the array.}
 
-\item{\code{row_names}}{\code{"character"} vector naming the rows in the array.}
+\item{\code{row_names}}{\code{"character"} vector naming rows in the array.}
+
+\item{\code{row_id}}{\code{"integer"} vector providing row indices of all runs.}
+
+\item{\code{col_id}}{\code{"integer"} vector providing column indices of all runs.}
 
 \item{\code{panel_id}}{\code{"factor"} naming the panel to which experiment belong.}
 }}

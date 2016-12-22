@@ -73,6 +73,8 @@ extract_run <- function(input, id) {
     slot(result, "panel_id") <- droplevels(slot(input, "panel_id")[id])
     if (slot(input, "type") == "tnp")
       slot(result, "col_names") <- slot(input, "col_names")[id]
+    slot(result, "row_id") <- slot(input, "row_id")[id]
+    slot(result, "col_id") <- slot(input, "col_id")[id]
   }
   
   result

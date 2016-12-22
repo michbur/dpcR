@@ -188,8 +188,10 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
 #' @name adpcr-class
 #' @aliases adpcr-class adpcr
 #' @docType class
-#' @slot col_names \code{"character"} vector naming the columns in the array.
-#' @slot row_names \code{"character"} vector naming the rows in the array.
+#' @slot col_names \code{"character"} vector naming columns in the array.
+#' @slot row_names \code{"character"} vector naming rows in the array.
+#' @slot row_id \code{"integer"} vector providing row indices of all runs.
+#' @slot col_id \code{"integer"} vector providing column indices of all runs.
 #' @slot panel_id \code{"factor"} naming the panel to which experiment belong.
 #' @details
 #' For more in-depth explanation of digital PCR data structure, see 
@@ -216,13 +218,17 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
 #' 
 setClass("adpcr", contains = "dpcr", representation(col_names = "character",
                                                     row_names = "character",
+                                                    col_id = "numeric",
+                                                    row_id = "numeric",
                                                     panel_id = "factor"))
 
 
 #constructor
 create_adpcr <- function(data, n, exper = "Experiment1", 
                          replicate = NULL, assay = "Unknown", v = 1, uv = 0, type, breaks, 
-                         col_names = NULL, row_names = NULL, panel_id = NULL, threshold = NULL) {
+                         col_names = NULL, row_names = NULL, 
+                         col_id = NULL, row_id = NULL,
+                         panel_id = NULL, threshold = NULL) {
   result <- construct_dpcr(data = data, n = n, exper = exper, 
                            replicate = replicate, assay = assay, 
                            v = v, uv = uv, type = type, threshold = threshold)
@@ -248,6 +254,11 @@ create_adpcr <- function(data, n, exper = "Experiment1",
     row_names <- as.character(1L:edge_b)
   }
   
+  if(is.null(col_id) & is.null(row_id)) {
+    col_id <- sort(rep(1L:edge_a, edge_b))
+    row_id <- rep(1L:edge_b, edge_a)
+  }
+  
   if(xor(is.null(col_names), is.null(row_names))) {
     stop("Both 'col_names' and 'row_names' must be either NULL or specified.")
   }
@@ -263,6 +274,8 @@ create_adpcr <- function(data, n, exper = "Experiment1",
   class(result) <- "adpcr"
   slot(result, "col_names") <- col_names
   slot(result, "row_names") <- row_names
+  slot(result, "col_id") <- col_id
+  slot(result, "row_id") <- row_id
   slot(result, "panel_id") <- panel_id
   result
 }

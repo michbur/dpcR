@@ -10,7 +10,8 @@ adpcr2ppp(input, marks = TRUE, plot = FALSE)
 \item{input}{Object of the \code{\linkS4class{adpcr}} class containing data
 from one or more panels.}
 
-\item{marks}{If \code{TRUE}, marks values for non-empty partitions.}
+\item{marks}{If \code{TRUE}, marks values for non-empty partitions. See 
+\code{\link[spatstat]{ppp}} for more in-depth description.}
 
 \item{plot}{If \code{TRUE}, array is plotted.}
 }
@@ -21,7 +22,7 @@ arrays (minimum 1).
 }
 \description{
 Converts \code{\linkS4class{adpcr}} object to the list of
-\code{\link[spatstat]{ppp.object}}s allowing spatial analysis.
+\code{\link[spatstat]{ppp.object}}s.
 }
 \details{
 Each array is independently converted by \code{\link[spatstat]{ppp}}
@@ -48,7 +49,6 @@ class(third_plate2)
 # It's a list with the length 1. The third plate is a first element on this 
 #list
 class(third_plate2[[1]])
-
 
 }
 \author{
