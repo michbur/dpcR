@@ -104,8 +104,9 @@ read_QX100 <- function(input, ext = NULL) {
 
   n <- dat[["AcceptedDroplets"]]
   counts <- matrix(dat[["Positives"]], nrow = 1)
+  well <- as.character(dat[["Well"]])
   exper <- dat[["Experiment"]]
-  replicate <- paste0(dat[["Well"]], ".", dat[["Sample"]])
+  replicate <- paste0(well, ".", dat[["Sample"]])
   
   assay <- if(is.null(dat[["Assay"]])) {
     dat[["TargetType"]]
@@ -113,14 +114,19 @@ read_QX100 <- function(input, ext = NULL) {
     dat[["Assay"]]
   }
   
-  row_id <- as.numeric(substr(dat[["Well"]], 2, 3))
-  col_id <- substr(dat[["Well"]], 0, 1)
+  # ids of panels
+  row_id <- as.numeric(substr(well, nchar(well) - 1, nchar(well)))
+  col_id <- substr(well, 0, 1)
+  col_names <-1L:8
+  names(col_names) <- LETTERS[1L:8]
 
-  create_dpcr(data = matrix(dat[["Positives"]], nrow = 1), n = n, 
+  create_adpcr(data = matrix(dat[["Positives"]], nrow = 1), n = n, 
               exper = exper, replicate = replicate, type = "tnp",
-              assay = assay, adpcr = TRUE, v = 0.834, uv = 0.017,
-              col_names = LETTERS[1L:8], 
+              assay = assay, v = 0.834, uv = 0.017,
+              col_names = names(col_names), 
               row_names = as.character(1L:12),
+              row_id = row_id,
+              col_id = col_names[col_id],
               panel_id = as.factor(assay), threshold = 1)
 }
 
