@@ -3,6 +3,7 @@ library(shinythemes)
 library(rhandsontable)
 
 shinyUI(navbarPage(title = "dpcReport",
+                   header = includeScript("ga.js"),
                    theme = shinytheme("cerulean"),
                    id = "navbar", windowTitle = "dpcReport", collapsible=TRUE,
                    tabPanel("Input file",
