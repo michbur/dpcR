@@ -52,12 +52,16 @@ adpcr2panel <- function(input, breaks = TRUE) {
   array_data <- lapply(levels(slot(input, "panel_id")), function(single_level) {
     #data for a single assay
     single_panel <- extract_run(input, which(slot(input, "panel_id") == single_level))
+    browser()
     # Use breaks points to split input 
     if (breaks)
       single_panel <- calc_breaks(single_panel)
     
-    matrix(single_panel, ncol = nx_a, 
-           dimnames = list(slot(input, "row_names"), slot(input, "col_names")))
+    res <- matrix(NA, ncol = nx_a, nrow = ny_a,
+                  dimnames = list(slot(input, "row_names"), slot(input, "col_names")))
+    
+    res[cbind(slot(input, "row_id"), slot(input, "col_id"))] <- single_panel
+    res
   })
   
   if(slot(input, "type") == "tnp") {

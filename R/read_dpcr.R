@@ -164,10 +164,19 @@ read_QX200 <- function(input, ext = NULL) {
     replicate <- unlist(lapply(all_reps, function(single_rep) 1L:single_rep))
   }
   
+  # ids of panels
+  row_id <- as.numeric(substr(well, nchar(well) - 1, nchar(well)))
+  col_id <- substr(well, 0, 1)
+  col_names <-1L:8
+  names(col_names) <- LETTERS[1L:8]
+  
   create_dpcr(data = matrix(dat[["Positives"]], nrow = 1), n = n, 
               exper = exper, replicate = replicate, type = "tnp",
               assay = dat[["TargetType"]], adpcr = TRUE, v = 0.85, uv = 0.017,
-              col_names = LETTERS[1L:8], row_names = as.character(1L:12),
+              col_names = LETTERS[1L:8], 
+              row_names = as.character(1L:12),
+              row_id = row_id,
+              col_id = col_names[col_id],
               panel_id = as.factor(dat[["TargetType"]]), threshold = 1)
 }
 
