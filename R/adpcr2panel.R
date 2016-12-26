@@ -52,11 +52,10 @@ adpcr2panel <- function(input, breaks = TRUE) {
   array_data <- lapply(levels(slot(input, "panel_id")), function(single_level) {
     #data for a single assay
     single_panel <- extract_run(input, which(slot(input, "panel_id") == single_level))
-    browser()
     # Use breaks points to split input 
     if (breaks)
       single_panel <- calc_breaks(single_panel)
-    
+
     res <- matrix(NA, ncol = nx_a, nrow = ny_a,
                   dimnames = list(slot(input, "row_names"), slot(input, "col_names")))
     

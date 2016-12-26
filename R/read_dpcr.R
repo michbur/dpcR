@@ -159,6 +159,7 @@ read_QX200 <- function(input, ext = NULL) {
   counts <- matrix(dat[["Positives"]], nrow = 1)
   exper <- dat[["Experiment"]]
   replicate <- dat[["Sample"]]
+  well <- as.character(dat[["Well"]])
   if(all(is.na(replicate))) {
     all_reps <- as.vector(table(dat[["TargetType"]], exper))
     replicate <- unlist(lapply(all_reps, function(single_rep) 1L:single_rep))
@@ -170,9 +171,9 @@ read_QX200 <- function(input, ext = NULL) {
   col_names <-1L:8
   names(col_names) <- LETTERS[1L:8]
   
-  create_dpcr(data = matrix(dat[["Positives"]], nrow = 1), n = n, 
+  create_adpcr(data = matrix(dat[["Positives"]], nrow = 1), n = n, 
               exper = exper, replicate = replicate, type = "tnp",
-              assay = dat[["TargetType"]], adpcr = TRUE, v = 0.85, uv = 0.017,
+              assay = dat[["TargetType"]], v = 0.85, uv = 0.017,
               col_names = LETTERS[1L:8], 
               row_names = as.character(1L:12),
               row_id = row_id,
