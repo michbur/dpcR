@@ -242,9 +242,15 @@ read_BioMark <- function(input, ext = NULL, detailed = FALSE) {
       ))
     ))
     
-    create_dpcr(run_dat, 770L, exper = exper, replicate = replicate, col_names = as.character(1L:70),
-                row_names = as.character(1L:11), type = "np", adpcr = TRUE, panel_id = as.factor(1L:96),
-                v = 0.85, uv = 0.00595, threshold = 1)
+    create_adpcr(run_dat, 770L, exper = exper, 
+                 replicate = replicate, 
+                 col_names = as.character(1L:70),
+                 row_names = as.character(1L:11), 
+                 type = "np", 
+                 panel_id = as.factor(1L:96),
+                 row_id = wells[, "y"],
+                 col_id = wells[, "x"],
+                 v = 0.85, uv = 0.00595, threshold = 1)
 
   } else {
     dat <- data.frame(read_input(input, ext))
