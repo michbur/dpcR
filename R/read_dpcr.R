@@ -211,6 +211,10 @@ read_BioMark <- function(input, ext = NULL, detailed = FALSE) {
       dat[770 * id_panel + 1, "Type"]
     )), sep = "_"), 2)
     
+    wells <- t(sapply(strsplit(levels(dat[["Chamber.ID"]]), "-", fixed = TRUE), function(i) {
+      c(x = as.numeric(substr(i[[2]], 2, 3)),
+        y = as.numeric(substr(i[[3]], 2, 3)))
+    }))
     
     replicate <- c(as.character(sapply(0L:47, function(id_panel)
       dat[770 * id_panel + 1, "Type.1"]
