@@ -4,7 +4,7 @@ read_zipped_amps <- function(file) {
   
   wells <- sapply(strsplit(amp_files, "_"), function(i) i[length(i) - 1])
   s_well <- sort(wells)
-  
+
   raw_status <- do.call(rbind, lapply(amp_files[order(wells)], function(single_file) {
     n_clust <- tabulate(read.table(unz(file, single_file), 
                                    sep = ",", dec = ".", 
@@ -27,10 +27,16 @@ read_zipped_amps <- function(file) {
 }
 
 amp2dpcr <- function(x) {
-  create_dpcr(data = matrix(x[["k"]], nrow = 1), n = x[["n"]], 
-              exper = 1L:nrow(x), replicate = rep(1, nrow(x)), type = "tnp",
-              assay = paste0("ch", x[["channel"]]), adpcr = TRUE, 
-              col_names = as.character(x[["x"]]), row_names = as.character(x[["y"]]),
-              panel_id = NULL, threshold = 1)
+  col_names <- 1L:8
+  names(col_names) <- LETTERS[1L:8]
+  
+  create_adpcr(data = matrix(x[["k"]], nrow = 1), n = x[["n"]], 
+               exper = 1L:nrow(x), replicate = rep(1, nrow(x)), type = "tnp",
+               assay = paste0("ch", x[["channel"]]), 
+               col_names = LETTERS[1L:8], 
+               row_names = as.character(1L:12),
+               row_id = x[["y"]],
+               col_id = col_names[x[["x"]]],
+               panel_id = NULL, threshold = 1)
 }
 

@@ -117,7 +117,7 @@ read_QX100 <- function(input, ext = NULL) {
   # ids of panels
   row_id <- as.numeric(substr(well, nchar(well) - 1, nchar(well)))
   col_id <- substr(well, 0, 1)
-  col_names <-1L:8
+  col_names <- 1L:8
   names(col_names) <- LETTERS[1L:8]
 
   create_adpcr(data = matrix(dat[["Positives"]], nrow = 1), n = n, 
