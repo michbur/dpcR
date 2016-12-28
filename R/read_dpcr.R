@@ -282,10 +282,9 @@ read_BioMark <- function(input, ext = NULL, detailed = FALSE) {
     count_data <- unlist(lapply(c("VIC-TAMRA", "FAM-MGB"), function(channel_name)
       as.numeric(data_range[, names1 == channel_name & names2 == "Count"])))
     
-    
-    res <- create_dpcr(data = matrix(count_data, nrow = 1), n = rep(765, length(count_data)), 
+    res <- create_adpcr(data = matrix(count_data, nrow = 1), n = rep(765, length(count_data)), 
                        exper = exper, replicate = replicate, type = "tnp",
-                       assay = assay, adpcr = TRUE, row_names = as.character(1L:4), 
+                       assay = assay, row_names = as.character(1L:4), 
                        col_names = as.character(1L:12), 
                        panel_id = factor(c(rep(1, length(exper)/2), rep(2, length(exper)/2))),
                        threshold = 1, v = 0.85, uv = 0.00595)

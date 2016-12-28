@@ -254,7 +254,11 @@ create_adpcr <- function(data, n, exper = "Experiment1",
     row_names <- as.character(1L:edge_b)
   }
   
+  # add position of chambers on the plate
   if(is.null(col_id) & is.null(row_id)) {
+    edge_a <- length(col_names)
+    edge_b <- length(row_names)
+    
     col_id <- sort(rep(1L:edge_a, edge_b))
     row_id <- rep(1L:edge_b, edge_a)
   }
