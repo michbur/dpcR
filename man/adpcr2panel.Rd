@@ -4,7 +4,7 @@
 \alias{adpcr2panel}
 \title{Convert adpcr object to array}
 \usage{
-adpcr2panel(input, breaks = TRUE)
+adpcr2panel(input, breaks = FALSE)
 }
 \arguments{
 \item{input}{object of the \code{\linkS4class{adpcr}} class.}

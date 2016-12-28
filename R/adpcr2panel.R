@@ -26,7 +26,7 @@
 #' arrays[[1]]
 
 
-adpcr2panel <- function(input, breaks = TRUE) {
+adpcr2panel <- function(input, breaks = FALSE) {
   if (class(input) == "adpcr") {
     if (!(slot(input, "type") %in% c("nm", "np", "tnp", "fluo", "ct")))
       stop("Input must contain data of type 'nm', 'np', 'tnp', 'fluo' or 'ct'.") 
@@ -51,11 +51,13 @@ adpcr2panel <- function(input, breaks = TRUE) {
   
   array_data <- lapply(levels(slot(input, "panel_id")), function(single_level) {
     #data for a single assay
+    #browser()
     single_panel <- extract_run(input, which(slot(input, "panel_id") == single_level))
     # Use breaks points to split input 
     if (breaks)
       single_panel <- calc_breaks(single_panel)
 
+    #browser()
     res <- matrix(NA, ncol = nx_a, nrow = ny_a,
                   dimnames = list(slot(input, "row_names"), slot(input, "col_names")))
     

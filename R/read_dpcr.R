@@ -160,6 +160,7 @@ read_QX200 <- function(input, ext = NULL) {
   exper <- dat[["Experiment"]]
   replicate <- dat[["Sample"]]
   well <- as.character(dat[["Well"]])
+
   if(all(is.na(replicate))) {
     all_reps <- as.vector(table(dat[["TargetType"]], exper))
     replicate <- unlist(lapply(all_reps, function(single_rep) 1L:single_rep))
