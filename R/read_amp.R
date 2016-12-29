@@ -16,7 +16,7 @@ read_zipped_amps <- function(file) {
   }))
   
   dat_summ <- data.frame(x = substr(s_well, 0, 1),
-                         y = sub("[A-Z]", "", s_well),
+                         y = as.numeric(sub("[A-Z]", "", s_well)),
                          channel = c(rep(1, length(wells)), rep(2, length(wells))),
                          positives = c(rowSums(raw_status[, 2L:3]), rowSums(raw_status[, 3L:4])),
                          negatives = c(rowSums(raw_status[, c(1, 4)]), rowSums(raw_status[, 1L:2]))) 
@@ -27,7 +27,7 @@ read_zipped_amps <- function(file) {
 }
 
 amp2dpcr <- function(x) {
-  col_names <- 1L:8
+  col_names <- 1L:12
   names(col_names) <- LETTERS[1L:8]
   
   create_adpcr(data = matrix(x[["k"]], nrow = 1), n = x[["n"]], 
@@ -37,6 +37,6 @@ amp2dpcr <- function(x) {
                row_names = as.character(1L:12),
                row_id = x[["y"]],
                col_id = col_names[x[["x"]]],
-               panel_id = NULL, threshold = 1)
+               panel_id = factor(paste0("ch", x[["channel"]])), threshold = 1)
 }
 
