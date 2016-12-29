@@ -30,20 +30,26 @@ calc_coordinates <- function(array, half) {
                             left = -0.25,
                             right = 0.25)
   
-  ggplot_coords <- data.frame(t(do.call(cbind, lapply(1L:nx_a, function(x) 
-    sapply(ny_a:1L, function(y) 
-      c(x = x + half_val_ggplot, y = y))))), value = as.vector(array))
-  ggplot_coords[["col"]] <- factor(ggplot_coords[["x"]])
-  levels(ggplot_coords[["col"]]) <- colnames(array)
-  ggplot_coords[["row"]] <- factor(ggplot_coords[["y"]])
-  levels(ggplot_coords[["row"]]) <- rownames(array)
-  if(is.numeric(ggplot_coords[["value"]]))
-    ggplot_coords[["value"]] <- factor(ggplot_coords[["value"]])
+  # ggplot_coords <- data.frame(t(do.call(cbind, lapply(1L:nx_a, function(x) 
+  #   sapply(ny_a:1L, function(y) 
+  #     c(x = x + half_val_ggplot, y = y))))), value = as.vector(array))
+  # ggplot_coords[["col"]] <- factor(ggplot_coords[["x"]])
+  # levels(ggplot_coords[["col"]]) <- colnames(array)
+  # ggplot_coords[["row"]] <- factor(ggplot_coords[["y"]])
+  # levels(ggplot_coords[["row"]]) <- rownames(array)
+  # if(is.numeric(ggplot_coords[["value"]]))
+  #   ggplot_coords[["value"]] <- factor(ggplot_coords[["value"]])
+  # 
+  # value_order <- order(as.numeric(sub("(", "", sapply(strsplit(levels(ggplot_coords[["value"]]), ","), function(i) 
+  #   i[1]), fixed = TRUE)))
+  # 
+  # ggplot_coords[["value"]] <- factor(ggplot_coords[["value"]], levels = levels(ggplot_coords[["value"]])[value_order])
   
-  value_order <- order(as.numeric(sub("(", "", sapply(strsplit(levels(ggplot_coords[["value"]]), ","), function(i) 
-    i[1]), fixed = TRUE)))
-  
-  ggplot_coords[["value"]] <- factor(ggplot_coords[["value"]], levels = levels(ggplot_coords[["value"]])[value_order])
+  ggplot_coords <- data.frame(x = as.vector(col(array)),
+                              y = as.vector(row(array)),
+                              row = factor(as.vector(row(array))), 
+                              col = factor(as.vector(col(array))), 
+                              value = as.vector(array))
   
   coords <- unlist(lapply(1L:nx_a, function(x) 
     lapply(ny_a:1L, function(y) 

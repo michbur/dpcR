@@ -85,6 +85,8 @@ create_ppp <- function(data_vector, nx_a, ny_a, plot, marks) {
   
   data_points[, "row"] <- ny_a - data_points[, "row"] + 1
   
+  data_points <- data_points[is.na(data_points[["value"]]) | data_points[["value"]] == 0, ]
+  
   if (plot)
     plot(ppp(data_points[, 2], data_points[, 1], c(1, nx_a), c(1, ny_a)))
   #check if marks are properly assigned

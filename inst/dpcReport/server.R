@@ -37,13 +37,14 @@ shinyServer(function(input, output, session) {
       
       #if(!input[["input_table"]][["changes"]][["rInitInput"]]) 
         merged_dat <- try(merge_dpcr(dat, df2dpcr(unorder_df(hot_to_r(input[["input_table"]])))))
+
         if(class(merged_dat) != "try-error") {
           dat <- merged_dat
         } else {
           dat <- dat
         }
     }
-      
+    
     dat
   })
   
@@ -384,7 +385,7 @@ shinyServer(function(input, output, session) {
   plot_panel_dat <- reactive({
     df <- calc_coordinates(array_dat()[[input[["array_choice"]]]], 
                            half = "none")[["ggplot_coords"]]
-    
+    #browser()
     df[["selected"]] <- rep(FALSE, nrow(df))
     df
   })
