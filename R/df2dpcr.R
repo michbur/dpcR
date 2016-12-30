@@ -13,6 +13,10 @@
 #' \item{assay}{names of assays}
 #' \item{k}{number of positive partitions}
 #' \item{n}{total number of partitions}
+#' \item{v}{volume of partition (nL)}
+#' \item{uv}{uncertainty of partition's volume (nL)}
+#' \item{threshold}{partitions with \code{k} equal or higher than threshold are 
+#' treated as positve.}
 #' }
 #' There are also one optional column:
 #' \describe{

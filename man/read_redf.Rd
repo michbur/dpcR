@@ -28,9 +28,14 @@ with following columns:
 \item{assay}{names of assays}
 \item{k}{number of positive partitions}
 \item{n}{total number of partitions}
+\item{v}{volume of partition (nL)}
+\item{uv}{uncertainty of partition's volume (nL)}
+\item{threshold}{partitions with \code{k} equal or higher than threshold are 
+treated as positve.}
 \item{panel_id}{indices of panels}
 }
-Column \code{panel_id} is optional.
+Column \code{panel_id} should be specified only in case of 
+array-based dPCR.
 }
 \author{
 Michal Burdukiewcz, Stefan Roediger

@@ -1,7 +1,7 @@
 ---
 title: "dpcR package - an overview"
 author: "Micha&#322; Burdukiewicz, Stefan R&ouml;diger"
-date: "2016-10-31"
+date: "2016-12-31"
 output: 
   rmarkdown::html_vignette:
     toc: true
@@ -328,8 +328,8 @@ The import functions accessible under `read_dpcr` cover common dPCR systems. To 
 
 ## REDF
 
-REDF (Raw Exchange Digital PCR Format) has tabular structure. Each run of dPCR 
-is described using following properties:
+REDF (Raw Exchange Digital PCR Format) has tabular structure. Each run of dPCR (represented by 
+a row) is described using following properties:
 
 1. **experiment**: name of the experiment to which run belongs.
 2. **replicate**: name or ID of the replicate of the 
@@ -340,7 +340,8 @@ name of the channel used to detect positive partitions.
 5. **n**: total number of partitions (integer).
 6. **v**: volume of the partition (nL).
 7. **uv**: uncertainty of partition's volume (nL).
-8. **panel_id**: id of the panel (integer).
+8. **threshold**: partitions with **k** equal or higher than threshold are treated as positve.
+9. **panel_id**: id or name of the panel. This column should be included only in case of array-based digital PCR experiments.
 
 # Comparison of the experiments
 
