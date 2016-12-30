@@ -4,6 +4,8 @@ The dpcReport web-server is a part of the [dpcR](http://cran.r-project.org/web/p
 
 <img src="dpcR_logo.png" alt="HTML5 Icon" style="width:224px;height:120px">
 
+dpcReport is a part of [pcRuniveRsum](http://michbur.github.io/pcRuniveRsum/).
+
 ### Structure of dpcReport
 
 dpcReport consists of seven panels which can be chosen using the navigation bar above and are described below.
