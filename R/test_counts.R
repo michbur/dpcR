@@ -147,15 +147,22 @@ test_counts <- function(input, model = "ratio", conf.level = 0.95) {
                                                          unlist(groups))]))
     }
     
+    group_redundancy <- lapply(1L:length(groups), function(i) 
+      which(sapply(groups, function(j) 
+        all(groups[[i]] %in% j)))
+    )
     
     group_matrix <- sapply(1L:length(total), function(experiment) 
-      sapply(groups, function(single_group) experiment %in% single_group))
+      sapply(groups[lengths(group_redundancy) == 1], function(single_group) experiment %in% single_group))
+    
+    gr_order <- order(sapply(groups[lengths(group_redundancy) == 1], function(single_group) 
+      mean(group_vals[single_group, 1])))
+    
     #all experiments in one group
     if(is.null(dim(group_matrix)))
       group_matrix <- matrix(group_matrix, nrow = 1)
     #name groups using the abc convention and at the same time reorder them along to value
-    dimnames(group_matrix) <- list((1L:length(groups))[order(sapply(groups, function(single_group) 
-                                     mean(group_vals[single_group, 1])))], 
+    dimnames(group_matrix) <- list((1L:sum(lengths(group_redundancy) == 1))[gr_order], 
                                    names(positives))
     
     group_coef <- data.frame(apply(group_matrix, 2, function(i) 
