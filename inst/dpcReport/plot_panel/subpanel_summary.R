@@ -10,8 +10,8 @@ summs <- cbind(region = rep("Whole array", nrow(summs)), summs)
 
 if(!is.null(array_val[["selected"]])) {
   if(slot(new_dat, "type") == "tnp") {
-    summs <-data.frame(region = "Selected region", 
-                  summary(extract_run(roi, which(array_val[["selected"]])), 
+    summs <- data.frame(region = "Selected region", 
+                  summary(extract_run(roi, which(array_val[["selected"]][!is.na(plot_panel_dat()[["value"]])])), 
                           print = FALSE)[["summary"]][-c(9L:11)])
   } else {
     slot(roi, ".Data") <- slot(roi, ".Data")[array_val[["selected"]], , drop = FALSE]

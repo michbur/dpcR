@@ -405,7 +405,7 @@ shinyServer(function(input, output, session) {
     )
     
     df[array_val[["selected"]], "selected"] <- TRUE
-    
+    #browser()
     source("./plot_panel/plot_panel.R", local = TRUE)
     
     p + ggtitle(input[["array_choice"]])
