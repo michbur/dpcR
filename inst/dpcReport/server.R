@@ -568,13 +568,13 @@ shinyServer(function(input, output, session) {
       write.csv(dpcr2df(input_dat()), file, row.names = FALSE)
     })
   
-  observe({
-    if(input[["quit_button"]] > 0)
-      stopApp()
-  })
-  
-  session$onSessionEnded(function() { 
-    stopApp()
-  })
+  # observe({
+  #   if(input[["quit_button"]] > 0)
+  #     stopApp()
+  # })
+  # 
+  # session$onSessionEnded(function() { 
+  #   stopApp()
+  # })
   
 })

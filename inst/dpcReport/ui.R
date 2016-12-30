@@ -132,6 +132,6 @@ shinyUI(navbarPage(title = "dpcReport",
                             downloadButton("input_download_button", 
                                            "Save input data (.csv)")),
                    tabPanel("About", 
-                            includeMarkdown("about.md")),
-                   tabPanel("Quit", actionButton("quit_button", "Quit dpcReport"))
+                            includeMarkdown("about.md"))
+                   #tabPanel("Restart app", actionButton("quit_button", "Quit dpcReport"))
 ))
