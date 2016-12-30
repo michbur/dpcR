@@ -5,7 +5,8 @@
 #' type.
 #' 
 #' @param df data frame with specified column names. See Details.
-#' @details The data frame must have following columns with exactly specified names:
+#' @details The data frame must have REDF structure. 
+#' It means that data must contain following columns with exactly specified names:
 #' \describe{
 #' \item{experiment}{names of experiments}
 #' \item{replicate}{indices of replicates}

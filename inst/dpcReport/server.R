@@ -60,8 +60,7 @@ shinyServer(function(input, output, session) {
       
       #choose which function use to process tha dPCR data
       process_function <- switch(input[["input_type"]],
-                                 raw_adpcr = function(x) read_dpcr(x, format = "raw", adpcr = TRUE),
-                                 raw_ddpcr = function(x) read_dpcr(x, format = "raw", adpcr = FALSE),
+                                 redf = function(x) read_dpcr(x, format = "redf"),
                                  QX100 = function(x) read_dpcr(x, format = "QX100"),
                                  QX200 = function(x) read_dpcr(x, format = "QX200"),
                                  BioMark_det = function(x) read_dpcr(x, format = "BioMark", detailed = TRUE),

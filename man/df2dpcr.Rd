@@ -19,7 +19,8 @@ Converts \code{\link{data.frame}} object to to \code{\linkS4class{adpcr}} or
 type.
 }
 \details{
-The data frame must have following columns with exactly specified names:
+The data frame must have REDF structure. 
+It means that data must contain following columns with exactly specified names:
 \describe{
 \item{experiment}{names of experiments}
 \item{replicate}{indices of replicates}

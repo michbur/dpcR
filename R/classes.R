@@ -275,6 +275,9 @@ create_adpcr <- function(data, n, exper = "Experiment1",
     }
   } 
   
+  if(!is.factor(panel_id))
+    panel_id  <- factor(panel_id)
+  
   class(result) <- "adpcr"
   slot(result, "col_names") <- col_names
   slot(result, "row_names") <- row_names

@@ -18,17 +18,17 @@
 #' @export
 #' @keywords utilities
 #' @seealso 
-#' Read raw format files: \code{\link{read_raw}}.
+#' Read raw format files: \code{\link{read_redf}}.
 #' Read BioMark format files: \code{\link{read_BioMark}}.
 #' Read QX100 format files: \code{\link{read_QX100}}.
 #' Read QX200 format files: \code{\link{read_QX200}}.
 
 read_dpcr <- function(input, format, ext = NULL, ...) {
-  if(!(format %in% c("raw", "QX100", "QX200", "BioMark", "amp")))
+  if(!(format %in% c("redf", "QX100", "QX200", "BioMark", "amp")))
     stop("Unknown value of 'format' parameter.")
   
   switch(format,
-         raw = read_raw(input, ext = ext, ...),
+         redf = read_redf(input, ext = ext, ...),
          QX100 = read_QX100(input, ext = ext),
          QX200 = read_QX200(input, ext = ext),
          BioMark = read_BioMark(input, ext = ext, ...),
@@ -56,27 +56,38 @@ read_amp <- function(input, ext = NULL) {
 
 #' Read digital PCR raw data
 #' 
-#' Reads digital PCR data in raw format.
+#' Reads REDF (Raw Exchange Digital PCR format) data.
 #' 
-#' @details The raw format means that every column corresponds to different digital PCR run. 
 #' Data is binary (0/1) and first row represents run names(EXPERIMENT.REPLICATE).
 #' @inheritParams create_dpcr
 #' @inheritParams read_dpcr
+#' @details REDF (Raw Exchange Digital PCR format) data is preferably a .csv file 
+#' with following columns:
+#' \describe{
+#' \item{experiment}{names of experiments}
+#' \item{replicate}{indices of replicates}
+#' \item{assay}{names of assays}
+#' \item{k}{number of positive partitions}
+#' \item{n}{total number of partitions}
+#' \item{panel_id}{indices of panels}
+#' }
+#' Column \code{panel_id| is optional.
 #' @return An object of \code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}} type, 
 #' depends on the value of \code{adpcr} parameter. 
 #' @author Michal Burdukiewcz, Stefan Roediger
 #' @keywords utilities
 #' @export
 
-read_raw <- function(input, ext = NULL, adpcr) {
+read_redf <- function(input, ext = NULL) {
   dat <- read_input(input, ext)
   
-  n <- rowSums(!apply(dat, 1, is.na))
-  
-  exp_rep <- matrix(unlist(strsplit(colnames(dat), ".", fixed = TRUE)), ncol = 2, byrow = TRUE)
-  
-  create_dpcr(data = as.matrix(dat), n = n, exper = exp_rep[, 1], replicate = exp_rep[, 2], type = "np",
-              adpcr = adpcr)
+  # n <- rowSums(!apply(dat, 1, is.na))
+  # 
+  # exp_rep <- matrix(unlist(strsplit(colnames(dat), ".", fixed = TRUE)), ncol = 2, byrow = TRUE)
+  # 
+  # create_dpcr(data = as.matrix(dat), n = n, exper = exp_rep[, 1], replicate = exp_rep[, 2], type = "np",
+  #             adpcr = adpcr)
+  df2dpcr(dat)
 }
 
 

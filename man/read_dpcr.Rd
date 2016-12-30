@@ -34,7 +34,7 @@ with multiple sheets, only the first sheet will be analyzed.
 Michal Burdukiewcz, Stefan Roediger
 }
 \seealso{
-Read raw format files: \code{\link{read_raw}}.
+Read raw format files: \code{\link{read_redf}}.
 Read BioMark format files: \code{\link{read_BioMark}}.
 Read QX100 format files: \code{\link{read_QX100}}.
 Read QX200 format files: \code{\link{read_QX200}}.
