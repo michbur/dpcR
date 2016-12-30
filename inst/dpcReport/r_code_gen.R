@@ -5,6 +5,8 @@ separator <- "\n    \n    ###############"
 
 setup_l <- c("# Load packages",
              'library(dpcR)',
+             '# if you do not have dpcR package, install it from GitHub:',  
+             '# devtools::install_github("michbur/dpcR")',
              if(input[["data_summary_scatter_rep"]] || input[["data_summary_test_counts"]] || input[["plot_panel"]] || input[["poisson_distr"]])
                c('library(ggplot2) # ggplot2 library for nice plots',
                  "# Define theme for plots",
