@@ -57,8 +57,7 @@ read_amp <- function(input, ext = NULL) {
 #' Read digital PCR raw data
 #' 
 #' Reads REDF (Raw Exchange Digital PCR format) data.
-#' 
-#' Data is binary (0/1) and first row represents run names(EXPERIMENT.REPLICATE).
+
 #' @inheritParams create_dpcr
 #' @inheritParams read_dpcr
 #' @details REDF (Raw Exchange Digital PCR format) data is preferably a .csv file 
@@ -71,7 +70,7 @@ read_amp <- function(input, ext = NULL) {
 #' \item{n}{total number of partitions}
 #' \item{panel_id}{indices of panels}
 #' }
-#' Column \code{panel_id| is optional.
+#' Column \code{panel_id} is optional.
 #' @return An object of \code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}} type, 
 #' depends on the value of \code{adpcr} parameter. 
 #' @author Michal Burdukiewcz, Stefan Roediger

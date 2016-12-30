@@ -19,6 +19,19 @@ depends on the value of \code{adpcr} parameter.
 \description{
 Reads REDF (Raw Exchange Digital PCR format) data.
 }
+\details{
+REDF (Raw Exchange Digital PCR format) data is preferably a .csv file 
+with following columns:
+\describe{
+\item{experiment}{names of experiments}
+\item{replicate}{indices of replicates}
+\item{assay}{names of assays}
+\item{k}{number of positive partitions}
+\item{n}{total number of partitions}
+\item{panel_id}{indices of panels}
+}
+Column \code{panel_id} is optional.
+}
 \author{
 Michal Burdukiewcz, Stefan Roediger
 }
