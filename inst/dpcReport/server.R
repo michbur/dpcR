@@ -463,7 +463,11 @@ shinyServer(function(input, output, session) {
   })
   
   output[["plot_panel_region_summary"]] <- DT::renderDataTable({
-    formatRound(my_DT(plot_panel_region_summary()), 6L:11, app_digits)
+    summ <- try(plot_panel_region_summary())
+    validate(
+      need(class(summ) != "try-error", "Only empty partitions are chosen.")
+    )
+    formatRound(my_DT(summ), 6L:11, app_digits)
   })
   
   
