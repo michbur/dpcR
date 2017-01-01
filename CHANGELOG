@@ -1,5 +1,6 @@
-Changes from Version 0.2 to 0.3 [December 2016]
+Changes from Version 0.3 to 0.4 [December 2016]
 * improved GUI dpcReport
+* improved import functions
 * removed now redundant test_ratio
 
 Changes from Version 0.2 to 0.3 [March 2016]

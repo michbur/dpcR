@@ -152,6 +152,23 @@ test_counts <- function(input, model = "ratio", conf.level = 0.95) {
         all(groups[[i]] %in% j)))
     )
     
+    # group_redundancy <- do.call(rbind, lapply(1L:length(groups), function(single_gr) { 
+    #   groups_in <- sapply(groups, function(other_gr) 
+    #     all(groups[[single_gr]] %in% other_gr))
+    #   data.frame(gr = single_gr, other_gr = 1L:length(groups), is_in = groups_in, n_gr = sum(groups_in))
+    # }))
+    # 
+    # largest_membership <- lapply(1L:length(groups), function(single_gr) {
+    #   gr_subdf <- group_redundancy[group_redundancy[["other_gr"]] == single_gr, ]
+    #   only_in <- gr_subdf[gr_subdf[["is_in"]], ]
+    #   only_in[only_in[["n_gr"]] == max(only_in[["n_gr"]]), "gr"]
+    # })
+    # 
+    # lapply(unique(unlist(largest_membership[lengths(largest_membership) > 1])), 
+    #        function(single_doubtful) 
+    #          sum(sapply(largest_membership, function(other_gr)
+    #            single_doubtful %in% other_gr)))
+    
     group_matrix <- sapply(1L:length(total), function(experiment) 
       sapply(groups[lengths(group_redundancy) == 1], function(single_group) experiment %in% single_group))
     
