@@ -24,8 +24,8 @@
 #' @examples
 #' 
 #' par(mfrow = c(1,2))
-#' bioamp(data = pds_raw[["A01"]], main = "Well A01", pch = 19)
-#' bioamp(data = pds_raw[["A02"]], main = "Well A02", pch = 19)
+#' bioamp(data = pds_raw[["D01"]], main = "Well D01", pch = 19)
+#' bioamp(data = pds_raw[["D02"]], main = "Well D02", pch = 19)
 #' par(mfrow = c(1,1))
 #' 
 #' @export bioamp

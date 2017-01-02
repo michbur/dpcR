@@ -13,6 +13,8 @@ Accepted data formats:
 * BioMark (Summary Table Results) - BioMark (Fluidigm).
 * amplification data: compressed (.zip) directory with amplification data from QX series.
 
+See also [exemplary data files](https://github.com/michbur/dpcR_data).
+
 Accepted file formats:  
 * .csv,  
 * .xlsx,  

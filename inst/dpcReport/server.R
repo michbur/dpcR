@@ -9,7 +9,6 @@ library(digest)
 
 source("server_data.R")
 
-
 shinyServer(function(input, output, session) {
   
   # Input file panel --------------------------------
