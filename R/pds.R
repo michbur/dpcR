@@ -1,7 +1,7 @@
 #' Plasmid dilution series results
 #' 
 #' These are the results data from the \code{pds_raw} data as calculated by the
-#' BioRad QX100 Droplet Digital PCR System.
+#' Bio-Rad QX100 Droplet Digital PCR System.
 #' 
 #' Setup: Duplex assay with constant amount of genomic DNA and six 10-fold
 #' dilutions of plasmid DNA with 4 replicates, ranging theoretically from ~

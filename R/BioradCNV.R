@@ -1,6 +1,6 @@
 #' Copy number variation experiment
 #' 
-#' Copy Number Variation of MYC Gene for seven patients measured using QX200 (Biorad)
+#' Copy Number Variation of MYC Gene for seven patients measured using QX200 (Bio-Rad)
 #' 
 #' @name BioradCNV
 #' @docType data

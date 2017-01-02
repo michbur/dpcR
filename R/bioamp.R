@@ -1,8 +1,8 @@
-#' A function to analyze plot the raw data from a BioRad droplet digital PCR
+#' A function to analyze plot the raw data from a Bio-Rad droplet digital PCR
 #' experiment
 #' 
 #' \code{bioamp} is a function to plot and analyze the amplitude data of a
-#' BioRad droplet digital PCR experiment.
+#' Bio-Rad droplet digital PCR experiment.
 #' 
 #' 
 #' @param data object of class \code{what} containing the amplitude data.
@@ -20,7 +20,7 @@
 #' @param \dots other arguments passed to the \code{plot} function (see
 #' \code{plot.default} for details).
 #' @author Stefan Roediger, Michal Burdukiewcz
-#' @keywords Amplitude BioRad
+#' @keywords Amplitude Bio-Rad
 #' @examples
 #' 
 #' par(mfrow = c(1,2))

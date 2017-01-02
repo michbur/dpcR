@@ -61,7 +61,7 @@ www.ufz.de
 }
 \description{
 These are the results data from the \code{pds_raw} data as calculated by the
-BioRad QX100 Droplet Digital PCR System.
+Bio-Rad QX100 Droplet Digital PCR System.
 }
 \details{
 Setup: Duplex assay with constant amount of genomic DNA and six 10-fold

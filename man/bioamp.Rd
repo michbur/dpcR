@@ -2,7 +2,7 @@
 % Please edit documentation in R/bioamp.R
 \name{bioamp}
 \alias{bioamp}
-\title{A function to analyze plot the raw data from a BioRad droplet digital PCR
+\title{A function to analyze plot the raw data from a Bio-Rad droplet digital PCR
 experiment}
 \usage{
 bioamp(data = data, amp_x = 1, amp_y = 2, cluster = 3, robust = TRUE,
@@ -36,7 +36,7 @@ PCR experiment are calculated.}
 }
 \description{
 \code{bioamp} is a function to plot and analyze the amplitude data of a
-BioRad droplet digital PCR experiment.
+Bio-Rad droplet digital PCR experiment.
 }
 \examples{
 
@@ -50,5 +50,5 @@ par(mfrow = c(1,1))
 Stefan Roediger, Michal Burdukiewcz
 }
 \keyword{Amplitude}
-\keyword{BioRad}
+\keyword{Bio-Rad}
 
