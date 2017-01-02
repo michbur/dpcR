@@ -133,7 +133,7 @@ Since the *.Data* slot inherits from the matrix class, it is possible to also us
 
 ## *.Data* slot
 
-Digital PCR data is always a matrix (see `?matrix` in R). Columns and rows represent respectively individual runs and their data points. Since data points are not always equivalent to partitions, the true number of partitions for each run is always defined in slot *n*.  
+Digital PCR data is always a matrix (see `?matrix` in R). Columns and rows represent respectively individual runs and their data points. Since data points are not always equivalent to partitions, the true number of partitions for each run is always defined in the slot *n*.  
 
 ```{r eval=TRUE}
 # Create two array dPCR experiments. Mind the difference in the n parameter.
@@ -150,7 +150,7 @@ In the code chunk above, we created two array dPCR experiments with respectively
 tail(sample_adpcr)
 ```
 
-Both experiments have 765 data points. We see that in case of shorter experiment, two data points have the value NA. If we analyze the *n* slot:
+Both experiments have 765 data points. We see that in case of a shorter experiment, two data points have the value NA. If we analyze the *n* slot:
 
 ```{r eval=TRUE}
 slot(sample_adpcr, "n")
@@ -207,7 +207,7 @@ sim_adpcr(m = 235, n = 765, times = 100, pos_sums = TRUE, n_panels = 3)
 
 The `read_dpcr` function is responsible for importing data from external file sources into R working space. The additional parameters allow specification of the format type and other details.
 
-Additionally, we advise using other packages belonging do the pcRuniversum such as [RDML](http://cran.r-project.org/package=RDML) or dedicated packages such as ReadqPCR ([available from bioconductor.org](http://www.bioconductor.org/packages/release/bioc/html/ReadqPCR.html)). Further information can be found in @pabinger_survey_2014.
+Additionally, we advise to use other packages belonging to the pcRuniversum such as [RDML](http://cran.r-project.org/package=RDML) or dedicated packages such as ReadqPCR ([available from bioconductor.org](http://www.bioconductor.org/packages/release/bioc/html/ReadqPCR.html)). Further information can be found in @pabinger_survey_2014.
 
 ```{r eval=TRUE}
 # Generate some data from 15x16 array. Let's presume, that we have results from two plates
@@ -222,7 +222,7 @@ class(adpcr_experiments)
 
 ## Summary method
 
-The `Summary` method produces a tabelary summary of any `dpcr` object. It calculates &#955; and its confidence intervals using both Dube's and Bhat's method. The estimated number of template molecules (m) is computed using the following relationship:
+The `Summary` method produces a tabular summary of any `dpcr` object. It calculates &#955; and its confidence intervals using both Dube's and Bhat's method. The estimated number of template molecules (m) is computed using the following relationship:
 
 $$
 m = n \lambda
@@ -242,7 +242,7 @@ summ[["summary"]][summ[["summary"]][["method"]] == "dube", ]
 
 ## Show method
 
-Since the `dpcr` objects tends to have many data points which would quickly clutter the console, the `show` function prints only first 5 rows of *.Data*, number of omitted rows and the type of the object.
+Since the `dpcr` objects tends to have many data points, which would quickly clutter the console, the `show` function prints only first 5 rows of *.Data*, number of omitted rows and the type of the object.
 
 ```{r eval=TRUE}
 
@@ -328,7 +328,7 @@ The import functions accessible under `read_dpcr` cover common dPCR systems. To 
 
 ## REDF
 
-REDF (Raw Exchange Digital PCR Format) has tabular structure. Each run of dPCR (represented by 
+REDF (Raw Exchange Digital PCR Format) has a tabular structure. Each dPCR run (represented by 
 a row) is described using following properties:
 
 1. **experiment**: name of the experiment to which run belongs.
@@ -378,10 +378,10 @@ The Poisson regression on binary data (positive/negative partition) can be used 
 
 ## Multiple tests
 
-The dPCR experiments may be also compared pairwise using the uniformly most powerful (UMP) ratio test [@fay_2010]. Furthermore, computed p-values are adjusted using Benjamini & Hochberg correction [@benjamini_1995] to control family-wise error rate.
+The dPCR experiments may also be compared pairwise using the uniformly most powerful (UMP) ratio test [@fay_2010]. Furthermore, computed p-values are adjusted using Benjamini & Hochberg correction [@benjamini_1995] to control family-wise error rate.
 
 The UMP ratio test has following null-hypothesis:
-
+	
 $$
 H_0: \frac{\lambda_1}{\lambda_2} = 1
 $$
@@ -444,7 +444,7 @@ A single GLM comparison took roughly 183 times longer than MT (on average 1.10 s
 
   Average coverage probability is the proportion of the time that the interval contains the true value of $\lambda$.
   
-  In the example below, we simulated 1\e{6} droplet dPCR experiments (2\e{4} droplets each) for each level of $\lambda$ (1.2\e{7} experiments total). We computed average probability coverage of CI obtained by three methods: Dube's[@dube_mathematical_2008], Bhat's[@bhat_single_2009] and by MT ($\alpha = 0.95$).
+  In the example below, we simulated 1\e{6} droplet dPCR experiments (2\e{4} droplets each) for each level of $\lambda$ (1.2\e{7} experiments total). We computed the average probability coverage of CI obtained by three methods: Dube's[@dube_mathematical_2008], Bhat's[@bhat_single_2009] and by MT ($\alpha = 0.95$).
   
   To assess simultaneous coverage probability, we randomly divided experiments into 2000 groups (500 experiments each) for each possible value of $\lambda$. We counted frequency of groups in which all confidence intervals contain the true value of $\lambda$.
   

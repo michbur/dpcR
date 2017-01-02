@@ -18,18 +18,15 @@ Leipzig / Germany phone +49 341 235 1318 michael.jahn [at] ufz.de /
 www.ufz.de
 }
 \description{
-The part of raw data from the \code{pds_raw} data set as measured by the
-BioRad QX100 Droplet Digital PCR System.
+Subset of raw data from the \code{pds_raw} data set as measured by the
+Bio-Rad QX100 Droplet Digital PCR System.
 }
 \details{
-The results can be as calculated by the BioRad QX100 Droplet Digital PCR
+
+The results can be calculated as by the Bio-Rad QX100 Droplet Digital PCR
 System are to be found in \code{pds}.
 
-
-The results can be as calculated by the BioRad QX100 Droplet Digital PCR
-System are to be found in \code{pds}.
-
-Setup: Duplex assay with constant amount of genomic DNA and six 10-fold
+Setup: Duplex assay with a constant amount of genomic DNA and six 10-fold
 dilutions of plasmid DNA with 4 replicates, ranging theoretically from ~
 10^4 to 10^-1 copies/ micro L plus 4 replicates without plasmid DNA.
 Included are No-gDNA-control and No-template-control, 2 replicates each.
