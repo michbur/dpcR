@@ -49,7 +49,11 @@ calc_coordinates <- function(array, half) {
                               y = as.vector(row(array)),
                               row = factor(as.vector(row(array))), 
                               col = factor(as.vector(col(array))), 
-                              value = as.vector(array))
+                              value = if(length(unique(as.vector(array))) < 3) { 
+                                           as.factor(as.vector(array))
+                              } else {
+                                as.vector(array)
+                              })
   
   coords <- unlist(lapply(1L:nx_a, function(x) 
     lapply(ny_a:1L, function(y) 
