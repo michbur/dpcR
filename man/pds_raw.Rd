@@ -4,7 +4,7 @@
 \name{pds_raw}
 \alias{pds_raw}
 \title{Plasmid dilution series raw data}
-\format{A list of 32 data frames.
+\format{A list of 3 data frames.
 \describe{ 
   \item{Well }{| ExptType }{| Experiment }{| Sample + Dilution step }{| TypeAssay }{| Assay}
   \item{D01 }{| Absolute Quantification }{| ABS }{| gDNA + P 10^4 }{| Ch1Unknown }{| ileS}
@@ -25,22 +25,6 @@ BioRad QX100 Droplet Digital PCR System.
 The results can be as calculated by the BioRad QX100 Droplet Digital PCR
 System are to be found in \code{pds}.
 
-Setup: Duplex assay with constant amount of genomic DNA and six 10-fold
-dilutions of plasmid DNA with 4 replicates, ranging theoretically from ~
-10^4 to 10^-1 copies/ micro L plus 4 replicates without plasmid DNA.
-Included are No-gDNA-control and No-template-control, 2 replicates each.
-
-Annotation: FX.Y (X = dilution number, Y = replicate number). Hardware:
-Bio-Rad QX100 Droplet digital PCR system Details: Genomic DNA isolated from
-Pseudomonas putida KT2440. Plasmid is pCOM10-StyA::EGFP StyB [Jahn et al.,
-2013, Curr Opin Biotechnol, Vol. 24 (1): 79-87]. Template DNA was heat
-treated at 95 degree Celsius for 5 min prior to PCR. Channel 1, primers for
-genomic DNA marker ileS, Taqman probes (FAM labelled). Channel 2, primers
-for plasmid DNA marker styA, Taqman probes (HEX labelled).
-
-The full data are located at \url{https://github.com/michbur/dpcR_data} as
-QX100_rawdata.zip.
-
 
 The results can be as calculated by the BioRad QX100 Droplet Digital PCR
 System are to be found in \code{pds}.
@@ -57,6 +41,22 @@ Pseudomonas putida KT2440. Plasmid is pCOM10-StyA::EGFP StyB [Jahn et al.,
 treated at 95 degree Celsius for 5 min prior to PCR. Channel 1, primers for
 genomic DNA marker ileS, Taqman probes (FAM labelled). Channel 2, primers
 for plasmid DNA marker styA, Taqman probes (HEX labelled).
+
+#' Setup: Duplex assay with constant amount of genomic DNA and six 10-fold
+dilutions of plasmid DNA with 4 replicates, ranging theoretically from ~
+10^4 to 10^-1 copies/ micro L plus 4 replicates without plasmid DNA.
+Included are No-gDNA-control and No-template-control, 2 replicates each.
+
+Annotation: FX.Y (X = dilution number, Y = replicate number). Hardware:
+Bio-Rad QX100 Droplet digital PCR system Details: Genomic DNA isolated from
+Pseudomonas putida KT2440. Plasmid is pCOM10-StyA::EGFP StyB [Jahn et al.,
+2013, Curr Opin Biotechnol, Vol. 24 (1): 79-87]. Template DNA was heat
+treated at 95 degree Celsius for 5 min prior to PCR. Channel 1, primers for
+genomic DNA marker ileS, Taqman probes (FAM labelled). Channel 2, primers
+for plasmid DNA marker styA, Taqman probes (HEX labelled).
+
+The full data are located at \url{https://github.com/michbur/dpcR_data} as
+QX100_rawdata.zip.
 }
 \examples{
 
