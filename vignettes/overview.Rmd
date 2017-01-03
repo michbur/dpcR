@@ -207,7 +207,7 @@ sim_adpcr(m = 235, n = 765, times = 100, pos_sums = TRUE, n_panels = 3)
 
 The `read_dpcr` function is responsible for importing data from external file sources into R working space. The additional parameters allow specification of the format type and other details.
 
-Additionally, we advise to use other packages belonging to the pcRuniversum such as [RDML](http://cran.r-project.org/package=RDML) or dedicated packages such as ReadqPCR ([available from bioconductor.org](http://www.bioconductor.org/packages/release/bioc/html/ReadqPCR.html)). Further information can be found in @pabinger_survey_2014.
+Additionally, we advise to use other packages belonging to the pcRuniversum such as [RDML](https://cran.r-project.org/package=RDML) or dedicated packages such as ReadqPCR ([available from bioconductor.org](http://www.bioconductor.org/packages/release/bioc/html/ReadqPCR.html)). Further information can be found in @pabinger_survey_2014.
 
 ```{r eval=TRUE}
 # Generate some data from 15x16 array. Let's presume, that we have results from two plates

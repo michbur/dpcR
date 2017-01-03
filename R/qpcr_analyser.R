@@ -62,7 +62,7 @@
 #' analysis}.  Bioinformatics 24 (13), 2008.
 #' 
 #' Andrej-Nikolai Spiess (2013). qpcR: Modelling and analysis of real-time PCR
-#' data.\cr \url{http://CRAN.R-project.org/package=qpcR}\cr
+#' data.\cr \url{https://CRAN.R-project.org/package=qpcR}\cr
 #' @keywords qPCR Cy0 real-time amplification quantification
 #' @examples
 #' 

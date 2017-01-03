@@ -101,7 +101,7 @@ model selection in quantitative real-time polymerase chain reaction
 analysis}.  Bioinformatics 24 (13), 2008.
 
 Andrej-Nikolai Spiess (2013). qpcR: Modelling and analysis of real-time PCR
-data.\cr \url{http://CRAN.R-project.org/package=qpcR}\cr
+data.\cr \url{https://CRAN.R-project.org/package=qpcR}\cr
 }
 \seealso{
 \link[qpcR]{modlist}.
