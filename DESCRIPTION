@@ -1,117 +1,49 @@
 Package: dpcR
 Type: Package
 Title: Digital PCR Analysis
-Version: 0.4
+Version: 0.5
 LazyData: true
-Date: 2017-01-02
+Date: 2019-02-01
 Authors@R: c(
-    person("Michal", "Burdukiewicz", 
-    email = "michalburdukiewicz@gmail.com",
-    comment = c(ORCID = "0000-0001-8926-582X"),
-    role = c("cre", "aut")),
-    person("Stefan", "Roediger", email = "stefan.roedigier@b-tu.de", role = "aut"),
+    person("Michal", "Burdukiewicz", email = "michalburdukiewicz@gmail.com", 
+           role = c("cre", "aut"), comment = c(ORCID = "0000-0001-8926-582X")),
+    person("Stefan", "Roediger", email = "stefan.roedigier@b-tu.de", role = "aut",
+           comment = c(ORCID = "0000-0002-1441-6512")),
     person("Bart", "Jacobs", email = "BartKM.Jacobs@ugent.be", role = "aut"),
-    person("Piotr", "Sobczyk", email = "sobbombo@gmail.com", role = "ctb"))
+    person("Piotr", "Sobczyk", email = "sobbombo@gmail.com", role = "ctb"),
+    person("Andrej-Nikolai", "Spiess", email = "draspiess@gmail.com", role = "ctb"))
 Description: Analysis, visualisation and simulation of digital polymerase chain
     reaction (dPCR). Supports data formats of commerical systems (Bio-Rad QX100 and
     QX200; Fluidigm BioMark) and other systems.
 License: GPL-3
 URL: https://github.com/michbur/dpcR
 BugReports: https://github.com/michbur/dpcR/issues
-Depends:
-    R (>= 3.0.0),
-    methods
-Imports:
-    binom,
-    chipPCR,
-    e1071,
-    evd,
-    dgof,
-    multcomp,
-    qpcR,
-    pracma,
-    rateratio.test,
-    readxl,
-    signal,
-    shiny,
-    spatstat
-Suggests:
-    digest,
-    DT,
-    ggplot2,
-    knitr,
-    markdown,
-    rhandsontable,
-    rmarkdown,
-    shinythemes,
-    xtable
+Depends: R (>= 3.0.0), methods
+Imports: binom, chipPCR, e1071, evd, dgof, multcomp, qpcR, pracma,
+        rateratio.test, readxl, signal, shiny, spatstat
+Suggests: digest, DT, ggplot2, knitr, markdown, rhandsontable,
+        rmarkdown, shinythemes, xtable
 VignetteBuilder: knitr
-Packaged: 2015-11-12 10:03:00 UTC; Mihau
+Packaged: 2019-01-26 12:20:06 UTC; ans
 NeedsCompilation: no
 Repository: CRAN
-Collate:
-    'AUCtest.R'
-    'BioradCNV.R'
-    'White.R'
-    'adpcr2panel.R'
-    'adpcr2ppp.R'
-    'binarize.R'
-    'classes.R'
-    'bind_dpcr.R'
-    'bioamp.R'
-    'calc_breaks.R'
-    'calc_coordinates.R'
-    'calc_lambda.R'
-    'compare_dens.R'
-    'count_test-class.R'
-    'create_dpcr.R'
-    'dPCRmethyl.R'
-    'ddpcRquant.R'
-    'df2dpcr.R'
-    'dpcR-package.R'
-    'dpcReport_gui.R'
-    'dpcr2df.R'
-    'dpcr_calculator.R'
-    'dpcr_density.R'
-    'dpcr_density_gui.R'
-    'dpcr_density_table.R'
-    'extract_run.R'
-    'fit_adpcr.R'
-    'fl.R'
-    'get_k_n.R'
-    'hsm.R'
-    'limit_cq.R'
-    'many_peaks.R'
-    'modlist.R'
-    'moments.R'
-    'num2int.R'
-    'pds.R'
-    'pds_raw.R'
-    'plot_distr.R'
-    'plot_panel.R'
-    'plot_vf_circ.R'
-    'plot_vic_fam.R'
-    'print_summary.R'
-    'qdpcr.R'
-    'qpcr2pp.R'
-    'qpcr_analyser.R'
-    'read_amp.R'
-    'read_dpcr.R'
-    'rename_dpcr.R'
-    'rtadpcr.R'
-    'safe_efficiency.R'
-    'show_dpcr.R'
-    'sim_adpcr.R'
-    'sim_ddpcr_bkm.R'
-    'sim_dpcr.R'
-    'simulations.R'
-    'six_panels.R'
-    'summary_dpcr.R'
-    'test_counts.R'
-    'test_counts_gui.R'
-    'test_panel.R'
-    'test_peaks.R'
-    'test_pooled.R'
-    'valid_amp.R'
-    'y_val_conf.R'
+Collate: 'AUCtest.R' 'BioradCNV.R' 'White.R' 'adpcr2panel.R'
+        'adpcr2ppp.R' 'binarize.R' 'classes.R' 'bind_dpcr.R' 'bioamp.R'
+        'calc_breaks.R' 'calc_coordinates.R' 'calc_lambda.R'
+        'compare_dens.R' 'count_test-class.R' 'create_dpcr.R'
+        'dPCRmethyl.R' 'ddpcRquant.R' 'df2dpcr.R' 'dpcR-package.R'
+        'dpcReport_gui.R' 'dpcr2df.R' 'dpcr_calculator.R'
+        'dpcr_density.R' 'dpcr_density_gui.R' 'dpcr_density_table.R'
+        'extract_run.R' 'fit_adpcr.R' 'fl.R' 'get_k_n.R' 'hsm.R'
+        'limit_cq.R' 'many_peaks.R' 'modlist.R' 'moments.R' 'num2int.R'
+        'pds.R' 'pds_raw.R' 'plot_distr.R' 'plot_panel.R'
+        'plot_vf_circ.R' 'plot_vic_fam.R' 'print_summary.R' 'qdpcr.R'
+        'qpcr2pp.R' 'qpcr_analyser.R' 'read_amp.R' 'read_dpcr.R'
+        'rename_dpcr.R' 'rtadpcr.R' 'safe_efficiency.R' 'show_dpcr.R'
+        'sim_adpcr.R' 'sim_ddpcr_bkm.R' 'sim_dpcr.R' 'simulations.R'
+        'six_panels.R' 'summary_dpcr.R' 'test_counts.R'
+        'test_counts_gui.R' 'test_panel.R' 'test_peaks.R'
+        'test_pooled.R' 'valid_amp.R' 'y_val_conf.R'
 RoxygenNote: 5.0.1
+Maintainer: Michal Burdukiewicz <michalburdukiewicz@gmail.com>
+Date/Publication: 2017-01-03 16:30:54

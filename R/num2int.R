@@ -12,6 +12,8 @@
 # Test if x is a positive integer value
 # warn defines the warning level
 num2int <- function (x) {
+  ## version 0.5: make 'x' unique to remove coercion error from R-devel 
+  x <- unique(x)
   #add check if numeric
   if (x != abs(round(x)) || x <= 0) {
     warning(paste(x, " was not a positive integer (e.g., 1, 11, 23).

@@ -1,3 +1,6 @@
+Changes in Version 0.5 [January 2019]
+* removed various error in 'df2dpcr' function, 'num2int' function and example section, and a ggplot bug in Vignette 'overview.RMD', that invoked an error.
+
 Changes from Version 0.3 to 0.4 [December 2016]
 * improved GUI dpcReport
 * improved import functions

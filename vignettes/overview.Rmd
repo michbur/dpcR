@@ -287,7 +287,7 @@ ggplot_coords <- cbind(panel_data[["ggplot_coords"]], value = as.vector(extract_
 
 # Plot panel using different graphics package
 library(ggplot2)
-ggplot(ggplot_coords, aes(x = x, y = y, fill = value)) +
+ggplot(ggplot_coords[, -5], aes(x = x, y = y, fill = value)) +
   geom_tile()
 
 ```

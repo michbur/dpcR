@@ -75,7 +75,7 @@ construct_dpcr <- function(data, n, exper = "Experiment1",
     message("'data' converted to matrix.")
     data <- as.matrix(data)
   }
-  
+ 
   # n
   if (!(is.integer(n))) {
     n <- num2int(n)
