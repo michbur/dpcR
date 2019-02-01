@@ -21,12 +21,11 @@ useful for users utilizing ggplot2 package.
 \description{
 Calculates coordinates of points on plot to represent a digital PCR array.
 }
-\author{
-Michal Burdukiewicz, Stefan Roediger.
-}
 \seealso{
 \code{\link{plot_panel}} - plots \code{\linkS4class{adpcr}} data.
 \code{\link{adpcr2panel}} - converts \code{\linkS4class{adpcr}} object to arrays.
 }
+\author{
+Michal Burdukiewicz, Stefan Roediger.
+}
 \keyword{manip}
-

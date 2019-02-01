@@ -13,11 +13,11 @@ positive partitions distribution.
 \section{Warning }{
  Any ad-blocking software may cause malfunctions.
 }
-\author{
-Michal Burdukiewicz, Stefan Roediger.
-}
+
 \seealso{
 \code{\link{dpcr_density}}.
 }
+\author{
+Michal Burdukiewicz, Stefan Roediger.
+}
 \keyword{hplot}
-

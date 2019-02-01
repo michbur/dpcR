@@ -33,4 +33,3 @@ binarize(rand_droplets)
 Michal Burdukiewicz.
 }
 \keyword{manip}
-

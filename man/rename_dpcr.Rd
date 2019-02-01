@@ -27,4 +27,3 @@ are factors. For the sake of convenience, this function converts other types
 to factors if it is possible.
 }
 \keyword{manip}
-

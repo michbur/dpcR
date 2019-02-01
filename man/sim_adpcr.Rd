@@ -102,9 +102,6 @@ system.time(mul <- sim_adpcr(m = 400, n = 765, times = 500, n_panels = 500,
   pos_sums = FALSE))
 
 }
-\author{
-Michal Burdukiewicz.
-}
 \references{
 Dube S, Qin J, Ramakrishnan R, \emph{Mathematical Analysis of
 Copy Number Variation in a DNA Sample Using Digital PCR on a Nanofluidic
@@ -113,5 +110,7 @@ Device}.  PLoS ONE 3(8), 2008.
 \seealso{
 \code{\link{sim_dpcr}}.
 }
+\author{
+Michal Burdukiewicz.
+}
 \keyword{datagen}
-

@@ -78,9 +78,6 @@ xlab = "Grey value", ylab = "Density of Grey values")
 par(mfrow = c(1,1))
 
 }
-\author{
-Stefan Roediger, Michal Burdukiewcz, White et al. (2009) BMC Genomics
-}
 \references{
 White RA, Blainey PC, Fan HC, Quake SR. Digital PCR provides 
 sensitive and absolute calibration for high throughput sequencing. 
@@ -89,5 +86,7 @@ BMC Genomics 2009;10:116. doi:10.1186/1471-2164-10-116.
 Dougherty B, Rasband W. MicroArray Profile ImageJ Plugin n.d. 
 http://www.optinav.com/imagej.html (accessed August 20, 2015).
 }
+\author{
+Stefan Roediger, Michal Burdukiewcz, White et al. (2009) BMC Genomics
+}
 \keyword{datasets}
-

@@ -2,8 +2,8 @@
 % Please edit documentation in R/dpcR-package.R
 \docType{package}
 \name{dpcR-package}
-\alias{dpcR}
 \alias{dpcR-package}
+\alias{dpcR}
 \title{Digital PCR Analysis}
 \description{
 The dpcR package is a collection of functions for a digital Polymerase Chain
@@ -39,11 +39,6 @@ pos_chambers <- sum(adpcr > 0)
 dpcr_density(k = pos_chambers, n = 765)
 
 }
-\author{
-Michal Burdukiewicz, Stefan Roediger.
-
-Maintainer: Michal Burdukiewicz <michalburdukiewicz@gmail.com>
-}
 \references{
 Huggett J, Foy CA, Benes V, Emslie K, Garson JA, Haynes R,
 Hellemans J, Kubista M, Mueller RD, Nolan T, Pfaffl MW, Shipley GL,
@@ -57,5 +52,9 @@ Vogelstein B, Kinzler KW, \emph{Digital PCR}. PNAS, 1999. 96(16): p.
 \seealso{
 \link[qpcR]{qpcR.news}, \url{http://michbur.github.io/pcRuniveRsum/}.
 }
-\keyword{package}
+\author{
+Michal Burdukiewicz, Stefan Roediger.
 
+Maintainer: Michal Burdukiewicz <michalburdukiewicz@gmail.com>
+}
+\keyword{package}

@@ -42,13 +42,12 @@ extract_dpcr(six_panels, id_assay = "MYC")
 extract_dpcr(six_panels, id_exper = c("Experiment1", "Experiment2"))
 
 }
-\author{
-Michal Burdukiewicz.
-}
 \seealso{
 Extract run(s): \code{\link{extract_run}}.
+}
+\author{
+Michal Burdukiewicz.
 }
 \keyword{extract}
 \keyword{manip}
 \keyword{panel}
-

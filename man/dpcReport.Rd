@@ -13,8 +13,8 @@ data.
 \section{Warning }{
  Any ad-blocking software may cause malfunctions.
 }
+
 \author{
 Michal Burdukiewicz, Stefan Roediger.
 }
 \keyword{hplot}
-

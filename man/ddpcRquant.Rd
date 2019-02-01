@@ -29,14 +29,13 @@ Cluster raw data from QX100 and QX200 systems.
 This function is a modification of code was implemented using the code found on
 \url{http://www.ddpcrquant.ugent.be/}.
 }
-\author{
-Wim Trypsteen, Matthijs Vynck, Jan De Neve, Pawel Bonczkowski, Maja Kiselinova, 
-Eva Malatinkova, Karen Vervisch, Olivier Thas, Linos Vandekerckhove, Ward De Spiegelaere.
-}
 \references{
 Trypsteen W, Vynck M, De Neve J, Bonczkowski P, Kiselinova M, 
 Malatinkova E, Vervisch K, Thas O, Vandekerckhove L, De Spiegelaere W, 
 \emph{ddpcRquant: Threshold Determination for Single Channel Droplet Digital PCR 
 Experiments}. Analytical and Bioanalytical Chemistry 2015. 407(19): p.5827-34.
 }
-
+\author{
+Wim Trypsteen, Matthijs Vynck, Jan De Neve, Pawel Bonczkowski, Maja Kiselinova, 
+Eva Malatinkova, Karen Vervisch, Olivier Thas, Linos Vandekerckhove, Ward De Spiegelaere.
+}

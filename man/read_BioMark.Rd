@@ -22,9 +22,6 @@ An object of \code{\linkS4class{adpcr}} class.
 \description{
 Reads digital PCR data from the BioMark (Fluidigm).
 }
-\author{
-Michal Burdukiewcz, Stefan Roediger
-}
 \references{
 Dong, L. et al (2015). Comparison of four digital PCR platforms for accurate 
 quantification of DNA copy number of a certified plasmid DNA reference material. 
@@ -33,5 +30,7 @@ Scientific Reports. 2015;5:13174.
 \seealso{
 See \code{\link{read_dpcr}} for detailed description of input files.
 }
+\author{
+Michal Burdukiewcz, Stefan Roediger
+}
 \keyword{utilities}
-

@@ -2,8 +2,8 @@
 % Please edit documentation in R/classes.R
 \docType{class}
 \name{adpcr-class}
-\alias{adpcr}
 \alias{adpcr-class}
+\alias{adpcr}
 \title{Class \code{"adpcr"} - end-point array digital PCR experiments}
 \description{
 A class specifically designed to contain results from end-point array
@@ -28,15 +28,13 @@ For more in-depth explanation of digital PCR data structure, see
 
 \item{\code{panel_id}}{\code{"factor"} naming the panel to which experiment belong.}
 }}
+
 \examples{
 
 rand_array <- sim_adpcr(400, 1600, 100, pos_sums = FALSE, n_panels = 5)
 one_rand_array <- extract_run(rand_array, 1)
 plot_panel(one_rand_array, 40, 40)
 
-}
-\author{
-Michal Burdukiewicz.
 }
 \seealso{
 Data management: \code{\link{adpcr2panel}}, \code{\link{bind_dpcr}},
@@ -52,5 +50,7 @@ Real-time array digital PCR: \code{\linkS4class{rtadpcr}}.
 
 Droplet digital PCR: \code{\linkS4class{dpcr}}.
 }
+\author{
+Michal Burdukiewicz.
+}
 \keyword{classes}
-

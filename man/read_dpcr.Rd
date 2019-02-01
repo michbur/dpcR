@@ -30,14 +30,13 @@ Reads digital PCR data in various formats.
 Input files may have .csv, .xls or .xlsx extension. In case of Excel files 
 with multiple sheets, only the first sheet will be analyzed.
 }
-\author{
-Michal Burdukiewcz, Stefan Roediger
-}
 \seealso{
 Read raw format files: \code{\link{read_redf}}.
 Read BioMark format files: \code{\link{read_BioMark}}.
 Read QX100 format files: \code{\link{read_QX100}}.
 Read QX200 format files: \code{\link{read_QX200}}.
 }
+\author{
+Michal Burdukiewcz, Stefan Roediger
+}
 \keyword{utilities}
-

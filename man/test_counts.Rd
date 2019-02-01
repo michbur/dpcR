@@ -66,9 +66,6 @@ summary(one_group)
 plot(one_group)
 }
 }
-\author{
-Michal Burdukiewicz, Stefan Roediger, Piotr Sobczyk.
-}
 \references{
 Bretz F, Hothorn T, Westfall P, \emph{Multiple comparisons using R}. 
 Boca Raton, Florida, USA: Chapman & Hall/CRC Press (2010).
@@ -85,4 +82,6 @@ Functions used by \code{test_counts}:
 
 GUI presenting capabilities of the test: \code{\link{test_counts_gui}}.
 }
-
+\author{
+Michal Burdukiewicz, Stefan Roediger, Piotr Sobczyk.
+}

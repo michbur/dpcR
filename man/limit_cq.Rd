@@ -74,9 +74,6 @@ no_range <- limit_cq(data = test, cyc = 1, fluo = NULL, model = l5)
 no_range234 <- limit_cq(data = test, cyc = 1, fluo = c(2:4), model = l5)
 
 }
-\author{
-Michal Burdukiewicz, Stefan Roediger.
-}
 \references{
 Guescini M, Sisti D, Rocchi MB, Stocchi L & Stocchi V (2008)
 \emph{A new real-time PCR method to overcome significant quantitative
@@ -93,7 +90,9 @@ SDM method: \code{\link[chipPCR]{inder}},
 
 Cy0 method: \code{\link[qpcR]{mselect}}, \code{\link[qpcR]{efficiency}}.
 }
+\author{
+Michal Burdukiewicz, Stefan Roediger.
+}
 \keyword{Cy0}
 \keyword{dPCR}
 \keyword{qPCR}
-

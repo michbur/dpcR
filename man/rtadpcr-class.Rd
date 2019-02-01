@@ -2,8 +2,8 @@
 % Please edit documentation in R/rtadpcr.R
 \docType{class}
 \name{rtadpcr-class}
-\alias{rtadpcr}
 \alias{rtadpcr-class}
+\alias{rtadpcr}
 \title{Class \code{"rtadpcr"} - real-time array digital PCR experiments}
 \description{
 A class designed to contain results from real-time array digital PCR
@@ -20,19 +20,19 @@ from array. See Description.} \item{list("n")}{Object of class
 \item{list("type")}{Object of class \code{"character"} defining type of
 data.}\item{:}{Object of class \code{"character"} defining type of data.} }
 }
+
 \examples{
 
 #none
 
-}
-\author{
-Michal Burdukiewicz.
 }
 \seealso{
 End-point array digital PCR: \code{\linkS4class{adpcr}}.
 
 Droplet digital PCR: \code{\linkS4class{dpcr}}.
 }
+\author{
+Michal Burdukiewicz.
+}
 \keyword{classes}
 \keyword{real-time}
-

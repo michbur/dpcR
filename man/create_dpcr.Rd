@@ -82,12 +82,11 @@ sample_adpcr <- create_dpcr(rpois(765, lambda = 0.8), n = 765L,
 plot_panel(sample_adpcr, 45, 17)
 
 }
-\author{
-Michal Burdukiewicz, Stefan Roediger.
-}
 \seealso{
 Streamlined, but more limited version: \code{\link{df2dpcr}}
 }
+\author{
+Michal Burdukiewicz, Stefan Roediger.
+}
 \keyword{adPCR}
 \keyword{ddPCR}
-

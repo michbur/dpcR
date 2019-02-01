@@ -81,12 +81,11 @@ for plasmid DNA marker styA, Taqman probes (HEX labelled).
 summary(extract_run(read_QX100(pds), 1L:10))
 
 }
-\author{
-Michael Jahn, Stefan Roediger, Michal Burdukiewcz
-}
 \references{
 Jahn et al., 2013, \emph{Curr Opin Biotechnol}, Vol. 24 (1):
 79-87
 }
+\author{
+Michael Jahn, Stefan Roediger, Michal Burdukiewcz
+}
 \keyword{datasets}
-

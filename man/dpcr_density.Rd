@@ -4,8 +4,8 @@
 \alias{dpcr_density}
 \title{Calculate Density of Single dPCR Run}
 \usage{
-dpcr_density(k, n, average = FALSE, methods = "wilson", conf.level = 0.95,
-  plot = TRUE, bars = FALSE, ...)
+dpcr_density(k, n, average = FALSE, methods = "wilson",
+  conf.level = 0.95, plot = TRUE, bars = FALSE, ...)
 }
 \arguments{
 \item{k}{Total number of positive molecules.}
@@ -58,9 +58,6 @@ dpcr_density(k = 25, n = 55, average = FALSE, methods = "wilson",
 	     conf.level = 0.95)
 
 }
-\author{
-Michal Burdukiewicz, Stefan Roediger.
-}
 \references{
 Brown, Lawrence D., T. Tony Cai, and Anirban DasGupta.
 \emph{Confidence Intervals for a Binomial Proportion and Asymptotic
@@ -71,6 +68,8 @@ Computation of confidence intervals: \link[binom]{binom.confint},
 
 The browser-based graphical user interface for this function: \link{dpcr_density_gui}.
 }
+\author{
+Michal Burdukiewicz, Stefan Roediger.
+}
 \keyword{dplot}
 \keyword{hplot}
-

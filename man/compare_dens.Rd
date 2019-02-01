@@ -24,14 +24,13 @@ adpcr_big <- sim_adpcr(m = 35, n = 40, times = 50, pos_sums = FALSE, n_panels = 
 compare_dens(adpcr_big, moments = TRUE)
 
 }
-\author{
-Michal Burdukiewcz.
-}
 \seealso{
 \link{moments} is used to calculate moments of Poisson distribution.
+}
+\author{
+Michal Burdukiewcz.
 }
 \keyword{PCR}
 \keyword{density}
 \keyword{digital}
 \keyword{empirical}
-

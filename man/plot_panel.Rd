@@ -87,12 +87,11 @@ two_panels <- lapply(1:ncol(ttest3), function(i)
 par(mfcol = c(1, 1))
 
 }
-\author{
-Michal Burdukiewicz, Stefan Roediger.
-}
 \seealso{
 \code{\link{extract_run}} - extract experiments.
 \code{\link{adpcr2panel}} - convert \code{\linkS4class{adpcr}} object to arrays.
 }
+\author{
+Michal Burdukiewicz, Stefan Roediger.
+}
 \keyword{hplot}
-

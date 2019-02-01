@@ -2,8 +2,8 @@
 % Please edit documentation in R/classes.R
 \docType{class}
 \name{dpcr-class}
-\alias{dpcr}
 \alias{dpcr-class}
+\alias{dpcr}
 \title{Class \code{"dpcr"} - general digital PCR}
 \description{
 A class containing results of any digital PCR experiment. 
@@ -53,6 +53,7 @@ the value equal or bigger than threshold are considered positive.}
 
 \item{\code{type}}{Object of class \code{"character"} defining type of data. See Details.}
 }}
+
 \note{
 This class represent the most general droplet-based digital PCR. In more specific 
 cases, the user is directed to other classes: \code{\linkS4class{adpcr}}, where 
@@ -72,4 +73,3 @@ dpcr <- sim_dpcr(m = 10, n = 20, times = 5)
 Michal Burdukiewicz.
 }
 \keyword{classes}
-

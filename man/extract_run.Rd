@@ -48,15 +48,14 @@ single_fluo <- extract_run(fluos, 5)
 
 
 }
-\author{
-Michal Burdukiewicz.
-}
 \seealso{
 Opposite function: \code{\link{bind_dpcr}}
 Extract multiple runs belonging to an experiment of assay: 
 \code{\link{extract_dpcr}}
 }
+\author{
+Michal Burdukiewicz.
+}
 \keyword{extract}
 \keyword{manip}
 \keyword{panel}
-

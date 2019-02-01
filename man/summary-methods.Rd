@@ -2,10 +2,10 @@
 % Please edit documentation in R/summary_dpcr.R
 \docType{methods}
 \name{summary-methods}
-\alias{summary}
+\alias{summary-methods}
 \alias{summary,adpcr-method}
 \alias{summary,dpcr-method}
-\alias{summary-methods}
+\alias{summary}
 \alias{summary.adpcr}
 \alias{summary.dpcr}
 \title{Methods for Function \code{summary}}
@@ -75,9 +75,6 @@ plot(droplet, main = "Without fluo parameter", type = "l")
 
 
 }
-\author{
-Michal Burdukiewicz, Stefan Roediger.
-}
 \references{
 Bhat S, Herrmann J, Corbisier P, Emslie K, \emph{ Single
 molecule detection in nanofluidic digital array enables accurate measurement
@@ -87,6 +84,8 @@ Dube S, Qin J, Ramakrishnan R, \emph{Mathematical Analysis of Copy Number
 Variation in a DNA Sample Using Digital PCR on a Nanofluidic Device}.  PLoS
 ONE 3(8), 2008.
 }
+\author{
+Michal Burdukiewicz, Stefan Roediger.
+}
 \keyword{methods}
 \keyword{utilities}
-

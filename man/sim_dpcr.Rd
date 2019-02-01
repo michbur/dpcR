@@ -78,11 +78,10 @@ summary(tmp_FAM)
 summary(sim_dpcr(m = 7, n = 20, times = 5, n_exp = 5))
 
 }
-\author{
-Michal Burdukiewicz, Stefan Roediger.
-}
 \seealso{
 \code{\link{sim_adpcr}}.
 }
+\author{
+Michal Burdukiewicz, Stefan Roediger.
+}
 \keyword{datagen}
-

@@ -2,6 +2,7 @@
 % Please edit documentation in R/bind_dpcr.R
 \docType{methods}
 \name{bind_dpcr-methods}
+\alias{bind_dpcr-methods}
 \alias{bind_dpcr}
 \alias{bind_dpcr,adpcr}
 \alias{bind_dpcr,adpcr-method}
@@ -9,7 +10,6 @@
 \alias{bind_dpcr,dpcr-method}
 \alias{bind_dpcr,list}
 \alias{bind_dpcr,list-method}
-\alias{bind_dpcr-methods}
 \title{Bind dpcr objects}
 \usage{
 bind_dpcr(input, ...)
@@ -56,11 +56,10 @@ bigger_droplet <- sim_dpcr(m = 15, n = 25, times = 5, n_exp = 4)
 biggest_droplet <- sim_dpcr(m = 15, n = 35, times = 5, n_exp = 1)
 bound_droplets <- bind_dpcr(smaller_droplet, bigger_droplet, biggest_droplet)
 }
-\author{
-Michal Burdukiewicz
-}
 \seealso{
 Opposite function: \code{\link{extract_run}}
 }
+\author{
+Michal Burdukiewicz
+}
 \keyword{manip}
-

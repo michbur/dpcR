@@ -27,12 +27,11 @@ Dorazio, 2015 (see References).
 \examples{
 test_pooled(six_panels)
 }
-\author{
-Robert M. Dorazio, Margaret E. Hunter.
-}
 \references{
 Dorazio RM, Hunter ME, \emph{Statistical Models for the Analysis 
 and Design of Digital Polymerase Chain Reaction (dPCR) Experiments}. 
 Analytical Chemistry 2015. 87(21): p.10886-10893
 }
-
+\author{
+Robert M. Dorazio, Margaret E. Hunter.
+}

@@ -51,12 +51,11 @@ class(third_plate2)
 class(third_plate2[[1]])
 
 }
-\author{
-Michal Burdukiewcz, Stefan Roediger.
-}
 \seealso{
 \code{\link[spatstat]{ppp.object}}, \code{\link[spatstat]{ppp}}.
 }
+\author{
+Michal Burdukiewcz, Stefan Roediger.
+}
 \keyword{manip}
 \keyword{panel}
-

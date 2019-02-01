@@ -13,11 +13,11 @@ PCR reactions.
 \section{Warning }{
  Any ad-blocking software may be cause of malfunctions.
 }
-\author{
-Michal Burdukiewicz, Stefan Roediger.
-}
+
 \seealso{
 \code{\link{test_counts}}.
 }
+\author{
+Michal Burdukiewicz, Stefan Roediger.
+}
 \keyword{hplot}
-

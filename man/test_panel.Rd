@@ -66,17 +66,16 @@ lapply(ppp_data, function(single_panel) quadrat.test(single_panel))
 
 
 }
-\author{
-Adrian Baddeley, Rolf Turner, Michal Burdukiewcz, Stefan Roediger.
-}
 \references{
 http://www.spatstat.org/
 }
 \seealso{
 \code{\link[spatstat]{quadrat.test}}.
 }
+\author{
+Adrian Baddeley, Rolf Turner, Michal Burdukiewcz, Stefan Roediger.
+}
 \keyword{dPCR}
 \keyword{pattern}
 \keyword{quadrat}
 \keyword{spatial}
-

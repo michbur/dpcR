@@ -2,14 +2,14 @@
 % Please edit documentation in R/count_test-class.R
 \docType{class}
 \name{count_test}
-\alias{coef,count_test-method}
 \alias{count_test}
 \alias{count_test-class}
-\alias{plot,count_test,ANY-method}
-\alias{plot,count_test-method}
-\alias{plot.count_test}
-\alias{show,count_test-method}
 \alias{summary,count_test-method}
+\alias{coef,count_test-method}
+\alias{show,count_test-method}
+\alias{plot,count_test,ANY-method}
+\alias{plot.count_test}
+\alias{plot,count_test-method}
 \title{Class \code{"count_test"}}
 \usage{
 \S4method{summary}{count_test}(object)
@@ -49,6 +49,7 @@ presented as dashed lines.
 \item \code{plot}: plots mean number of molecules per partition and its 
 confidence intervals.
 }}
+
 \section{Slots}{
  
 \describe{ 
@@ -57,11 +58,11 @@ belong and calculated values of rate (lambda).}
 \item{test_res}{\code{"matrix"} containing result of multiple comparisions t-test.} 
 \item{model}{\code{"character"} name of GLM used to compare experiments.} }
 }
-\author{
-Michal Burdukiewicz.
-}
+
 \seealso{
 \code{\link{test_counts}}.
 }
+\author{
+Michal Burdukiewicz.
+}
 \keyword{classes}
-

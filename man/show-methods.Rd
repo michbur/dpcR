@@ -2,9 +2,9 @@
 % Please edit documentation in R/show_dpcr.R
 \docType{methods}
 \name{show-methods}
-\alias{show}
-\alias{show,dpcr-method}
 \alias{show-methods}
+\alias{show,dpcr-method}
+\alias{show}
 \title{Methods for Function \code{show}}
 \arguments{
 \item{object}{an object of class \code{\linkS4class{dpcr}}.}
@@ -37,4 +37,3 @@ Michal Burdukiewicz.
 }
 \keyword{methods}
 \keyword{utilities}
-

@@ -22,4 +22,3 @@ six_panels_example <- bind_dpcr(adpcr1, adpcr2, adpcr3)
 six_panels_example <- rename_dpcr(six_panels_example, assay = factor(rep(c("Chr4", "MYC"), 3)))
 }
 }
-

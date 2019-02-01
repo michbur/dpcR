@@ -3,9 +3,9 @@
 \docType{methods}
 \name{test_peaks}
 \alias{test_peaks}
+\alias{test_peaks-methods}
 \alias{test_peaks,adpcr-method}
 \alias{test_peaks,numeric-method}
-\alias{test_peaks-methods}
 \title{Peak Test}
 \arguments{
 \item{x}{a vector containing the abscissa values (e.g., time, position) OR
@@ -76,15 +76,14 @@ total <- positive + negative
 
 
 }
-\author{
-Stefan Roediger, Michal Burdukiewicz.
-}
 \references{
 Savitzky, A., Golay, M.J.E., 1964. Smoothing and Differentiation
 of Data by Simplified Least Squares Procedures. Anal. Chem. 36, 1627-1639.
+}
+\author{
+Stefan Roediger, Michal Burdukiewicz.
 }
 \keyword{AUC}
 \keyword{noise}
 \keyword{peak}
 \keyword{smooth}
-

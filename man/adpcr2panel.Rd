@@ -38,4 +38,3 @@ arrays[[1]]
 Michal Burdukiewicz.
 }
 \keyword{manip}
-

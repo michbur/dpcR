@@ -4,7 +4,8 @@
 \alias{plot_vic_fam}
 \title{Amplitude Plot VIC and FAM Channels of a Droplet Digital PCR Experiment}
 \usage{
-plot_vic_fam(vic, fam, col_vic = "green", col_fam = "blue", circle = TRUE)
+plot_vic_fam(vic, fam, col_vic = "green", col_fam = "blue",
+  circle = TRUE)
 }
 \arguments{
 \item{vic}{Amplitudes of the VIC channel - object of class
@@ -61,14 +62,13 @@ fluos_both <- sim_dpcr(m = 16, n = 30, times = 100, pos_sums = FALSE, n_exp = 2,
 plot_vic_fam(extract_run(fluos_both, 1), extract_run(fluos_both, 2))
 
 }
-\author{
-Michal Burdukiewicz, Stefan Roediger.
-}
 \references{
 Pinheiro, L.B., Coleman, V.A., Hindson, C.M., Herrmann, J.,
 Hindson, B.J., Bhat, S., and Emslie, K.R. (2012). \emph{Evaluation of a
 droplet digital polymerase chain reaction format for DNA copy number
 quantification}. Anal. Chem. 84, 1003 - 1011.
 }
+\author{
+Michal Burdukiewicz, Stefan Roediger.
+}
 \keyword{hplot}
-

@@ -2,11 +2,11 @@
 % Please edit documentation in R/moments.R
 \docType{methods}
 \name{moments-methods}
+\alias{moments-methods}
 \alias{moments}
 \alias{moments,dpcr-method}
-\alias{moments,matrix-method}
 \alias{moments,numeric-method}
-\alias{moments-methods}
+\alias{moments,matrix-method}
 \title{Calculate Moments of Poisson Distribution}
 \usage{
 moments(input)
@@ -55,4 +55,3 @@ Michal Burdukiewicz.
 \keyword{moments}
 \keyword{skewness}
 \keyword{variance}
-

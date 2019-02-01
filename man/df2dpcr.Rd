@@ -50,12 +50,11 @@ dat <- data.frame(experiment = factor(rep(paste0("Experiment", 1L:2), 3)),
                   uv = 0)
 df2dpcr(dat)
 }
-\author{
-Michal Burdukiewcz, Stefan Roediger
-}
 \seealso{
 Flexibly create \code{\linkS4class{dpcr}} objects: \code{\link{create_dpcr}}
 Inverse function: \code{\link{dpcr2df}}
 }
+\author{
+Michal Burdukiewcz, Stefan Roediger
+}
 \keyword{utilities}
-

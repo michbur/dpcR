@@ -19,4 +19,3 @@ num2int uses \code{\link[base]{as.integer}} functionality.
 suppressWarnings(num2int(pi) == 3L)
 }
 \keyword{manip}
-

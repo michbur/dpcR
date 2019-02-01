@@ -3,10 +3,10 @@
 \docType{methods}
 \name{qpcr_analyser}
 \alias{qpcr_analyser}
+\alias{qpcr_analyser-methods}
 \alias{qpcr_analyser,adpcr-method}
 \alias{qpcr_analyser,data.frame-method}
 \alias{qpcr_analyser,modlist-method}
-\alias{qpcr_analyser-methods}
 \title{qPCR Analyser}
 \arguments{
 \item{input}{a dataframe containing the qPCR data or a result of function
@@ -92,9 +92,6 @@ models <- modlist(guescini1)
 qpcr_analyser(models)
 
 }
-\author{
-Stefan Roediger, Andrej-Nikolai Spiess, Michal Burdukiewicz.
-}
 \references{
 Ritz C, Spiess An-N, \emph{qpcR: an R package for sigmoidal
 model selection in quantitative real-time polymerase chain reaction
@@ -106,9 +103,11 @@ data.\cr \url{https://CRAN.R-project.org/package=qpcR}\cr
 \seealso{
 \link[qpcR]{modlist}.
 }
+\author{
+Stefan Roediger, Andrej-Nikolai Spiess, Michal Burdukiewicz.
+}
 \keyword{Cy0}
 \keyword{amplification}
 \keyword{qPCR}
 \keyword{quantification}
 \keyword{real-time}
-

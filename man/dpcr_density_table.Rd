@@ -44,12 +44,11 @@ ggplot(dens[["Experiment2.2"]], aes(x = x, y = y)) +
   scale_fill_discrete("0.95 CI")
 
 }
-\author{
-Michal Burdukiewicz, Stefan Roediger.
-}
 \seealso{
 \code{\link{dpcr_density}} for easy analysis and plots of single runs.
 }
+\author{
+Michal Burdukiewicz, Stefan Roediger.
+}
 \keyword{dplot}
 \keyword{hplot}
-

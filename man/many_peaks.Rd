@@ -20,4 +20,3 @@ plot(many_peaks, type = "b")
 
 }
 \keyword{datasets}
-

@@ -2,12 +2,12 @@
 % Please edit documentation in R/qdpcr.R
 \docType{class}
 \name{qdpcr-class}
-\alias{qdpcr}
 \alias{qdpcr-class}
-\alias{show,qdpcr-method}
+\alias{qdpcr}
 \alias{show.qdpcr}
-\alias{summary,qdpcr-method}
+\alias{show,qdpcr-method}
 \alias{summary.qdpcr}
+\alias{summary,qdpcr-method}
 \title{Class \code{"qdpcr"}}
 \description{
 An object representing digital PCR reaction depicted as Poisson process. Inherits 
@@ -23,11 +23,11 @@ defined interval.}
 positive reaction.}
 }
 }
-\author{
-Stefan Roediger, Michal Burdukiewicz.
-}
+
 \seealso{
 \code{\link{plot.qdpcr}},
 }
+\author{
+Stefan Roediger, Michal Burdukiewicz.
+}
 \keyword{classes}
-
