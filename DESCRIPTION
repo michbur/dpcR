@@ -13,7 +13,7 @@ Authors@R: c(
     person("Piotr", "Sobczyk", email = "sobbombo@gmail.com", role = "ctb"),
     person("Andrej-Nikolai", "Spiess", email = "draspiess@gmail.com", role = "ctb"))
 Description: Analysis, visualisation and simulation of digital polymerase chain
-    reaction (dPCR). Supports data formats of commerical systems (Bio-Rad QX100 and
+    reaction (dPCR). Supports data formats of commercial systems (Bio-Rad QX100 and
     QX200; Fluidigm BioMark) and other systems.
 License: GPL-3
 URL: https://github.com/michbur/dpcR
@@ -27,6 +27,7 @@ VignetteBuilder: knitr
 Packaged: 2019-01-26 12:20:06 UTC; ans
 NeedsCompilation: no
 Repository: CRAN
+Encoding: UTF-8
 RoxygenNote: 6.1.1
 Maintainer: Michal Burdukiewicz <michalburdukiewicz@gmail.com>
 Collate: 
