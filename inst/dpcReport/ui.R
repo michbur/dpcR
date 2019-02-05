@@ -5,7 +5,7 @@ library(rhandsontable)
 shinyUI(navbarPage(title = "dpcReport",
                    header = includeScript("ga.js"),
                    theme = shinytheme("cerulean"),
-                   id = "navbar", windowTitle = "dpcReport", collapsible=TRUE,
+                   id = "navbar", windowTitle = "dpcReport", collapsible = TRUE,
                    tabPanel("Input file",
                             includeMarkdown("input_file1.md"),
                             fluidRow(
