@@ -1,9 +1,9 @@
 Package: dpcR
 Type: Package
 Title: Digital PCR Analysis
-Version: 0.5
+Version: 0.5.1
 LazyData: true
-Date: 2019-02-01
+Date: 2020-03-22
 Authors@R: c(
     person("Michal", "Burdukiewicz", email = "michalburdukiewicz@gmail.com", 
            role = c("cre", "aut"), comment = c(ORCID = "0000-0001-8926-582X")),
