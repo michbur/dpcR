@@ -7,7 +7,7 @@
 dpcReport()
 }
 \description{
-Launches graphical user interface that generates reports from digital PCR 
+Launches graphical user interface that generates reports from digital PCR
 data.
 }
 \section{Warning }{

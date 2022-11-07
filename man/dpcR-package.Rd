@@ -17,18 +17,18 @@ compartments and relating it to the total number of compartments by means
 of Poission statistics which enables an absolute quantification.
 }
 \details{
-The package includes plot functions, summary functions, data sets and simulations 
+The package includes plot functions, summary functions, data sets and simulations
 for dPCR and customizable GUI for droplet digital PCRs and
 array-based digital PCRs. We aim to include all
 statistical approaches published in peer-review literature and additional
-selected sources of expertise currently available. We intent to make these methods 
+selected sources of expertise currently available. We intent to make these methods
 available to the scientific community in an open and cross-platform environment. Using
-the naming convention derived from the MIQE Guidelines for digital PCR, we hope to 
-become a reference to a unified nomenclature in dpcR. 
+the naming convention derived from the MIQE Guidelines for digital PCR, we hope to
+become a reference to a unified nomenclature in dpcR.
 
 The package is primarily targeted at researchers who wish to use it with an existing
 technology or during the development of novel digital PCR systems. In
-addition the dpcR package provides interactive tools that can be used to 
+addition the dpcR package provides interactive tools that can be used to
 better learn about digital PCR concepts and data interpretation.
 }
 \examples{

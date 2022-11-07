@@ -12,20 +12,20 @@
 moments(input)
 }
 \arguments{
-\item{input}{a vector with two elements (the first element is treated as 
-a number of positive partitions and the second as a number of total partitions) 
-or a matrix with two columns (first columns contains numbers of 
+\item{input}{a vector with two elements (the first element is treated as
+a number of positive partitions and the second as a number of total partitions)
+or a matrix with two columns (first columns contains numbers of
 positive partitions and the second total numbers of total partitions)
 or an object of class \code{\linkS4class{dpcr}} .}
 }
 \value{
-A data frame with four columns: name of the experiment, 
-name of the replicate, method of computation (theoretical or empirical), 
-name of the moment and the value of the moment. The theoretical moments are 
+A data frame with four columns: name of the experiment,
+name of the replicate, method of computation (theoretical or empirical),
+name of the moment and the value of the moment. The theoretical moments are
 computed using the lambda value and the empirical using the sample values.
 }
 \description{
-Computes moments of a Poisson distribution. The calculations are based on 
+Computes moments of a Poisson distribution. The calculations are based on
 values of positive and total partitions or the theoretical lambda value.
 }
 \note{

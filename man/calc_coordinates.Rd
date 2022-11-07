@@ -15,7 +15,7 @@ by the adequate half of the rectangle.}
 \value{
 Returns two sets of coordinates of each microfluidic well:
 \code{coords} is a list of coordinates suitable for usage with functions from
-\code{\link{graphics}} package. The second element is a data frame of coordinates 
+\code{\link{graphics}} package. The second element is a data frame of coordinates
 useful for users utilizing ggplot2 package.
 }
 \description{

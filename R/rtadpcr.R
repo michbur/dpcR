@@ -1,11 +1,11 @@
 #' Class \code{"rtadpcr"} - real-time array digital PCR experiments
-#' 
+#'
 #' A class designed to contain results from real-time array digital PCR
 #' experiments. Data is represented as matrix, where each column describes
 #' different measurement point (i.e. cycle number) and every row different
 #' partition.
-#' 
-#' 
+#'
+#'
 #' @name rtadpcr-class
 #' @aliases rtadpcr-class rtadpcr
 #' @docType class
@@ -18,15 +18,17 @@
 #' data.}\item{:}{Object of class \code{"character"} defining type of data.} }
 #' @author Michal Burdukiewicz.
 #' @seealso End-point array digital PCR: \code{\linkS4class{adpcr}}.
-#' 
+#'
 #' Droplet digital PCR: \code{\linkS4class{dpcr}}.
 #' @keywords classes real-time
 #' @examples
-#' 
-#' #none
-#' 
+#'
+#' # none
+#'
 NULL
 
-setClass("rtadpcr", contains = "matrix", representation(.Data = "matrix",
-                                                      n = "integer",
-                                                      type = "character"))
+setClass("rtadpcr", contains = "matrix", representation(
+  .Data = "matrix",
+  n = "integer",
+  type = "character"
+))

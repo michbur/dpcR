@@ -23,7 +23,7 @@ data.}\item{:}{Object of class \code{"character"} defining type of data.} }
 
 \examples{
 
-#none
+# none
 
 }
 \seealso{

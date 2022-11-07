@@ -66,14 +66,18 @@ is recommended to test for the optimal fitting function himself (see
 \examples{
 
 library(qpcR)
-test <- cbind(reps[1L:45, ], reps2[1L:45, 2L:ncol(reps2)], reps3[1L:45, 
-	      2L:ncol(reps3)])
+test <- cbind(reps[1L:45, ], reps2[1L:45, 2L:ncol(reps2)], reps3[
+  1L:45,
+  2L:ncol(reps3)
+])
 
-# results.dPCR contains a column with the Cy0 values and a column with 
+# results.dPCR contains a column with the Cy0 values and a column with
 # converted values.
 Cq.range <- c(20, 30)
-ranged <- limit_cq(data = test, cyc = 1, fluo = NULL,
-                           Cq_range = Cq.range, model = l5)
+ranged <- limit_cq(
+  data = test, cyc = 1, fluo = NULL,
+  Cq_range = Cq.range, model = l5
+)
 # Same as above, but without Cq.range
 no_range <- limit_cq(data = test, cyc = 1, fluo = NULL, model = l5)
 

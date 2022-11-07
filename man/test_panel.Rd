@@ -47,8 +47,8 @@ plate. This function is a wrapper around \code{\link[spatstat.core]{quadrat.test
 function working directly on the objects of \code{\linkS4class{adpcr}}.
 }
 \details{
-Under optimal conditions, the point pattern of dPCR events (e.g., positive droplet 
-& negative droplets) should be randomly distrubuted over a planar chip. 
+Under optimal conditions, the point pattern of dPCR events (e.g., positive droplet
+& negative droplets) should be randomly distrubuted over a planar chip.
 This function verifies this assumption using chi-square or Monte Carlo test.
 Arrays with non-random patterns should be checked for integrity.
 }
@@ -58,19 +58,20 @@ A similar result can be achived by using \code{\link{adpcr2ppp}} and
 }
 \examples{
 
-many_panels <- sim_adpcr(m = 400, n = 765, times = 1000, pos_sums = FALSE, 
-                   n_panels = 5)
+many_panels <- sim_adpcr(
+  m = 400, n = 765, times = 1000, pos_sums = FALSE,
+  n_panels = 5
+)
 test_panel(many_panels)
 
-#test only one plate
+# test only one plate
 test_panel(extract_run(many_panels, 3))
 
-#do test_panel manually
+# do test_panel manually
 require(spatstat.core)
 require(spatstat.geom)
 ppp_data <- adpcr2ppp(many_panels)
 lapply(ppp_data, function(single_panel) quadrat.test(single_panel))
-
 
 }
 \references{

@@ -6,8 +6,8 @@
 \title{Artificial data set with many peaks}
 \format{
 A data frame with 493 observations on the following 2 variables.
-\describe{ 
-\item{t}{a numeric vector} 
+\describe{
+\item{t}{a numeric vector}
 \item{F}{fluorescence
 value} }
 }

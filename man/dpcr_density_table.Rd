@@ -18,7 +18,7 @@ dpcr_density_table(
 molecules per partition. If \code{FALSE}, instead performs calculations for
 the total number of positive molecules.}
 
-\item{methods}{Method for calculating the confidence interval. 
+\item{methods}{Method for calculating the confidence interval.
 Possible values are: \code{"wilson"}, \code{"agresti-coull"},
 \code{"exact"}, \code{"prop.test"}, \code{"profile"}, \code{"lrt"},
 \code{"asymptotic"}, \code{"bayes"}, \code{"cloglog"}, \code{"logit"},
@@ -28,11 +28,11 @@ Possible values are: \code{"wilson"}, \code{"agresti-coull"},
 interval. Values from 0 to 1 and -1 to 0 are acceptable.}
 }
 \value{
-A list (with the length equal to the number of runs in \code{input}) of 
+A list (with the length equal to the number of runs in \code{input}) of
 data frames containing densities and borders of confidence intervals.
 }
 \description{
-Calculates the density of the number of positive molecules or the average number 
+Calculates the density of the number of positive molecules or the average number
 of molecules per partition of \code{\link{dpcr}} objects.
 }
 \examples{
@@ -41,8 +41,8 @@ dens <- dpcr_density_table(six_panels)
 # create plot using ggplot2
 library(ggplot2)
 
-ggplot(dens[["Experiment2.2"]], aes(x = x, y = y)) + 
-  geom_line() + 
+ggplot(dens[["Experiment2.2"]], aes(x = x, y = y)) +
+  geom_line() +
   geom_area(aes(fill = !(conf_up | conf_low))) +
   scale_y_continuous("Density") +
   scale_fill_discrete("0.95 CI")

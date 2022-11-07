@@ -7,27 +7,27 @@
 read_dpcr(input, format, ext = NULL, ...)
 }
 \arguments{
-\item{input}{name of the input file (\code{character}) or input object 
+\item{input}{name of the input file (\code{character}) or input object
 (\code{data.frame}).}
 
-\item{format}{of the file, for example: \code{"raw"}, \code{"QX100"}, 
+\item{format}{of the file, for example: \code{"raw"}, \code{"QX100"},
 \code{"BioMark"}, \code{"amp"} (raw amplitude compressed using \code{.zip}).}
 
 \item{ext}{extension of the file ().}
 
-\item{...}{additional parameters for the appropriate function. For example, if 
-\code{format} has value \code{"raw"}, the additional parameter must be 
+\item{...}{additional parameters for the appropriate function. For example, if
+\code{format} has value \code{"raw"}, the additional parameter must be
 \code{adpcr}.}
 }
 \value{
-Always an object of \code{\linkS4class{adpcr}} or 
+Always an object of \code{\linkS4class{adpcr}} or
 \code{\linkS4class{dpcr}} type.
 }
 \description{
 Reads digital PCR data in various formats.
 }
 \details{
-Input files may have .csv, .xls or .xlsx extension. In case of Excel files 
+Input files may have .csv, .xls or .xlsx extension. In case of Excel files
 with multiple sheets, only the first sheet will be analyzed.
 }
 \seealso{

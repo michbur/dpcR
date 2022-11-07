@@ -21,11 +21,11 @@ digital PCR data to binary (positive/negative partition) format.
 }
 \examples{
 
-#adpcr object
+# adpcr object
 rand_array <- sim_adpcr(200, 300, 100, pos_sums = FALSE, n_panels = 1)
 binarize(rand_array)
 
-#dpcr object
+# dpcr object
 rand_droplets <- sim_dpcr(200, 300, 100, pos_sums = FALSE, n_exp = 1)
 binarize(rand_droplets)
 }

@@ -21,7 +21,7 @@ The object of the input's class (\code{\linkS4class{adpcr}} or
 \code{\linkS4class{dpcr}}).
 }
 \description{
-Extract all runs belonging to specific assay or experiment(s) from a 
+Extract all runs belonging to specific assay or experiment(s) from a
 code{\linkS4class{dpcr}} object while preserving all other
 attributes.
 }
@@ -32,13 +32,13 @@ attributies of the object.
 }
 \examples{
 
-#extract using only experiment's ID
+# extract using only experiment's ID
 extract_dpcr(six_panels, id_exper = 1)
 
-#extract using assay name
+# extract using assay name
 extract_dpcr(six_panels, id_assay = "MYC")
 
-#extract using multiple names
+# extract using multiple names
 extract_dpcr(six_panels, id_exper = c("Experiment1", "Experiment2"))
 
 }

@@ -7,7 +7,7 @@
 read_amp(input, ext = NULL)
 }
 \arguments{
-\item{input}{name of the input file (\code{character}) or input object 
+\item{input}{name of the input file (\code{character}) or input object
 (\code{data.frame}).}
 
 \item{ext}{extension of the file ().}
@@ -19,7 +19,7 @@ An object of \code{\linkS4class{adpcr}}.
 Reads digital PCR amplitude data.
 }
 \details{
-The amplitude data means a compressed directory of 
+The amplitude data means a compressed directory of
 amplification.
 }
 \author{

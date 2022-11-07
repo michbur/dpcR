@@ -28,14 +28,14 @@
 \item{aggregate}{logical, if \code{TRUE} experiments are aggregated according
 to their group.}
 
-\item{nice}{logical, if \code{TRUE} a more aesthetically pleasing (but harder to 
+\item{nice}{logical, if \code{TRUE} a more aesthetically pleasing (but harder to
 customize) version of the plot is created.}
 }
 \description{
 Objects of this class are created by \code{\link{test_counts}}.
 }
 \details{
-In case of the aggregated plot, mean confidence intervals for groups are 
+In case of the aggregated plot, mean confidence intervals for groups are
 presented as dashed lines.
 }
 \section{Methods (by generic)}{
@@ -46,16 +46,16 @@ presented as dashed lines.
 
 \item \code{show(count_test)}: Print both \code{group_coef} and \code{test_res}.
 
-\item \code{plot(x = count_test, y = ANY)}: plots mean number of molecules per partition and its 
+\item \code{plot(x = count_test, y = ANY)}: plots mean number of molecules per partition and its
 confidence intervals.
 
 }}
 \section{Slots}{
- 
-\describe{ 
+
+\describe{
 \item{group_coef}{\code{"data.frame"} containing experiments, groups to which they
 belong and calculated values of rate (lambda).}
-\item{test_res}{\code{"matrix"} containing result of multiple comparisions t-test.} 
+\item{test_res}{\code{"matrix"} containing result of multiple comparisions t-test.}
 \item{model}{\code{"character"} name of GLM used to compare experiments.} }
 }
 

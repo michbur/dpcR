@@ -41,8 +41,8 @@ values. The original length is always preserved in \code{n} slot.
 \code{y} is a number of experiment in a given object.
 }
 \note{
-Because \code{bind_dpcr} calls \code{\link[base]{do.call}} function, 
-binding together at the same time more than 500 objects can lead to 
+Because \code{bind_dpcr} calls \code{\link[base]{do.call}} function,
+binding together at the same time more than 500 objects can lead to
 'stack overflow' error.
 }
 \examples{

@@ -24,7 +24,7 @@ dpcr_density(
 molecules per partition. If \code{FALSE}, instead performs calculations for
 the total number of positive molecules.}
 
-\item{methods}{Method for calculating the confidence interval. 
+\item{methods}{Method for calculating the confidence interval.
 Possible values are: \code{"wilson"}, \code{"agresti-coull"},
 \code{"exact"}, \code{"prop.test"}, \code{"profile"}, \code{"lrt"},
 \code{"asymptotic"}, \code{"bayes"}, \code{"cloglog"}, \code{"logit"},
@@ -51,19 +51,25 @@ both array digital PCR and droplet digital PCR.
 \examples{
 
 # Calculate the average number of molecules per partition and show the area
-# of the confidence interval (left plot) and the area within the 
+# of the confidence interval (left plot) and the area within the
 # confidence interval
-par(mfrow = c(1,2))
-dpcr_density(k = 25, n = 55, average = TRUE, methods = "wilson", 
-	     conf.level = 0.95)
-dpcr_density(k = 25, n = 55, average = TRUE, methods = "wilson", 
-	     conf.level = -0.95)
-par(mfrow = c(1,1))
+par(mfrow = c(1, 2))
+dpcr_density(
+  k = 25, n = 55, average = TRUE, methods = "wilson",
+  conf.level = 0.95
+)
+dpcr_density(
+  k = 25, n = 55, average = TRUE, methods = "wilson",
+  conf.level = -0.95
+)
+par(mfrow = c(1, 1))
 
-# By setting average to FALSE the total number of positive molecules is 
+# By setting average to FALSE the total number of positive molecules is
 # calculated
-dpcr_density(k = 25, n = 55, average = FALSE, methods = "wilson", 
-	     conf.level = 0.95)
+dpcr_density(
+  k = 25, n = 55, average = FALSE, methods = "wilson",
+  conf.level = 0.95
+)
 
 }
 \references{
@@ -72,7 +78,7 @@ Brown, Lawrence D., T. Tony Cai, and Anirban DasGupta.
 Expansions.} The Annals of Statistics 30, no. 1 (February 2002): 160--201.
 }
 \seealso{
-Computation of confidence intervals: \link[binom]{binom.confint}, 
+Computation of confidence intervals: \link[binom]{binom.confint},
 
 The browser-based graphical user interface for this function: \link{dpcr_density_gui}.
 }

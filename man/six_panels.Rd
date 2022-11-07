@@ -5,14 +5,14 @@
 \alias{six_panels}
 \title{Simulated Digital PCR data}
 \format{
-An object of class \code{\linkS4class{adpcr}} containing six runs from three 
+An object of class \code{\linkS4class{adpcr}} containing six runs from three
 experiments (two runs per each experiment).
 }
 \description{
 Simulated data from array-based digital PCR experiment (see \code{\link{sim_adpcr}}).
 }
 \examples{
-#code below was used to create six_panels data set
+# code below was used to create six_panels data set
 \dontrun{
 set.seed(1944)
 adpcr1 <- sim_adpcr(m = 10, n = 765, times = 10000, pos_sums = FALSE, n_panels = 2)

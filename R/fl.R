@@ -1,2 +1,3 @@
-fl <- function(p)
+fl <- function(p) {
   -log(1 - p)
+}

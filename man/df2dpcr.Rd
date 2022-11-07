@@ -10,16 +10,16 @@ df2dpcr(df)
 \item{df}{data frame with specified column names. See Details.}
 }
 \value{
-An object of \code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}} type, 
+An object of \code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}} type,
 depends on the presence of additional column with panel indices (see Details).
 }
 \description{
-Converts \code{\link{data.frame}} object to to \code{\linkS4class{adpcr}} or 
+Converts \code{\link{data.frame}} object to to \code{\linkS4class{adpcr}} or
 \code{\linkS4class{dpcr}} object. The resulting object will have \code{"tnp"}
 type.
 }
 \details{
-The data frame must have REDF structure. 
+The data frame must have REDF structure.
 It means that data must contain following columns with exactly specified names:
 \describe{
 \item{experiment}{names of experiments}
@@ -29,7 +29,7 @@ It means that data must contain following columns with exactly specified names:
 \item{n}{total number of partitions}
 \item{v}{volume of partition (nL)}
 \item{uv}{uncertainty of partition's volume (nL)}
-\item{threshold}{partitions with \code{k} equal or higher than threshold are 
+\item{threshold}{partitions with \code{k} equal or higher than threshold are
 treated as positve.}
 }
 There are also one optional column:
@@ -37,18 +37,21 @@ There are also one optional column:
 \item{panel_id}{indices of panels}
 }
 
-If the additional column is present, the resulting object has 
+If the additional column is present, the resulting object has
 \code{\linkS4class{adpcr}} type.
 }
 \examples{
-dat <- data.frame(experiment = factor(rep(paste0("Experiment", 1L:2), 3)),
-                  replicate = c(1, 1, 2, 2, 3, 3),
-                  assay = "Assay1",
-                  k = c(55, 121, 43, 150, 70, 131),
-                  n = 765,
-                  v = 1,
-                  uv = 0)
+dat <- data.frame(
+  experiment = factor(rep(paste0("Experiment", 1L:2), 3)),
+  replicate = c(1, 1, 2, 2, 3, 3),
+  assay = "Assay1",
+  k = c(55, 121, 43, 150, 70, 131),
+  n = 765,
+  v = 1,
+  uv = 0
+)
 df2dpcr(dat)
+
 }
 \seealso{
 Flexibly create \code{\linkS4class{dpcr}} objects: \code{\link{create_dpcr}}

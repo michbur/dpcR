@@ -1,11 +1,11 @@
 #' Plasmid dilution series raw data
-#' 
+#'
 #' Subset of raw data from the \code{pds_raw} data set as measured by the
 #' Bio-Rad QX100 Droplet Digital PCR System.
-#' 
+#'
 #' The results can be  calculated as by the Bio-Rad QX100 Droplet Digital PCR
 #' System are to be found in \code{pds}.
-#' 
+#'
 #' @name pds_raw
 #' @docType data
 #' @details
@@ -16,7 +16,7 @@
 #' dilutions of plasmid DNA with 4 replicates, ranging theoretically from ~
 #' 10^4 to 10^-1 copies/ micro L plus 4 replicates without plasmid DNA.
 #' Included are No-gDNA-control and No-template-control, 2 replicates each.
-#' 
+#'
 #' Annotation: FX.Y (X = dilution number, Y = replicate number). Hardware:
 #'   Bio-Rad QX100 Droplet digital PCR system Details: Genomic DNA isolated from
 #' Pseudomonas putida KT2440. Plasmid is pCOM10-StyA::EGFP StyB [Jahn et al.,
@@ -24,12 +24,12 @@
 #' treated at 95 degree Celsius for 5 min prior to PCR. Channel 1, primers for
 #' genomic DNA marker ileS, Taqman probes (FAM labelled). Channel 2, primers
 #' for plasmid DNA marker styA, Taqman probes (HEX labelled).
-#' 
+#'
 #' #' Setup: Duplex assay with a constant amount of genomic DNA and six 10-fold
 #' dilutions of plasmid DNA with 4 replicates, ranging theoretically from ~
 #' 10^4 to 10^-1 copies/ micro L plus 4 replicates without plasmid DNA.
 #' Included are No-gDNA-control and No-template-control, 2 replicates each.
-#' 
+#'
 #' Annotation: FX.Y (X = dilution number, Y = replicate number). Hardware:
 #' Bio-Rad QX100 Droplet digital PCR system Details: Genomic DNA isolated from
 #' Pseudomonas putida KT2440. Plasmid is pCOM10-StyA::EGFP StyB [Jahn et al.,
@@ -37,11 +37,11 @@
 #' treated at 95 degree Celsius for 5 min prior to PCR. Channel 1, primers for
 #' genomic DNA marker ileS, Taqman probes (FAM labelled). Channel 2, primers
 #' for plasmid DNA marker styA, Taqman probes (HEX labelled).
-#' 
+#'
 #' The full data are located at \url{https://github.com/michbur/dpcR_data} as
 #' QX100_rawdata.zip.
 #' @format A list of 3 data frames.
-#' \describe{ 
+#' \describe{
 #'   \item{Well }{| ExptType }{| Experiment }{| Sample + Dilution step }{| TypeAssay }{| Assay}
 #'   \item{D01 }{| Absolute Quantification }{| ABS }{| gDNA + P 10^4 }{| Ch1Unknown }{| ileS}
 #'   \item{D02 }{| Absolute Quantification }{| ABS }{| gDNA + P 10^2 }{| Ch1Unknown }{| ileS}
@@ -50,9 +50,9 @@
 #' @author Michael Jahn, Stefan Roediger, Michal Burdukiewcz
 #' @references Jahn et al., 2013, \emph{Curr Opin Biotechnol}, Vol. 24 (1):
 #' 79-87
-#' 
-#' Jahn M, Vorpahl C, Tuerkowsky D, Lindmeyer M, Buehler B, Harms H, et al. 
-#' Accurate Determination of Plasmid Copy Number of Flow-Sorted Cells using 
+#'
+#' Jahn M, Vorpahl C, Tuerkowsky D, Lindmeyer M, Buehler B, Harms H, et al.
+#' Accurate Determination of Plasmid Copy Number of Flow-Sorted Cells using
 #' Droplet Digital PCR. \emph{Anal Chem} 2014; 86:5969--76. doi:10.1021/ac501118v.
 #' @source Michael Jahn Flow cytometry group / Environmental microbiology
 #' Helmholtz Centre for Environmental Research - UFZ Permoserstrasse 15 / 04318
@@ -60,8 +60,8 @@
 #' www.ufz.de
 #' @keywords datasets
 #' @examples
-#' 
-#' #str(pds_raw)
+#'
+#' # str(pds_raw)
 #' bioamp(data = pds_raw[["D02"]], main = "Well D02", pch = 19)
-#' 
+#'
 NULL

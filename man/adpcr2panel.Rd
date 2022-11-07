@@ -12,10 +12,10 @@ adpcr2panel(input, breaks = FALSE)
 \item{breaks}{if \code{TRUE}, the data is divided into intervals.}
 }
 \value{
-A named list of length equal to the number of arrays in the \code{input}. 
-Each element is a single array in matrix-like form, where dimensions are set 
-exactly as in case of the real plate. Names of the list corresponds to the names 
-of assays (\code{"tnp"} data) or runs (any other type of \code{\linkS4class{adpcr}} 
+A named list of length equal to the number of arrays in the \code{input}.
+Each element is a single array in matrix-like form, where dimensions are set
+exactly as in case of the real plate. Names of the list corresponds to the names
+of assays (\code{"tnp"} data) or runs (any other type of \code{\linkS4class{adpcr}}
 data).
 
 The matrices contain values from array, either integers (when \code{use_break} is
@@ -25,14 +25,17 @@ The matrices contain values from array, either integers (when \code{use_break} i
 Converts \code{\linkS4class{adpcr}} object into the list of array-like matrices.
 }
 \examples{
-#generate data
-ttest <- sim_adpcr(m = 400, n = 765, times = 20, pos_sums = FALSE, 
-                   n_panels = 3)
-#convert object into three arrays
+# generate data
+ttest <- sim_adpcr(
+  m = 400, n = 765, times = 20, pos_sums = FALSE,
+  n_panels = 3
+)
+# convert object into three arrays
 arrays <- adpcr2panel(ttest)
 length(arrays)
-#print an array
+# print an array
 arrays[[1]]
+
 }
 \author{
 Michal Burdukiewicz.

@@ -26,7 +26,7 @@ objects of the class \code{\linkS4class{adpcr}} to or
 }
 \details{
 The function prints a summary of the dPCR reaction, including k (number of
-positive chambers), n (total number of chambers), estimated lambda and 
+positive chambers), n (total number of chambers), estimated lambda and
 concentration, as well as confidence intervals for the
 last two variables.
 }
@@ -38,13 +38,13 @@ supported only for objects of class \code{\linkS4class{adpcr}}.
 \examples{
 
 # array dpcr
-# Simulates a chamber based digital PCR with m total number of template molecules  
-# and n number of chambers per plate and assigns it as object ptest of the class 
-# adpcr for a single panel. The summary function on ptest gets assigned to summ 
-# and the result with statistics according to Dube et al. 2008 and Bhat et al. 2009 
+# Simulates a chamber based digital PCR with m total number of template molecules
+# and n number of chambers per plate and assigns it as object ptest of the class
+# adpcr for a single panel. The summary function on ptest gets assigned to summ
+# and the result with statistics according to Dube et al. 2008 and Bhat et al. 2009
 # gets printed.
 ptest <- sim_adpcr(m = 400, n = 765, times = 5, dube = FALSE, n_panels = 1)
-summ <- summary(ptest) #save summary
+summ <- summary(ptest) # save summary
 print(summ)
 
 # multiple experiments
@@ -53,9 +53,9 @@ ptest <- sim_adpcr(m = 400, n = 765, times = 5, dube = FALSE, n_panels = 5)
 summary(ptest)
 
 # droplet dpcr - fluorescence
-# Simulates a droplet digital PCR with m = 7 total number of template molecules 
-# and n = 20 number of  droplets. The summary function on dropletf gives the 
-# statistics according to Dube et al. 2008 and Bhat et al. 2009. The fluo parameter 
+# Simulates a droplet digital PCR with m = 7 total number of template molecules
+# and n = 20 number of  droplets. The summary function on dropletf gives the
+# statistics according to Dube et al. 2008 and Bhat et al. 2009. The fluo parameter
 # is used to change the smoothness of the fluorescence curve and the space between
 #  two consecutive measured peaks (droplets).
 dropletf <- sim_dpcr(m = 7, n = 20, times = 5, fluo = list(0.1, 0))
@@ -69,10 +69,9 @@ summary(droplet)
 
 # Visualize the results of dropletf and dropletf
 # The curves of dropletf are smoother.
-par(mfrow = c(1,2))
+par(mfrow = c(1, 2))
 plot(dropletf, main = "With fluo parameter", type = "l")
 plot(droplet, main = "Without fluo parameter", type = "l")
-
 
 }
 \references{

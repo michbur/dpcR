@@ -25,7 +25,7 @@ bioamp(
 
 \item{amp_y}{is the second amplitude channel (y-axis).}
 
-\item{cluster}{are the clusters of the plot. The number indicates the column 
+\item{cluster}{are the clusters of the plot. The number indicates the column
 of a table, which contains the cluster information.}
 
 \item{robust}{Is the method used to calculate the location (mean or median)
@@ -49,10 +49,10 @@ Bio-Rad droplet digital PCR experiment.
 }
 \examples{
 
-par(mfrow = c(1,2))
+par(mfrow = c(1, 2))
 bioamp(data = pds_raw[["D01"]], main = "Well D01", pch = 19)
 bioamp(data = pds_raw[["D02"]], main = "Well D02", pch = 19)
-par(mfrow = c(1,1))
+par(mfrow = c(1, 1))
 
 }
 \author{

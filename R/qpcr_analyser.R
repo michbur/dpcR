@@ -1,5 +1,5 @@
 #' qPCR Analyser
-#' 
+#'
 #' Calculate statistics based on fluorescence. The function can be used to
 #' analyze amplification curve data from quantitative real-time PCR
 #' experiments. The analysis includes the fitting of the amplification curve by
@@ -7,7 +7,7 @@
 #' referred to as Cp (crossing-point), Cq or Ct) based on a user defined
 #' method. The function can be used to analyze data from chamber based dPCR
 #' machines.
-#' 
+#'
 #' The \code{qpcRanalyzer} is a functions to automatize the analysis of
 #' amplification curves from conventional quantitative real-time PCR (qPCR)
 #' experiments and is adapted for the needs in dPCR.  This function calls
@@ -27,7 +27,7 @@
 #' such \code{qpcr_analyser} is a function, which serves for preliminary data
 #' inspection (see Example section) and as input for other R functions from the
 #' \code{dpcR} package (e.g., \link{plot_panel}).
-#' 
+#'
 #' @name qpcr_analyser
 #' @aliases qpcr_analyser qpcr_analyser-methods qpcr_analyser,adpcr-method
 #' qpcr_analyser,data.frame-method qpcr_analyser,modlist-method qpcr_analyser
@@ -60,47 +60,47 @@
 #' @references Ritz C, Spiess An-N, \emph{qpcR: an R package for sigmoidal
 #' model selection in quantitative real-time polymerase chain reaction
 #' analysis}.  Bioinformatics 24 (13), 2008.
-#' 
+#'
 #' Andrej-Nikolai Spiess (2013). qpcR: Modelling and analysis of real-time PCR
 #' data.\cr \url{https://CRAN.R-project.org/package=qpcR}\cr
 #' @keywords qPCR Cy0 real-time amplification quantification
 #' @examples
-#' 
+#'
 #' # Take data of guescini1 data set from the qpcR R package.
 #' library(qpcR)
 #' # Use the first column containing the cycles and the second column for sample F1.1.
 #' data(guescini1)
 #' qpcr_analyser(guescini1, cyc = 1, fluo = 2)
-#' 
+#'
 #' # Use similar setting as before but set takeoff to true for an estimation of
 #' # the first significant cycle of the exponential region.
 #' qpcr_analyser(guescini1, cyc = 1, fluo = 2, takeoff = TRUE)
-#' 
+#'
 #' # Use similar setting as before but use qpcr_analyser in a loop to calculate the results for the
 #' # first four columns containing the fluorescence in guescini1
 #' print(qpcr_analyser(guescini1, cyc = 1, fluo = 2:5, takeoff = TRUE))
-#' 
+#'
 #' # Run qpcr_analyser on the list of models (finer control on fitting model process)
 #' models <- modlist(guescini1)
 #' qpcr_analyser(models)
-#' 
+#'
 NULL
 
 
-qpcr_analyser <- function(input, cyc = 1, fluo = NULL, model = l5, norm = FALSE, iter_tr = 50, 
-                           type = "Cy0", takeoff = FALSE) {
+qpcr_analyser <- function(input, cyc = 1, fluo = NULL, model = l5, norm = FALSE, iter_tr = 50,
+                          type = "Cy0", takeoff = FALSE) {
   stop("Wrong class of 'input'")
 }
 
 setGeneric("qpcr_analyser")
 
-setMethod("qpcr_analyser", signature(input = "data.frame"), function(input, 
-                                                                     cyc = 1, 
-                                                                     fluo = NULL, 
-                                                                     model = l5, 
-                                                                     norm = FALSE, 
-                                                                     iter_tr = 50, 
-                                                                     type = "Cy0", 
+setMethod("qpcr_analyser", signature(input = "data.frame"), function(input,
+                                                                     cyc = 1,
+                                                                     fluo = NULL,
+                                                                     model = l5,
+                                                                     norm = FALSE,
+                                                                     iter_tr = 50,
+                                                                     type = "Cy0",
                                                                      takeoff = FALSE) {
   all_fits <- fit_adpcr(input, cyc, fluo, model, norm, iter_tr)
   res <- analyze_qpcR(all_fits, type, takeoff)
@@ -114,14 +114,16 @@ setMethod("qpcr_analyser", signature(input = "modlist"), function(input, type = 
   res
 })
 
-analyze_qpcR <- function(fit_list, type = "Cy0",  takeoff = FALSE) {
-  res <- t(vapply(fit_list, function(fit) 
-    safe_efficiency(fit, type), c(0, 0, 0)))
+analyze_qpcR <- function(fit_list, type = "Cy0", takeoff = FALSE) {
+  res <- t(vapply(fit_list, function(fit) {
+    safe_efficiency(fit, type)
+  }, c(0, 0, 0)))
   if (takeoff) {
-    res <- cbind(res, t(vapply(fit_list, function(fit) 
-      unlist(takeoff(fit)[c("top", "f.top")]), c(0, 0))))
+    res <- cbind(res, t(vapply(fit_list, function(fit) {
+      unlist(takeoff(fit)[c("top", "f.top")])
+    }, c(0, 0))))
   }
-  
+
   res
 }
 
@@ -131,15 +133,16 @@ calc_deltaF <- function(pcr_data, cyc, fluo) {
   } else {
     all_fluos <- fluo
   }
-  vapply(all_fluos, function(x)  
-    quantile(tail(pcr_data[, x]), 0.85) - quantile(head(pcr_data[, x]), 0.25), 0)
+  vapply(all_fluos, function(x) {
+    quantile(tail(pcr_data[, x]), 0.85) - quantile(head(pcr_data[, x]), 0.25)
+  }, 0)
 }
 
-#to do
-#general function to test dpcr objects
-#k - positive droplets/chambers
-#total number of droplets/chambers
-#different principle than dube/bhat method. Calculate confidence interval for k, not for m
+# to do
+# general function to test dpcr objects
+# k - positive droplets/chambers
+# total number of droplets/chambers
+# different principle than dube/bhat method. Calculate confidence interval for k, not for m
 # test_dpcr <- function(k, n) {
 #   #theoretical values
 #   theor <- round(fl(unlist(binom.confint(k, n, methods = "wilson", conf.level = 0.95)[, 4:6]))*n, 0)
@@ -147,12 +150,13 @@ calc_deltaF <- function(pcr_data, cyc, fluo) {
 # }
 
 
-setMethod("qpcr_analyser", signature(input = "adpcr"), function(input, cyc = 1, fluo = NULL, 
-                                                                model = l5, 
-                                                                norm = FALSE, iter_tr = 50, 
+setMethod("qpcr_analyser", signature(input = "adpcr"), function(input, cyc = 1, fluo = NULL,
+                                                                model = l5,
+                                                                norm = FALSE, iter_tr = 50,
                                                                 type = "Cy0", takeoff = FALSE) {
-  if (slot(input, "type") != "fluo")
+  if (slot(input, "type") != "fluo") {
     stop("'input' must contain fluorescence data.", call. = TRUE, domain = NA)
+  }
   input <- slot(input, ".Data")
   all_fits <- fit_adpcr(input, cyc, fluo, model, norm, iter_tr)
   res <- analyze_qpcR(all_fits, type, takeoff)

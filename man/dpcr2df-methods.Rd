@@ -13,15 +13,16 @@ dpcr2df(input)
 \item{input}{\code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}} object.}
 }
 \value{
-data frame with 5 (if input was  \code{\linkS4class{dpcr}}) or 
+data frame with 5 (if input was  \code{\linkS4class{dpcr}}) or
 8 columns (if input was  \code{\linkS4class{adpcr}}).
 }
 \description{
-Converts \code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}} object to 
+Converts \code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}} object to
 \code{\link{data.frame}} object.
 }
 \examples{
 dpcr2df(six_panels)
+
 }
 \seealso{
 Inverse function: \code{\link{df2dpcr}}

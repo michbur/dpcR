@@ -7,20 +7,20 @@
 read_redf(input, ext = NULL)
 }
 \arguments{
-\item{input}{name of the input file (\code{character}) or input object 
+\item{input}{name of the input file (\code{character}) or input object
 (\code{data.frame}).}
 
 \item{ext}{extension of the file ().}
 }
 \value{
-An object of \code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}} type, 
+An object of \code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}} type,
 depends on the value of \code{adpcr} parameter.
 }
 \description{
 Reads REDF (Raw Exchange Digital PCR format) data.
 }
 \details{
-REDF (Raw Exchange Digital PCR format) data is preferably a .csv file 
+REDF (Raw Exchange Digital PCR format) data is preferably a .csv file
 with following columns:
 \describe{
 \item{experiment}{names of experiments}
@@ -30,11 +30,11 @@ with following columns:
 \item{n}{total number of partitions}
 \item{v}{volume of partition (nL)}
 \item{uv}{uncertainty of partition's volume (nL)}
-\item{threshold}{partitions with \code{k} equal or higher than threshold are 
+\item{threshold}{partitions with \code{k} equal or higher than threshold are
 treated as positve.}
 \item{panel_id}{indices of panels}
 }
-Column \code{panel_id} should be specified only in case of 
+Column \code{panel_id} should be specified only in case of
 array-based dPCR.
 }
 \author{

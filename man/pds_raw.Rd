@@ -6,7 +6,7 @@
 \title{Plasmid dilution series raw data}
 \format{
 A list of 3 data frames.
-\describe{ 
+\describe{
   \item{Well }{| ExptType }{| Experiment }{| Sample + Dilution step }{| TypeAssay }{| Assay}
   \item{D01 }{| Absolute Quantification }{| ABS }{| gDNA + P 10^4 }{| Ch1Unknown }{| ileS}
   \item{D02 }{| Absolute Quantification }{| ABS }{| gDNA + P 10^2 }{| Ch1Unknown }{| ileS}
@@ -62,7 +62,7 @@ QX100_rawdata.zip.
 }
 \examples{
 
-#str(pds_raw)
+# str(pds_raw)
 bioamp(data = pds_raw[["D02"]], main = "Well D02", pch = 19)
 
 }
@@ -70,8 +70,8 @@ bioamp(data = pds_raw[["D02"]], main = "Well D02", pch = 19)
 Jahn et al., 2013, \emph{Curr Opin Biotechnol}, Vol. 24 (1):
 79-87
 
-Jahn M, Vorpahl C, Tuerkowsky D, Lindmeyer M, Buehler B, Harms H, et al. 
-Accurate Determination of Plasmid Copy Number of Flow-Sorted Cells using 
+Jahn M, Vorpahl C, Tuerkowsky D, Lindmeyer M, Buehler B, Harms H, et al.
+Accurate Determination of Plasmid Copy Number of Flow-Sorted Cells using
 Droplet Digital PCR. \emph{Anal Chem} 2014; 86:5969--76. doi:10.1021/ac501118v.
 }
 \author{

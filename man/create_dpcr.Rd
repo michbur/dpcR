@@ -34,8 +34,8 @@ experiments. Data frames will be converted to matrices.}
 
 \item{type}{Object of class \code{"character"} defining type of data. Could
 be \code{"nm"} (number of molecules per partition), \code{"tnp"} (total
-number of positive wells in the panel), \code{"fluo"} (fluorescence), \code{"np"} 
-(status (positive (1) or negative(0)) of each droplet) or\code{"ct"} 
+number of positive wells in the panel), \code{"fluo"} (fluorescence), \code{"np"}
+(status (positive (1) or negative(0)) of each droplet) or\code{"ct"}
 (threshold cycle).}
 
 \item{v}{The volume of partitions [nL].}
@@ -66,14 +66,14 @@ Creates \code{\linkS4class{adpcr}} and \code{\linkS4class{dpcr}}
 objects from data.
 }
 \details{
-This constructor function assists in creation of objects used by other 
+This constructor function assists in creation of objects used by other
 functions of the package. It is also responsible for checking the correctness of
 arguments.
 
 A warning is prompted whenever any of arguments is converted to other type.
 }
 \note{
-\code{create_dpcr} is a preferred to calling directly 
+\code{create_dpcr} is a preferred to calling directly
 \code{\link[methods]{new}}.
 
 Currently only end-point measurements are supported.
@@ -82,15 +82,21 @@ Currently only end-point measurements are supported.
 
 # Droplet digital PCR example
 sample_runs <- matrix(rpois(60, lambda = 1.5), ncol = 2)
-ddpcr1 <- create_dpcr(sample_runs[,1], n = 30L, 
-threshold = 1, type = "nm", adpcr = FALSE)
-ddpcr2 <- create_dpcr(sample_runs[,2], n = 30L, 
-threshold = 1, type = "nm", adpcr = FALSE)
+ddpcr1 <- create_dpcr(sample_runs[, 1],
+  n = 30L,
+  threshold = 1, type = "nm", adpcr = FALSE
+)
+ddpcr2 <- create_dpcr(sample_runs[, 2],
+  n = 30L,
+  threshold = 1, type = "nm", adpcr = FALSE
+)
 plot_vic_fam(ddpcr1, ddpcr2)
 
 # Array digital PCR example
-sample_adpcr <- create_dpcr(rpois(765, lambda = 0.8), n = 765L, 
-			    type = "nm", adpcr = TRUE)
+sample_adpcr <- create_dpcr(rpois(765, lambda = 0.8),
+  n = 765L,
+  type = "nm", adpcr = TRUE
+)
 plot_panel(sample_adpcr, 45, 17)
 
 }

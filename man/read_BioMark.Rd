@@ -7,12 +7,12 @@
 read_BioMark(input, ext = NULL, detailed = FALSE)
 }
 \arguments{
-\item{input}{name of the input file (\code{character}) or input object 
+\item{input}{name of the input file (\code{character}) or input object
 (\code{data.frame}).}
 
 \item{ext}{extension of the file ().}
 
-\item{detailed}{logical, if \code{TRUE}, the input file is processed as if it was 
+\item{detailed}{logical, if \code{TRUE}, the input file is processed as if it was
 'Detailed Table Results'. In the other case, the expected input file structure is
 'Summary Table Results'.}
 }
@@ -23,8 +23,8 @@ An object of \code{\linkS4class{adpcr}} class.
 Reads digital PCR data from the BioMark (Fluidigm).
 }
 \references{
-Dong, L. et al (2015). Comparison of four digital PCR platforms for accurate 
-quantification of DNA copy number of a certified plasmid DNA reference material. 
+Dong, L. et al (2015). Comparison of four digital PCR platforms for accurate
+quantification of DNA copy number of a certified plasmid DNA reference material.
 Scientific Reports. 2015;5:13174.
 }
 \seealso{

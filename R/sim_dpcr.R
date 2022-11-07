@@ -1,7 +1,7 @@
 #' Simulate Droplet Digital PCR
-#' 
+#'
 #' A function that simulates results of a droplet digital PCR.
-#' 
+#'
 #' The function contains two
 #' implementations of the array digital PCR simulation. First one was described
 #' in Dube at. al (2008). This method is based on random distributing \eqn{m
@@ -9,10 +9,10 @@
 #' chambers.  After this step, the required number of plates is created by the
 #' random sampling of chambers without replacement. The above method is used,
 #' when the \code{dube} argument has value \code{TRUE}.
-#' 
+#'
 #' The higher the value of the argument \code{times}, the simulation result is
 #' closer to theoretical calculations.
-#' 
+#'
 #' @param m the total number of template molecules used in the expertiment. Must be
 #' a positive integer.
 #' @param n the number of droplets per experiment. Must be a positive integer.
@@ -40,7 +40,7 @@
 #' with one row and \eqn{n_panels} columns. Each column contains the total
 #' number of positive chambers in each plate and type of simulation would be
 #' set as \code{"tnp"}.
-#' 
+#'
 #' In each case the value is an object of the \code{\linkS4class{dpcr}} class.
 #' @note Although Dube's simulation of digital PCR was developed for array
 #' digital PCR, it's also viable for simulating droplet-based methods.
@@ -48,33 +48,38 @@
 #' @seealso \code{\link{sim_adpcr}}.
 #' @keywords datagen
 #' @examples
-#' 
-#' #simulate fluorescence data
+#'
+#' # simulate fluorescence data
 #' tmp_VIC <- sim_dpcr(m = 7, n = 20, times = 5, fluo = list(0.1, 0))
 #' tmp_FAM <- sim_dpcr(m = 15, n = 20, times = 5, fluo = list(0.1, 0))
-#' par(mfrow = c(2,1))
+#' par(mfrow = c(2, 1))
 #' plot(tmp_VIC, col = "green", type = "l")
 #' plot(tmp_FAM, col = "blue", type = "l")
 #' summary(tmp_FAM)
-#' 
+#'
 #' summary(sim_dpcr(m = 7, n = 20, times = 5, n_exp = 5))
-#' 
+#'
 #' @export sim_dpcr
-sim_dpcr <- function(m, n, times, n_exp = 1, dube = FALSE, pos_sums = FALSE, 
-                      fluo = NULL) {
-  if (!is.null(fluo))
-    if (pos_sums)
-      stop("During fluorescence simulation 'pos_sums' must be TRUE", call. = TRUE, 
-           domain = NA)
+sim_dpcr <- function(m, n, times, n_exp = 1, dube = FALSE, pos_sums = FALSE,
+                     fluo = NULL) {
+  if (!is.null(fluo)) {
+    if (pos_sums) {
+      stop("During fluorescence simulation 'pos_sums' must be TRUE",
+        call. = TRUE,
+        domain = NA
+      )
+    }
+  }
   n <- num2int(n)
   res <- sim_dpcr_raw(m, n, times, dube, pos_sums, n_exp)
   if (!is.null(fluo)) {
     res <- apply(res, 2, function(x) sim_dpcr_fluo(x, n, fluo[[1]], fluo[[2]]))
   }
-  #simplify
-  type = ifelse(pos_sums, "tnp", "nm")
-  if (!is.null(fluo))
+  # simplify
+  type <- ifelse(pos_sums, "tnp", "nm")
+  if (!is.null(fluo)) {
     type <- "fluo"
+  }
   construct_dpcr(res, n = rep(n, n_exp), threshold = 0.5, type = type)
 }
 
@@ -85,7 +90,8 @@ sim_dpcr_fluo <- function(res, n, resolution, space) {
   } else {
     a <- lapply(1L:n, function(x) c(sin(seq(0, pi, resolution)), rep.int(0, space)))
   }
-  result <- matrix(unlist(lapply(1L:n, function(x)
-    a[[x]] * res[x])), ncol = 1)
+  result <- matrix(unlist(lapply(1L:n, function(x) {
+    a[[x]] * res[x]
+  })), ncol = 1)
   result
 }

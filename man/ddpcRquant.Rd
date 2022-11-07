@@ -21,7 +21,7 @@ ddpcRquant(
 
 \item{blocks}{\code{numeric} vector representing the number of blocks.}
 
-\item{threshold.manual}{if \code{numeric}, the value is used as the threshold. If 
+\item{threshold.manual}{if \code{numeric}, the value is used as the threshold. If
 \code{NULL}, the threshold is calculated automatically.}
 }
 \value{
@@ -35,12 +35,12 @@ This function is a modification of code was implemented using the code found on
 \url{http://www.ddpcrquant.ugent.be/}.
 }
 \references{
-Trypsteen W, Vynck M, De Neve J, Bonczkowski P, Kiselinova M, 
-Malatinkova E, Vervisch K, Thas O, Vandekerckhove L, De Spiegelaere W, 
-\emph{ddpcRquant: Threshold Determination for Single Channel Droplet Digital PCR 
+Trypsteen W, Vynck M, De Neve J, Bonczkowski P, Kiselinova M,
+Malatinkova E, Vervisch K, Thas O, Vandekerckhove L, De Spiegelaere W,
+\emph{ddpcRquant: Threshold Determination for Single Channel Droplet Digital PCR
 Experiments}. Analytical and Bioanalytical Chemistry 2015. 407(19): p.5827-34.
 }
 \author{
-Wim Trypsteen, Matthijs Vynck, Jan De Neve, Pawel Bonczkowski, Maja Kiselinova, 
+Wim Trypsteen, Matthijs Vynck, Jan De Neve, Pawel Bonczkowski, Maja Kiselinova,
 Eva Malatinkova, Karen Vervisch, Olivier Thas, Linos Vandekerckhove, Ward De Spiegelaere.
 }

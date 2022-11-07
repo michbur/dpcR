@@ -12,7 +12,7 @@ describes different experiment. Type of data in all columns is specified in
 slot \code{"type"}. Inherits from \code{\linkS4class{dpcr}}.
 }
 \details{
-For more in-depth explanation of digital PCR data structure, see 
+For more in-depth explanation of digital PCR data structure, see
 \code{\linkS4class{dpcr}}.
 }
 \section{Slots}{

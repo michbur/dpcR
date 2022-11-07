@@ -10,7 +10,7 @@ adpcr2ppp(input, marks = TRUE, plot = FALSE)
 \item{input}{Object of the \code{\linkS4class{adpcr}} class containing data
 from one or more panels.}
 
-\item{marks}{If \code{TRUE}, marks values for non-empty partitions. See 
+\item{marks}{If \code{TRUE}, marks values for non-empty partitions. See
 \code{\link[spatstat.geom]{ppp}} for more in-depth description.}
 
 \item{plot}{If \code{TRUE}, array is plotted.}
@@ -31,8 +31,10 @@ the \code{\linkS4class{adpcr}} object.
 }
 \examples{
 
-many_panels <- sim_adpcr(m = 400, n = 765, times = 1000, pos_sums = FALSE, 
-                   n_panels = 5)
+many_panels <- sim_adpcr(
+  m = 400, n = 765, times = 1000, pos_sums = FALSE,
+  n_panels = 5
+)
 
 # Convert all arrays to ppp objects
 adpcr2ppp(many_panels)
@@ -46,8 +48,8 @@ third_plate2 <- adpcr2ppp(extract_run(many_panels, 3))
 # Check the class of a new object
 class(third_plate2)
 
-# It's a list with the length 1. The third plate is a first element on this 
-#list
+# It's a list with the length 1. The third plate is a first element on this
+# list
 class(third_plate2[[1]])
 
 }

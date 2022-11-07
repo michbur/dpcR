@@ -22,8 +22,8 @@ assays' names are not changed.}
 Renames objects of class \code{\linkS4class{adpcr}} or \code{\linkS4class{dpcr}}.
 }
 \details{
-The valid \code{exper}, \code{replicate} and \code{assay} names 
-are factors. For the sake of convenience, this function converts other types 
+The valid \code{exper}, \code{replicate} and \code{assay} names
+are factors. For the sake of convenience, this function converts other types
 to factors if it is possible.
 }
 \keyword{manip}

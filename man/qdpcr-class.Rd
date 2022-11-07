@@ -10,11 +10,11 @@
 \alias{summary,qdpcr-method}
 \title{Class \code{"qdpcr"}}
 \description{
-An object representing digital PCR reaction depicted as Poisson process. Inherits 
+An object representing digital PCR reaction depicted as Poisson process. Inherits
 from \code{\linkS4class{dpcr}}.
 }
 \section{Slots}{
- \describe{ 
+ \describe{
 \item{list("mu")}{\code{"numeric"} of the expected number of events in a
 defined interval.}
 \item{list("C0")}{\code{"numeric"} the occurrence in a defined interval.}

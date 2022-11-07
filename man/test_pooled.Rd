@@ -12,24 +12,24 @@ test_pooled(input, conf.level = 0.05)
 \item{conf.level}{confidence level of the intervals and groups.}
 }
 \value{
-data frame with the number of rows equal to the number of experiments 
-(not runs). The unit of concentration is the number template molecules per 
+data frame with the number of rows equal to the number of experiments
+(not runs). The unit of concentration is the number template molecules per
 nanoliter (nL).
 }
 \description{
-Estimates mean number of template molecules per partition and concentration of sample 
+Estimates mean number of template molecules per partition and concentration of sample
 from pooled replicates of experiments.
 }
 \note{
-This function was implemented using the code in supplemental materials in 
+This function was implemented using the code in supplemental materials in
 Dorazio, 2015 (see References).
 }
 \examples{
 test_pooled(six_panels)
 }
 \references{
-Dorazio RM, Hunter ME, \emph{Statistical Models for the Analysis 
-and Design of Digital Polymerase Chain Reaction (dPCR) Experiments}. 
+Dorazio RM, Hunter ME, \emph{Statistical Models for the Analysis
+and Design of Digital Polymerase Chain Reaction (dPCR) Experiments}.
 Analytical Chemistry 2015. 87(21): p.10886-10893
 }
 \author{

@@ -25,7 +25,7 @@ invisibly.}
 Invisibly returns two sets of coordinates of each microfluidic well
 as per \code{\link{calc_coordinates}}:
 \code{coords} is a list of coordinates suitable for usage with functions from
-\code{\link{graphics}} package. The second element is a data frame of coordinates 
+\code{\link{graphics}} package. The second element is a data frame of coordinates
 useful for users utilizing ggplot2 package.
 }
 \description{
@@ -36,9 +36,9 @@ of a chamber-based digital PCR experiments (e.g., Digital Array (R) IFCs
 }
 \details{
 Currently, only objects containing \code{tnp} data can be plotted as
-a whole. For the any other type of the \code{adpcr} data, only just one column 
-of data (one panel) can be plotted at the same time (see Examples how easily 
-plot multipanel objects). Moreover the object must contain fluorescence 
+a whole. For the any other type of the \code{adpcr} data, only just one column
+of data (one panel) can be plotted at the same time (see Examples how easily
+plot multipanel objects). Moreover the object must contain fluorescence
 intensities or exact number of molecules or
 the positive hits derived from the Cq values for each well. The Cq values
 can be obtained by custom made functions (see example in
@@ -50,10 +50,12 @@ interval of the input, with the brightest colors for the lowest values.
 }
 \examples{
 
-# Create a sample dPCR experiment with 765 elements (~> virtual compartments)   
+# Create a sample dPCR experiment with 765 elements (~> virtual compartments)
 # of target molecule copies per compartment as integer numbers (0,1,2)
-ttest <- sim_adpcr(m = 400, n = 765, times = 20, pos_sums = FALSE, 
-                   n_panels = 1)
+ttest <- sim_adpcr(
+  m = 400, n = 765, times = 20, pos_sums = FALSE,
+  n_panels = 1
+)
 # Plot the dPCR experiment results with default settings
 plot_panel(ttest)
 
@@ -61,28 +63,42 @@ plot_panel(ttest)
 plot_panel(ttest, col = c("blue", "red"))
 
 # plot few panels
-ttest2 <- sim_adpcr(m = 400, n = 765, times = 40, pos_sums = FALSE, 
-                    n_panels = 4)
+ttest2 <- sim_adpcr(
+  m = 400, n = 765, times = 40, pos_sums = FALSE,
+  n_panels = 4
+)
 par(mfcol = c(2, 2))
-four_panels <- lapply(1:ncol(ttest2), function(i) 
-       plot_panel(extract_run(ttest2, i), legend = FALSE, 
-         main = paste("Panel", LETTERS[i], sep = " ")))
+four_panels <- lapply(1:ncol(ttest2), function(i) {
+  plot_panel(extract_run(ttest2, i),
+    legend = FALSE,
+    main = paste("Panel", LETTERS[i], sep = " ")
+  )
+})
 par(mfcol = c(1, 1))
 
-# two different channels 
-plot_panel(extract_run(ttest2, 1), legend = FALSE, 
-           half = "left")
+# two different channels
+plot_panel(extract_run(ttest2, 1),
+  legend = FALSE,
+  half = "left"
+)
 par(new = TRUE)
-plot_panel(extract_run(ttest2, 2), col = "blue", 
-           legend = FALSE, half = "right")
+plot_panel(extract_run(ttest2, 2),
+  col = "blue",
+  legend = FALSE, half = "right"
+)
 
 # plot two panels with every well as only the half of the rectangle
-ttest3 <- sim_adpcr(m = 400, n = 765, times = 40, pos_sums = FALSE, 
-                    n_panels = 2)
+ttest3 <- sim_adpcr(
+  m = 400, n = 765, times = 40, pos_sums = FALSE,
+  n_panels = 2
+)
 par(mfcol = c(1, 2))
-two_panels <- lapply(1:ncol(ttest3), function(i) 
-       plot_panel(extract_run(ttest3, i), legend = FALSE, 
-         main = paste("Panel", LETTERS[i], sep = " ")))
+two_panels <- lapply(1:ncol(ttest3), function(i) {
+  plot_panel(extract_run(ttest3, i),
+    legend = FALSE,
+    main = paste("Panel", LETTERS[i], sep = " ")
+  )
+})
 par(mfcol = c(1, 1))
 
 }

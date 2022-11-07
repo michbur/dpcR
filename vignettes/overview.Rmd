@@ -14,27 +14,31 @@ vignette: >
 
 ```{r eval=TRUE,echo=FALSE}
 library(knitr)
-opts_chunk$set(fig.width=6, fig.height=6)
+opts_chunk$set(fig.width = 6, fig.height = 6)
 
 library(ggplot2)
 library(xtable)
 library(dpcR)
 
 size_mod <- -2
-cool_theme <- theme(plot.background=element_rect(fill = "transparent",
-                                                 colour = "transparent"),
-                    panel.grid.major = element_line(colour="lightgrey", linetype = "dashed"),
-                    panel.background = element_rect(fill = "white", colour = "black"),
-                    legend.background = element_rect(fill="NA"),
-                    legend.position = "bottom",
-                    axis.text = element_text(size=12 + size_mod),
-                    axis.title.x = element_text(size=15 + size_mod, vjust = -0.1), 
-                    axis.title.y = element_text(size=15 + size_mod, vjust = 1),
-                    strip.text = element_text(size=15 + size_mod, face = "bold"),
-                    strip.background = element_rect(fill = "#9ecae1", colour = "black"),
-                    legend.text = element_text(size=12 + size_mod), 
-                    legend.title = element_text(size=15 + size_mod),
-                    plot.title = element_text(size=20 + size_mod))
+cool_theme <- theme(
+  plot.background = element_rect(
+    fill = "transparent",
+    colour = "transparent"
+  ),
+  panel.grid.major = element_line(colour = "lightgrey", linetype = "dashed"),
+  panel.background = element_rect(fill = "white", colour = "black"),
+  legend.background = element_rect(fill = "NA"),
+  legend.position = "bottom",
+  axis.text = element_text(size = 12 + size_mod),
+  axis.title.x = element_text(size = 15 + size_mod, vjust = -0.1),
+  axis.title.y = element_text(size = 15 + size_mod, vjust = 1),
+  strip.text = element_text(size = 15 + size_mod, face = "bold"),
+  strip.background = element_rect(fill = "#9ecae1", colour = "black"),
+  legend.text = element_text(size = 12 + size_mod),
+  legend.title = element_text(size = 15 + size_mod),
+  plot.title = element_text(size = 20 + size_mod)
+)
 
 load("vig.RData")
 ```
@@ -83,16 +87,17 @@ s4@type
 All `dpcr` objects should be managed using special functions provided by this package: `bind_dpcr` and `extract_run`. The former binds `dpcr` objects, the latter extracts parts of the `dpcr` object. It is important to use this functions, because they preserve other attributes important for `dpcr` objects as number of partitions, names of experiments, assays and technical replicates.
 
 ```{r eval=TRUE}
-# Create single adpcr object. The following code is also true for 
+# Create single adpcr object. The following code is also true for
 # other objects inhering from dpcr, as dpcr or qdpcr
 single_run <- sim_adpcr(m = 100, n = 765, times = 100, pos_sums = FALSE, n_panels = 1)
 two_runs <- bind_dpcr(single_run, single_run)
 three_runs <- bind_dpcr(single_run, single_run, single_run)
-# It is also possible to bind a list of dpcr objects... 
+# It is also possible to bind a list of dpcr objects...
 three_runs_list <- bind_dpcr(list(single_run, single_run, single_run))
 # ... which may be useful in do.call statements
-dpcr_list <- do.call(bind_dpcr, lapply(5L:10*10, function(n_template)
-  sim_adpcr(m = n_template, n = 765, times = 100, pos_sums = FALSE, n_panels = 1)))
+dpcr_list <- do.call(bind_dpcr, lapply(5L:10 * 10, function(n_template) {
+  sim_adpcr(m = n_template, n = 765, times = 100, pos_sums = FALSE, n_panels = 1)
+}))
 ```
 
 `bind_dpcr` may be seen as the analogue of the R function [cbind](https://stat.ethz.ch/R-manual/R-devel/library/base/html/cbind.html). The main difference is the lack of recycling. If two objects with uneven number of data points are bound together, the shorter is completed with missing values (NA).
@@ -137,10 +142,16 @@ Digital PCR data is always a matrix (see `?matrix` in R). Columns and rows repre
 
 ```{r eval=TRUE}
 # Create two array dPCR experiments. Mind the difference in the n parameter.
-sample_adpcr <- bind_dpcr(sim_adpcr(m = 100, n = 765, times = 100, pos_sums = FALSE, n_panels = 1), 
-                          rename_dpcr(sim_adpcr(m = 100, n = 763, times = 100, pos_sums = FALSE, 
-                                           n_panels = 1), 
-                                 exper = "Experiment2"))
+sample_adpcr <- bind_dpcr(
+  sim_adpcr(m = 100, n = 765, times = 100, pos_sums = FALSE, n_panels = 1),
+  rename_dpcr(
+    sim_adpcr(
+      m = 100, n = 763, times = 100, pos_sums = FALSE,
+      n_panels = 1
+    ),
+    exper = "Experiment2"
+  )
+)
 ```
 
 In the code chunk above, we created two array dPCR experiments with respectively 765 and 763 partitions. Inspect the last five data points:
@@ -270,7 +281,7 @@ adpcr2panel(six_panels)[["Experiment3.1"]][1L:6, 1L:6]
 Data from dPCR arrays can be easily visualized using the `plot_panel` function.
 
 ```{r eval=TRUE}
-# Remember, you can plot only single panel at once 
+# Remember, you can plot only single panel at once
 plot_panel(extract_run(adpcr_experiments, 1), main = "Experiment 1")
 ```
 
@@ -365,7 +376,7 @@ comp <- test_counts(six_panels)
 # 2. See summary of the test
 summary(comp)
 
-# 3. Plot results of the test 
+# 3. Plot results of the test
 # plot(comp, aggregate = FALSE) # Commented for fixing
 
 # 4. Aggregate runs to their groups
@@ -396,28 +407,28 @@ $$
 For example, the 0.95 significance levels means, that probability of the all real values being in the range of its respective confidence intervals is 0.95.
 
 ```{r eval=TRUE}
-#1. Perform multiple test comparison using data from the previous example
+# 1. Perform multiple test comparison using data from the previous example
 comp_ratio <- test_counts(six_panels, model = "ratio")
 
-#2. See summary of the test
+# 2. See summary of the test
 summary(comp_ratio)
 
-#3. Plot results of the test 
+# 3. Plot results of the test
 # plot(comp_ratio, aggregate = FALSE) # Commented for fixing
 
-#4. Aggregate runs to their groups
+# 4. Aggregate runs to their groups
 plot(comp_ratio, aggregate = TRUE)
 
-#5. Extract coefficients for the further usage
+# 5. Extract coefficients for the further usage
 coef(comp)
 
 # Compare results of two methods
-par(mfrow=c(2,1))
+par(mfrow = c(2, 1))
 # plot(comp, aggregate = FALSE) # Commented for fixing
 title("GLM")
 # plot(comp_ratio, aggregate = FALSE) # Commented for fixing
 title("Ratio")
-par(mfrow=c(1,1))
+par(mfrow = c(1, 1))
 ```
 
 
@@ -426,11 +437,11 @@ Two approaches presented above were compared in a simulation approach over 150.0
 Experiments were compared using GLM and MT frameworks.
 
 ```{r eval=TRUE,echo=FALSE}
-ggplot(data=madpcr_comp, aes(x = value, fill = method)) +
-  geom_density(alpha = 0.3) + 
-  scale_fill_discrete("Confidence intervals:") + 
-  scale_y_continuous("Density") + 
-  scale_x_continuous("Fraction of wrongly assigned experiments") + 
+ggplot(data = madpcr_comp, aes(x = value, fill = method)) +
+  geom_density(alpha = 0.3) +
+  scale_fill_discrete("Confidence intervals:") +
+  scale_y_continuous("Density") +
+  scale_x_continuous("Fraction of wrongly assigned experiments") +
   cool_theme
 ```
 
@@ -450,12 +461,12 @@ A single GLM comparison took roughly 183 times longer than MT (on average 1.10 s
   
 ```{r eval=TRUE,echo=FALSE}
 ggplot(m_coverage2, aes(x = prop, y = value, fill = method)) +
-  geom_bar(stat="identity", position = "dodge") +
-  scale_y_continuous("Probability coverage") + 
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_y_continuous("Probability coverage") +
   scale_x_discrete(expression(lambda)) +
-  scale_fill_discrete("Confidence intervals:") + 
+  scale_fill_discrete("Confidence intervals:") +
   geom_hline(yintercept = 0.95, colour = "black", linewidth = 1, linetype = 5) +
-  facet_wrap(~ coverage, nrow = 2) + 
+  facet_wrap(~coverage, nrow = 2) +
   cool_theme
 ```
 
@@ -465,8 +476,9 @@ The dashed black line marks 0.95 border.
 dat <- as.data.frame(aggregate(value ~ method + coverage, m_coverage2, mean))
 
 colnames(dat) <- c("Method name", "Type of coverage", "Value")
-print(xtable(dat), 
-      include.rownames = FALSE, type = "html")
+print(xtable(dat),
+  include.rownames = FALSE, type = "html"
+)
 ```
   
   

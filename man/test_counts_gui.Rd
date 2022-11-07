@@ -7,7 +7,7 @@
 test_counts_gui()
 }
 \description{
-Launches graphical user interface allowing multiple comparisons of simulated digital 
+Launches graphical user interface allowing multiple comparisons of simulated digital
 PCR reactions.
 }
 \section{Warning }{

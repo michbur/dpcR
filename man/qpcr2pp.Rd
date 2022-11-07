@@ -48,7 +48,7 @@ method.  If \code{FALSE}, Cy0 method is used instead.}
 \item{assay}{The name or id of assays.}
 
 \item{type}{object of class \code{"character"} defining type of data. Could
-be \code{"np"} (status (positive (1) or negative(0)) of each droplet) or\code{"ct"} 
+be \code{"np"} (status (positive (1) or negative(0)) of each droplet) or\code{"ct"}
 (threshold cycle).}
 }
 \value{
@@ -105,13 +105,18 @@ thus better suited for Poisson process.
 \examples{
 
 library(qpcR)
-test <- cbind(reps[1L:45, ], reps2[1L:45, 2L:ncol(reps2)], 
-	      reps3[1L:45, 2L:ncol(reps3)])
+test <- cbind(
+  reps[1L:45, ], reps2[1L:45, 2L:ncol(reps2)],
+  reps3[1L:45, 2L:ncol(reps3)]
+)
 
 # before interpolation qPCR experiment must be converted into dPCR
-qpcrpp <- qpcr2pp(data = test, cyc = 1, fluo = NULL, Cq_range = c(20, 30), 
-                  model = l5, delta = 5)
+qpcrpp <- qpcr2pp(
+  data = test, cyc = 1, fluo = NULL, Cq_range = c(20, 30),
+  model = l5, delta = 5
+)
 summary(qpcrpp)
+
 }
 \author{
 Stefan Roediger, Michal Burdukiewicz.

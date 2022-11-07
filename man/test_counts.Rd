@@ -22,23 +22,23 @@ an object of class \code{\linkS4class{count_test}}.
 The test for comparing counts from two or more digital PCR experiments.
 }
 \details{
-\code{test_counts} incorporates two different approaches to models: GLM (General Linear 
-Model) and multiple pair-wise tests. The GLM fits counts data from different 
-digital PCR experiments using quasibinomial or quasipoisson \code{\link[stats]{family}}. 
-Comparisons between single experiments utilize Tukey's contrast and multiple t-tests 
+\code{test_counts} incorporates two different approaches to models: GLM (General Linear
+Model) and multiple pair-wise tests. The GLM fits counts data from different
+digital PCR experiments using quasibinomial or quasipoisson \code{\link[stats]{family}}.
+Comparisons between single experiments utilize Tukey's contrast and multiple t-tests
 (as provided by function \code{\link{glht}}).
 
-In case of pair-wise tests, (\code{\link[rateratio.test]{rateratio.test}} or 
-\code{\link[stats]{prop.test}}) are used to compare all pairs of experiments. The 
+In case of pair-wise tests, (\code{\link[rateratio.test]{rateratio.test}} or
+\code{\link[stats]{prop.test}}) are used to compare all pairs of experiments. The
 p-values are adjusted using the Benjamini & Hochberg method (\code{\link[stats]{p.adjust}}).
 Furthermore, confidence intervals are simultaneous.
 }
 \note{
-Mean number of template molecules per partition and its confidence intervals will 
+Mean number of template molecules per partition and its confidence intervals will
 vary depending on input.
 }
 \examples{
-#be warned, the examples of test_counts are time-consuming
+# be warned, the examples of test_counts are time-consuming
 \dontrun{
 adpcr1 <- sim_adpcr(m = 10, n = 765, times = 1000, pos_sums = FALSE, n_panels = 3)
 adpcr2 <- sim_adpcr(m = 60, n = 550, times = 1000, pos_sums = FALSE, n_panels = 3)
@@ -46,32 +46,33 @@ adpcr2 <- rename_dpcr(adpcr2, exper = "Experiment2")
 adpcr3 <- sim_adpcr(m = 10, n = 600, times = 1000, pos_sums = FALSE, n_panels = 3)
 adpcr3 <- rename_dpcr(adpcr3, exper = "Experiment3")
 
-#compare experiments using binomial regression
+# compare experiments using binomial regression
 two_groups_bin <- test_counts(bind_dpcr(adpcr1, adpcr2), model = "binomial")
 summary(two_groups_bin)
 plot(two_groups_bin)
-#plot aggregated results
+# plot aggregated results
 plot(two_groups_bin, aggregate = TRUE)
-#get coefficients
+# get coefficients
 coef(two_groups_bin)
 
-#this time use Poisson regression
+# this time use Poisson regression
 two_groups_pois <- test_counts(bind_dpcr(adpcr1, adpcr2), model = "poisson")
 summary(two_groups_pois)
 plot(two_groups_pois)
 
-#see how test behaves when results aren't significantly different
+# see how test behaves when results aren't significantly different
 one_group <- test_counts(bind_dpcr(adpcr1, adpcr3))
 summary(one_group)
 plot(one_group)
 }
+
 }
 \references{
-Bretz F, Hothorn T, Westfall P, \emph{Multiple comparisons using R}. 
+Bretz F, Hothorn T, Westfall P, \emph{Multiple comparisons using R}.
 Boca Raton, Florida, USA: Chapman & Hall/CRC Press (2010).
 }
 \seealso{
-Functions used by \code{test_counts}: 
+Functions used by \code{test_counts}:
 \itemize{
 \item \code{\link[stats]{glm}},
 \item \code{\link[multcomp]{glht}},

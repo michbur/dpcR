@@ -1,7 +1,7 @@
 #' Simulate Array Digital PCR
-#' 
+#'
 #' A function that simulates results of an array digital PCR.
-#' 
+#'
 #' The array digital PCR is performed on plates containing many microfluidic
 #' chambers with a randomly distributed DNA template, fluorescence labels and
 #' standard PCR reagents. After the amplification reaction, performed
@@ -10,7 +10,7 @@
 #' amplification curves of positive chambers it is possible to calculate both
 #' total number of template molecules and their approximate number in a
 #' single chamber.
-#' 
+#'
 #' The function contains two implementations of the array digital PCR
 #' simulation. First one was described in Dube at. al (2008). This method is
 #' based on random distributing \eqn{m \times times}{m * times} molecules
@@ -18,7 +18,7 @@
 #' required number of plates is created by the random sampling of chambers
 #' without replacement. The above method is used, when the \code{dube} argument
 #' has value \code{TRUE}.
-#' 
+#'
 #' The second method treats the total number of template molecules as random
 #' variable with a normal distribution \eqn{\mathcal{N}(n, 0.05n)}{N(n,
 #' 0.05*n)}. The exact sum of total molecules per plate is calculated and
@@ -27,7 +27,7 @@
 #' implementation is much faster than previous one, especially for big
 #' simulations. The higher the value of the argument \code{times}, the
 #' simulation result is closer to theoretical calculations.
-#' 
+#'
 #' @aliases sim_adpcr
 #' @param m the total number of template molecules added to the plate. Must be
 #' a positive integer.
@@ -51,7 +51,7 @@
 #' matrix with one row and \eqn{n_panels} columns. Each column contains the
 #' total number of positive chambers in each plate and type of simulation would
 #' be set as \code{"tnp"}.
-#' 
+#'
 #' In each case the value is an object of the \code{\linkS4class{adpcr}} class.
 #' @author Michal Burdukiewicz.
 #' @seealso \code{\link{sim_dpcr}}.
@@ -60,42 +60,52 @@
 #' Device}.  PLoS ONE 3(8), 2008.
 #' @keywords datagen
 #' @examples
-#' 
+#'
 #' # Simulation of a digital PCR experiment with a chamber based technology.
-#' # The parameter pos_sums was altered to change how the total number of positive 
-#' # chamber per panel are returned. An alteration of the parameter has an impact 
+#' # The parameter pos_sums was altered to change how the total number of positive
+#' # chamber per panel are returned. An alteration of the parameter has an impact
 #' # in the system performance.
 #' adpcr_big <- sim_adpcr(m = 10, n = 40, times = 1000, pos_sums = FALSE, n_panels = 1000)
 #' adpcr_small <- sim_adpcr(m = 10, n = 40, times = 1000, pos_sums = TRUE, n_panels = 1000)
 #' # with pos_sums = TRUE, output allocates less memory
 #' object.size(adpcr_big)
 #' object.size(adpcr_small)
-#' 
+#'
 #' # Mini version of Dube et al. 2008 experiment, full requires replic <- 70000
 #' # The number of replicates was reduced by a factor of 100 to lower the computation time.
 #' replic <- 700
-#' dube <- sim_adpcr(400, 765, times = replic, dube = TRUE, 
-#'     pos_sums = TRUE, n_panels = replic)
+#' dube <- sim_adpcr(400, 765,
+#'   times = replic, dube = TRUE,
+#'   pos_sums = TRUE, n_panels = replic
+#' )
 #' mean(dube) # 311.5616
 #' sd(dube) # 13.64159
-#' 
+#'
 #' # Create a barplot from the simulated data similar to Dube et al. 2008
-#' bp <- barplot(table(factor(dube, levels = min(dube):max(dube))), 
-#' 	      space = 0)
-#' lines(bp, dnorm(min(dube):max(dube), mean = 311.5, sd = 13.59)*replic, 
-#'       col = "green", lwd = 3)
-#' 
+#' bp <- barplot(table(factor(dube, levels = min(dube):max(dube))),
+#'   space = 0
+#' )
+#' lines(bp, dnorm(min(dube):max(dube), mean = 311.5, sd = 13.59) * replic,
+#'   col = "green", lwd = 3
+#' )
+#'
 #' # Exact Dube's method is a bit slower than other one, but more accurate
-#' system.time(dub <- sim_adpcr(m = 400, n = 765, times = 500, n_panels = 500, 
-#'   pos_sums = TRUE))
-#' system.time(mul <- sim_adpcr(m = 400, n = 765, times = 500, n_panels = 500, 
-#'   pos_sums = FALSE))
-#' 
+#' system.time(dub <- sim_adpcr(
+#'   m = 400, n = 765, times = 500, n_panels = 500,
+#'   pos_sums = TRUE
+#' ))
+#' system.time(mul <- sim_adpcr(
+#'   m = 400, n = 765, times = 500, n_panels = 500,
+#'   pos_sums = FALSE
+#' ))
+#'
 #' @export sim_adpcr
 sim_adpcr <- function(m, n, times, n_panels = 1, dube = FALSE, pos_sums = FALSE) {
   n <- num2int(n)
   res <- sim_dpcr_raw(m, n, times, dube, pos_sums, n_panels)
-  create_adpcr(res, n = rep(n, n_panels), 
-               type = ifelse(pos_sums, "tnp", "nm"),
-               threshold = 1)
+  create_adpcr(res,
+    n = rep(n, n_panels),
+    type = ifelse(pos_sums, "tnp", "nm"),
+    threshold = 1
+  )
 }

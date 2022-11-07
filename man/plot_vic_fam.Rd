@@ -39,12 +39,16 @@ finally aligned (e.g., FAM and VIC or FAM and HEX).
 \examples{
 
 # Generate an amplitude plot for the first fluorescence channel (e.g., FAM)
-fluos1 <- sim_dpcr(m = 16, n = 30, times = 100, pos_sums = FALSE, n_exp = 1, 
-  fluo = list(0.1, 0))
+fluos1 <- sim_dpcr(
+  m = 16, n = 30, times = 100, pos_sums = FALSE, n_exp = 1,
+  fluo = list(0.1, 0)
+)
 
 # Generate an amplitude plot for the second fluorescence channel (e.g., VIC)
-fluos2 <- sim_dpcr(m = 16, n = 30, times = 100, pos_sums = FALSE, n_exp = 1, 
-  fluo = list(0.1, 0))
+fluos2 <- sim_dpcr(
+  m = 16, n = 30, times = 100, pos_sums = FALSE, n_exp = 1,
+  fluo = list(0.1, 0)
+)
 
 # Plot the amplitudes of both fluorescence channel in an aligned fashion
 plot_vic_fam(fam = fluos1, vic = fluos2)
@@ -56,8 +60,10 @@ plot_vic_fam(fam = fluos1, vic = fluos2, col_vic = "red", col_fam = "yellow")
 plot_vic_fam(fam = fluos1, vic = fluos2, col_vic = "red", col_fam = "yellow", circle = FALSE)
 
 # Generate two channels in one object and plot them
-fluos_both <- sim_dpcr(m = 16, n = 30, times = 100, pos_sums = FALSE, n_exp = 2, 
-  fluo = list(0.1, 0))
+fluos_both <- sim_dpcr(
+  m = 16, n = 30, times = 100, pos_sums = FALSE, n_exp = 2,
+  fluo = list(0.1, 0)
+)
 plot_vic_fam(extract_run(fluos_both, 1), extract_run(fluos_both, 2))
 
 }
