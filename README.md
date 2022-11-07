@@ -9,13 +9,9 @@ Analysis, visualisation and simulation of digital PCR experiments.
 
 # Installation
 
-dpcR is available [on CRAN](https://cran.r-project.org/package=dpcR), so installation is as simple as:
+dpcR is archived [on CRAN](https://cran.r-project.org/web/packages/dpcR/index.html).
 
-```R
-install.packages("dpcR")
-```
-
-You can install the latest development version of the code using the `devtools` R package.
+You can install the latest version of the code using the `devtools` R package.
 
 ```R
 # Install devtools, if you haven't already.
