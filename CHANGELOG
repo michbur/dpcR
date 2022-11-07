@@ -1,3 +1,9 @@
+Changes in Version 0.5.1-1 [November 2022]
+
+* Corrected for changes of spatstat
+  - spatstat.geom::ppp
+  - spatstat.core::qudrat.test
+
 Changes in Version 0.5 [January 2019]
 * fixes for R 4.0.0
 

@@ -4,13 +4,15 @@
 \name{pds_raw}
 \alias{pds_raw}
 \title{Plasmid dilution series raw data}
-\format{A list of 3 data frames.
+\format{
+A list of 3 data frames.
 \describe{ 
   \item{Well }{| ExptType }{| Experiment }{| Sample + Dilution step }{| TypeAssay }{| Assay}
   \item{D01 }{| Absolute Quantification }{| ABS }{| gDNA + P 10^4 }{| Ch1Unknown }{| ileS}
   \item{D02 }{| Absolute Quantification }{| ABS }{| gDNA + P 10^2 }{| Ch1Unknown }{| ileS}
   \item{C04 }{| Absolute Quantification }{| ABS }{| gDNA }{| Ch1Unknown }{| ileS}
-}}
+}
+}
 \source{
 Michael Jahn Flow cytometry group / Environmental microbiology
 Helmholtz Centre for Environmental Research - UFZ Permoserstrasse 15 / 04318

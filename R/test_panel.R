@@ -2,7 +2,7 @@
 #' Counts
 #' 
 #' Performs a test of Complete Spatial Randomness for each
-#' plate. This function is a wrapper around \code{\link[spatstat]{quadrat.test}}
+#' plate. This function is a wrapper around \code{\link[spatstat.core]{quadrat.test}}
 #' function working directly on the objects of \code{\linkS4class{adpcr}}.
 #' 
 #' @details 
@@ -28,9 +28,9 @@
 #' @return A \code{list} of objects of class \code{"htest"} with the length equal to the
 #' number of plates (minimum 1).
 #' @note A similar result can be achived by using \code{\link{adpcr2ppp}} and
-#' \code{\link[spatstat]{quadrat.test}}. See Examples.
+#' \code{\link[spatstat.core]{quadrat.test}}. See Examples.
 #' @author Adrian Baddeley, Rolf Turner, Michal Burdukiewcz, Stefan Roediger.
-#' @seealso \code{\link[spatstat]{quadrat.test}}.
+#' @seealso \code{\link[spatstat.core]{quadrat.test}}.
 #' @references http://www.spatstat.org/
 #' @keywords pattern quadrat spatial dPCR
 #' @examples
@@ -43,7 +43,8 @@
 #' test_panel(extract_run(many_panels, 3))
 #' 
 #' #do test_panel manually
-#' require(spatstat)
+#' require(spatstat.core)
+#' require(spatstat.geom)
 #' ppp_data <- adpcr2ppp(many_panels)
 #' lapply(ppp_data, function(single_panel) quadrat.test(single_panel))
 #' 

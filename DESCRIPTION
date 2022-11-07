@@ -1,9 +1,9 @@
 Package: dpcR
 Type: Package
 Title: Digital PCR Analysis
-Version: 0.5.1
+Version: 0.5.1-1
 LazyData: true
-Date: 2020-03-22
+Date: 202-11-07
 Authors@R: c(
     person("Michal", "Burdukiewicz", email = "michalburdukiewicz@gmail.com", 
            role = c("cre", "aut"), comment = c(ORCID = "0000-0001-8926-582X")),
@@ -21,15 +21,22 @@ URL: https://github.com/michbur/dpcR
 BugReports: https://github.com/michbur/dpcR/issues
 Depends: R (>= 3.0.0), methods
 Imports: binom, chipPCR, e1071, evd, dgof, multcomp, qpcR, pracma,
-        rateratio.test, readxl, signal, shiny, spatstat
-Suggests: digest, DT, ggplot2, knitr, markdown, rhandsontable,
-        rmarkdown, shinythemes, xtable
+        rateratio.test, readxl, signal, shiny, spatstat.core, spatstat.geom
+Suggests: 
+    digest,
+    DT,
+    ggplot2,
+    knitr,
+    markdown,
+    rhandsontable,
+    rmarkdown,
+    shinythemes,
+    xtable
 VignetteBuilder: knitr
 Packaged: 2019-01-26 12:20:06 UTC; ans
 NeedsCompilation: no
-Repository: CRAN
 Encoding: UTF-8
-RoxygenNote: 6.1.1
+RoxygenNote: 7.2.1
 Maintainer: Michal Burdukiewicz <michalburdukiewicz@gmail.com>
 Collate: 
     'AUCtest.R'
@@ -96,3 +103,4 @@ Collate:
     'test_pooled.R'
     'valid_amp.R'
     'y_val_conf.R'
+Config/testthat/edition: 3

@@ -4,8 +4,12 @@
 \alias{dpcr_density_table}
 \title{Calculate Density of Multiple dPCR runs}
 \usage{
-dpcr_density_table(input, average = FALSE, methods = "wilson",
-  conf.level = 0.95)
+dpcr_density_table(
+  input,
+  average = FALSE,
+  methods = "wilson",
+  conf.level = 0.95
+)
 }
 \arguments{
 \item{input}{an object of class \code{\linkS4class{dpcr}}.}

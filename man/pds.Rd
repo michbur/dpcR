@@ -4,7 +4,8 @@
 \name{pds}
 \alias{pds}
 \title{Plasmid dilution series results}
-\format{A data frame with 64 observations on the following 44 variables.
+\format{
+A data frame with 64 observations on the following 44 variables.
 \describe{ 
 \item{Well}{a factor with levels \code{A01} to \code{H04}} 
 \item{ExptType}{a factor with levels \code{Absolute Quantification}} 
@@ -52,7 +53,8 @@
 \item{MeanAmplitudeofNegatives}{a numeric vector}
 \item{MeanAmplitudeTotal}{a numeric vector}
 \item{ExperimentComments}{a logical vector}
-\item{MergedWells}{a logical vector} }}
+\item{MergedWells}{a logical vector} }
+}
 \source{
 Michael Jahn Flow cytometry group / Environmental microbiology
 Helmholtz Centre for Environmental Research - UFZ Permoserstrasse 15 / 04318

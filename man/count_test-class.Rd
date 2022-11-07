@@ -40,16 +40,16 @@ presented as dashed lines.
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{summary}: Summary statistics of assigned groups.
+\item \code{summary(count_test)}: Summary statistics of assigned groups.
 
-\item \code{coef}: Extract coefficients of groups.
+\item \code{coef(count_test)}: Extract coefficients of groups.
 
-\item \code{show}: Print both \code{group_coef} and \code{test_res}.
+\item \code{show(count_test)}: Print both \code{group_coef} and \code{test_res}.
 
-\item \code{plot}: plots mean number of molecules per partition and its 
+\item \code{plot(x = count_test, y = ANY)}: plots mean number of molecules per partition and its 
 confidence intervals.
-}}
 
+}}
 \section{Slots}{
  
 \describe{ 

@@ -4,8 +4,10 @@
 \name{six_panels}
 \alias{six_panels}
 \title{Simulated Digital PCR data}
-\format{An object of class \code{\linkS4class{adpcr}} containing six runs from three 
-experiments (two runs per each experiment).}
+\format{
+An object of class \code{\linkS4class{adpcr}} containing six runs from three 
+experiments (two runs per each experiment).
+}
 \description{
 Simulated data from array-based digital PCR experiment (see \code{\link{sim_adpcr}}).
 }

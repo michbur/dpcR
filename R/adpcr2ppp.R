@@ -1,23 +1,23 @@
 #' Convert adpcr to ppp
 #' 
 #' Converts \code{\linkS4class{adpcr}} object to the list of
-#' \code{\link[spatstat]{ppp.object}}s.
+#' \code{\link[spatstat.geom]{ppp.object}}s.
 #' 
 #' @details 
-#' Each array is independently converted by \code{\link[spatstat]{ppp}}
+#' Each array is independently converted by \code{\link[spatstat.geom]{ppp}}
 #' function. \code{marks} attached to each point represent values contained by
 #' the \code{\linkS4class{adpcr}} object.
 #' 
 #' @param input Object of the \code{\linkS4class{adpcr}} class containing data
 #' from one or more panels.
 #' @param marks If \code{TRUE}, marks values for non-empty partitions. See 
-#' \code{\link[spatstat]{ppp}} for more in-depth description.
+#' \code{\link[spatstat.geom]{ppp}} for more in-depth description.
 #' @param plot If \code{TRUE}, array is plotted.
 #' @return A list containing objects with class
-#' \code{\link[spatstat]{ppp.object}} with the length equal to the number of
+#' \code{\link[spatstat.geom]{ppp.object}} with the length equal to the number of
 #' arrays (minimum 1).
 #' @author Michal Burdukiewcz, Stefan Roediger.
-#' @seealso \code{\link[spatstat]{ppp.object}}, \code{\link[spatstat]{ppp}}.
+#' @seealso \code{\link[spatstat.geom]{ppp.object}}, \code{\link[spatstat.geom]{ppp}}.
 #' @keywords manip panel
 #' @export adpcr2ppp
 #' @examples
@@ -50,7 +50,7 @@ adpcr2ppp <- function(input, marks = TRUE, plot = FALSE) {
 
 
 # create_ppp <- function(data_vector, nx_a, ny_a, plot, marks) {
-#   #strange syntax, because spatstat use different localizations
+#   #strange syntax, because spatstat.geom use different localizations
 #   #than dpcR.
 #   
 #   if(storage.mode(data_vector) == "character") {
@@ -77,7 +77,7 @@ adpcr2ppp <- function(input, marks = TRUE, plot = FALSE) {
 # }
 
 create_ppp <- function(data_vector, nx_a, ny_a, plot, marks) {
-  #strange syntax, because spatstat use different localizations
+  #strange syntax, because spatstat.geom use different localizations
   #than dpcR.
   data_points <- data.frame(row = as.vector(row(data_vector)), 
                             column = as.vector(col(data_vector)), 

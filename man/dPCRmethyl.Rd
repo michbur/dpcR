@@ -4,7 +4,9 @@
 \name{dPCRmethyl}
 \alias{dPCRmethyl}
 \title{Methylated human gDNA}
-\format{A \code{\linkS4class{adpcr}} object}
+\format{
+A \code{\linkS4class{adpcr}} object
+}
 \source{
 Mario Menschikowski group /  Institute of Clinical Chemistry and 
 Laboratory Medicine, TU-Dresden, Dresden, Germany

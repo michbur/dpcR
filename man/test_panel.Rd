@@ -5,9 +5,15 @@
 \title{Dispersion Test for Spatial Point Pattern in Array dPCR Based on Quadrat
 Counts}
 \usage{
-test_panel(X, nx = 5, ny = 5, alternative = c("two.sided", "regular",
-  "clustered"), method = c("Chisq", "MonteCarlo"), conditional = TRUE,
-  nsim = 1999)
+test_panel(
+  X,
+  nx = 5,
+  ny = 5,
+  alternative = c("two.sided", "regular", "clustered"),
+  method = c("Chisq", "MonteCarlo"),
+  conditional = TRUE,
+  nsim = 1999
+)
 }
 \arguments{
 \item{X}{Object of the \code{\linkS4class{adpcr}} class containing data from
@@ -37,7 +43,7 @@ number of plates (minimum 1).
 }
 \description{
 Performs a test of Complete Spatial Randomness for each
-plate. This function is a wrapper around \code{\link[spatstat]{quadrat.test}}
+plate. This function is a wrapper around \code{\link[spatstat.core]{quadrat.test}}
 function working directly on the objects of \code{\linkS4class{adpcr}}.
 }
 \details{
@@ -48,7 +54,7 @@ Arrays with non-random patterns should be checked for integrity.
 }
 \note{
 A similar result can be achived by using \code{\link{adpcr2ppp}} and
-\code{\link[spatstat]{quadrat.test}}. See Examples.
+\code{\link[spatstat.core]{quadrat.test}}. See Examples.
 }
 \examples{
 
@@ -60,7 +66,8 @@ test_panel(many_panels)
 test_panel(extract_run(many_panels, 3))
 
 #do test_panel manually
-require(spatstat)
+require(spatstat.core)
+require(spatstat.geom)
 ppp_data <- adpcr2ppp(many_panels)
 lapply(ppp_data, function(single_panel) quadrat.test(single_panel))
 
@@ -70,7 +77,7 @@ lapply(ppp_data, function(single_panel) quadrat.test(single_panel))
 http://www.spatstat.org/
 }
 \seealso{
-\code{\link[spatstat]{quadrat.test}}.
+\code{\link[spatstat.core]{quadrat.test}}.
 }
 \author{
 Adrian Baddeley, Rolf Turner, Michal Burdukiewcz, Stefan Roediger.

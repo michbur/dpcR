@@ -4,8 +4,13 @@
 \alias{ddpcRquant}
 \title{Quantify droplets}
 \usage{
-ddpcRquant(path, threshold.int = 0.9995, reps = 10, blocks = 150,
-  threshold.manual = NULL)
+ddpcRquant(
+  path,
+  threshold.int = 0.9995,
+  reps = 10,
+  blocks = 150,
+  threshold.manual = NULL
+)
 }
 \arguments{
 \item{path}{\code{character} path to diectory with raw data.}

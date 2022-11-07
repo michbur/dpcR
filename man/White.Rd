@@ -4,7 +4,8 @@
 \name{White}
 \alias{White}
 \title{Digitalized Data from a Fluidigm Array}
-\format{\describe{ A dataframe with 9180 rows and 10 columns.
+\format{
+\describe{ A dataframe with 9180 rows and 10 columns.
  \item{Image_position}{Position of an array in the figure 
  1471-2164-10-116-S1.pdf from White et al. (2009) BMC Genomics (e.g., 
  11 is the image in the first colum and the first row, 24 is second column 
@@ -22,7 +23,8 @@
             "MicroArray Profile"}
  \item{Mean}{is the mean intensity of an area that was measured with
             "MicroArray Profile"}
-}}
+}
+}
 \source{
 Data were digitalized from the supplement material (Additional file 
 1. dPCR analysis of mock library control.) "1471-2164-10-116-S1.pdf" 
@@ -65,7 +67,7 @@ sapply(2:4, function(i) {
    # Create the ECDF of the image scan data to define
    # a cut-off for positive and negative partitions
    # Plot the ECDF of the image scan data an define a cut-off
-   plot(ecdf(White_data[, i]), main = paste0("ECDF of Image Scan Data\\n", assays[i]),
+   plot(ecdf(White_data[, i]), main = paste0("ECDF of Image Scan Data\n", assays[i]),
 xlab = "Grey value", ylab = "Density of Grey values")
    abline(v = 115, col = 2, cex = 2)
    text(80, 0.5, "User defined cut-off", col = 2, cex = 1.5)

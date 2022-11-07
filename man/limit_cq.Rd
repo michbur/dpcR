@@ -4,8 +4,15 @@
 \alias{limit_cq}
 \title{Limit Cy0 values}
 \usage{
-limit_cq(data, cyc = 1, fluo = NULL, Cq_range = c(1, max(data[cyc])),
-  model = l5, SDM = TRUE, pb = FALSE)
+limit_cq(
+  data,
+  cyc = 1,
+  fluo = NULL,
+  Cq_range = c(1, max(data[cyc])),
+  model = l5,
+  SDM = TRUE,
+  pb = FALSE
+)
 }
 \arguments{
 \item{data}{a dataframe containing the qPCR data.}

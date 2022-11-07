@@ -59,7 +59,8 @@
 #' @importFrom readxl read_excel
 #' @importFrom shiny runApp
 #' @importFrom signal sgolayfilt
-#' @importFrom spatstat ppp quadrat.test
+#' @importFrom spatstat.geom ppp
+#' @importFrom spatstat.core quadrat.test
 #' @examples
 #' 
 #' adpcr <- sim_adpcr(m = 400, n = 765, times = 20, pos_sums = FALSE, n_panels = 1)

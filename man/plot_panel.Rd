@@ -4,8 +4,7 @@
 \alias{plot_panel}
 \title{Plot Panel}
 \usage{
-plot_panel(input, col = "red", legend = TRUE, half = "none",
-  plot = TRUE, ...)
+plot_panel(input, col = "red", legend = TRUE, half = "none", plot = TRUE, ...)
 }
 \arguments{
 \item{input}{object of the \code{\linkS4class{adpcr}} class.}

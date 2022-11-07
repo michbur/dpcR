@@ -1,7 +1,7 @@
 ---
 title: "dpcR package - an overview"
 author: "Micha&#322; Burdukiewicz, Stefan R&ouml;diger"
-date: "2016-12-31"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
   rmarkdown::html_vignette:
     toc: true
@@ -275,11 +275,13 @@ plot_panel(extract_run(adpcr_experiments, 1), main = "Experiment 1")
 ```
 
 The same data can be visualized easily in binarized form (positive/negative partitions).
+
 ```{r eval=TRUE}
 plot_panel(binarize(extract_run(adpcr_experiments, 1)), main = "Experiment 1")
 ```
 
 The `plot_panel` function returns invisibly coordinates, that are compatible with **graphics** and **ggplot2** packages.
+
 ```{r eval=TRUE}
 # Extract graphical coordinates
 panel_data <- plot_panel(extract_run(adpcr_experiments, 1), plot = FALSE)
@@ -289,7 +291,6 @@ ggplot_coords <- cbind(panel_data[["ggplot_coords"]], value = as.vector(extract_
 library(ggplot2)
 ggplot(ggplot_coords[, -5], aes(x = x, y = y, fill = value)) +
   geom_tile()
-
 ```
 
 
@@ -302,7 +303,7 @@ The `test_panel` function is useful for testing the randomness of the spatial di
 test_panel(six_panels)
 ```
 
-Further tests are available in the **spatstat** package, which is also utilizing S4 object system. The data exchange between the **dpcR** and the **spatstat** packages is streamlined by the `adpcr2ppp` function, which converts `adpcr` object to [ppp](https://www.rdocumentation.org/packages/spatstat/versions/1.16-1/topics/ppp.object?) class taking into account spatial coordinates of positive partitions.
+Further tests are available in the **spatstat.core** package, which is also utilizing S4 object system. The data exchange between the **dpcR** and the **spatstat.geom** packages is streamlined by the `adpcr2ppp` function, which converts `adpcr` object to [ppp](https://cran.r-project.org/web/packages/spatstat.geom/index.html) class taking into account spatial coordinates of positive partitions.
 
 # `qdpcr` class
 
@@ -365,7 +366,7 @@ comp <- test_counts(six_panels)
 summary(comp)
 
 # 3. Plot results of the test 
-plot(comp, aggregate = FALSE)
+# plot(comp, aggregate = FALSE) # Commented for fixing
 
 # 4. Aggregate runs to their groups
 plot(comp, aggregate = TRUE)
@@ -402,7 +403,7 @@ comp_ratio <- test_counts(six_panels, model = "ratio")
 summary(comp_ratio)
 
 #3. Plot results of the test 
-plot(comp_ratio, aggregate = FALSE)
+# plot(comp_ratio, aggregate = FALSE) # Commented for fixing
 
 #4. Aggregate runs to their groups
 plot(comp_ratio, aggregate = TRUE)
@@ -412,13 +413,11 @@ coef(comp)
 
 # Compare results of two methods
 par(mfrow=c(2,1))
-plot(comp, aggregate = FALSE)
+# plot(comp, aggregate = FALSE) # Commented for fixing
 title("GLM")
-plot(comp_ratio, aggregate = FALSE)
+# plot(comp_ratio, aggregate = FALSE) # Commented for fixing
 title("Ratio")
 par(mfrow=c(1,1))
-
-
 ```
 
 
@@ -455,7 +454,7 @@ ggplot(m_coverage2, aes(x = prop, y = value, fill = method)) +
   scale_y_continuous("Probability coverage") + 
   scale_x_discrete(expression(lambda)) +
   scale_fill_discrete("Confidence intervals:") + 
-  geom_hline(yintercept = 0.95, colour = "black", size = 1, linetype = 5) +
+  geom_hline(yintercept = 0.95, colour = "black", linewidth = 1, linetype = 5) +
   facet_wrap(~ coverage, nrow = 2) + 
   cool_theme
 ```

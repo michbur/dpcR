@@ -5,9 +5,18 @@
 \title{A function to analyze plot the raw data from a Bio-Rad droplet digital PCR
 experiment}
 \usage{
-bioamp(data = data, amp_x = 1, amp_y = 2, cluster = 3,
-  robust = TRUE, plot = TRUE, stat = TRUE,
-  xlab = "Assay 1 Amplitude", ylab = "Assay 2 Amplitude", ...)
+bioamp(
+  data = data,
+  amp_x = 1,
+  amp_y = 2,
+  cluster = 3,
+  robust = TRUE,
+  plot = TRUE,
+  stat = TRUE,
+  xlab = "Assay 1 Amplitude",
+  ylab = "Assay 2 Amplitude",
+  ...
+)
 }
 \arguments{
 \item{data}{object of class \code{what} containing the amplitude data.}

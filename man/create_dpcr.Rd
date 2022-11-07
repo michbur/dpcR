@@ -4,9 +4,21 @@
 \alias{create_dpcr}
 \title{Create dpcR object}
 \usage{
-create_dpcr(data, n, exper = "Experiment 1", replicate = NULL,
-  assay = "Unknown", type, v = 1, uv = 0, threshold = NULL, adpcr,
-  col_names = NULL, row_names = NULL, panel_id = NULL)
+create_dpcr(
+  data,
+  n,
+  exper = "Experiment 1",
+  replicate = NULL,
+  assay = "Unknown",
+  type,
+  v = 1,
+  uv = 0,
+  threshold = NULL,
+  adpcr,
+  col_names = NULL,
+  row_names = NULL,
+  panel_id = NULL
+)
 }
 \arguments{
 \item{data}{a \code{numeric} vector or matrix of data from dPCR

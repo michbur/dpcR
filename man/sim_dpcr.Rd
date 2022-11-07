@@ -4,8 +4,7 @@
 \alias{sim_dpcr}
 \title{Simulate Droplet Digital PCR}
 \usage{
-sim_dpcr(m, n, times, n_exp = 1, dube = FALSE, pos_sums = FALSE,
-  fluo = NULL)
+sim_dpcr(m, n, times, n_exp = 1, dube = FALSE, pos_sums = FALSE, fluo = NULL)
 }
 \arguments{
 \item{m}{the total number of template molecules used in the expertiment. Must be

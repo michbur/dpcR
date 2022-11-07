@@ -4,11 +4,13 @@
 \name{many_peaks}
 \alias{many_peaks}
 \title{Artificial data set with many peaks}
-\format{A data frame with 493 observations on the following 2 variables.
+\format{
+A data frame with 493 observations on the following 2 variables.
 \describe{ 
 \item{t}{a numeric vector} 
 \item{F}{fluorescence
-value} }}
+value} }
+}
 \description{
 A set of data from an artificial droplet flow experiment. It contains
 various kinds of peaks - positive peaks, negative peaks and peak-like noise.

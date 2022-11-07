@@ -4,8 +4,16 @@
 \alias{dpcr_density}
 \title{Calculate Density of Single dPCR Run}
 \usage{
-dpcr_density(k, n, average = FALSE, methods = "wilson",
-  conf.level = 0.95, plot = TRUE, bars = FALSE, ...)
+dpcr_density(
+  k,
+  n,
+  average = FALSE,
+  methods = "wilson",
+  conf.level = 0.95,
+  plot = TRUE,
+  bars = FALSE,
+  ...
+)
 }
 \arguments{
 \item{k}{Total number of positive molecules.}

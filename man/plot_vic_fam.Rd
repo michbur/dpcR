@@ -4,8 +4,7 @@
 \alias{plot_vic_fam}
 \title{Amplitude Plot VIC and FAM Channels of a Droplet Digital PCR Experiment}
 \usage{
-plot_vic_fam(vic, fam, col_vic = "green", col_fam = "blue",
-  circle = TRUE)
+plot_vic_fam(vic, fam, col_vic = "green", col_fam = "blue", circle = TRUE)
 }
 \arguments{
 \item{vic}{Amplitudes of the VIC channel - object of class
